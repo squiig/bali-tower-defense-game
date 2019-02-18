@@ -6,7 +6,6 @@
     public enum AudioCommands : byte
     {
         PLAY,
-        STOP,
         STOP_CONTEXT,
     }
 }

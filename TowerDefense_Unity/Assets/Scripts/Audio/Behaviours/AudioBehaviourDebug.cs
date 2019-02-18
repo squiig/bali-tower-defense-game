@@ -11,6 +11,6 @@ public class AudioBehaviourDebug : MonoBehaviour
 
     void Start()
     {
-        Audio.SendEvent(new AudioEvent(this, AudioCommands.PLAY, identifier)); // Plays sound with indentifier 
+        Audio.SendEvent(new AudioEvent(this, AudioCommands.PLAY, "debug")); // Plays sound with indentifier 
     }
 }

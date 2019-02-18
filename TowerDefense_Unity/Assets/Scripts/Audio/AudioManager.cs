@@ -37,9 +37,6 @@ namespace Game.Audio
                 case AudioCommands.PLAY:
                     HandlePlayEvent(audioParams);
                     break;
-                case AudioCommands.STOP:
-                    throw new System.NotImplementedException();
-                    break;
                 case AudioCommands.STOP_CONTEXT:
                     HandleStopEvent(audioParams);
                     break;
