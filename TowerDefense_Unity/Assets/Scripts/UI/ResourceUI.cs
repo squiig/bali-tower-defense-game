@@ -10,18 +10,21 @@ namespace Game.UI
         [SerializeField]
         private TMP_Text _AmountText = null;
 
+        [SerializeField]
+        private int _ZeroPadding = 5;
+
         private int _Amount = 0;
 
         public int Amount => _Amount;
 
         private void OnEnable()
         {
-            // subscribe AmountChanged to backend here
+            //TODO: subscribe AmountChanged to backend here
         }
 
         private void OnDisable()
         {
-            // unsubscribe AmountChanged from backend here
+            //TODO: unsubscribe AmountChanged from backend here
         }
 
         private void AmountChanged(int amount)
@@ -32,7 +35,7 @@ namespace Game.UI
 
         public void Refresh()
         {
-            _AmountText.text = _Amount.ToString("D4");
+            _AmountText.text = _Amount.ToString($"D{ _ZeroPadding }");
         }
     }
 }
