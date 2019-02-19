@@ -269,6 +269,7 @@ GameObject:
   - component: {fileID: 901623285665303337}
   - component: {fileID: 901623285665303339}
   - component: {fileID: 901623285665303338}
+  - component: {fileID: 5280385407912124598}
   m_Layer: 5
   m_Name: ResourceHUD
   m_TagString: Untagged
@@ -334,3 +335,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_HorizontalFit: 2
   m_VerticalFit: 2
+--- !u!114 &5280385407912124598
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 901623285665303336}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 105b43812d2bf5b43a5383c4ed91d7f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _AmountText: {fileID: 901623285360426740}
