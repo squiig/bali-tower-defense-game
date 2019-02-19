@@ -7,39 +7,39 @@ namespace Game.Audio
     /// </summary>
     public class AudioChannel
     {
-        private GameObject m_GameObject;
-        private AudioSource m_AudioSource;
+        private GameObject _GameObject;
+        private AudioSource _AudioSource;
 
         public object Context { get; private set; } = null;
 
-        public bool IsFree => !m_AudioSource.isPlaying;
+        public bool IsFree => !_AudioSource.isPlaying;
 
         public AudioChannel(Transform parent = null, int channelNumber = -1)
         {
-            m_GameObject = new GameObject("Audio Channel {0}");
+            _GameObject = new GameObject("Audio Channel {0}");
 
             if (parent)
             {
-                m_GameObject.transform.SetParent(parent);
+                _GameObject.transform.SetParent(parent);
             }
-            m_GameObject.SetActive(false);
+            _GameObject.SetActive(false);
 
-            m_AudioSource = m_GameObject.AddComponent<AudioSource>();
+            _AudioSource = _GameObject.AddComponent<AudioSource>();
         }
 
         public void Play(AudioAsset asset, object context)
         {
-            m_GameObject.transform.SetAsFirstSibling();
-            m_GameObject.SetActive(true);
+            _GameObject.transform.SetAsFirstSibling();
+            _GameObject.SetActive(true);
             Context = context;
-            m_AudioSource.clip = asset.GetClip();
-            m_AudioSource.volume = asset.Volume;
-            m_AudioSource.Play();
+            _AudioSource.clip = asset.GetClip();
+            _AudioSource.volume = asset.Volume;
+            _AudioSource.Play();
         }
 
         public void Stop()
         {
-            m_AudioSource.Stop();
+            _AudioSource.Stop();
         }
     }
 }

@@ -7,12 +7,12 @@ namespace Game.Audio
     /// </summary>
     public class AudioAsset : ScriptableObject
     {
-        [SerializeField] private AudioClip[] m_AudioClips;
-        [SerializeField] private float m_Volume = 1;
+        [SerializeField] private AudioClip[] _AudioClips;
+        [SerializeField] private float _Volume = 1;
 
-        public AudioClip[] AudioClips => m_AudioClips;
-        public int ClipCount => m_AudioClips.Length;
-        public float Volume => m_Volume;
+        public AudioClip[] AudioClips => _AudioClips;
+        public int ClipCount => _AudioClips.Length;
+        public float Volume => _Volume;
 
         public AudioClip GetClip()
         {

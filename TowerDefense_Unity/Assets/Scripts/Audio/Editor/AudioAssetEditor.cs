@@ -5,52 +5,55 @@ namespace Game.Audio.Editor
 {
     public class AudioAssetEditor
     {
-        private SelectableList m_SelectableList;
+        private readonly SelectableList _SelectableList;
 
-        private AudioAsset m_RawTarget;
-        private SerializedObject m_SerializedTarget;
-        private SerializedProperty m_ClipList;
+        private AudioAsset _RawTarget;
+        private SerializedObject _SerializedTarget;
+        private SerializedProperty _ClipList;
 
-        private Vector3 m_ScrollVector;
-
-        public AudioAssetEditor()
-        {
-            m_SelectableList = new SelectableList(DrawElement);
-        }
-
-        private void DrawElement(int index)
-        {
-            SerializedProperty clip = m_ClipList.GetArrayElementAtIndex(index);
-            EditorGUILayout.ObjectField(clip);
-        }
+        private Vector3 _ScrollVector;
 
         public void SetTarget(AudioAsset audioAsset)
         {
             if (audioAsset == null)
             {
-                m_RawTarget = null;
-                m_SerializedTarget = null;
-                m_ClipList = null;
-                m_SelectableList.ResetSelection();
+                ResetTarget();
                 return;
             }
 
-            m_RawTarget = audioAsset;
-            m_SerializedTarget = new SerializedObject(m_RawTarget);
-            m_ClipList = m_SerializedTarget.FindProperty("m_AudioClips");
+            _RawTarget = audioAsset;
+            _SerializedTarget = new SerializedObject(_RawTarget);
+            _ClipList = _SerializedTarget.FindProperty("_AudioClips");
+            _SelectableList.ResetSelection();
         }
 
         public void DoAssetEditor()
         {
-            if (m_RawTarget == null)
-            {
-                return;
-            }
-            m_ScrollVector = GUILayout.BeginScrollView(m_ScrollVector);
+            if (_RawTarget == null) return;
+
+            _ScrollVector = GUILayout.BeginScrollView(_ScrollVector);
             GUILayout.Label($"{nameof(AudioAssetEditor)}");
-            m_SelectableList.DoList(m_ClipList.arraySize, m_ScrollVector);
-            m_SerializedTarget.ApplyModifiedProperties();
+            _SelectableList.DoList(_ClipList.arraySize, _ScrollVector);
+            _SerializedTarget.ApplyModifiedProperties();
             GUILayout.EndScrollView();
+        }
+
+        public AudioAssetEditor()
+        {
+            _SelectableList = new SelectableList(DrawElement);
+        }
+
+        private void DrawElement(int index)
+        {
+            SerializedProperty clip = _ClipList.GetArrayElementAtIndex(index);
+            EditorGUILayout.ObjectField(clip);
+        }
+
+        private void ResetTarget()
+        {
+            _RawTarget = null;
+            _SerializedTarget = null;
+            _ClipList = null;
         }
     }
 }

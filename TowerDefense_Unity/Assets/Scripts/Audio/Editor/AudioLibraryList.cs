@@ -7,45 +7,45 @@ namespace Game.Audio.Editor
     {
         public event System.Action<AudioAssetLibrary> OnSelected;
 
-        private SelectableList m_LibraryList;
-        private Vector2 m_ScrollPosition = Vector2.zero;
+        private readonly SelectableList _LibraryList;
+        private Vector2 _ScrollPosition = Vector2.zero;
 
-        private string[] m_AssetGuids;
-        private string[] m_AssetPaths;
-        private string[] m_AssetLabels;
+        private string[] _AssetGuids;
+        private string[] _AssetPaths;
+        private string[] _AssetLabels;
 
         public AudioLibraryList()
         {
-            m_LibraryList = new SelectableList(DrawElement);
-            m_LibraryList.OnSelect += OnSelect;
+            _LibraryList = new SelectableList(DrawElement);
+            _LibraryList.OnSelect += OnSelect;
         }
 
         public void DoList()
         {
             FetchResources();
             GUILayout.Label($"{nameof(AudioLibraryList)}");
-            m_ScrollPosition = EditorGUILayout.BeginScrollView(m_ScrollPosition);
-            m_LibraryList.DoList(m_AssetLabels.Length, m_ScrollPosition);
+            _ScrollPosition = EditorGUILayout.BeginScrollView(_ScrollPosition);
+            _LibraryList.DoList(_AssetLabels.Length, _ScrollPosition);
             EditorGUILayout.EndScrollView();
         }
 
         private void OnSelect(int index)
         {
-            OnSelected?.Invoke(AssetDatabase.LoadAssetAtPath<AudioAssetLibrary>(m_AssetPaths[index]));
+            OnSelected?.Invoke(AssetDatabase.LoadAssetAtPath<AudioAssetLibrary>(_AssetPaths[index]));
         }
 
         private void DrawElement(int index)
         {
-            GUILayout.Label(m_AssetLabels[index]);
+            GUILayout.Label(_AssetLabels[index]);
         }
 
         private void FetchResources()
         {
             if (Event.current.type == EventType.Layout)
             {
-                m_AssetGuids = AssetDatabase.FindAssets($"t:{nameof(AudioAssetLibrary).ToLower()}");
-                m_AssetPaths = GUIDSToAssetPaths(m_AssetGuids);
-                m_AssetLabels = PathsToLabels(m_AssetPaths);
+                _AssetGuids = AssetDatabase.FindAssets($"t:{nameof(AudioAssetLibrary).ToLower()}");
+                _AssetPaths = GUIDSToAssetPaths(_AssetGuids);
+                _AssetLabels = PathsToLabels(_AssetPaths);
             }
         }
 

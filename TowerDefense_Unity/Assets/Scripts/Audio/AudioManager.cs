@@ -8,16 +8,16 @@ namespace Game.Audio
     public class AudioManager
     {
         private const int AUDIO_CHANNEL_COUNT = 20;
-        private AudioAssetLibrary m_Library;
-        private AudioChannelPool m_AudioChannelPool;
+        private AudioAssetLibrary _Library;
+        private AudioChannelPool _AudioChannelPool;
 
         public AudioManager()
         {
 
-            m_AudioChannelPool = new AudioChannelPool(AUDIO_CHANNEL_COUNT);
-            m_Library = FindAudioLibrary();
+            _AudioChannelPool = new AudioChannelPool(AUDIO_CHANNEL_COUNT);
+            _Library = FindAudioLibrary();
             
-            if (!m_Library)
+            if (!_Library)
             {
                 Debug.LogError("[Audio] AudioLibrary not found in resources, make sure it's in the root");
             }
@@ -32,7 +32,7 @@ namespace Game.Audio
 
         public void ProcessEvent(AudioEvent audioParams)
         {
-            switch (audioParams.Command)
+            switch (audioParams.AudioCommand)
             {
                 case AudioCommands.PLAY:
                     HandlePlayEvent(audioParams);
@@ -47,14 +47,14 @@ namespace Game.Audio
 
         private void HandlePlayEvent(AudioEvent audioEvent)
         {
-            m_AudioChannelPool.Play(
-                m_Library.Resolve(audioEvent.Identifier),
+            _AudioChannelPool.Play(
+                _Library.Resolve(audioEvent.Identifier),
                 audioEvent.Context);
         }
 
         private void HandleStopEvent(AudioEvent audioEvent)
         {
-            m_AudioChannelPool.StopContext(audioEvent.Context);
+            _AudioChannelPool.StopContext(audioEvent.Context);
         }
     }
 }

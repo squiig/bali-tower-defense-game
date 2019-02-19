@@ -12,12 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ffd99bc95d9a47478828e293fead334, type: 3}
   m_Name: library
   m_EditorClassIdentifier: 
-  m_AudioAssetIndentifierMappings:
-  - m_Identifier: debug
-    m_AudioAsset: {fileID: 11400000, guid: 17e89b525729d4448bf99f2bf9f62bb7, type: 2}
-  - m_Identifier: Bree
-    m_AudioAsset: {fileID: 0}
-  - m_Identifier: Dree
-    m_AudioAsset: {fileID: 0}
-  - m_Identifier: Pree
-    m_AudioAsset: {fileID: 0}
+  _AudioAssetIndentifierMappings: []

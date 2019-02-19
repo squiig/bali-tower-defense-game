@@ -7,49 +7,42 @@ namespace Game.Audio
     /// </summary>
     public class AudioChannelPool
     {
-        private readonly AudioChannel[] m_AudioChannels;
+        private readonly AudioChannel[] _AudioChannels;
 
         public AudioChannelPool(uint channelCount)
         {
-            m_AudioChannels = new AudioChannel[channelCount];
+            _AudioChannels = new AudioChannel[channelCount];
 
             GameObject parentObject = new GameObject("Audio Channels");
 
             Object.DontDestroyOnLoad(parentObject);
-            for (int i = 0; i < m_AudioChannels.Length; i++)
+            for (int i = 0; i < _AudioChannels.Length; i++)
             {
-                m_AudioChannels[i] = new AudioChannel(parentObject.transform);
+                _AudioChannels[i] = new AudioChannel(parentObject.transform);
             }
         }
 
         public void Play(AudioAsset asset, object context)
         {
-            AudioChannel channel;
-            
-            if (FindFreeChannel(out channel))
+            if (FindFreeChannel(out AudioChannel channel))
             {
                 channel.Play(asset, context);
             }
             else
             {
-                Debug.LogWarningFormat("[Audio] All {0} channels(s) are full", m_AudioChannels.Length);
+                Debug.LogWarningFormat("[Audio] All {0} channels(s) are full", _AudioChannels.Length);
             }
         }
 
         public void StopContext(object context)
         {
-            foreach (AudioChannel channel in m_AudioChannels)
-            {
-                if (channel.Context == context)
-                {
-                    channel.Stop();
-                }
-            }
+            foreach (AudioChannel channel in _AudioChannels)
+                if (channel.Context == context) channel.Stop();
         }
 
         private bool FindFreeChannel(out AudioChannel audioChannel)
         {
-            foreach (AudioChannel channel in m_AudioChannels)
+            foreach (AudioChannel channel in _AudioChannels)
             {
                 if (channel.IsFree)
                 {

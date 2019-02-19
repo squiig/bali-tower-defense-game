@@ -6,7 +6,7 @@
     public class AudioEvent
     {
         public object Context { get; }
-        public AudioCommands Command { get; }
+        public AudioCommands AudioCommand { get; }
         public string Identifier { get; }
 
         /// <summary>
@@ -17,7 +17,7 @@
         /// <param name="identifier">What sound are we doing this to?</param>
         public AudioEvent(object context, AudioCommands command, string identifier = "")
         {
-            Command = command;
+            AudioCommand = command;
             Identifier = identifier;
             Context = context;
         }

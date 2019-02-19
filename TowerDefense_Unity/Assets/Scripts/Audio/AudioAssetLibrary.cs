@@ -8,14 +8,14 @@ namespace Game.Audio
     /// </summary>
     public class AudioAssetLibrary : ScriptableObject
     {
-        [SerializeField] private AudioIndentifierMapping[] m_AudioAssetIndentifierMappings;
+        [SerializeField] private AudioIndentifierMapping[] _AudioAssetIndentifierMappings;
 
         /// <summary>
         /// Resolves an indentifier to an audio asset
         /// </summary>
         public AudioAsset Resolve(string identifier)
         {
-            foreach (AudioIndentifierMapping mapping in m_AudioAssetIndentifierMappings)
+            foreach (AudioIndentifierMapping mapping in _AudioAssetIndentifierMappings)
             {
                 if (mapping.Indentifier.Equals(identifier))
                 {

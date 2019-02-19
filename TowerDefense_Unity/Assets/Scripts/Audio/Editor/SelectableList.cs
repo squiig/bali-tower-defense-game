@@ -1,7 +1,5 @@
 ﻿using System;
 using UnityEngine;
-using UnityEditor;
-
 
 namespace Game.Audio.Editor
 {
@@ -12,15 +10,15 @@ namespace Game.Audio.Editor
     {
         public event Action<int> OnSelect;
         public event Action<int> OnDrawElement;
-        private int m_SelectedElement = -1;
+        private int _SelectedElement = -1;
 
-        private readonly GUILayoutOption[] m_Options =
+        private readonly GUILayoutOption[] _Options =
         {
             GUILayout.ExpandWidth(true),
             GUILayout.ExpandHeight(false)
         };
 
-        private Rect[] m_ElementRects;
+        private Rect[] _ElementRects;
 
         public SelectableList(System.Action<int> drawElementCallback)
         {
@@ -34,10 +32,10 @@ namespace Game.Audio.Editor
 
         public void DoList(int elementCount, Vector2 scrollOffset)
         {
-            m_ElementRects = new Rect[elementCount];
+            _ElementRects = new Rect[elementCount];
             for (int i = 0; i < elementCount; i++)
             {
-                if (i == m_SelectedElement)
+                if (i == _SelectedElement)
                 {
                     DrawSelectedElement(i);
                 }
@@ -46,7 +44,7 @@ namespace Game.Audio.Editor
                     DrawElement(i);
                 }
 
-                m_ElementRects[i] = GUILayoutUtility.GetLastRect();
+                _ElementRects[i] = GUILayoutUtility.GetLastRect();
             }
 
             if (OnMouseButton(0))
@@ -57,7 +55,7 @@ namespace Game.Audio.Editor
 
         private void DrawElement(int index)
         {
-            GUILayout.BeginVertical(GUI.skin.box, m_Options);
+            GUILayout.BeginVertical(GUI.skin.box, _Options);
             OnDrawElement?.Invoke(index);
             GUILayout.EndVertical();
         }
@@ -66,7 +64,7 @@ namespace Game.Audio.Editor
         {
             Color resetColor = GUI.color;
             GUI.color = Color.cyan;
-            GUILayout.BeginVertical(GUI.skin.box, m_Options);
+            GUILayout.BeginVertical(GUI.skin.box, _Options);
             GUI.color = resetColor;
 
             OnDrawElement?.Invoke(index);
@@ -83,9 +81,9 @@ namespace Game.Audio.Editor
 
         private void CheckSelection(Vector2 mousePosition)
         {
-            for (int i = 0; i < m_ElementRects.Length; i++)
+            for (int i = 0; i < _ElementRects.Length; i++)
             {
-                if (m_ElementRects[i].Contains(mousePosition))
+                if (_ElementRects[i].Contains(mousePosition))
                 {
                     SelectElement(i);
                     return;
@@ -96,7 +94,7 @@ namespace Game.Audio.Editor
         private void SelectElement(int i)
         {
             OnSelect?.Invoke(i);
-            m_SelectedElement = i;
+            _SelectedElement = i;
         }
     }
 }

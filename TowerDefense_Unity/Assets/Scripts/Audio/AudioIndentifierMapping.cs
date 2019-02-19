@@ -9,10 +9,10 @@ namespace Game.Audio
     [Serializable]
     public class AudioIndentifierMapping
     {
-        [SerializeField] private string m_Identifier;
-        [SerializeField] private AudioAsset m_AudioAsset;
+        [SerializeField] private string _Identifier;
+        [SerializeField] private AudioAsset _AudioAsset;
 
-        public string Indentifier => m_Identifier;
-        public AudioAsset AudioAsset => m_AudioAsset;
+        public string Indentifier => _Identifier;
+        public AudioAsset AudioAsset => _AudioAsset;
     }
 }
