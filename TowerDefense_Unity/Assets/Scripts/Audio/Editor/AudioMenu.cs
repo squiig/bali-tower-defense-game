@@ -1,7 +1,7 @@
 ﻿using Game.Utils;
 using UnityEditor;
 
-namespace Game.Audio
+namespace Game.Audio.Editor
 {
     public class AudioMenu
     {
@@ -10,5 +10,17 @@ namespace Game.Audio
 
         [MenuItem("Assets/Create/Audio/AudioAssetLibrary")]
         public static void CreateAudioLibrary() => ScriptableObjectUtility.CreateAsset<AudioAssetLibrary>();
+
+        [MenuItem("Window/AudioSystem")]
+        public static void ShowWindow()
+        {
+            EditorWindow.GetWindow<AudioSystemWindow>();
+        }
+
+        [MenuItem("Window/AudioAsset")]
+        public static void ShowAudioAssetWindow()
+        {
+            EditorWindow.GetWindow<CreateAudioAssetPopup>();
+        }
     }
 }

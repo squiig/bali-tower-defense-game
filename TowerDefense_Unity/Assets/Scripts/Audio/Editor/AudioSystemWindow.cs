@@ -19,24 +19,12 @@ namespace Game.Audio.Editor
         private readonly AudioLibraryEditor _AudioLibraryEditor = new AudioLibraryEditor();
         private readonly AudioAssetEditor   _AudioAssetEditor   = new AudioAssetEditor();
 
-        [MenuItem("Window/AudioSystem")]
-        public static void ShowWindow()
+        public void Awake()
         {
-            GetWindow<AudioSystemWindow>();
-        }
-
-        public void OnEnable()
-        {
-            titleContent = new GUIContent("Audio Editor Window");
+            titleContent = new GUIContent("Audio Editor Window", "Used for editing what sounds belong where");
             _AudioLibraryList.OnSelected += _AudioLibraryEditor.SetTarget;
             _AudioLibraryEditor.OnSelected += _AudioAssetEditor.SetTarget;
-        }
-
-        public void OnDisable()
-        {
-            _AudioLibraryList.OnSelected -= _AudioLibraryEditor.SetTarget;
-            _AudioLibraryEditor.OnSelected -= _AudioAssetEditor.SetTarget;
-
+            _AudioLibraryEditor.OnRequestRepaint += Repaint;
         }
 
         public void Area(Rect view, Color color)
@@ -54,6 +42,7 @@ namespace Game.Audio.Editor
             Area(AudioAssetEditorView, color);
             _AudioAssetEditor.DoAssetEditor();
             GUILayout.EndArea();
+
 
             Area(LibraryEditorView, color);
             _AudioLibraryEditor.DoLibraryEditor();
