@@ -58,7 +58,7 @@ namespace Game.Audio.Editor
                 Close();
             }
 
-            if (GUILayout.Button("NO"))
+            if (GUILayout.Button("No"))
             {
                 OnButton?.Invoke(false);
                 Close();
