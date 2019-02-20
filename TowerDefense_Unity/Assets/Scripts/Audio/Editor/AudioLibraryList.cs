@@ -6,6 +6,7 @@ namespace Game.Audio.Editor
     public class AudioLibraryList
     {
         public event System.Action<AudioAssetLibrary> OnSelected;
+        public event System.Action OnRepaintRequested;
 
         private readonly SelectableList _LibraryList;
         private Vector2 _ScrollPosition = Vector2.zero;
@@ -23,7 +24,16 @@ namespace Game.Audio.Editor
         public void DoList()
         {
             FetchResources();
+
+            GUILayout.BeginHorizontal();
             GUILayout.Label($"{nameof(AudioLibraryList)}");
+            if (GUILayout.Button("Create New Library"))
+            {
+                EditorWindow.CreateInstance<CreateAudioLibraryAssetPopup>()
+                    .SetFolder("Assets/Audio/Resources/")
+                    .OnCreated += OnNewElementcreated;
+            }
+            GUILayout.EndHorizontal();
             _ScrollPosition = EditorGUILayout.BeginScrollView(_ScrollPosition);
             _LibraryList.DoList(_AssetLabels.Length, _ScrollPosition);
             EditorGUILayout.EndScrollView();
@@ -47,6 +57,11 @@ namespace Game.Audio.Editor
                 _AssetPaths = GUIDSToAssetPaths(_AssetGuids);
                 _AssetLabels = PathsToLabels(_AssetPaths);
             }
+        }
+
+        private void OnNewElementcreated(AudioAssetLibrary element)
+        {
+            OnRepaintRequested?.Invoke();
         }
 
         private string[] GUIDSToAssetPaths(string[] guids)

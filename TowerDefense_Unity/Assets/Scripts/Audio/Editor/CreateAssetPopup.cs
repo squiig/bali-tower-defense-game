@@ -1,18 +1,18 @@
 ﻿using System.IO;
+
 using UnityEditor;
 using UnityEngine;
 
 namespace Game.Audio.Editor
 {
-    public class CreateAudioAssetPopup : EditorWindow
+    public abstract class CreateAssetPopup<T> : EditorWindow where T : ScriptableObject, new()
     {
-        public System.Action<AudioAsset> OnCreated;
+        public System.Action<T> OnCreated;
 
         /// <summary>
         /// File location the asset will be stored in.
         /// </summary>
-        private const string FILEPATH = "Assets/Audio/AudioAssets/";
-        private const string EXTENSION = ".asset";
+        private string _FolderPath = "Assets/";
         private const string ERR_FILE_EXISTS = "<color=red>Error: File already exists</color>";
 
         private string _AssetName = "name";
@@ -20,7 +20,6 @@ namespace Game.Audio.Editor
         private bool _ShowFileExistsMessage;
         private bool _SelectField = true;
 
-        private string FinalPath => FILEPATH + _AssetName + EXTENSION;
 
         public void OnLostFocus()
         {
@@ -29,7 +28,7 @@ namespace Game.Audio.Editor
 
         public void Awake()
         {
-            titleContent = new GUIContent("Create AudioAsset");
+            titleContent = new GUIContent($"Create {typeof(T).Name}");
             _RichTextStyle = new GUIStyle
             {
                 richText = true,
@@ -44,9 +43,21 @@ namespace Game.Audio.Editor
             position = new Rect(mousePos - size / 2, size);
         }
 
+        /// <summary>
+        /// Folder leading up to the target folder
+        /// </summary>
+        /// <param name="folder"></param>
+        /// <returns>instance for function chaining</returns>
+        public CreateAssetPopup<T> SetFolder(string folder)
+        {
+            _FolderPath = folder;
+
+            return this;
+        }
+
         private void CreateAndClose()
         {
-            OnCreated?.Invoke(AssetUtil.Create<AudioAsset>(FinalPath));
+            OnCreated?.Invoke(AssetUtil.Create<T>(_FolderPath, _AssetName));
             Close();
         }
 
@@ -62,7 +73,7 @@ namespace Game.Audio.Editor
 
         public void OnGUI()
         {
-            GUILayout.Label("Create Audio Asset:");
+            GUILayout.Label($"Create {typeof(T).Name}:");
 
             GUILayout.Space(25);
             GUILayout.Label("Name:");
@@ -72,7 +83,7 @@ namespace Game.Audio.Editor
 
             if (GUILayout.Button("Create Asset") || KeyPressed(KeyCode.Return))
             {
-                _ShowFileExistsMessage = File.Exists(FinalPath);
+                _ShowFileExistsMessage = AssetUtil.Exists(_FolderPath, _AssetName);
                 if (!_ShowFileExistsMessage)
                 {
                     CreateAndClose();

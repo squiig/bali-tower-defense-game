@@ -53,6 +53,7 @@ namespace Game.Audio.Editor
             if (GUILayout.Button("Add"))
             {
                 EditorWindow.CreateInstance<CreateAudioAssetPopup>()
+                    .SetFolder("Assets/Audio/AudioAssets/")
                     .OnCreated += AddElement;
             }
 

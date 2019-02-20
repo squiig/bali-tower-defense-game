@@ -20,7 +20,7 @@ namespace Game.Audio.Editor
         [MenuItem("Window/AudioAsset")]
         public static void ShowAudioAssetWindow()
         {
-            EditorWindow.GetWindow<CreateAudioAssetPopup>();
+            EditorWindow.GetWindow<CreateAssetPopup<AudioAsset>>();
         }
     }
 }
