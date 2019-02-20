@@ -22,9 +22,23 @@ namespace Game.Audio.Editor
         public void Awake()
         {
             titleContent = new GUIContent("Audio Editor Window", "Used for editing what sounds belong where");
+
+        }
+
+        public void OnEnable()
+        {
             _AudioLibraryList.OnSelected += _AudioLibraryEditor.SetTarget;
             _AudioLibraryEditor.OnSelected += _AudioAssetEditor.SetTarget;
             _AudioLibraryEditor.OnRequestRepaint += Repaint;
+            _AudioLibraryList.OnRequestRepaint += Repaint;
+        }
+
+        public void OnDisable()
+        {
+            _AudioLibraryList.OnSelected -= _AudioLibraryEditor.SetTarget;
+            _AudioLibraryEditor.OnSelected -= _AudioAssetEditor.SetTarget;
+            _AudioLibraryEditor.OnRequestRepaint -= Repaint;
+            _AudioLibraryList.OnRequestRepaint -= Repaint;
         }
 
         public void Area(Rect view, Color color)

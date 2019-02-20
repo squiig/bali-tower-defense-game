@@ -6,7 +6,7 @@ namespace Game.Audio.Editor
     public class AudioLibraryList
     {
         public event System.Action<AudioAssetLibrary> OnSelected;
-        public event System.Action OnRepaintRequested;
+        public event System.Action OnRequestRepaint;
 
         private readonly SelectableList _LibraryList;
         private Vector2 _ScrollPosition = Vector2.zero;
@@ -61,7 +61,7 @@ namespace Game.Audio.Editor
 
         private void OnNewElementcreated(AudioAssetLibrary element)
         {
-            OnRepaintRequested?.Invoke();
+            OnRequestRepaint?.Invoke();
         }
 
         private string[] GUIDSToAssetPaths(string[] guids)
