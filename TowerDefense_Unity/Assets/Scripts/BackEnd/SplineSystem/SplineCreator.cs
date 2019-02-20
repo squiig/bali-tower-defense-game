@@ -19,7 +19,7 @@ namespace Game.BackEnd.SplineSystem
         public void ResetSpline()
         {
             if (BezierSplineData == null) return;
-            BezierSplineData.Reset(transform.position);
+            BezierSplineData.Reset(Vector3.zero);
         }
     }
 }

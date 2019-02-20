@@ -12,8 +12,7 @@ namespace Game.BackEnd.SplineSystem
     {
         [SerializeField, HideInInspector] private bool _IsClosed, _ShowTangents, _ShowNormals, _ShowBiNormals;
         [SerializeField, HideInInspector] private Mode _SplineMode;
-        [SerializeField, HideInInspector] private List<Vector3> _Points = new List<Vector3>();
-
+        [SerializeField] private List<Vector3> _Points = new List<Vector3>();
 
         public Vector3 this[int i] => _Points[i];
         public Vector3[] GetSegmentPoints(int index) => new[] { _Points[index * 3], _Points[index * 3 + 1], _Points[index * 3 + 2], _Points[LoopIndex(index * 3 + 3)] };

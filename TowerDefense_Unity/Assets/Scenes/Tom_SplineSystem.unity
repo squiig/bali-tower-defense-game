@@ -142,7 +142,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2c7347d5f8aada43ab405e718957eb7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _BezierSplineData: {fileID: 11400000, guid: 07a24350ae52a6a4cb073b6bc920edb4, type: 2}
+  _BezierSplineData: {fileID: 11400000, guid: 188ffccc12a51f749a0907f7a9a6333a, type: 2}
 --- !u!4 &666858485
 Transform:
   m_ObjectHideFlags: 0
@@ -151,7 +151,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 666858483}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.72, y: 0, z: 2.03}
+  m_LocalPosition: {x: -5.31, y: 0, z: -6.15}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}

@@ -8,9 +8,10 @@ namespace Game.BackEnd.SplineSystem.Editor
 {
     /// <summary>Contains the base methods for the spline editor.</summary>
     [CustomEditor(typeof(SplineCreator))]
-    public class SplineEditorBase : UnityEditor.Editor
+    public class SplineEditor : UnityEditor.Editor
     {
-        #region Core
+
+    #region Core
 
         protected SerializedObject _SerializedSplineCreator;
         protected SerializedProperty _BezierSplineData;
@@ -22,10 +23,7 @@ namespace Game.BackEnd.SplineSystem.Editor
             Undo.undoRedoPerformed += UndoCallback;
             _SplineCreator = (SplineCreator)target;
             _SerializedSplineCreator = new SerializedObject(_SplineCreator);
-            if (_SplineCreator.BezierSplineData == null) return;
-            if (_SplineCreator.BezierSplineData.PointCount <= 0) _SplineCreator.ResetSpline();
-            _BezierSplineData = _SerializedSplineCreator.FindProperty("_BezierSplineData");
-            _SplineDataObject = _SplineCreator.BezierSplineData;
+            OnSelectedSplineChanged();
         }
 
         public void OnDisable()
@@ -41,31 +39,29 @@ namespace Game.BackEnd.SplineSystem.Editor
                 _SplineCreator.SelectedPoint += 3;
         }
 
-        #endregion
+    #endregion
 
-        #region Inspector methods
+    #region Inspector methods
 
         private const int BUTTON_HEIGHT = 20;
         private const int BUTTON_INTERVAL_Y = 3;
         private readonly string[] _SplineModes = { "Free", "Mirrored" };
 
-        private Vector2 _ScrollPosition;
-        private bool _DrawDebugValues = false;
+        #region Inspector Core
 
         public override void OnInspectorGUI()
         {
             DrawSplineObjectField();
             if (_SplineCreator.BezierSplineData == null) return;
-            if (_SplineCreator.BezierSplineData.PointCount <= 0) _SplineCreator.ResetSpline();
+            if (_SplineCreator.BezierSplineData.PointCount <= 0) return;
 
             DrawCustomInspector();
-            if (_DrawDebugValues) DrawSplinePositions();
         }
 
-        private void OnSplineValuesChanged()
+        private void OnSelectedSplineChanged()
         {
             if (_SplineCreator.BezierSplineData == null) return;
-            if (_SplineCreator.BezierSplineData.PointCount <= 0) _SplineCreator.ResetSpline();
+            if (_SplineCreator.BezierSplineData.PointCount <= 0) return;
 
             _BezierSplineData = _SerializedSplineCreator.FindProperty("_BezierSplineData");
             _SplineDataObject = _SplineCreator.BezierSplineData;
@@ -79,7 +75,7 @@ namespace Game.BackEnd.SplineSystem.Editor
             if (!_SerializedSplineCreator.hasModifiedProperties) return;
 
             _SerializedSplineCreator.ApplyModifiedProperties();
-            OnSplineValuesChanged();
+            OnSelectedSplineChanged();
         }
 
         private void DrawCustomInspector()
@@ -95,54 +91,62 @@ namespace Game.BackEnd.SplineSystem.Editor
             GUILayout.EndVertical();
         }
 
+        #endregion
+
+        #region Spline Edit Settings
+
         private void DrawSplineListCustomizationSettings()
         {
-            GUILayout.Label("Debug options", EditorStyles.boldLabel);
-            _DrawDebugValues = GUILayout.Toggle(_DrawDebugValues, "Show debug values");
-
             GUILayout.Label("BezierSplineData edit settings", EditorStyles.boldLabel);
-
-            //BezierSplineData mode.
-            int splineMode = GUILayout.Toolbar((int)_SplineDataObject.SplineMode, _SplineModes, GUILayout.Height(BUTTON_HEIGHT + 5));
-            if ((int)_SplineDataObject.SplineMode != splineMode)
-            {
-                Undo.RecordObject(_SplineCreator, "Changed_spline_mode");
-                _SplineDataObject.SplineMode = (BezierSplineDataObject.Mode)splineMode;
-                SceneView.RepaintAll();
-            }
-
+            DrawBezierSplineModeToolBar();
             GUILayout.Space(BUTTON_INTERVAL_Y);
 
-            //Add button
             if (GUILayout.Button("Add", GUILayout.Height(BUTTON_HEIGHT)) && !_SplineDataObject.IsClosed)
-            {
-                Vector3 direction = (_SplineDataObject[_SplineDataObject.PointCount - 1] - _SplineDataObject[_SplineDataObject.PointCount - 3]).normalized;
-                float deltaLastSegment = (_SplineDataObject[_SplineDataObject.PointCount - 1] - _SplineDataObject[_SplineDataObject.PointCount - 3]).magnitude;
-
-                Undo.RecordObject(_SplineCreator, "Add_segment");
-                _SplineDataObject.AddSegment(_SplineDataObject[_SplineDataObject.PointCount - 1] + direction * deltaLastSegment);
-                SceneView.RepaintAll();
-            }
+                OnAddButtonPressed();
             GUILayout.Space(1f);
-
-            //Remove button
             if (GUILayout.Button("Remove", GUILayout.Height(BUTTON_HEIGHT)))
-            {
-                Undo.RecordObject(_SplineCreator, "Remove_segment");
-                _SplineDataObject.RemoveSegment(_SplineCreator.SelectedPoint);
+                OnRemoveButtonPressed();
 
-                if (_SplineCreator.SelectedPoint != _SplineDataObject.PointCount - 1 && _SplineCreator.SelectedPoint != 0)
-                    _SplineCreator.SelectedPoint -= 3;
-                else if (_SplineCreator.SelectedPoint == 0 && !_SplineDataObject.IsClosed)
-                    _SplineCreator.SelectedPoint += 3;
-
-                SceneView.RepaintAll();
-            }
             GUILayout.Space(1f);
 
-            if (!GUILayout.Button("Reset", GUILayout.Height(BUTTON_HEIGHT))) OnResetButtonPressed();
+            if (GUILayout.Button("Reset", GUILayout.Height(BUTTON_HEIGHT)))
+                OnResetButtonPressed();
             GUILayout.Space(1f);
-            if (!GUILayout.Button("Insert", GUILayout.Height(BUTTON_HEIGHT))) OnInsertButtonPressed();
+            if (GUILayout.Button("Insert", GUILayout.Height(BUTTON_HEIGHT)))
+                OnInsertButtonPressed();
+        }
+
+        private void DrawBezierSplineModeToolBar()
+        {
+            int splineMode = GUILayout.Toolbar((int)_SplineDataObject.SplineMode, _SplineModes, GUILayout.Height(BUTTON_HEIGHT + 5));
+            if ((int) _SplineDataObject.SplineMode == splineMode) return;
+
+            Undo.RecordObject(_SplineCreator, "Changed_spline_mode");
+            _SplineDataObject.SplineMode = (BezierSplineDataObject.Mode)splineMode;
+            SceneView.RepaintAll();
+        }
+
+        private void OnAddButtonPressed()
+        {
+            Vector3 direction = (_SplineDataObject[_SplineDataObject.PointCount - 1] - _SplineDataObject[_SplineDataObject.PointCount - 3]).normalized;
+            float deltaLastSegment = (_SplineDataObject[_SplineDataObject.PointCount - 1] - _SplineDataObject[_SplineDataObject.PointCount - 3]).magnitude;
+
+            Undo.RecordObject(_SplineCreator, "Add_segment");
+            _SplineDataObject.AddSegment(_SplineDataObject[_SplineDataObject.PointCount - 1] + direction * deltaLastSegment);
+            SceneView.RepaintAll();
+        }
+
+        private void OnRemoveButtonPressed()
+        {
+            Undo.RecordObject(_SplineCreator, "Remove_segment");
+            _SplineDataObject.RemoveSegment(_SplineCreator.SelectedPoint);
+
+            if (_SplineCreator.SelectedPoint != _SplineDataObject.PointCount - 1 && _SplineCreator.SelectedPoint != 0)
+                _SplineCreator.SelectedPoint -= 3;
+            else if (_SplineCreator.SelectedPoint == 0 && !_SplineDataObject.IsClosed)
+                _SplineCreator.SelectedPoint += 3;
+
+            SceneView.RepaintAll();
         }
 
         private void OnResetButtonPressed()
@@ -187,65 +191,70 @@ namespace Game.BackEnd.SplineSystem.Editor
             SceneView.RepaintAll();
         }
 
+        #endregion
+
+        #region Spline Data Settings
+
         private void DrawSplineSettings()
         {
             GUILayout.Label("BezierSplineData settings", EditorStyles.boldLabel);
-
-            //Toggle button
-            bool isClosed = GUILayout.Toggle(_SplineDataObject.IsClosed, "Is closed", GUILayout.Height(BUTTON_HEIGHT));
-            if (isClosed != _SplineDataObject.IsClosed)
-            {
-                Undo.RecordObject(_SplineCreator, "Toggle_Closed");
-                _SplineDataObject.ToggleClosed(!_SplineDataObject.IsClosed);
-                SceneView.RepaintAll();
-            }
+            DrawIsClosedToggle();
             GUILayout.Space(1f);
-
-            //Enable tangent drawing.
-            bool drawTangents = GUILayout.Toggle(_SplineDataObject.ShowTangents, "Show tangents.");
-            if (drawTangents != _SplineDataObject.ShowTangents)
-            {
-                Undo.RecordObject(_SplineCreator, "Show_Tangents");
-                _SplineDataObject.ShowTangents = drawTangents;
-                SceneView.RepaintAll();
-            }
+            DrawTangentToggle();
             GUILayout.Space(1f);
-
-            //Draw BiNormals toggle.
-            bool drawBiNormals = GUILayout.Toggle(_SplineDataObject.ShowBiNormals, "Show bi-normals.");
-            if (drawBiNormals != _SplineDataObject.ShowBiNormals)
-            {
-                Undo.RecordObject(_SplineCreator, "Show_BiNormals");
-                _SplineDataObject.ShowBiNormals = drawBiNormals;
-                SceneView.RepaintAll();
-            }
+            DrawBiNormalsToggle();
             GUILayout.Space(1f);
-
-            //Draw normals toggle.
-            bool drawNormals = GUILayout.Toggle(_SplineDataObject.ShowNormals, "Show normals.");
-            if (drawNormals != _SplineDataObject.ShowNormals)
-            {
-                Undo.RecordObject(_SplineCreator, "Show_Normals");
-                _SplineDataObject.ShowNormals = drawNormals;
-                SceneView.RepaintAll();
-            }
+            DrawNormalsToggle();
             GUILayout.Space(1f);
         }
 
-        private void DrawSplinePositions()
+        private void DrawIsClosedToggle()
         {
-            GUILayout.BeginVertical("Box");
-            _ScrollPosition = GUILayout.BeginScrollView(_ScrollPosition, false, false);
-            base.OnInspectorGUI();
-            GUILayout.EndScrollView();
-            GUILayout.EndVertical();
+            bool isClosed = GUILayout.Toggle(_SplineDataObject.IsClosed, "Is closed", GUILayout.Height(BUTTON_HEIGHT));
+            if (isClosed == _SplineDataObject.IsClosed) return;
+
+            Undo.RecordObject(_SplineCreator, "Toggle_Closed");
+            _SplineDataObject.ToggleClosed(!_SplineDataObject.IsClosed);
+            SceneView.RepaintAll();
         }
+
+        private void DrawTangentToggle()
+        {
+            bool drawTangents = GUILayout.Toggle(_SplineDataObject.ShowTangents, "Show tangents.");
+            if (drawTangents == _SplineDataObject.ShowTangents) return;
+
+            Undo.RecordObject(_SplineCreator, "Show_Tangents");
+            _SplineDataObject.ShowTangents = drawTangents;
+            SceneView.RepaintAll();
+        }
+
+        private void DrawBiNormalsToggle()
+        {
+            bool drawBiNormals = GUILayout.Toggle(_SplineDataObject.ShowBiNormals, "Show bi-normals.");
+            if (drawBiNormals == _SplineDataObject.ShowBiNormals) return;
+
+            Undo.RecordObject(_SplineCreator, "Show_BiNormals");
+            _SplineDataObject.ShowBiNormals = drawBiNormals;
+            SceneView.RepaintAll();
+        }
+
+        private void DrawNormalsToggle()
+        {
+            bool drawNormals = GUILayout.Toggle(_SplineDataObject.ShowNormals, "Show normals.");
+            if (drawNormals == _SplineDataObject.ShowNormals) return;
+
+            Undo.RecordObject(_SplineCreator, "Show_Normals");
+            _SplineDataObject.ShowNormals = drawNormals;
+            SceneView.RepaintAll();
+        }
+        
+        #endregion
 
     #endregion
 
-        #region Scene Draw methods
+    #region Scene Draw methods
 
-    private const int CURVE_LINE_WIDTH = 3;
+        private const int CURVE_LINE_WIDTH = 3;
         private const float AMOUNT_TANGENTS_PER_CURVE = 10;
 
         protected void OnSceneGUI()
@@ -295,8 +304,9 @@ namespace Game.BackEnd.SplineSystem.Editor
                 Handles.color = Color.red;
                 float handleSize = HandleUtility.GetHandleSize(_SplineDataObject[i]);
 
-                if (!Handles.Button(_SplineDataObject[i], Quaternion.identity,
-                    handleSize * 0.12f, handleSize * 0.16f, Handles.SphereHandleCap)) continue;
+                if (!Handles.Button(_SplineDataObject[i], Quaternion.identity, 
+                    handleSize * 0.12f, handleSize * 0.16f, Handles.SphereHandleCap))
+                    continue;
                 _SplineCreator.SelectedPoint = i;
             }
 
@@ -315,6 +325,7 @@ namespace Game.BackEnd.SplineSystem.Editor
             _SplineDataObject.MovePoint(index, point);
         }
 
-        #endregion
+    #endregion
+
     }
 }
