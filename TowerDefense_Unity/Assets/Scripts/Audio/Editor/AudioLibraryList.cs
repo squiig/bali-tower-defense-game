@@ -5,6 +5,9 @@ using UnityEngine;
 
 namespace Game.Audio.Editor
 {
+    /// <summary>
+    /// Used to render and control a selectable list of all audio libraries in the project
+    /// /// </summary>
     public class AudioLibraryList
     {
         public event System.Action<AudioAssetLibrary> OnSelected;

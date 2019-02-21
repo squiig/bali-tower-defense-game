@@ -7,6 +7,9 @@ using System;
 
 namespace Game.Audio.Editor
 {
+    /// <summary>
+    /// Used to render and control a window to edit an audio library asset
+    /// </summary>
     public class AudioLibraryEditor
     {
         private readonly SelectableList _SelectableAudioAssetList;

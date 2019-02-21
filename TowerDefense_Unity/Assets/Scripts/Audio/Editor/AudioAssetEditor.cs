@@ -5,6 +5,9 @@ using UnityEngine;
 
 namespace Game.Audio.Editor
 {
+    /// <summary>
+    /// Used to render and control a window to edit an audio asset
+    /// </summary>
     public class AudioAssetEditor
     {
         private readonly SelectableList _SelectableList;

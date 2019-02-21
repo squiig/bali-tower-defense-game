@@ -4,6 +4,9 @@ using Game.Utils.Editor;
 
 namespace Game.Audio.Editor
 {
+    /// <summary>
+    /// Contains menu items to open things from the audio editor
+    /// </summary>
     public class AudioMenu
     {
         [MenuItem("Assets/Create/Audio/AudioAsset")]
