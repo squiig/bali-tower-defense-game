@@ -27,12 +27,52 @@ namespace Game.Audio.Editor
             _SelectableList.ResetSelection();
         }
 
+        public void AddElement()
+        {
+            _ClipList.InsertArrayElementAtIndex(0);
+        }
+
+        public void RemoveElement()
+        {
+            _ClipList.DeleteArrayElementAtIndex(
+                _SelectableList.SelectedElementIndex);
+        }
+
+        public void RemoveAllElements()
+        {
+            _ClipList.ClearArray();
+        }
+
         public void DoAssetEditor()
         {
             if (_RawTarget == null) return;
 
             _ScrollVector = GUILayout.BeginScrollView(_ScrollVector);
+
+            GUILayout.BeginHorizontal();
             GUILayout.Label($"{nameof(AudioAssetEditor)}");
+
+            if (GUILayout.Button("Nuke"))
+            {
+                EditorWindow.CreateInstance<ConfirmActionPopup>()
+                    .SetQuestion("You're about to remove all soundclips. Are you sure?")
+                    .OnConfirm += RemoveAllElements;
+            }
+
+            if (GUILayout.Button("Remove"))
+            {
+                RemoveElement();
+            }
+
+            if (GUILayout.Button("Add"))
+            {
+                AddElement();
+            }
+
+
+            GUILayout.EndHorizontal();
+
+
             _SelectableList.DoList(_ClipList.arraySize, _ScrollVector);
             _SerializedTarget.ApplyModifiedProperties();
             GUILayout.EndScrollView();
