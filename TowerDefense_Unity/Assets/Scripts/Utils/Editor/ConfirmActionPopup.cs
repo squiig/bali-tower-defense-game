@@ -2,7 +2,7 @@
 using UnityEditor;
 using UnityEngine;
 
-namespace Game.Audio.Editor
+namespace Game.Utils.Editor
 {
     /// <summary>
     /// Displays a custom question confirmation popup to give the user a moment to reconsider what he's doing. Default: "Are you sure?"

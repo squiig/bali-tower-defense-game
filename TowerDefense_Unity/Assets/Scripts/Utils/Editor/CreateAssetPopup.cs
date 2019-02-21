@@ -3,7 +3,7 @@
 using UnityEditor;
 using UnityEngine;
 
-namespace Game.Audio.Editor
+namespace Game.Utils.Editor
 {
     public abstract class CreateAssetPopup<T> : EditorWindow where T : ScriptableObject, new()
     {

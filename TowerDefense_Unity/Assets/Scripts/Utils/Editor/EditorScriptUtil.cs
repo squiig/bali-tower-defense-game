@@ -1,7 +1,7 @@
 ﻿using UnityEditor;
 using UnityEngine;
 
-namespace Game.Audio.Editor
+namespace Game.Utils.Editor
 {
     /// <summary>
     /// Some extra functionality, shortcuts, and other things.

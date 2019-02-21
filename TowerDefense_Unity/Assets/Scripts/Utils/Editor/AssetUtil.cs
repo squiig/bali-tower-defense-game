@@ -2,7 +2,7 @@
 using UnityEditor;
 using UnityEngine;
 
-namespace Game.Audio.Editor
+namespace Game.Utils.Editor
 {
     public static class AssetUtil
     {
