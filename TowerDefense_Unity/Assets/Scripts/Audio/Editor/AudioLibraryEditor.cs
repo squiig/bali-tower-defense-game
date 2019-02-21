@@ -45,9 +45,14 @@ namespace Game.Audio.Editor
 
             if (GUILayout.Button("Nuke"))
             {
-                ScriptableObject.CreateInstance<ConfirmActionPopup>().SetQuestion("You're about to nuke all elements from this library, are you sure?").OnConfirm += () => 
-                    ScriptableObject.CreateInstance<ConfirmActionPopup>().SetQuestion("Delete all audio asset files from the bindings too?").OnButton += (value) =>  
-                        { if(value) { DeleteAllAudioAssets(); } DeleteAllElements(); };
+                ScriptableObject.CreateInstance<ConfirmActionPopup>()
+                    .SetQuestion("You're about to nuke all elements from this library, are you sure?").
+                    OnConfirm += DeleteAllElements;
+            }
+
+            if (GUILayout.Button("Remove"))
+            {
+                RemoveSelectedElement();
             }
 
             if (GUILayout.Button("Add"))
@@ -64,10 +69,6 @@ namespace Game.Audio.Editor
             GUILayout.EndScrollView();
         }
 
-
-        private void DeleteAllAudioAssets()
-        {
-        }
 
         private void DrawElement(int index)
         {
@@ -88,6 +89,18 @@ namespace Game.Audio.Editor
             audioAssetProperty.objectReferenceValue = asset;
             _SerializedTarget.ApplyModifiedProperties();
             OnRequestRepaint?.Invoke();
+        }
+
+        private void RemoveSelectedElement()
+        {
+            int index = _SelectableAudioAssetList.SelectedElementIndex;
+
+            if (index == -1)
+            {
+                return;
+            }
+
+            _MappingList.DeleteArrayElementAtIndex(index);
         }
 
         private void DeleteAllElements()
