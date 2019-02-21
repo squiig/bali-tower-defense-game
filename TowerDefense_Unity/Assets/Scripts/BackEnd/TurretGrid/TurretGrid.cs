@@ -13,7 +13,9 @@ namespace Game.BackEnd.Turrets
     /// <summary>Holds the data of the turretgrid.</summary>
     public class TurretGrid : MonoBehaviour
     {
-        [SerializeField] private Vector2 _CellSize, _CellResolution;
+        [Header("Gridsize options")]
+        [SerializeField] private Vector2Int _CellSize = new Vector2Int(10, 10);
+        [SerializeField] private Vector2Int _GridResolution = new Vector2Int(10, 10);
         private TurretGridCell[] _TurretGrid;
 
         private void Awake()
