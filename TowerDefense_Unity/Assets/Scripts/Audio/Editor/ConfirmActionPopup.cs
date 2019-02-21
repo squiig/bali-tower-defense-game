@@ -9,6 +9,8 @@ namespace Game.Audio.Editor
     /// </summary>
     public class ConfirmActionPopup : EditorWindow
     {
+        private GUIStyle _WordWrapStyle;
+
         private string _QuestionText = "Are you sure?";
 
         public event System.Action OnConfirm;
@@ -18,6 +20,11 @@ namespace Game.Audio.Editor
         {
             ShowUtility();
             Focus();
+
+            _WordWrapStyle = new GUIStyle()
+            {
+                wordWrap = true,
+            };
 
             titleContent = new GUIContent("Please Confirm");
             Vector2 mousePos = GUIUtility.GUIToScreenPoint(Event.current.mousePosition);
@@ -32,7 +39,7 @@ namespace Game.Audio.Editor
         }
 
         /// <summary>
-        /// In 0-3 words what the user is doing.
+        /// Set a description. Note: Try to keep it a small comprehensive sentence without too much jargon. 
         /// </summary>
         /// <param name="context"></param>
         public void SetActionContext(string context)
@@ -48,7 +55,7 @@ namespace Game.Audio.Editor
         public void OnGUI()
         {
             EditorGUILayout.BeginVertical();
-            GUILayout.Label(_QuestionText, GUILayout.ExpandWidth(true));
+            GUILayout.Label(_QuestionText, _WordWrapStyle, GUILayout.ExpandWidth(true));
             GUILayout.Space(10);
             GUILayout.BeginHorizontal();
             if (GUILayout.Button("Yes"))

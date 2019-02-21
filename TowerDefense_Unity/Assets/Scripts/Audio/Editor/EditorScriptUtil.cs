@@ -42,6 +42,12 @@ namespace Game.Audio.Editor
             return TryFetchPropertyGuid(indexedProperty, out guid);
         }
 
+        /// <summary>
+        /// attempts to fetch the guid of a objectreference value
+        /// </summary>
+        /// <param name="property"></param>
+        /// <param name="guid"></param>
+        /// <returns></returns>
         public static bool TryFetchPropertyGuid(SerializedProperty property, out string guid)
         {
             guid = string.Empty;

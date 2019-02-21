@@ -10,7 +10,9 @@ namespace Game.Audio.Editor
     {
         public event Action<int> OnSelect;
         public event Action<int> OnDrawElement;
-        private int _SelectedElement = -1;
+
+        private int _SelectedElementIndex = -1;
+        private Rect[] _ElementRects;
 
         private readonly GUILayoutOption[] _Options =
         {
@@ -18,9 +20,9 @@ namespace Game.Audio.Editor
             GUILayout.ExpandHeight(false)
         };
 
-        private Rect[] _ElementRects;
+        public int SelectedElementIndex => _SelectedElementIndex;
 
-        public SelectableList(System.Action<int> drawElementCallback)
+        public SelectableList(Action<int> drawElementCallback)
         {
             OnDrawElement += drawElementCallback;
         }
@@ -35,7 +37,7 @@ namespace Game.Audio.Editor
             _ElementRects = new Rect[elementCount];
             for (int i = 0; i < elementCount; i++)
             {
-                if (i == _SelectedElement)
+                if (i == _SelectedElementIndex)
                 {
                     DrawSelectedElement(i);
                 }
@@ -94,7 +96,7 @@ namespace Game.Audio.Editor
         private void SelectElement(int i)
         {
             OnSelect?.Invoke(i);
-            _SelectedElement = i;
+            _SelectedElementIndex = i;
         }
     }
 }

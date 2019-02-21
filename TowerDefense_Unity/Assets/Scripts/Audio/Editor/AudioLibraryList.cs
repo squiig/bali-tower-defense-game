@@ -8,7 +8,7 @@ namespace Game.Audio.Editor
         public event System.Action<AudioAssetLibrary> OnSelected;
         public event System.Action OnRequestRepaint;
 
-        private readonly SelectableList _LibraryList;
+        private readonly SelectableList _SelectionList;
         private Vector2 _ScrollPosition = Vector2.zero;
 
         private string[] _AssetGuids;
@@ -17,8 +17,8 @@ namespace Game.Audio.Editor
 
         public AudioLibraryList()
         {
-            _LibraryList = new SelectableList(DrawElement);
-            _LibraryList.OnSelect += OnSelect;
+            _SelectionList = new SelectableList(DrawElement);
+            _SelectionList.OnSelect += OnSelect;
         }
 
         public void DoList()
@@ -27,15 +27,21 @@ namespace Game.Audio.Editor
 
             GUILayout.BeginHorizontal();
             GUILayout.Label($"{nameof(AudioLibraryList)}");
+
             if (GUILayout.Button("Create New Library"))
             {
                 EditorWindow.CreateInstance<CreateAudioLibraryAssetPopup>()
                     .SetFolder("Assets/Audio/Resources/")
                     .OnCreated += OnNewElementcreated;
             }
+
+            if (GUILayout.Button("Delete"))
+            {
+                RemoveSelectedElement();
+            }
             GUILayout.EndHorizontal();
             _ScrollPosition = EditorGUILayout.BeginScrollView(_ScrollPosition);
-            _LibraryList.DoList(_AssetLabels.Length, _ScrollPosition);
+            _SelectionList.DoList(_AssetLabels.Length, _ScrollPosition);
             EditorGUILayout.EndScrollView();
         }
 
@@ -64,6 +70,19 @@ namespace Game.Audio.Editor
             OnRequestRepaint?.Invoke();
         }
 
+        private void RemoveSelectedElement()
+        {
+            int index = _SelectionList.SelectedElementIndex;
+
+            if (index == -1) // nothing selected delete
+                return;
+
+            string name = _AssetLabels[index];
+            EditorWindow.CreateInstance<ConfirmActionPopup>()
+                .SetQuestion($"Are you sure you want to delete {name}?")
+                .OnConfirm += () => AssetDatabase.DeleteAsset(_AssetPaths[index]);
+        }
+
         private string[] GUIDSToAssetPaths(string[] guids)
         {
             string[] paths = new string[guids.Length];
@@ -76,6 +95,7 @@ namespace Game.Audio.Editor
 
         private string[] PathsToLabels(string[] paths)
         {
+
             string[] labels = new string[paths.Length];
 
             for (int i = 0; i < paths.Length; i++)
