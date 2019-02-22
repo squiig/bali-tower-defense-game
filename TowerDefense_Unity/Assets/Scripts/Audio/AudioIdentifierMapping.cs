@@ -7,12 +7,12 @@ namespace Game.Audio
     /// DataClass: Maps an indentifier to an audio asset
     /// </summary>
     [Serializable]
-    public class AudioIndentifierMapping
+    public class AudioIdentifierMapping
     {
         [SerializeField] private string _Identifier;
         [SerializeField] private AudioAsset _AudioAsset;
         
-        public string Indentifier => _Identifier;
+        public string Identifier => _Identifier;
         public AudioAsset AudioAsset => _AudioAsset;
     }
 }

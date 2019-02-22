@@ -1,5 +1,6 @@
-﻿using System;
+﻿using UnityEngine.Serialization;
 using UnityEngine;
+using System;
 
 namespace Game.Audio
 {
@@ -8,16 +9,17 @@ namespace Game.Audio
     /// </summary>
     public class AudioAssetLibrary : ScriptableObject
     {
-        [SerializeField] private AudioIndentifierMapping[] _AudioAssetIndentifierMappings;
+        [FormerlySerializedAs("AudioIndentifier")]
+        [SerializeField] private AudioIdentifierMapping[] _AudioAssetIdentifierMappings;
 
         /// <summary>
         /// Resolves an indentifier to an audio asset
         /// </summary>
         public AudioAsset Resolve(string identifier)
         {
-            foreach (AudioIndentifierMapping mapping in _AudioAssetIndentifierMappings)
+            foreach (AudioIdentifierMapping mapping in _AudioAssetIdentifierMappings)
             {
-                if (mapping.Indentifier.Equals(identifier))
+                if (mapping.Identifier.Equals(identifier))
                 {
                     return mapping.AudioAsset;
                 }
