@@ -16,6 +16,11 @@ namespace Game.Audio
 
         public AudioClip GetClip()
         {
+            return GetRandomClip(); // temp
+        }
+
+        private AudioClip GetRandomClip()
+        {
             return AudioClips[Random.Range(0, ClipCount)];
         }
     }
