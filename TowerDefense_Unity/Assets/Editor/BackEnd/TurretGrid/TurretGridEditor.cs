@@ -58,7 +58,7 @@ namespace Game.BackEnd.Turrets.Editor
 
         #region SceneDrawMethods
 
-        private void OnSceneGUI()
+        internal void DrawGrid()
         {
             if (Selection.activeObject == null) return;
             DrawHorizontalGridLines(_CellSize.vector2IntValue, _GridResolution.vector2IntValue);
@@ -67,8 +67,8 @@ namespace Game.BackEnd.Turrets.Editor
 
         private void DrawHorizontalGridLines(Vector2Int cellSize, Vector2Int gridResolution)
         {
-            Vector3 position = Selection.activeTransform.position;
-            Vector3 rotation = Selection.activeTransform.eulerAngles;
+            Vector3 position = _TurretGrid.gameObject.transform.position;
+            Vector3 rotation = _TurretGrid.gameObject.transform.eulerAngles;
             Vector2 gridSize = cellSize * gridResolution;
 
             for (int z = 0; z < gridResolution.y + 1; z++)
@@ -81,8 +81,8 @@ namespace Game.BackEnd.Turrets.Editor
 
         private void DrawVerticalGridLines(Vector2Int cellSize, Vector2Int gridResolution)
         {
-            Vector3 position = Selection.activeTransform.position;
-            Vector3 rotation = Selection.activeTransform.eulerAngles;
+            Vector3 position = _TurretGrid.gameObject.transform.position;
+            Vector3 rotation = _TurretGrid.gameObject.transform.eulerAngles;
             Vector2 gridSize = cellSize * gridResolution;
 
             for (int x = 0; x < gridResolution.x + 1; x++)
