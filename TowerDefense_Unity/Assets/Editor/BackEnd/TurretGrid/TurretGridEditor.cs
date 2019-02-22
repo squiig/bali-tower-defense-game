@@ -67,8 +67,8 @@ namespace Game.BackEnd.Turrets.Editor
 
         private void DrawHorizontalGridLines(Vector2Int cellSize, Vector2Int gridResolution)
         {
-            Vector3 position = Selection.activeTransform.localPosition;
-            Vector3 rotation = Selection.activeTransform.localEulerAngles;
+            Vector3 position = Selection.activeTransform.position;
+            Vector3 rotation = Selection.activeTransform.eulerAngles;
             Vector2 gridSize = cellSize * gridResolution;
 
             for (int z = 0; z < gridResolution.y + 1; z++)
@@ -81,8 +81,8 @@ namespace Game.BackEnd.Turrets.Editor
 
         private void DrawVerticalGridLines(Vector2Int cellSize, Vector2Int gridResolution)
         {
-            Vector3 position = Selection.activeTransform.localPosition;
-            Vector3 rotation = Selection.activeTransform.localEulerAngles;
+            Vector3 position = Selection.activeTransform.position;
+            Vector3 rotation = Selection.activeTransform.eulerAngles;
             Vector2 gridSize = cellSize * gridResolution;
 
             for (int x = 0; x < gridResolution.x + 1; x++)

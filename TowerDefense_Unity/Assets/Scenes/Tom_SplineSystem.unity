@@ -112,7 +112,7 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1 &487722819
+--- !u!1 &633913959
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -120,22 +120,22 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 487722821}
-  - component: {fileID: 487722820}
+  - component: {fileID: 633913961}
+  - component: {fileID: 633913960}
   m_Layer: 0
-  m_Name: TurretGrid
+  m_Name: TurretGrud
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &487722820
+--- !u!114 &633913960
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 487722819}
+  m_GameObject: {fileID: 633913959}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2e512ab4094c9384d960c4eb3138f157, type: 3}
@@ -143,20 +143,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _CellSize: {x: 10, y: 10}
   _GridResolution: {x: 10, y: 10}
---- !u!4 &487722821
+--- !u!4 &633913961
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 487722819}
-  m_LocalRotation: {x: -0, y: 0.44912317, z: -0, w: 0.8934698}
-  m_LocalPosition: {x: -79, y: 0, z: -97.1}
+  m_GameObject: {fileID: 633913959}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -44.44864, y: -21.545166, z: -117.54564}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 53.375004, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &666858483
 GameObject:
   m_ObjectHideFlags: 0

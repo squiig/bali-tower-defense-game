@@ -46,27 +46,47 @@ namespace Game.BackEnd.Turrets.Editor
             Vector3 sin = new Vector3(Mathf.Sin(radians.x), Mathf.Sin(radians.y), Mathf.Sin(radians.z));
             Vector3 cos = new Vector3(Mathf.Cos(radians.x), Mathf.Cos(radians.y), Mathf.Cos(radians.z));
 
-            Matrix4x4 mat = new Matrix4x4();
-            mat.SetColumn(0, new Vector4(
-                x: cos.y * cos.z,
-                y: cos.x * sin.z + sin.x * sin.y * cos.z,
-                z: sin.x * sin.z - cos.x * sin.y * cos.z,
-                w: 0f
-            ));
-            mat.SetColumn(1, new Vector4(
-                x: -cos.y * sin.z,
-                y: cos.x * cos.z - sin.x * sin.y * sin.z,
-                z: sin.x * cos.z + cos.x * sin.y * sin.z,
-                w: 0f
-            ));
-            mat.SetColumn(2, new Vector4(
-                x: sin.y,
-                y: -sin.x * cos.y,
-                z: cos.x * cos.y,
-                w: 0f
-            ));
-            mat.SetColumn(3, new Vector4(0f, 0f, 0f, 1f));
-            return mat;
+            Matrix4x4 rotX = new Matrix4x4();
+            rotX.SetRow(0, new Vector4(1.0f,   0.0f,  0.0f,   0.0f));
+            rotX.SetRow(1, new Vector4(0.0f,   cos.x, -sin.x, 0.0f));
+            rotX.SetRow(2, new Vector4(0.0f,   sin.x, cos.x,  0.0f));
+            rotX.SetRow(3, new Vector4(0.0f,   0.0f,  0.0f,   1.0f));
+
+            Matrix4x4 rotY = new Matrix4x4();
+            rotY.SetRow(0, new Vector4(cos.y,  0.0f,  sin.y,  0.0f));
+            rotY.SetRow(1, new Vector4(0.0f,   1.0f,  0.0f,   0.0f));
+            rotY.SetRow(2, new Vector4(-sin.y, 0.0f,  cos.y,  0.0f));
+            rotY.SetRow(3, new Vector4(0.0f,   0.0f,  0.0f,   1.0f));
+
+            Matrix4x4 rotZ = new Matrix4x4();
+            rotZ.SetRow(0, new Vector4(cos.z,  -sin.z, 0.0f,  0.0f));
+            rotZ.SetRow(1, new Vector4(sin.z,  cos.z,  0.0f,  0.0f));
+            rotZ.SetRow(2, new Vector4(0.0f,   0.0f,   1.0f,  0.0f));
+            rotZ.SetRow(3, new Vector4(0.0f,   0.0f,   0.0f,  1.0f));
+
+            return rotZ * rotY * rotX;
+            
+            //Matrix4x4 matrix = new Matrix4x4();
+            //matrix.SetColumn(0, new Vector4(
+            //    x: cos.y * cos.z,
+            //    y: cos.x * sin.z + sin.x * sin.y * cos.z,
+            //    z: sin.x * sin.z - cos.x * sin.y * cos.z,
+            //    w: 0f
+            //));
+            //matrix.SetColumn(1, new Vector4(
+            //    x: -cos.y * sin.z,
+            //    y: cos.x * cos.z - sin.x * sin.y * sin.z,
+            //    z: sin.x * cos.z + cos.x * sin.y * sin.z,
+            //    w: 0f
+            //));
+            //matrix.SetColumn(2, new Vector4(
+            //    x: sin.y,
+            //    y: -sin.x * cos.y,
+            //    z: cos.x * cos.y,
+            //    w: 0f
+            //));
+            //matrix.SetColumn(3, new Vector4(0f, 0f, 0f, 1f));
+            //return matrix;
         }
     }
 }
