@@ -18,7 +18,7 @@ namespace Game.Audio
             Object.DontDestroyOnLoad(parentObject);
             for (int i = 0; i < _AudioChannels.Length; i++)
             {
-                _AudioChannels[i] = new AudioChannel(parentObject.transform);
+                _AudioChannels[i] = new AudioChannel(parentObject.transform, i + 1);
             }
         }
 

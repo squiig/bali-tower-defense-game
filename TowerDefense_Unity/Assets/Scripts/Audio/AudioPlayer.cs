@@ -16,7 +16,7 @@ namespace Game.Audio
 
         public AudioChannel(Transform parent = null, int channelNumber = -1)
         {
-            _GameObject = new GameObject("Audio Channel {0}");
+            _GameObject = new GameObject($"Audio Channel {channelNumber}");
 
             if (parent)
             {
