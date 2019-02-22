@@ -7,11 +7,12 @@ namespace Game.Utils.Editor
     public static class AssetUtil
     {
         private const string EXTENSION = ".asset"; 
-        public static T Create<T>(string path, string assetName) where T : ScriptableObject, new()
+        public static T Create<T>(string path, string assetName) where T : ScriptableObject
         {
             CreateDirectoryPathIfapplicable(path);
-            T asset = new T();
+            T asset = ScriptableObject.CreateInstance<T>();
             AssetDatabase.CreateAsset(asset, path + assetName + EXTENSION);
+            AssetDatabase.Refresh();
             return asset;
         }
 
