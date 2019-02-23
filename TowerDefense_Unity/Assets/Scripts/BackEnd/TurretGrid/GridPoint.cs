@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Game.BackEnd.Turrets.Editor
+namespace Game.BackEnd.Turrets
 {
     /// <summary>
     /// Contains a point in the matrix that can be positioned using position/rotation.
     /// Reference:
     /// https://catlikecoding.com/unity/tutorials/rendering/part-1/
     /// </summary>
-    class GridPoint
+    public class GridPoint
     {
         private readonly Matrix4x4 _PositionMat;
         private readonly Matrix4x4 _RotationMat;
@@ -65,28 +65,6 @@ namespace Game.BackEnd.Turrets.Editor
             rotZ.SetRow(3, new Vector4(0.0f,   0.0f,   0.0f,  1.0f));
 
             return rotZ * rotY * rotX;
-            
-            //Matrix4x4 matrix = new Matrix4x4();
-            //matrix.SetColumn(0, new Vector4(
-            //    x: cos.y * cos.z,
-            //    y: cos.x * sin.z + sin.x * sin.y * cos.z,
-            //    z: sin.x * sin.z - cos.x * sin.y * cos.z,
-            //    w: 0f
-            //));
-            //matrix.SetColumn(1, new Vector4(
-            //    x: -cos.y * sin.z,
-            //    y: cos.x * cos.z - sin.x * sin.y * sin.z,
-            //    z: sin.x * cos.z + cos.x * sin.y * sin.z,
-            //    w: 0f
-            //));
-            //matrix.SetColumn(2, new Vector4(
-            //    x: sin.y,
-            //    y: -sin.x * cos.y,
-            //    z: cos.x * cos.y,
-            //    w: 0f
-            //));
-            //matrix.SetColumn(3, new Vector4(0f, 0f, 0f, 1f));
-            //return matrix;
         }
     }
 }

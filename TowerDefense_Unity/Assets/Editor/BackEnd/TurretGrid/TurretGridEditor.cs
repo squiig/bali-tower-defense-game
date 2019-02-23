@@ -55,44 +55,5 @@ namespace Game.BackEnd.Turrets.Editor
         }
 
         #endregion
-
-        #region SceneDrawMethods
-
-        internal void DrawGrid()
-        {
-            if (Selection.activeObject == null) return;
-            DrawHorizontalGridLines(_CellSize.vector2IntValue, _GridResolution.vector2IntValue);
-            DrawVerticalGridLines(_CellSize.vector2IntValue, _GridResolution.vector2IntValue);   
-        }
-
-        private void DrawHorizontalGridLines(Vector2Int cellSize, Vector2Int gridResolution)
-        {
-            Vector3 position = _TurretGrid.gameObject.transform.position;
-            Vector3 rotation = _TurretGrid.gameObject.transform.eulerAngles;
-            Vector2 gridSize = cellSize * gridResolution;
-
-            for (int z = 0; z < gridResolution.y + 1; z++)
-            {
-                GridPoint startPoint = new GridPoint(new Vector3(-gridSize.x / 2, 0, z * cellSize.y - gridSize.y / 2), rotation);
-                GridPoint endPoint = new GridPoint(new Vector3(gridResolution.x * cellSize.x - gridSize.x / 2, 0, z * cellSize.y - gridSize.y / 2), rotation);
-                Handles.DrawLine(position + startPoint.GetPointPosition(), position + endPoint.GetPointPosition());
-            }
-        }
-
-        private void DrawVerticalGridLines(Vector2Int cellSize, Vector2Int gridResolution)
-        {
-            Vector3 position = _TurretGrid.gameObject.transform.position;
-            Vector3 rotation = _TurretGrid.gameObject.transform.eulerAngles;
-            Vector2 gridSize = cellSize * gridResolution;
-
-            for (int x = 0; x < gridResolution.x + 1; x++)
-            {
-                GridPoint startPoint = new GridPoint(new Vector3(x * cellSize.x - gridSize.x / 2, 0, -gridSize.y / 2), rotation);
-                GridPoint endPoint = new GridPoint(new Vector3(x * cellSize.x - gridSize.x / 2, 0, gridResolution.y * cellSize.y - gridSize.y / 2), rotation);
-                Handles.DrawLine(position + startPoint.GetPointPosition(), position + endPoint.GetPointPosition());
-            }
-        }
-
-        #endregion
     }
 }
