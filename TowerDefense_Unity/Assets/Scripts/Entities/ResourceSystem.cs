@@ -5,6 +5,9 @@ using UnityEngine;
 
 namespace Game.Entities
 {
+	/// <summary>
+    /// Class handling resources for the user.
+    /// </summary>
 	public class ResourceSystem : Singleton<MonoBehaviour>
 	{
 		/// <summary>
@@ -27,5 +30,5 @@ namespace Game.Entities
 			OnTransaction?.Invoke(this, new TransactionResult(true, 0,0));
 			throw new NotImplementedException("We have not implemented a transaction yet. Transaction will always fail");
 		}
-	}
+    }
 }

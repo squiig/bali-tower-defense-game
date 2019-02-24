@@ -23,7 +23,7 @@ namespace Game.Entities.EventContainers
 		/// <summary>
         /// Cost of the transaction.
         /// Positive values are positive.
-        /// Negative values are suffixed with -
+        /// Negative values are prefixed with -
         /// </summary>
 		public readonly int TransactionCost;
 
