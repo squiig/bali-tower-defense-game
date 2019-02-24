@@ -27,13 +27,13 @@ namespace Game.Entities.Interfaces
 		/// Null if no entities present.
 		/// </summary>
 		/// <returns> The entity that leads the instance. Null if no units present. </returns>
-		Entity LeadInstance();
+		Entity GetLeadInstance();
 
 		/// <summary>
 		/// Used to get the centre point of all entities within this unit.
 		/// Will return Vector3.zero if no units are present in this unit.
 		/// </summary>
 		/// <returns> Centre point of all units, Vector3.zero if no units are present.</returns>
-		Vector3 CentrePoint();
+		Vector3 GetCentrePoint();
 	}
 }
