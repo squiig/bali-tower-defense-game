@@ -3,8 +3,10 @@
 	/// <summary>
 	/// Interface representing that the inheritor can be upgraded by param T.
 	/// </summary>
-	/// <typeparam name="T"> The upgrade that can be applied to the inheritor.</typeparam>
-	public interface IUpgradeable<T> where T : IUpgrade
+	/// <typeparam name="TUpgrade"> The upgrade that can be applied to the inheritor.</typeparam>
+	/// <typeparam name="TUpgradeDependency"></typeparam>
+	public interface IUpgradeable<TUpgrade, TUpgradeDependency> 
+		where TUpgrade : IUpgrade<TUpgradeDependency> where TUpgradeDependency : class
 	{
 		/// <summary>
 		/// Upgrades the instance by T.
@@ -12,14 +14,15 @@
 		/// Upgrade can be rejected if not enough resources are available.
 		/// </summary>
 		/// <param name="upgrade"> Upgrade to apply to this instance.</param>
-		void Upgrade(T upgrade);
+		void Upgrade(TUpgrade upgrade);
 
 		/// <summary>
 		/// Returns an array of T containing all
-		/// upgrades of T.
+		/// upgrades of T. If an upgrade is applied it will
+		/// be removed from this list.
 		/// Will never be null.
 		/// </summary>
 		/// <returns> An array of T with all possible upgrades. Never null.</returns>
-		T[] GetPossibleUpgrades();
+		void GetPossibleUpgrades(out TUpgrade[] upgrades);
 	}
 }

@@ -1,5 +1,4 @@
-﻿using System.Runtime.Remoting.Messaging;
-using Game.Entities.EventContainers;
+﻿using Game.Entities.EventContainers;
 
 namespace Game.Entities.Interfaces
 {
@@ -9,10 +8,15 @@ namespace Game.Entities.Interfaces
 	public interface IDamageable
     {
 		/// <summary>
-        /// Event handler that is fired when an instance is hit.
+        /// Event handler that is fired when this instance is hit.
         /// Gives both this instance and the event class <see cref="EntityDamaged"/>
         /// </summary>
         event TypedEventHandler<IDamageable, EntityDamaged> OnHit;
+
+        /// <summary>
+        /// Event handler that is fired when this instance is hit.
+        /// Gives both this instance and the event class <see cref="EntityDamaged"/>
+        /// </summary>
         event TypedEventHandler<IDamageable, EntityDamaged> OnDeath;
 
 		/// <summary>
@@ -23,12 +27,12 @@ namespace Game.Entities.Interfaces
         int GetPriority();
 
 		/// <summary>
-        /// Used when this instance gets hit.
-        /// Will reduce the health pool of this entity and
-        /// Fire the events.
-        /// </summary>
-        /// <param name="value"></param>
-        void TakeDamage(float value);
+		/// Used when this instance gets hit.
+		/// Will apply the contents of the <see cref="OnHitEffects"/>
+		/// Will fire the events.
+		/// </summary>
+		/// <param name="onHitEffects"> Class containing data about the attack</param>
+		void ApplyOnHitEffects(OnHitEffects onHitEffects);
 
 		/// <summary>
         /// Used to get the current health of this instance
@@ -37,4 +41,5 @@ namespace Game.Entities.Interfaces
         /// <returns> The current health of this instance. </returns>
         float GetHealth();
     }
+
 }

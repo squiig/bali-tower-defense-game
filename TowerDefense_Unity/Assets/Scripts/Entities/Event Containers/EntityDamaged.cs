@@ -13,25 +13,25 @@ namespace Game.Entities.EventContainers
 		/// <summary>
 		/// Returns the entity that was hit.
 		/// </summary>
-		public readonly Entity GetEntity;
+		public readonly Entity Entity;
 
 		/// <summary>
 		/// Returns the current health.
 		/// Will never go below 0.
 		/// </summary>
-		public readonly float GetHealth;
+		public readonly float Health;
 
 		/// <summary>
 		/// Returns the health this instance had before
 		/// the health was reduced.
 		/// </summary>
-		public readonly float GetPreviousHealth;
+		public readonly float PreviousHealth;
 
 		/// <summary>
 		/// Returns the damage inflicted upon this entity.
 		/// Will always be a positive number.
 		/// </summary>
-		public readonly float GetDamageNumber;
+		public readonly float DamageNumber;
 
 		/// <summary>
 		/// Returns whether this instance has died.
@@ -49,12 +49,12 @@ namespace Game.Entities.EventContainers
 		/// <param name="previousHealth"> health of this IDamageable before it was hit.</param>
 		public EntityDamaged(Entity entity, float health, float previousHealth)
 		{
-			GetEntity = entity;
+			Entity = entity;
 
-			GetHealth = Mathf.Clamp(health, 0, Mathf.Abs(health));
-			GetPreviousHealth = previousHealth;
+			Health = Mathf.Clamp(health, 0, Mathf.Abs(health));
+			PreviousHealth = previousHealth;
 
-			GetDamageNumber = previousHealth - health;
+			DamageNumber = previousHealth - health;
 
 			HasDied = health <= 0;
 		}
