@@ -4,7 +4,7 @@
 	/// Interface representing that the inheritor can be upgraded by param T.
 	/// </summary>
 	/// <typeparam name="TUpgrade"> The upgrade that can be applied to the inheritor.</typeparam>
-	/// <typeparam name="TUpgradeDependency"></typeparam>
+	/// <typeparam name="TUpgradeDependency">Class that has to be upgraded.</typeparam>
 	public interface IUpgradeable<TUpgrade, TUpgradeDependency> 
 		where TUpgrade : IUpgrade<TUpgradeDependency> where TUpgradeDependency : class
 	{
