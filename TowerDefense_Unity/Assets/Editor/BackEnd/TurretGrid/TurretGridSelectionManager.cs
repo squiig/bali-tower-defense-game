@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 
-namespace Game.BackEnd.Turrets.Editor
+namespace Game.Turrets.Editor
 {
     /// <summary>Handles multi-drawing and selecting of the turret grids in the scene view, gets instantiated on project load.</summary>
     [InitializeOnLoad]

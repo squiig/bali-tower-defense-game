@@ -3,20 +3,32 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-namespace Game.BackEnd.Turrets
+namespace Game.Turrets
 {
-    /// <summary>Contains data of the gridcell itself.</summary>
-    public class TurretGridCell
-    {
-        public bool _IsOccupied { get; set; }
-    }
-
     /// <summary>Holds the data of the turretgrid.</summary>
     public class TurretGrid : MonoBehaviour
     {
-        [SerializeField] private Vector2Int _CellSize = new Vector2Int(10, 10);
+        [SerializeField] private Vector2 _CellSize = new Vector2Int(10, 10);
         [SerializeField] private Vector2Int _GridResolution = new Vector2Int(10, 10);
+        [SerializeField] private TurretGridCell _TurretGridCellPrefab = null;
+
         private TurretGridCell[] _TurretGrid;
+
+        public void Awake()
+        {
+            Vector2 gridSize = _CellSize * _GridResolution;
+            _TurretGrid = new TurretGridCell[_GridResolution.x * _GridResolution.y];
+            for (int i = 0, x = 0; x < _GridResolution.x; x++)
+            {
+                for (int z = 0; z < _GridResolution.y; z++, i++)
+                {
+                    GridPoint gridCellPoint = new GridPoint(new Vector3(-gridSize.x / 2 + x * _CellSize.x, 0, -gridSize.y / 2 + z * _CellSize.y), transform.eulerAngles);
+                    _TurretGrid[i] = Instantiate(_TurretGridCellPrefab, transform.position + gridCellPoint.GetPointPosition(), transform.rotation, transform);
+                    _TurretGrid[i].SetColliderSize(new Vector2(_CellSize.x, _CellSize.y));
+                    _TurretGrid[i].SetColliderOffset(new Vector2(_CellSize.x / 2, _CellSize.y / 2));
+                }
+            }
+        }
 
         public void DrawHorizontalGridLines()
         {

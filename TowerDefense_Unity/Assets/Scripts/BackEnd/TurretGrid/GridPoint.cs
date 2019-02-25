@@ -1,13 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace Game.BackEnd.Turrets
+namespace Game.Turrets
 {
     /// <summary>
     /// Contains a point in the matrix that can be positioned using position/rotation.
-    /// Reference:
-    /// https://catlikecoding.com/unity/tutorials/rendering/part-1/
+    /// Reference: https://catlikecoding.com/unity/tutorials/rendering/part-1/
     /// </summary>
     public class GridPoint
     {

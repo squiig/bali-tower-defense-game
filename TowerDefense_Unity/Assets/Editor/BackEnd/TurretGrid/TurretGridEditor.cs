@@ -4,7 +4,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEditor;
 
-namespace Game.BackEnd.Turrets.Editor
+namespace Game.Turrets.Editor
 {
     /// <summary>Draws the grid in the scene view.</summary>
     [CustomEditor(typeof(TurretGrid))]
@@ -12,16 +12,15 @@ namespace Game.BackEnd.Turrets.Editor
     {
         #region Core
 
-        private TurretGrid _TurretGrid;
         private SerializedObject _SerializedTurretGrid;
-        private SerializedProperty _CellSize, _GridResolution;
+        private SerializedProperty _CellSize, _GridResolution, _GridCellPrefab;
 
         public void OnEnable()
         {
-            _TurretGrid = (TurretGrid)target;
-            _SerializedTurretGrid = new SerializedObject(_TurretGrid);
+            _SerializedTurretGrid = serializedObject;
             _CellSize = _SerializedTurretGrid.FindProperty("_CellSize");
             _GridResolution = _SerializedTurretGrid.FindProperty("_GridResolution");
+            _GridCellPrefab = _SerializedTurretGrid.FindProperty("_TurretGridCellPrefab");
         }
 
         #endregion
@@ -43,8 +42,9 @@ namespace Game.BackEnd.Turrets.Editor
             _GridResolution = _SerializedTurretGrid.FindProperty("_GridResolution");
 
             GUILayout.Label("Grid Edit Settings", EditorStyles.boldLabel);
-            _CellSize.vector2IntValue = EditorGUILayout.Vector2IntField("Cell Size", _CellSize.vector2IntValue);
+            _CellSize.vector2Value = EditorGUILayout.Vector2Field("Cell Size", _CellSize.vector2Value);
             _GridResolution.vector2IntValue = EditorGUILayout.Vector2IntField("Grid Resolution", _GridResolution.vector2IntValue);
+            _GridCellPrefab.objectReferenceValue = EditorGUILayout.ObjectField("GridCell Prefab", _GridCellPrefab.objectReferenceValue, typeof(TurretGridCell), false);
 
             GUILayout.Space(5f);
 
