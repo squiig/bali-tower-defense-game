@@ -8,7 +8,7 @@ namespace Game.Entities
 	/// <summary>
     /// Class handling resources for the user.
     /// </summary>
-	public class ResourceSystem : Singleton<MonoBehaviour>
+	public class ResourceSystem : Singleton<ResourceSystem>
 	{
 		/// <summary>
         /// Event fired when a transaction is attempted.

@@ -19,11 +19,11 @@
 		/// <returns> The float representing the attacks range. -1 if not applicable.</returns>
 		float GetAreaOfEffect();
 
-		/// <summary>
-		/// Applies the effects of this attack upon the <see cref="IDamageable"/>
-		/// given as parameter. This will: Damage, inflict movement impairing status.
-		/// </summary>
-		/// <param name="unitHit"> The unit that was hit.</param>
-		void ApplyHitEffects(IDamageable unitHit);
+        /// <summary>
+        /// Applies the effects of this attack upon the <see cref="IDamageable"/>
+        /// given as parameter. This will: Damage, inflict movement impairing status.
+        /// </summary>
+        /// <param name="damageable"> The unit that was hit.</param>
+        void ApplyHitEffects(IDamageable damageable);
 	}
 }
