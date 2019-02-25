@@ -35,7 +35,6 @@ namespace Game.Turrets.Editor
         private void DrawGridSizeOptions()
         {
             _SerializedTurretGrid.Update();
-
             GUILayout.BeginVertical("Box");
 
             GUILayout.Label("Grid Edit Settings", EditorStyles.boldLabel);
@@ -44,9 +43,7 @@ namespace Game.Turrets.Editor
             _GridResolution.vector2IntValue = new Vector2Int(Mathf.Clamp(_GridResolution.vector2IntValue.x, 0, 10), Mathf.Clamp(_GridResolution.vector2IntValue.y, 0, 10));
             _GridCellPrefab.objectReferenceValue = EditorGUILayout.ObjectField("GridCell Prefab", _GridCellPrefab.objectReferenceValue, typeof(TurretGridCell), false);
 
-
             GUILayout.Space(5f);
-
             GUILayout.EndVertical();
 
             if (!_SerializedTurretGrid.hasModifiedProperties) return;
