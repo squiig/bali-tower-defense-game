@@ -38,9 +38,6 @@ namespace Game.Turrets.Editor
 
             GUILayout.BeginVertical("Box");
 
-            _CellSize = _SerializedTurretGrid.FindProperty("_CellSize");
-            _GridResolution = _SerializedTurretGrid.FindProperty("_GridResolution");
-
             GUILayout.Label("Grid Edit Settings", EditorStyles.boldLabel);
             _CellSize.vector2Value = EditorGUILayout.Vector2Field("Cell Size", _CellSize.vector2Value);
             _GridResolution.vector2IntValue = EditorGUILayout.Vector2IntField("Grid Resolution", _GridResolution.vector2IntValue);
