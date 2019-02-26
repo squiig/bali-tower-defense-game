@@ -1,7 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEditor;
+﻿using UnityEditor;
+using ArrayUtility = Game.Utils.ArrayUtility;
 
 namespace Game.Turrets.Editor
 {
@@ -9,21 +7,25 @@ namespace Game.Turrets.Editor
     [InitializeOnLoad]
     public class TurretGridSelectionManager : UnityEditor.Editor
     {
+        private static TurretGrid[] _TurretGrids = new TurretGrid[0];
+
         static TurretGridSelectionManager()
         {
+            Selection.selectionChanged += OnNewSelection;
             SceneView.onSceneGUIDelegate += OnSceneRender;
         }
-        
+
+        static void OnNewSelection()
+        {
+            _TurretGrids = ArrayUtility.ComponentFilter<TurretGrid>(Selection.gameObjects);
+        }
+
         static void OnSceneRender(SceneView sceneView)
         {
-            GameObject[] selectedGameObjects = Selection.gameObjects;
-            foreach (GameObject gameObject in selectedGameObjects)
+            for (int i = 0; i < _TurretGrids.Length; i++)
             {
-                if (gameObject.GetComponent<TurretGrid>() != null)
-                {
-                    gameObject.GetComponent<TurretGrid>().DrawHorizontalGridLines();
-                    gameObject.GetComponent<TurretGrid>().DrawVerticalGridLines();
-                }
+                _TurretGrids[i].DrawVerticalGridLines();
+                _TurretGrids[i].DrawHorizontalGridLines();
             }
         }
     }
