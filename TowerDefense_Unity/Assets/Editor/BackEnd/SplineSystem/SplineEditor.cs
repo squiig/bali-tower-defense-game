@@ -18,8 +18,6 @@ namespace Game.SplineSystem.Editor
         protected SplineCreator _SplineCreator;
         protected BezierSplineDataObject _SplineDataObject;
 
-        private bool _DrawTangents, _DrawNormals, _DrawBiNormals;
-
         public void OnEnable()
         {
             Undo.undoRedoPerformed += UndoCallback;
@@ -206,7 +204,6 @@ namespace Game.SplineSystem.Editor
         {
             GUILayout.Label("BezierSplineData settings", EditorStyles.boldLabel);
             DrawIsClosedToggle();
-            return;//TODO: Remove this and fix the debug draw settings.
             GUILayout.Space(1f);
             DrawTangentToggle();
             GUILayout.Space(1f);
@@ -228,31 +225,31 @@ namespace Game.SplineSystem.Editor
 
         private void DrawTangentToggle()
         {
-            bool drawTangents = GUILayout.Toggle(_DrawTangents, "Show tangents.");
-            if (drawTangents == _DrawTangents) return;
+            bool drawTangents = GUILayout.Toggle(_SplineCreator.DrawTangents, "Show tangents.");
+            if (drawTangents == _SplineCreator.DrawTangents) return;
 
             Undo.RecordObject(_SplineCreator, "Show_Tangents");
-            _DrawTangents = drawTangents;
+            _SplineCreator.DrawTangents = drawTangents;
             SceneView.RepaintAll();
         }
 
         private void DrawBiNormalsToggle()
         {
-            bool drawBiNormals = GUILayout.Toggle(_DrawBiNormals, "Show bi-normals.");
-            if (drawBiNormals == _DrawBiNormals) return;
+            bool drawBiNormals = GUILayout.Toggle(_SplineCreator.DrawBiNormals, "Show bi-normals.");
+            if (drawBiNormals == _SplineCreator.DrawBiNormals) return;
 
             Undo.RecordObject(_SplineCreator, "Show_BiNormals");
-            _DrawBiNormals = drawBiNormals;
+            _SplineCreator.DrawBiNormals = drawBiNormals;
             SceneView.RepaintAll();
         }
 
         private void DrawNormalsToggle()
         {
-            bool drawNormals = GUILayout.Toggle(_DrawNormals, "Show normals.");
-            if (drawNormals == _DrawNormals) return;
+            bool drawNormals = GUILayout.Toggle(_SplineCreator.DrawNormals, "Show normals.");
+            if (drawNormals == _SplineCreator.DrawNormals) return;
 
             Undo.RecordObject(_SplineCreator, "Show_Normals");
-            _DrawNormals = drawNormals;
+            _SplineCreator.DrawNormals = drawNormals;
             SceneView.RepaintAll();
         }
         
@@ -284,25 +281,41 @@ namespace Game.SplineSystem.Editor
 
                 Handles.DrawBezier(segment[0], segment[3], segment[1], segment[2], Color.magenta, null, CURVE_LINE_WIDTH);
 
-                if (!_DrawTangents) continue;
+                if (!_SplineCreator.DrawTangents && !_SplineCreator.DrawNormals && !_SplineCreator.DrawBiNormals) continue;
                 for (float t = 0; t < 1; t += 1 / AMOUNT_TANGENTS_PER_CURVE)
                 {
-                    Vector3 startPoint = Bezier3DUtility.CubicCurveVector3(segment[0], segment[1], segment[2], segment[3], t + 0.1f);
-                    Vector3 tangent = Bezier3DUtility.GetTangent(startPoint, Bezier3DUtility.CubicCurveVector3(segment[0], segment[1], segment[2], segment[3], t));
-                    Handles.color = Color.green;
-                    Handles.DrawLine(startPoint, startPoint + tangent);
-
-                    if (!_DrawBiNormals) continue;
-                    Vector3 biNormal = Vector3.Cross(Vector3.up, tangent).normalized;
-                    Handles.color = Color.yellow;
-                    Handles.DrawLine(startPoint, startPoint + biNormal);
-
-                    if (!_DrawNormals) continue;
-                    Vector3 normal = Vector3.Cross(tangent, biNormal).normalized;
-                    Handles.color = Color.cyan;
-                    Handles.DrawLine(startPoint, startPoint + normal);
+                    if (_SplineCreator.DrawTangents) DrawTangents(segment, t);
+                    if (_SplineCreator.DrawBiNormals) DrawBiNormals(segment, t);
+                    if (_SplineCreator.DrawNormals) DrawNormals(segment, t);
                 }
             }
+        }
+
+        private void DrawTangents(Vector3[] segment, float t)
+        {
+            Vector3 startPoint = Bezier3DUtility.CubicCurveVector3(segment[0], segment[1], segment[2], segment[3], t + 0.1f);
+            Vector3 tangent = Bezier3DUtility.GetTangent(startPoint, Bezier3DUtility.CubicCurveVector3(segment[0], segment[1], segment[2], segment[3], t));
+            Handles.color = Color.green;
+            Handles.DrawLine(startPoint, startPoint + tangent);
+        }
+
+        private void DrawBiNormals(Vector3[] segment, float t)
+        {
+            Vector3 startPoint = Bezier3DUtility.CubicCurveVector3(segment[0], segment[1], segment[2], segment[3], t + 0.1f);
+            Vector3 tangent = Bezier3DUtility.GetTangent(startPoint, Bezier3DUtility.CubicCurveVector3(segment[0], segment[1], segment[2], segment[3], t));
+            Vector3 biNormal = Vector3.Cross(Vector3.up, tangent).normalized;
+            Handles.color = Color.red;
+            Handles.DrawLine(startPoint, startPoint + biNormal);
+        }
+
+        private void DrawNormals(Vector3[] segment, float t)
+        {
+            Vector3 startPoint = Bezier3DUtility.CubicCurveVector3(segment[0], segment[1], segment[2], segment[3], t + 0.1f);
+            Vector3 tangent = Bezier3DUtility.GetTangent(startPoint, Bezier3DUtility.CubicCurveVector3(segment[0], segment[1], segment[2], segment[3], t));
+            Vector3 biNormal = Vector3.Cross(Vector3.up, tangent).normalized;
+            Vector3 normal = Vector3.Cross(tangent, biNormal).normalized;
+            Handles.color = Color.cyan;
+            Handles.DrawLine(startPoint, startPoint + normal);
         }
 
         private void DrawCurveHandles()

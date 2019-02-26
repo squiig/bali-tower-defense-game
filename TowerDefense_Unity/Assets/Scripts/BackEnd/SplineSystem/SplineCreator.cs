@@ -7,8 +7,9 @@ namespace Game.SplineSystem
     /// </summary>
     public class SplineCreator : MonoBehaviour
     {
-        [SerializeField] private BezierSplineDataObject _BezierSplineData;
-        [SerializeField] private int _SelectedPointIndex = 0;
+        [SerializeField, HideInInspector] private BezierSplineDataObject _BezierSplineData;
+        [SerializeField, HideInInspector] private int _SelectedPointIndex = 0;
+        [SerializeField, HideInInspector] private bool _DrawTangents, _DrawNormals, _DrawBiNormals;
 
         public BezierSplineDataObject BezierSplineData
         {
@@ -20,6 +21,24 @@ namespace Game.SplineSystem
         {
             get => _SelectedPointIndex;
             set => _SelectedPointIndex = value;
+        }
+
+        public bool DrawTangents
+        {
+            get => _DrawTangents;
+            set => _DrawTangents = value;
+        }
+
+        public bool DrawNormals
+        {
+            get => _DrawNormals;
+            set => _DrawNormals = value;
+        }
+
+        public bool DrawBiNormals
+        {
+            get => _DrawBiNormals;
+            set => _DrawBiNormals = value;
         }
 
         public void ResetSpline()
