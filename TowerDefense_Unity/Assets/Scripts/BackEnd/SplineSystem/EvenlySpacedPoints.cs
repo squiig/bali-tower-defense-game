@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Game.BackEnd.SplineSystem
+namespace Game.SplineSystem
 {
     /// <summary>
     /// Adds the functionality to evenly space points across the spline.

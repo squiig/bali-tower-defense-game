@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Game.BackEnd.SplineSystem
+namespace Game.SplineSystem
 {
     /// <summary>
     /// Holds all the data regarding a bezierSpline.
@@ -10,7 +10,7 @@ namespace Game.BackEnd.SplineSystem
     [CreateAssetMenu(fileName ="new BezierSpline", menuName = "Spline", order = 0)]
     public class BezierSplineDataObject : ScriptableObject
     {
-        [SerializeField, HideInInspector] private bool _IsClosed, _ShowTangents, _ShowNormals, _ShowBiNormals;
+        [SerializeField, HideInInspector] private bool _IsClosed;
         [SerializeField, HideInInspector] private Mode _SplineMode;
         [SerializeField] private List<Vector3> _Points = new List<Vector3>();
 
@@ -35,21 +35,6 @@ namespace Game.BackEnd.SplineSystem
         {
             get => _IsClosed;
             set => _IsClosed = value;
-        }
-        public bool ShowTangents
-        {
-            get => _ShowTangents;
-            set => _ShowTangents = value;
-        }
-        public bool ShowNormals
-        {
-            get => _ShowNormals;
-            set => _ShowNormals = value;
-        }
-        public bool ShowBiNormals
-        {
-            get => _ShowBiNormals;
-            set => _ShowBiNormals = value;
         }
 
         public void Reset(Vector3 center)

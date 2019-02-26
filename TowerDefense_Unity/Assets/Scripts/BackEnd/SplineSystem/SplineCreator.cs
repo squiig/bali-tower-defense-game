@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Game.BackEnd.SplineSystem
+namespace Game.SplineSystem
 {
     /// <summary>
     /// Holds control of all the splines.
@@ -8,13 +8,19 @@ namespace Game.BackEnd.SplineSystem
     public class SplineCreator : MonoBehaviour
     {
         [SerializeField] private BezierSplineDataObject _BezierSplineData;
+        [SerializeField] private int _SelectedPointIndex = 0;
 
         public BezierSplineDataObject BezierSplineData
         {
             get => _BezierSplineData;
             set => _BezierSplineData = value;
         }
-        public int SelectedPoint { get; set; } = 0;
+
+        public int SelectedPointIndex
+        {
+            get => _SelectedPointIndex;
+            set => _SelectedPointIndex = value;
+        }
 
         public void ResetSpline()
         {
