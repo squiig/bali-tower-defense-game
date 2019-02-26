@@ -11,7 +11,6 @@ namespace Game.SplineSystem
     public class BezierSplineDataObject : ScriptableObject
     {
         [SerializeField, HideInInspector] private bool _IsClosed;
-        [SerializeField, HideInInspector] private Mode _SplineMode;
         [SerializeField] private List<Vector3> _Points = new List<Vector3>();
 
         public Vector3 this[int i] => _Points[i];
@@ -19,18 +18,6 @@ namespace Game.SplineSystem
         public int SegmentCount => _Points.Count / 3;
         public int PointCount => _Points.Count;
         private int LoopIndex(int i) => (i + _Points.Count) % _Points.Count;
-
-        public enum Mode
-        {
-            FREE,
-            MIRRORED
-        }
-
-        public Mode SplineMode
-        {
-            get => _SplineMode;
-            set => _SplineMode = value;
-        }
         public bool IsClosed
         {
             get => _IsClosed;
@@ -39,7 +26,6 @@ namespace Game.SplineSystem
 
         public void Reset(Vector3 center)
         {
-            _SplineMode = Mode.MIRRORED;
             _Points = new List<Vector3>()
             {
                 center + Vector3.left,
@@ -56,7 +42,7 @@ namespace Game.SplineSystem
             _Points.Add(segmentEndPos);
         }
 
-        public void MovePoint(int index, Vector3 point)
+        public void MovePoint(int index, Vector3 point, SplineCreator.SplineMode mode)
         {
             if (index % 3 == 0)
             {
@@ -67,12 +53,12 @@ namespace Game.SplineSystem
                 return;
             }
 
-            switch (_SplineMode)
+            switch (mode)
             {
-                case Mode.FREE:
+                case SplineCreator.SplineMode.FREE:
                     _Points[index] = point;
                     break;
-                case Mode.MIRRORED:
+                case SplineCreator.SplineMode.MIRRORED:
                     _Points[index] = point;
 
                     bool isNextPointAnchor = (index + 1) % 3 == 0;

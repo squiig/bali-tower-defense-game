@@ -7,7 +7,7 @@ using UnityEngine;
 namespace Game.SplineSystem.Editor
 {
     /// <summary>Contains the base methods for the spline editor.</summary>
-    [CustomEditor(typeof(SplineCreator))]
+    [CustomEditor(typeof(SplineCreator)), CanEditMultipleObjects]
     public class SplineEditor : UnityEditor.Editor
     {
 
@@ -123,11 +123,11 @@ namespace Game.SplineSystem.Editor
 
         private void DrawBezierSplineModeToolBar()
         {
-            int splineMode = GUILayout.Toolbar((int)_SplineDataObject.SplineMode, _SplineModes, GUILayout.Height(BUTTON_HEIGHT + 5));
-            if ((int) _SplineDataObject.SplineMode == splineMode) return;
+            int splineMode = GUILayout.Toolbar((int)_SplineCreator.DrawMode, _SplineModes, GUILayout.Height(BUTTON_HEIGHT + 5));
+            if ((int)_SplineCreator.DrawMode == splineMode) return;
 
             Undo.RecordObject(_SplineCreator, "Changed_spline_mode");
-            _SplineDataObject.SplineMode = (BezierSplineDataObject.Mode)splineMode;
+            _SplineCreator.DrawMode = (SplineCreator.SplineMode)splineMode;
             SceneView.RepaintAll();
         }
 
@@ -343,7 +343,7 @@ namespace Game.SplineSystem.Editor
             if (point == _SplineDataObject[index]) return;
 
             if (recordAction) Undo.RecordObject(_SplineCreator, "Move_point");
-            _SplineDataObject.MovePoint(index, point);
+            _SplineDataObject.MovePoint(index, point, _SplineCreator.DrawMode);
         }
 
     #endregion

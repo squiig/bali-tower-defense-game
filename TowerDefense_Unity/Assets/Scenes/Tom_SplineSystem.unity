@@ -160,6 +160,7 @@ MonoBehaviour:
   _DrawTangents: 0
   _DrawNormals: 0
   _DrawBiNormals: 0
+  _SplineSplineMode: 1
 --- !u!1 &666858483
 GameObject:
   m_ObjectHideFlags: 0
@@ -194,6 +195,7 @@ MonoBehaviour:
   _DrawTangents: 0
   _DrawNormals: 0
   _DrawBiNormals: 0
+  _SplineSplineMode: 0
 --- !u!4 &666858485
 Transform:
   m_ObjectHideFlags: 0
