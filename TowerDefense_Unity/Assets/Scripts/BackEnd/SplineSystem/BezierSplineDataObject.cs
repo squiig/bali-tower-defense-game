@@ -111,6 +111,14 @@ namespace Game.SplineSystem
             _Points.InsertRange(pointIndex + 2, newAnchorPoint);
         }
 
+        public Vector3 GetCenterPoint()
+        {
+            Vector3 totalPos = Vector3.zero;
+            for (int i = 0; i < PointCount; i += 3)
+                totalPos += _Points[i];
+            return totalPos / SegmentCount;
+        }
+
         public Vector3[] CalculateEvenlySpacedPoints(float spacing, float resolution = 1)
         {
             float splineLength = 0;

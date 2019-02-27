@@ -37,11 +37,12 @@ namespace Game.SplineSystem.Editor
                 _SplineCreator.SelectedPointIndex -= 3;
             if (_SplineCreator.SelectedPointIndex <= 0)
                 _SplineCreator.SelectedPointIndex += 3;
+            UpdatePositionHandle();
         }
 
-    #endregion
+        #endregion
 
-    #region Inspector methods
+        #region Inspector methods
 
         private const int BUTTON_HEIGHT = 20;
         private const int BUTTON_INTERVAL_Y = 3;
@@ -141,6 +142,7 @@ namespace Game.SplineSystem.Editor
             _SplineDataObject.AddSegment(_SplineDataObject[_SplineDataObject.PointCount - 1] + direction * deltaLastSegment);
             SceneView.RepaintAll();
             EditorUtility.SetDirty(_SplineCreator);
+            UpdatePositionHandle();
         }
 
         private void OnRemoveButtonPressed()
@@ -155,6 +157,7 @@ namespace Game.SplineSystem.Editor
 
             SceneView.RepaintAll();
             EditorUtility.SetDirty(_SplineDataObject);
+            UpdatePositionHandle();
         }
 
         private void OnResetButtonPressed()
@@ -199,6 +202,7 @@ namespace Game.SplineSystem.Editor
             }
             SceneView.RepaintAll();
             EditorUtility.SetDirty(_SplineDataObject);
+            UpdatePositionHandle();
         }
 
         #endregion
@@ -275,7 +279,7 @@ namespace Game.SplineSystem.Editor
         {
             if (_SplineCreator.BezierSplineData == null) return;
             DrawSegments();
-            DrawCurveHandles();
+            DrawSplineHandles();
         }
 
         private void DrawSegments()
@@ -327,17 +331,14 @@ namespace Game.SplineSystem.Editor
             Handles.DrawLine(startPoint, startPoint + normal);
         }
 
-        private void DrawCurveHandles()
+        private void DrawSplineHandles()
         {
             for (int i = 0; i < _SplineDataObject.PointCount; i += 3)
             {
                 Handles.color = Color.red;
-                float handleSize = HandleUtility.GetHandleSize(_SplineDataObject[i]);
-
-                if (!Handles.Button(_SplineDataObject[i], Quaternion.identity, 
-                    handleSize * 0.12f, handleSize * 0.16f, Handles.SphereHandleCap))
-                    continue;
-                _SplineCreator.SelectedPointIndex = i;
+                float handleSize = HandleUtility.GetHandleSize(_SplineDataObject[i]);                
+                if (Handles.Button(_SplineDataObject[i], Quaternion.identity, handleSize * 0.12f, handleSize * 0.16f, Handles.SphereHandleCap))
+                    _SplineCreator.SelectedPointIndex = i;
             }
 
             DrawSelectedHandle(_SplineCreator.SelectedPointIndex);
@@ -351,10 +352,15 @@ namespace Game.SplineSystem.Editor
             Vector3 point = Handles.DoPositionHandle(_SplineDataObject[index], Quaternion.identity);
             if (point == _SplineDataObject[index]) return;
 
-            if (recordAction)
-                Undo.RecordObject(_SplineDataObject, "Move_point");
+            if (recordAction) Undo.RecordObject(_SplineDataObject, "Move_point");
             EditorUtility.SetDirty(_SplineDataObject);
             _SplineDataObject.MovePoint(index, point, _SplineCreator.DrawMode);
+            UpdatePositionHandle();
+        }
+
+        private void UpdatePositionHandle()
+        {
+            _SplineCreator.transform.position = _SplineDataObject.GetCenterPoint();
         }
 
     #endregion
