@@ -112,70 +112,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1 &327781227
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 327781228}
-  - component: {fileID: 327781229}
-  - component: {fileID: 327781230}
-  m_Layer: 0
-  m_Name: SplineBranch
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &327781228
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 327781227}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -9.960134, y: -4.638443, z: 28.0214}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 915358948}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &327781229
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 327781227}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e2c7347d5f8aada43ab405e718957eb7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _BezierSplineData: {fileID: 11400000, guid: 07a24350ae52a6a4cb073b6bc920edb4, type: 2}
-  _SelectedPointIndex: 27
-  _DrawTangents: 0
-  _DrawNormals: 0
-  _DrawBiNormals: 0
-  _SplineSplineMode: 1
---- !u!114 &327781230
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 327781227}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c84f213f4ef4d0744b65526bfb9a0e8a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _Spacing: 0.1
-  _Resolution: 1
 --- !u!1 &666858483
 GameObject:
   m_ObjectHideFlags: 0
@@ -206,7 +142,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _BezierSplineData: {fileID: 11400000, guid: 188ffccc12a51f749a0907f7a9a6333a, type: 2}
-  _SelectedPointIndex: 9
+  _SelectedPointIndex: 3
   _DrawTangents: 0
   _DrawNormals: 0
   _DrawBiNormals: 0
@@ -219,7 +155,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 666858483}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 4.5481524, y: -4.638443, z: 26.707409}
+  m_LocalPosition: {x: -6.280269, y: -4.638443, z: 41.26937}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 915358948}
@@ -253,7 +189,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 666858485}
-  - {fileID: 327781228}
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

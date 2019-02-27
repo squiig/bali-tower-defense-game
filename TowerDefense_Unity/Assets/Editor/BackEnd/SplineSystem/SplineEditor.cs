@@ -336,7 +336,7 @@ namespace Game.SplineSystem.Editor
             for (int i = 0; i < _SplineDataObject.PointCount; i += 3)
             {
                 Handles.color = Color.red;
-                float handleSize = HandleUtility.GetHandleSize(_SplineDataObject[i]);                
+                float handleSize = HandleUtility.GetHandleSize(_SplineDataObject[i]);
                 if (Handles.Button(_SplineDataObject[i], Quaternion.identity, handleSize * 0.12f, handleSize * 0.16f, Handles.SphereHandleCap))
                     _SplineCreator.SelectedPointIndex = i;
             }
@@ -360,7 +360,11 @@ namespace Game.SplineSystem.Editor
 
         private void UpdatePositionHandle()
         {
-            _SplineCreator.transform.position = _SplineDataObject.GetCenterPoint();
+            Vector3 totalPos = Vector3.zero;
+            for (int i = 0; i < _SplineDataObject.PointCount; i += 3)
+                totalPos += _SplineDataObject[i];
+
+            _SplineCreator.transform.position = totalPos / _SplineDataObject.SegmentCount;
         }
 
     #endregion
