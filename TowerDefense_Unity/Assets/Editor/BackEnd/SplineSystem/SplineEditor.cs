@@ -129,6 +129,7 @@ namespace Game.SplineSystem.Editor
             Undo.RecordObject(_SplineCreator, "Changed_spline_mode");
             _SplineCreator.DrawMode = (SplineCreator.SplineMode)splineMode;
             SceneView.RepaintAll();
+            EditorUtility.SetDirty(_SplineCreator);
         }
 
         private void OnAddButtonPressed()
@@ -136,14 +137,15 @@ namespace Game.SplineSystem.Editor
             Vector3 direction = (_SplineDataObject[_SplineDataObject.PointCount - 1] - _SplineDataObject[_SplineDataObject.PointCount - 3]).normalized;
             float deltaLastSegment = (_SplineDataObject[_SplineDataObject.PointCount - 1] - _SplineDataObject[_SplineDataObject.PointCount - 3]).magnitude;
 
-            Undo.RecordObject(_SplineCreator, "Add_segment");
+            Undo.RecordObject(_SplineDataObject, "Add_segment");
             _SplineDataObject.AddSegment(_SplineDataObject[_SplineDataObject.PointCount - 1] + direction * deltaLastSegment);
             SceneView.RepaintAll();
+            EditorUtility.SetDirty(_SplineCreator);
         }
 
         private void OnRemoveButtonPressed()
         {
-            Undo.RecordObject(_SplineCreator, "Remove_segment");
+            Undo.RecordObject(_SplineDataObject, "Remove_segment");
             _SplineDataObject.RemoveSegment(_SplineCreator.SelectedPointIndex);
 
             if (_SplineCreator.SelectedPointIndex != _SplineDataObject.PointCount - 1 && _SplineCreator.SelectedPointIndex != 0)
@@ -152,27 +154,29 @@ namespace Game.SplineSystem.Editor
                 _SplineCreator.SelectedPointIndex += 3;
 
             SceneView.RepaintAll();
+            EditorUtility.SetDirty(_SplineDataObject);
         }
 
         private void OnResetButtonPressed()
         {
-            Undo.RecordObject(_SplineCreator, "Reset_spline");
+            Undo.RecordObject(_SplineDataObject, "Reset_spline");
             _SplineCreator.ResetSpline();
             _SplineDataObject = _SplineCreator.BezierSplineData;
             _SplineCreator.SelectedPointIndex = 0;
             SceneView.RepaintAll();
+            EditorUtility.SetDirty(_SplineDataObject);
         }
 
         private void OnInsertButtonPressed()
         {
             if (_SplineCreator.SelectedPointIndex / 3 == _SplineDataObject.SegmentCount && !_SplineDataObject.IsClosed) //Last point when open
             {
-                Undo.RecordObject(_SplineCreator, "Add_segment");
+                Undo.RecordObject(_SplineDataObject, "Add_segment");
                 _SplineDataObject.AddSegment(_SplineDataObject[_SplineDataObject.PointCount - 1] + (_SplineDataObject[_SplineDataObject.PointCount - 1] - _SplineDataObject[_SplineDataObject.PointCount - 3]).normalized * (_SplineDataObject[_SplineDataObject.PointCount - 1] - _SplineDataObject[_SplineDataObject.PointCount - 3]).magnitude);
             }
             else
             {
-                Undo.RecordObject(_SplineCreator, "Insert_segment");
+                Undo.RecordObject(_SplineDataObject, "Insert_segment");
                 if (_SplineDataObject.IsClosed && _SplineCreator.SelectedPointIndex / 3 + 1 == _SplineDataObject.SegmentCount)
                 {
                     //Last point when closed
@@ -194,6 +198,7 @@ namespace Game.SplineSystem.Editor
                 }
             }
             SceneView.RepaintAll();
+            EditorUtility.SetDirty(_SplineDataObject);
         }
 
         #endregion
@@ -218,9 +223,10 @@ namespace Game.SplineSystem.Editor
             bool isClosed = GUILayout.Toggle(_SplineDataObject.IsClosed, "Is closed", GUILayout.Height(BUTTON_HEIGHT));
             if (isClosed == _SplineDataObject.IsClosed) return;
 
-            Undo.RecordObject(_SplineCreator, "Toggle_Closed");
+            Undo.RecordObject(_SplineDataObject, "Toggle_Closed");
             _SplineDataObject.ToggleClosed(!_SplineDataObject.IsClosed);
             SceneView.RepaintAll();
+            EditorUtility.SetDirty(_SplineCreator);
         }
 
         private void DrawTangentToggle()
@@ -231,6 +237,7 @@ namespace Game.SplineSystem.Editor
             Undo.RecordObject(_SplineCreator, "Show_Tangents");
             _SplineCreator.DrawTangents = drawTangents;
             SceneView.RepaintAll();
+            EditorUtility.SetDirty(_SplineCreator);
         }
 
         private void DrawBiNormalsToggle()
@@ -241,6 +248,7 @@ namespace Game.SplineSystem.Editor
             Undo.RecordObject(_SplineCreator, "Show_BiNormals");
             _SplineCreator.DrawBiNormals = drawBiNormals;
             SceneView.RepaintAll();
+            EditorUtility.SetDirty(_SplineCreator);
         }
 
         private void DrawNormalsToggle()
@@ -251,13 +259,14 @@ namespace Game.SplineSystem.Editor
             Undo.RecordObject(_SplineCreator, "Show_Normals");
             _SplineCreator.DrawNormals = drawNormals;
             SceneView.RepaintAll();
+            EditorUtility.SetDirty(_SplineCreator);
         }
-        
+
         #endregion
 
-    #endregion
+        #endregion
 
-    #region Scene Draw methods
+        #region Scene Draw methods
 
         private const int CURVE_LINE_WIDTH = 3;
         private const float AMOUNT_TANGENTS_PER_CURVE = 10;
@@ -342,7 +351,9 @@ namespace Game.SplineSystem.Editor
             Vector3 point = Handles.DoPositionHandle(_SplineDataObject[index], Quaternion.identity);
             if (point == _SplineDataObject[index]) return;
 
-            if (recordAction) Undo.RecordObject(_SplineCreator, "Move_point");
+            if (recordAction)
+                Undo.RecordObject(_SplineDataObject, "Move_point");
+            EditorUtility.SetDirty(_SplineDataObject);
             _SplineDataObject.MovePoint(index, point, _SplineCreator.DrawMode);
         }
 

@@ -13,12 +13,8 @@ MonoBehaviour:
   m_Name: Spline
   m_EditorClassIdentifier: 
   _IsClosed: 0
-  _ShowTangents: 0
-  _ShowNormals: 0
-  _ShowBiNormals: 0
-  _SplineMode: 1
   _Points:
   - {x: -1, y: 0, z: 0}
-  - {x: -0.5, y: 0, z: -0.5}
-  - {x: 0.5, y: 0, z: 0.5}
-  - {x: 1, y: 0, z: 0}
+  - {x: 8.431313, y: 0, z: -4.259115}
+  - {x: 3.1752534, y: 0, z: 5.053938}
+  - {x: 6.421784, y: 0, z: 2.0519214}
