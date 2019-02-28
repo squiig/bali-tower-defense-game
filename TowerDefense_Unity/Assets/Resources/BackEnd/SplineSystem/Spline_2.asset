@@ -12,9 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f8b885447ed232488d9c332c2f24965, type: 3}
   m_Name: Spline_2
   m_EditorClassIdentifier: 
-  _IsClosed: 1
+  _IsClosed: 0
   _Points:
-  - {x: -1, y: 0, z: 0}
-  - {x: -0.5, y: 0, z: -0.5}
-  - {x: 0, y: 0, z: -1}
-  - {x: -1.5, y: 0, z: 0.5}
+  - {x: -12.754828, y: 0, z: -8.394143}
+  - {x: -7.7548285, y: 0, z: -13.394141}
+  - {x: 2.3220086, y: 0, z: 11.062618}
+  - {x: 11.419184, y: 0, z: 3.6624832}
+  _Position: {x: 0, y: 0, z: 0}

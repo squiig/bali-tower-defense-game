@@ -12,8 +12,13 @@ namespace Game.SplineSystem
     {
         [SerializeField, HideInInspector] private bool _IsClosed;
         [SerializeField] private List<Vector3> _Points = new List<Vector3>();
+        [SerializeField] private Vector3 _Position = Vector3.zero;
 
-        public Vector3 this[int i] => _Points[i];
+        public Vector3 this[int i]
+        {
+            get => _Points[i];
+            set => _Points[i] = value;
+        }
         public Vector3[] GetSegmentPoints(int index) => new[] { _Points[index * 3], _Points[index * 3 + 1], _Points[index * 3 + 2], _Points[LoopIndex(index * 3 + 3)] };
         public int SegmentCount => _Points.Count / 3;
         public int PointCount => _Points.Count;
@@ -23,15 +28,22 @@ namespace Game.SplineSystem
             get => _IsClosed;
             set => _IsClosed = value;
         }
+        public Vector3 Position
+        {
+            get => _Position;
+            set => _Position = value;
+        }
 
         public void Reset(Vector3 center)
         {
+            _Position = Vector3.zero;
+            _IsClosed = false;
             _Points = new List<Vector3>()
             {
-                center + Vector3.left,
-                center + (Vector3.left + Vector3.back) * 0.5f,
-                center + (Vector3.right + Vector3.forward) * 0.5f,
-                center + Vector3.right
+                center + Vector3.left * 10.0f,
+                center + (Vector3.left + Vector3.back) * 5.0f,
+                center + (Vector3.right + Vector3.forward) * 5.0f,
+                center + Vector3.right * 10.0f
             };
         }
 
@@ -114,9 +126,9 @@ namespace Game.SplineSystem
         public Vector3 GetCenterPoint()
         {
             Vector3 totalPos = Vector3.zero;
-            for (int i = 0; i < PointCount; i += 3)
-                totalPos += _Points[i];
-            return totalPos / SegmentCount;
+            foreach (Vector3 point in _Points)
+                totalPos += point;
+            return _Position = totalPos / PointCount;
         }
 
         public Vector3[] CalculateEvenlySpacedPoints(float spacing, float resolution = 1)

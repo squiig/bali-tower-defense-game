@@ -52,6 +52,7 @@ namespace Game.SplineSystem
         public void ResetSpline()
         {
             _SplineSplineMode = SplineMode.MIRRORED;
+            transform.position = Vector3.zero;
             if (BezierSplineData == null) return;
             BezierSplineData.Reset(Vector3.zero);
         }
