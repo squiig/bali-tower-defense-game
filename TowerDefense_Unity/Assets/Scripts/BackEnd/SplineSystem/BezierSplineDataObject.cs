@@ -7,7 +7,7 @@ namespace Game.SplineSystem
     /// <summary>
     /// Holds all the data regarding a bezierSpline.
     /// </summary>
-    [CreateAssetMenu(fileName ="new BezierSpline", menuName = "Spline", order = 0)]
+    [CreateAssetMenu(fileName ="new BezierSpline", menuName = "Bezier Spline", order = 0)]
     public class BezierSplineDataObject : ScriptableObject
     {
         [SerializeField, HideInInspector] private bool _IsClosed;
@@ -54,7 +54,7 @@ namespace Game.SplineSystem
             _Points.Add(segmentEndPos);
         }
 
-        public void MovePoint(int index, Vector3 point, SplineCreator.SplineMode mode)
+        public void MovePoint(int index, Vector3 point, SplineBranchCreator.SplineMode mode)
         {
             if (index % 3 == 0)
             {
@@ -67,10 +67,10 @@ namespace Game.SplineSystem
 
             switch (mode)
             {
-                case SplineCreator.SplineMode.FREE:
+                case SplineBranchCreator.SplineMode.FREE:
                     _Points[index] = point;
                     break;
-                case SplineCreator.SplineMode.MIRRORED:
+                case SplineBranchCreator.SplineMode.MIRRORED:
                     _Points[index] = point;
 
                     bool isNextPointAnchor = (index + 1) % 3 == 0;

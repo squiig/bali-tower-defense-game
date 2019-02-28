@@ -11,7 +11,7 @@ namespace Game.SplineSystem
 
         private void Start()
         {
-            Vector3[] points = FindObjectOfType<SplineCreator>().BezierSplineData.CalculateEvenlySpacedPoints(_Spacing, _Resolution);
+            Vector3[] points = FindObjectOfType<SplineBranchCreator>().BezierSplineData.CalculateEvenlySpacedPoints(_Spacing, _Resolution);
             //foreach (Vector3 point in points)
             //{
             //    GameObject g = GameObject.CreatePrimitive(PrimitiveType.Sphere);
