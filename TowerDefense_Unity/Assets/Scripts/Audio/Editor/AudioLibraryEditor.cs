@@ -33,7 +33,7 @@ namespace Game.Audio.Editor
             _SelectableAudioAssetList.ResetSelection();
             _RawTarget = library;
             _SerializedTarget = new SerializedObject(library);
-            _MappingList = _SerializedTarget.FindProperty("_AudioAssetIndentifierMappings");
+            _MappingList = _SerializedTarget.FindProperty("_AudioAssetIdentifierMappings");
         }
 
         public void DoLibraryEditor()
