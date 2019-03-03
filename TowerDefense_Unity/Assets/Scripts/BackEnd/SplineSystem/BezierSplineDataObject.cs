@@ -10,9 +10,9 @@ namespace Game.SplineSystem
     [CreateAssetMenu(fileName ="new BezierSpline", menuName = "Bezier Spline", order = 0)]
     public class BezierSplineDataObject : ScriptableObject
     {
-        [SerializeField, HideInInspector] private bool _IsClosed;
-        [SerializeField] private List<Vector3> _Points = new List<Vector3>();
         [SerializeField] private Vector3 _Position = Vector3.zero;
+        [SerializeField] private bool _IsClosed;
+        [SerializeField] private List<Vector3> _Points = new List<Vector3>();
 
         public Vector3 this[int i]
         {
@@ -158,9 +158,9 @@ namespace Game.SplineSystem
             for (int segmentIndex = 0; segmentIndex < SegmentCount; segmentIndex++)
             {
                 Vector3[] segment = GetSegmentPoints(segmentIndex);
-                float estCurveLength = Utils.Bezier3DUtility.Get3DCurveLength(segment[0], segment[1], segment[2], segment[3]);
-                int divisions = Mathf.CeilToInt(estCurveLength * resolution * 10);
-                splineLength += estCurveLength;
+                float curveLength = Utils.Bezier3DUtility.Get3DCurveLength(segment[0], segment[1], segment[2], segment[3]);
+                int divisions = Mathf.CeilToInt(curveLength * resolution * 10);
+                splineLength += curveLength;
 
                 float pointPos = 0;
                 while (pointPos <= 1)

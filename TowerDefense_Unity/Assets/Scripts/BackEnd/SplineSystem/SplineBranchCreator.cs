@@ -54,6 +54,7 @@ namespace Game.SplineSystem
         {
             _SplineSplineMode = SplineMode.MIRRORED;
             transform.position = Vector3.zero;
+            _SelectedPointIndex = 0;
             if (BezierSplineData == null) return;
             BezierSplineData.Reset(Vector3.zero);
         }

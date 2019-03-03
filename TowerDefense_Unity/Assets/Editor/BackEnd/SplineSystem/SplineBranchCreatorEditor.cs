@@ -5,7 +5,7 @@ using UnityEngine;
 namespace Game.SplineSystem.Editor
 {
     /// <summary>Contains the base methods for the spline editor.</summary>
-    [CustomEditor(typeof(SplineBranchCreator)), CanEditMultipleObjects]
+    [CustomEditor(typeof(SplineBranchCreator))]
     public class SplineBranchCreatorEditor : UnityEditor.Editor
     {
         private SerializedObject _SerializedSplineCreator;
@@ -32,18 +32,13 @@ namespace Game.SplineSystem.Editor
 
         public override void OnInspectorGUI()
         {
-            _SerializedSplineCreator?.Update();
-
             DrawSplineObjectField();
+
             if (_SplineBranchCreator.BezierSplineData == null) return;
             if (_SplineBranchCreator.BezierSplineData.PointCount <= 0) return;
 
             DrawSplineCustomizationSettings();
             DrawSplineSettings();
-
-            if (_SerializedSplineCreator == null || !_SerializedSplineCreator.hasModifiedProperties) return;
-            _SerializedSplineCreator.ApplyModifiedProperties();
-            OnSplineObjectReferenceChanged();
         }
 
         private void UndoCallback()
@@ -58,14 +53,17 @@ namespace Game.SplineSystem.Editor
         {
             _BezierSplineData = _SerializedSplineCreator.FindProperty("_BezierSplineData");
             _SplineDataObject = _SplineBranchCreator.BezierSplineData;
+            _SplineBranchCreator.SelectedPointIndex = 0;
 
-            if (_SplineBranchCreator.BezierSplineData == null || _BezierSplineData == null) return;
+            if (_SplineBranchCreator.BezierSplineData == null) return;
             if (_SplineBranchCreator.BezierSplineData.SegmentCount > 0) return;
             _SplineBranchCreator.ResetSpline();
         }
 
         private void DrawSplineObjectField()
         {
+            _SerializedSplineCreator?.Update();
+
             GUILayout.BeginVertical("box");
             GUILayout.Label("Current spline", EditorStyles.boldLabel);
             _BezierSplineData.objectReferenceValue = EditorGUILayout.ObjectField(
@@ -74,6 +72,10 @@ namespace Game.SplineSystem.Editor
                 objType: typeof(BezierSplineDataObject), 
                 allowSceneObjects: true);
             GUILayout.EndHorizontal();
+
+            if (_SerializedSplineCreator == null || !_SerializedSplineCreator.hasModifiedProperties) return;
+            _SerializedSplineCreator.ApplyModifiedProperties();
+            OnSplineObjectReferenceChanged();
 
             if (_BezierSplineData.objectReferenceValue == null) return;
             SceneView.RepaintAll();

@@ -8,5 +8,12 @@ namespace Game.SplineSystem
     public class SplineCreator : MonoBehaviour
     {
         [SerializeField, HideInInspector] private List<SplineBranchCreator> _Branches;
+        [SerializeField, HideInInspector] private Vector3 _Position;
+
+        public Vector3 Position
+        {
+            get => _Position;
+            set => _Position = value;
+        }
     }
 }
