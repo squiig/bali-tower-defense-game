@@ -1,4 +1,5 @@
 ﻿using Game.Entities.EventContainers;
+using UnityEngine;
 
 namespace Game.Entities.Interfaces
 {
@@ -19,6 +20,12 @@ namespace Game.Entities.Interfaces
         /// </summary>
         event TypedEventHandler<IDamageable, EntityDamaged> OnDeath;
 
+        /// <summary>
+        /// Returns the position of this unit.
+        /// </summary>
+        /// <returns>Returns the position of this unit.</returns>
+        Vector3 GetPosition();
+
 		/// <summary>
         /// Used to get the priority of this damageable.
         /// Targets with lower priority will be targeted last.
@@ -32,7 +39,7 @@ namespace Game.Entities.Interfaces
 		/// Will fire the events.
 		/// </summary>
 		/// <param name="onHitEffects"> Class containing data about the attack</param>
-		void ApplyOnHitEffects(OnHitEffects onHitEffects);
+		void ApplyOnHitEffects(in OnHitEffects onHitEffects);
 
 		/// <summary>
         /// Used to get the current health of this instance
