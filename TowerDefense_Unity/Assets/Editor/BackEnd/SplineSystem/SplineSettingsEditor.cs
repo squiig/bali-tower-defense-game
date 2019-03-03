@@ -6,17 +6,14 @@ using UnityEditor;
 namespace Game.SplineSystem.Editor
 {
     /// <summary>Draws the spline data settings in the inspector.</summary>
-    public class SplineSettings
+    public class SplineDebugInspector<T> where T : SplineCreatorBase
     {
-        private readonly BezierSplineDataObject _SplineDataObject;
-        private readonly SplineBranchCreator _SplineBranchCreator;
+        private readonly T _SplineBranchCreator;
         private const int BUTTON_INTERVAL_Y = 3;
-        private const int BUTTON_HEIGHT = 20;
 
-        public SplineSettings(SplineBranchCreator branchCreator)
+        public SplineDebugInspector(T branchCreator)
         {
             _SplineBranchCreator = branchCreator;
-            _SplineDataObject = branchCreator.BezierSplineData;
         }
 
         public void DrawSplineSettings()
@@ -26,9 +23,6 @@ namespace Game.SplineSystem.Editor
 
             GUILayout.Label("BezierSplineData settings", EditorStyles.boldLabel);
 
-            DrawIsClosedToggle();
-            GUILayout.Space(1f);
-
             DrawTangentToggle();
             GUILayout.Space(1f);
 
@@ -36,24 +30,9 @@ namespace Game.SplineSystem.Editor
             GUILayout.Space(1f);
 
             DrawNormalsToggle();
-            GUILayout.Space(1f);
-
-            if (GUILayout.Button("Center Spline Pivot"))
-                OnCenterPositionHandleButtonPressed();
 
             GUILayout.Space(BUTTON_INTERVAL_Y);
             GUILayout.EndVertical();
-        }
-
-        private void DrawIsClosedToggle()
-        {
-            Undo.RecordObject(_SplineDataObject, "Toggle_Closed");
-            bool isClosed = GUILayout.Toggle(_SplineDataObject.IsClosed, "Is closed", GUILayout.Height(BUTTON_HEIGHT));
-            if (isClosed == _SplineDataObject.IsClosed) return;
-
-            _SplineDataObject.ToggleClosed(!_SplineDataObject.IsClosed);
-            SceneView.RepaintAll();
-            EditorUtility.SetDirty(_SplineBranchCreator);
         }
 
         private void DrawTangentToggle()
@@ -85,14 +64,6 @@ namespace Game.SplineSystem.Editor
             if (drawNormals == _SplineBranchCreator.DrawNormals) return;
 
             _SplineBranchCreator.DrawNormals = drawNormals;
-            SceneView.RepaintAll();
-            EditorUtility.SetDirty(_SplineBranchCreator);
-        }
-
-        private void OnCenterPositionHandleButtonPressed()
-        {
-            Undo.RecordObject(_SplineBranchCreator, "Center_Spline_Position_Handle");
-            _SplineBranchCreator.transform.position = _SplineDataObject.GetCenterPoint();
             SceneView.RepaintAll();
             EditorUtility.SetDirty(_SplineBranchCreator);
         }

@@ -117,6 +117,13 @@ namespace Game.SplineSystem
             _Points.RemoveRange(_Points.Count - 2, 2);
         }
 
+        public void MergeIntoOtherBranch(Vector3 destinationPoint)
+        {
+            _Points.Add(_Points[_Points.Count - 1] * 2 - _Points[_Points.Count - 2]);
+            _Points.Add(destinationPoint);
+            _Points.Add(_Points[_Points.Count - 1] * 2 - _Points[_Points.Count - 2]);
+        }
+
         public void InsertSegment(int pointIndex, Vector3 point)
         {
             Vector3[] newAnchorPoint = { point + Vector3.left, point, point + Vector3.right };
