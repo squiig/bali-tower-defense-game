@@ -1,4 +1,4 @@
-﻿using Game.Utils;
+using Game.Utils;
 using UnityEditor;
 using UnityEngine;
 
@@ -34,7 +34,15 @@ namespace Game.SplineSystem.Editor
             Undo.undoRedoPerformed -= UndoCallback;
         }
 
-        public override void OnInspectorGUI()
+	    private void UndoCallback()
+	    {
+		    if (_SplineBranchCreator.SelectedPointIndex > _SplineDataObject.PointCount - 3)
+			    _SplineBranchCreator.SelectedPointIndex -= 3;
+		    if (_SplineBranchCreator.SelectedPointIndex < 0)
+			    _SplineBranchCreator.SelectedPointIndex = 0;
+	    }
+
+		public override void OnInspectorGUI()
         {
             DrawSplineObjectField();
 
@@ -43,14 +51,6 @@ namespace Game.SplineSystem.Editor
 
             DrawSplineCustomizationSettings();
             _SplineDebugInspector.DrawSplineSettings();
-        }
-
-        private void UndoCallback()
-        {
-            if (_SplineBranchCreator.SelectedPointIndex > _SplineDataObject.PointCount - 3)
-                _SplineBranchCreator.SelectedPointIndex -= 3;
-            if (_SplineBranchCreator.SelectedPointIndex < 0)
-                _SplineBranchCreator.SelectedPointIndex = 0;
         }
 
         private void OnSplineObjectReferenceChanged()

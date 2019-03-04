@@ -1,4 +1,4 @@
-﻿using Game.Editor;
+using Game.Editor;
 using Game.Utils;
 using UnityEngine;
 using UnityEditor;
@@ -18,12 +18,38 @@ namespace Game.SplineSystem.Editor
 
         public void OnEnable()
         {
-            _SplineCreator = (SplineCreator)target;
+	        Undo.undoRedoPerformed += UndoCallback;
+			_SplineCreator = (SplineCreator)target;
             _SplineCreator.Branches = ArrayUtility.ComponentFilter<SplineBranchCreator>(HierarchyUtility.GetChildrenOfAllParents(Selection.gameObjects));
             _DebugInspector = new SplineDebugInspector<SplineCreator>(_SplineCreator);
         }
 
-        public override void OnInspectorGUI()
+	    public void OnDisable()
+	    {
+		    Undo.undoRedoPerformed -= UndoCallback;
+	    }
+
+		private void UndoCallback()
+		{
+			if (_SplineCreator.SelectedPointIndex.HandleIndex > _SplineCreator.Branches[_SplineCreator.SelectedPointIndex.BranchIndex].BezierSplineData.PointCount - 3)
+			{
+				_SplineCreator.SelectedPointIndex = new HandlePointIndex()
+				{
+					HandleIndex = _SplineCreator.SelectedPointIndex.HandleIndex - 3,
+					BranchIndex = _SplineCreator.SelectedPointIndex.BranchIndex
+				};
+			}
+			if (_SplineCreator.SelectedPointIndex.HandleIndex < 0)
+			{
+				_SplineCreator.SelectedPointIndex = new HandlePointIndex()
+				{
+					HandleIndex = 0,
+					BranchIndex = _SplineCreator.SelectedPointIndex.BranchIndex
+				};
+			}
+	    }
+
+		public override void OnInspectorGUI()
         {
             DrawSplineBranchEditButtons();
             _DebugInspector.DrawSplineSettings();
@@ -41,7 +67,14 @@ namespace Game.SplineSystem.Editor
 
         private void MergeCurves()
         {
-
+			if (_SplineCreator.ModifierPointIndex.HandleIndex == -1 || _SplineCreator.ModifierPointIndex.BranchIndex == -1) return;
+			BezierSplineDataObject selectedSpline = _SplineCreator.Branches[_SplineCreator.SelectedPointIndex.BranchIndex].BezierSplineData;
+			BezierSplineDataObject modifierSpline = _SplineCreator.Branches[_SplineCreator.ModifierPointIndex.BranchIndex].BezierSplineData;;
+	        Undo.RecordObject(selectedSpline, "Merge_Branch_Into_Other");
+	        Undo.RecordObject(_SplineCreator, "Merge_Branch_Into_Other");
+			selectedSpline.MergeIntoOtherBranch(modifierSpline[_SplineCreator.Branches[_SplineCreator.ModifierPointIndex.BranchIndex].SelectedPointIndex]);
+	        SceneView.RepaintAll();
+	        EditorUtility.SetDirty(selectedSpline);
         }
 
         private void OnSceneGUI()

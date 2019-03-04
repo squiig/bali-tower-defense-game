@@ -146,7 +146,7 @@ MonoBehaviour:
   _DrawBiNormals: 0
   _SplineSplineMode: 1
   _BezierSplineData: {fileID: 11400000, guid: 188ffccc12a51f749a0907f7a9a6333a, type: 2}
-  _SelectedPointIndex: 0
+  _SelectedPointIndex: 6
 --- !u!4 &666858485
 Transform:
   m_ObjectHideFlags: 0
