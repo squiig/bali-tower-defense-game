@@ -5,49 +5,27 @@ using UnityEngine;
 
 namespace Game
 {
-	[System.Serializable]
-	public struct PerlinNoiseMapData
-	{
-		[SerializeField] private int m_Height;
-		[SerializeField] private float m_Scale;
-		[SerializeField] private int m_Width;
-		[SerializeField] private float m_XOrg;
-		[SerializeField] private float m_YOrg;
-        
-		public int Height { get { return m_Height; } set { m_Height = value; } }
-		public float Scale { get { return m_Scale; } set { m_Scale = value; } }
-		public int Width { get { return m_Width; } set { m_Width = value; } }
-		public float XOrigin { get { return m_XOrg; } set { m_XOrg = value; } }
-		public float YOrigin { get { return m_YOrg; } set { m_YOrg = value; } }
-        
-		public PerlinNoiseMapData(int width, int height, float xOrigin, float yOrigin, float scale = 1.0f)
-		{
-			m_Width = width;
-			m_Height = height;
-			m_XOrg = xOrigin;
-			m_YOrg = yOrigin;
-			m_Scale = scale;
-		}
-	}
-
+	/// <summary>
+	/// Usability wrapper for the mathf perlin noise function.
+	/// </summary>
 	public class PerlinNoiseMap
 	{
-		private PerlinNoiseMapData m_Data;
-		private float[,] m_Map;
+		private PerlinNoiseMapData _Data;
+		private float[,] _Map;
 
-        public PerlinNoiseMapData Data => m_Data;
-        public float[,] GrayScaleMap => m_Map;
+		public PerlinNoiseMapData Data => _Data;
+		public float[,] GrayScaleMap => _Map;
 
-        public PerlinNoiseMap(int width, int height, float xOrg, float yOrg, float scale = 1.0f)
+		public PerlinNoiseMap(int width, int height, float xOrigin, float yOrigin, float scale = 1.0f)
 		{
-			Remap(new PerlinNoiseMapData(width, height, xOrg, yOrg, scale));
+			Remap(new PerlinNoiseMapData(width, height, xOrigin, yOrigin, scale));
 		}
 
 		public PerlinNoiseMap(PerlinNoiseMapData data)
 		{
 			Remap(data);
 		}
-        
+
 		/// <summary>
 		/// Returns the float between 0 and 1 represented by the x and y position.
 		/// </summary>
@@ -56,8 +34,8 @@ namespace Game
 		/// <returns></returns>
 		public float GetNormalValue(int x, int y)
 		{
-			float xCoord = m_Data.XOrigin + ((float) x / m_Data.Width * m_Data.Scale);
-			float yCoord = m_Data.YOrigin + ((float) y / m_Data.Height * m_Data.Scale);
+			float xCoord = _Data.XOrigin + ((float)x / _Data.Width * _Data.Scale);
+			float yCoord = _Data.YOrigin + ((float)y / _Data.Height * _Data.Scale);
 			return Mathf.PerlinNoise(xCoord, yCoord);
 		}
 
@@ -66,13 +44,13 @@ namespace Game
 		/// </summary>
 		public void Remap()
 		{
-			m_Map = new float[m_Data.Width, m_Data.Height];
+			_Map = new float[_Data.Width, _Data.Height];
 
-			for (int y = 0; y < m_Data.Height; y++)
+			for (int y = 0; y < _Data.Height; y++)
 			{
-				for (int x = 0; x < m_Data.Width; x++)
+				for (int x = 0; x < _Data.Width; x++)
 				{
-					m_Map[x, y] = GetNormalValue(x, y);
+					_Map[x, y] = GetNormalValue(x, y);
 				}
 			}
 		}
@@ -83,7 +61,7 @@ namespace Game
 		/// <param name="data">The new data to use.</param>
 		public void Remap(PerlinNoiseMapData data)
 		{
-			m_Data = data;
+			_Data = data;
 			Remap();
 		}
 
@@ -93,15 +71,15 @@ namespace Game
 		/// <returns></returns>
 		public Texture2D ToTexture2D()
 		{
-			Texture2D texture = new Texture2D(m_Data.Width, m_Data.Height);
-			Color[] pixels = new Color[m_Data.Width * m_Data.Height];
+			Texture2D texture = new Texture2D(_Data.Width, _Data.Height);
+			Color[] pixels = new Color[_Data.Width * _Data.Height];
 
 			for (int y = 0; y < texture.height; y++)
 			{
 				for (int x = 0; x < texture.width; x++)
 				{
-					float sample = m_Map[x, y];
-					pixels[((y * texture.width) + x)] = new Color(sample, sample, sample);
+					float sample = _Map[x, y];
+					pixels[(y * texture.width) + x] = new Color(sample, sample, sample);
 				}
 			}
 
@@ -109,6 +87,31 @@ namespace Game
 			texture.Apply();
 
 			return texture;
+		}
+	}
+
+	[System.Serializable]
+	public struct PerlinNoiseMapData
+	{
+		[SerializeField] private int _Width;
+		[SerializeField] private int _Height;
+		[SerializeField] private float _XOrigin;
+		[SerializeField] private float _YOrigin;
+		[SerializeField] private float _Scale;
+
+		public int Width { get => _Width; set => _Width = value; }
+		public int Height { get => _Height; set => _Height = value; }
+		public float XOrigin { get => _XOrigin; set => _XOrigin = value; }
+		public float YOrigin { get => _YOrigin; set => _YOrigin = value; }
+		public float Scale { get => _Scale; set => _Scale = value; }
+
+		public PerlinNoiseMapData(int width, int height, float xOrigin, float yOrigin, float scale = 1.0f)
+		{
+			_Width = width;
+			_Height = height;
+			_XOrigin = xOrigin;
+			_YOrigin = yOrigin;
+			_Scale = scale;
 		}
 	}
 }

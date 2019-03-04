@@ -7,45 +7,45 @@ using Random = UnityEngine.Random;
 
 namespace Game
 {
-    [Serializable]
-    public struct MinMaxFloat
-    {
-        [SerializeField] private float m_Min;
-        [SerializeField] private float m_Max;
+	[Serializable]
+	public struct MinMaxFloat
+	{
+		[SerializeField] private float _Min;
+		[SerializeField] private float _Max;
 
-        public float Min { get { return m_Min; } set { m_Min = value; } }
-        public float Max { get { return m_Max; } set { m_Max = value; } }
+		public float Min { get => _Min; set => _Min = value; }
+		public float Max { get => _Max; set => _Max = value; }
 
-        public MinMaxFloat(float min, float max)
-        {
-            m_Min = min;
-            m_Max = max;
-        }
+		public MinMaxFloat(float min, float max)
+		{
+			_Min = min;
+			_Max = max;
+		}
 
-        public float GetRandom()
-        {
-            return Random.Range(Min, Max);
-        }
-    }
+		public float GetRandom()
+		{
+			return Random.Range(Min, Max);
+		}
+	}
 
-    [Serializable]
-    public struct MinMaxInt
-    {
-        [SerializeField] private int m_Min;
-        [SerializeField] private int m_Max;
+	[Serializable]
+	public struct MinMaxInt
+	{
+		[SerializeField] private int _Min;
+		[SerializeField] private int _Max;
 
-        public int Min { get { return m_Min; } set { m_Min = value; } }
-        public int Max { get { return m_Max; } set { m_Max = value; } }
+		public int Min { get => _Min; set => _Min = value; }
+		public int Max { get => _Max; set => _Max = value; }
 
-        public MinMaxInt(int min, int max)
-        {
-            m_Min = min;
-            m_Max = max;
-        }
+		public MinMaxInt(int min, int max)
+		{
+			_Min = min;
+			_Max = max;
+		}
 
-        public int GetRandom()
-        {
-            return Random.Range(Min, Max);
-        }
-    }
+		public int GetRandom()
+		{
+			return Random.Range(Min, Max);
+		}
+	}
 }
