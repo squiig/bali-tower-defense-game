@@ -230,6 +230,10 @@ namespace Game.SplineSystem.Editor
             if (_SplineBranchCreator.BezierSplineData == null) return;
             DrawSegments();
             DrawCurveHandles();
+
+            if (!_SplineBranchCreator.transform.hasChanged) return;
+            UpdateSplinePosition();
+            _SplineBranchCreator.transform.hasChanged = false;
         }
 
         private void DrawSegments()
@@ -313,6 +317,25 @@ namespace Game.SplineSystem.Editor
 
             if (recordAction) Undo.RecordObject(_SplineBranchCreator, "Move_point");
             _SplineDataObject.MovePoint(index, point, _SplineBranchCreator.DrawMode);
+        }
+
+        private void UpdateSplinePosition()
+        {
+            Undo.RecordObject(_SplineBranchCreator, "Move_Spline");
+            Undo.RecordObject(_SplineBranchCreator.BezierSplineData, "Move_Spline");
+
+            float moveDistance = Mathf.Sign(Vector3.Distance(_SplineBranchCreator.BezierSplineData.Position, _SplineBranchCreator.transform.position));
+            Vector3 distanceVector = moveDistance >= 0
+                ? _SplineBranchCreator.transform.position - _SplineBranchCreator.BezierSplineData.Position
+                : _SplineBranchCreator.BezierSplineData.Position - _SplineBranchCreator.transform.position;
+
+            _SplineBranchCreator.BezierSplineData.Position = _SplineBranchCreator.transform.position;
+            for (int i = 0; i < _SplineBranchCreator.BezierSplineData.PointCount; i++)
+                _SplineBranchCreator.BezierSplineData[i] += distanceVector;
+
+            SceneView.RepaintAll();
+            EditorUtility.SetDirty(_SplineBranchCreator);
+            EditorUtility.SetDirty(_SplineBranchCreator.BezierSplineData);
         }
     }
 }
