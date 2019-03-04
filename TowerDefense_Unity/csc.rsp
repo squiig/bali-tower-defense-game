@@ -1,0 +1,2 @@
+# Mute "Field xxx is never assigned to, and will always have its default value null" warning
+-nowarn:0649

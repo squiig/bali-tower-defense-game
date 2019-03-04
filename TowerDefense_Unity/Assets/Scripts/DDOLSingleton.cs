@@ -6,13 +6,13 @@ using UnityEngine;
 namespace Game
 {
 	/// <summary>
-	/// Same as the Singleton but with DontDestroyOnLoad functionality.
+	/// Same as the Singleton but with DontDestroyOnLoad functionality (persistency through scenes).
 	/// </summary>
-	/// <typeparam name="T"></typeparam>
+	/// <typeparam name="T">The class that's inheriting from DDOLSingleton.</typeparam>
 	[DisallowMultipleComponent]
-	public class DDOLSingleton<T> : MonoBehaviour where T : Component
+	public abstract class DDOLSingleton<T> : MonoBehaviour where T : Component
 	{
-		private static T m_Instance;
+		private static T _Instance;
 
 		/// <summary>
 		/// Referencing this field creates an instance if it doesn't already exist.
@@ -20,26 +20,26 @@ namespace Game
 		public static T Instance
 		{
 			get {
-				if (m_Instance == null)
+				if (_Instance == null)
 				{
-					m_Instance = FindObjectOfType<T>();
-					if (m_Instance == null)
+					_Instance = FindObjectOfType<T>();
+					if (_Instance == null)
 					{
 						GameObject obj = new GameObject();
 						obj.name = typeof(T).Name;
-						m_Instance = obj.AddComponent<T>();
+						_Instance = obj.AddComponent<T>();
 						DontDestroyOnLoad(obj);
 					}
 				}
-				return m_Instance;
+				return _Instance;
 			}
 		}
 
 		protected virtual void Awake()
 		{
-			if (m_Instance == null)
+			if (_Instance == null)
 			{
-				m_Instance = this as T;
+				_Instance = this as T;
 				DontDestroyOnLoad(gameObject);
 			}
 			else

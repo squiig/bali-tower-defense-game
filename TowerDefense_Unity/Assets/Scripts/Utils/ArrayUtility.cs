@@ -1,10 +1,26 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace Game.Utils
 {
 	public static class ArrayUtility
 	{
+        /// <summary>
+        /// Filters an array of GameObjects to Components
+        /// </summary>
+        public static T[] ComponentFilter<T>(IEnumerable<GameObject> gameObjects) where T : Component
+        {
+            List<T> filteredArray = new List<T>();
+            foreach (GameObject gameObject in gameObjects)
+            {
+                T component = gameObject.GetComponent<T>();
+                if (component)
+                    filteredArray.Add(component);
+            }
+            return filteredArray.ToArray();
+        }
+
 		public static float GetHighestValue(float[,] array)
 		{
 			float highest = .0f;
