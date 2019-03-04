@@ -1,0 +1,11 @@
+# EditorConfig is awesome: https://editorconfig.org
+
+# Top-most EditorConfig file for this project
+root = true
+
+# Affects every file formatted in text editors that have an EditorConfig plugin installed
+[*]
+end_of_line = lf
+insert_final_newline = true
+charset = utf-8
+indent_style = tab
