@@ -18,6 +18,18 @@ namespace Game.UI
         [SerializeField] private Button _UpgradeButton = null;
         [SerializeField] private Button _DestroyButton = null;
 
+		private void OnEnable()
+		{
+			_UpgradeButton.onClick.AddListener(OnUpgradeButtonPressed);
+			_DestroyButton.onClick.AddListener(OnDestroyButtonPressed);
+		}
+
+		private void OnDisable()
+		{
+			_UpgradeButton.onClick.RemoveListener(OnUpgradeButtonPressed);
+			_DestroyButton.onClick.RemoveListener(OnDestroyButtonPressed);
+		}
+
 		public void Refresh(TowerUIData uiData)
 		{
 			_TitleText.text = uiData.Title;
