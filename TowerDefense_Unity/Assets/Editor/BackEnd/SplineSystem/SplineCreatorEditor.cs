@@ -38,6 +38,11 @@ namespace Game.SplineSystem.Editor
 					HandleIndex = _SplineCreator.SelectedPointIndex.HandleIndex - 3,
 					BranchIndex = _SplineCreator.SelectedPointIndex.BranchIndex
 				};
+				_SplineCreator.ModifierPointIndex = new HandlePointIndex()
+				{
+					HandleIndex = -1,
+					BranchIndex = -1
+				};
 			}
 			if (_SplineCreator.SelectedPointIndex.HandleIndex < 0)
 			{
@@ -45,6 +50,11 @@ namespace Game.SplineSystem.Editor
 				{
 					HandleIndex = 0,
 					BranchIndex = _SplineCreator.SelectedPointIndex.BranchIndex
+				};
+				_SplineCreator.ModifierPointIndex = new HandlePointIndex()
+				{
+					HandleIndex = -1,
+					BranchIndex = -1
 				};
 			}
 	    }
@@ -72,7 +82,7 @@ namespace Game.SplineSystem.Editor
 			BezierSplineDataObject modifierSpline = _SplineCreator.Branches[_SplineCreator.ModifierPointIndex.BranchIndex].BezierSplineData;;
 	        Undo.RecordObject(selectedSpline, "Merge_Branch_Into_Other");
 	        Undo.RecordObject(_SplineCreator, "Merge_Branch_Into_Other");
-			selectedSpline.MergeIntoOtherBranch(modifierSpline[_SplineCreator.Branches[_SplineCreator.ModifierPointIndex.BranchIndex].SelectedPointIndex]);
+			selectedSpline.MergeIntoOtherBranch(modifierSpline[_SplineCreator[_SplineCreator.ModifierPointIndex.BranchIndex].SelectedPointIndex]);
 	        SceneView.RepaintAll();
 	        EditorUtility.SetDirty(selectedSpline);
         }

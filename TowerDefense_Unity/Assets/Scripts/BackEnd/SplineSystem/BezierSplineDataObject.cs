@@ -55,7 +55,7 @@ namespace Game.SplineSystem
             _Points.Add(segmentEndPos);
         }
 
-        public void MovePoint(int index, Vector3 point, SplineBranchCreator.SplineMode mode)
+        public void MovePoint(int index, Vector3 point, SplineCreatorBase.SplineMode mode)
         {
             if (index % 3 == 0)
             {
@@ -122,7 +122,7 @@ namespace Game.SplineSystem
         {
             _Points.Add(_Points[_Points.Count - 1] * 2 - _Points[_Points.Count - 2]);
             _Points.Add(destinationPoint);
-            _Points.Add(_Points[_Points.Count - 1] * 2 - _Points[_Points.Count - 2]);
+            _Points.Add(destinationPoint);
         }
 
         public void InsertSegment(int pointIndex, Vector3 point)
