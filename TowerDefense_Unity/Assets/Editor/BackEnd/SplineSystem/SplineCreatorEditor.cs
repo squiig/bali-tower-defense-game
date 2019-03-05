@@ -179,12 +179,20 @@ namespace Game.SplineSystem.Editor
 
         private void DrawSelectedHandles()
         {
-            Vector3[] segment = _SplineCreator[_SplineCreator.SelectedPointIndex.BranchIndex].BezierSplineData.GetSegmentPoints(_SplineCreator.SelectedPointIndex.HandleIndex > 0 ? _SplineCreator.SelectedPointIndex.HandleIndex / 3 - 1 : _SplineCreator.SelectedPointIndex.HandleIndex / 3);
-            Handles.color = Color.yellow;
-            if (segment[0] == _SplineCreator[_SplineCreator.SelectedPointIndex.BranchIndex].BezierSplineData[_SplineCreator.SelectedPointIndex.HandleIndex]) Handles.DrawLine(segment[0], segment[1]);
-            if (segment[3] == _SplineCreator[_SplineCreator.SelectedPointIndex.BranchIndex].BezierSplineData[_SplineCreator.SelectedPointIndex.HandleIndex]) Handles.DrawLine(segment[2], segment[3]);
+			Handles.color = Color.yellow;
+	        if (_SplineCreator.SelectedPointIndex.HandleIndex / 3 < _SplineCreator[_SplineCreator.SelectedPointIndex.BranchIndex].BezierSplineData.PointCount / 3)
+	        {
+		        Vector3[] segment = _SplineCreator[_SplineCreator.SelectedPointIndex.BranchIndex].BezierSplineData.GetSegmentPoints(_SplineCreator.SelectedPointIndex.HandleIndex / 3);
+				if (segment[0] == _SplineCreator[_SplineCreator.SelectedPointIndex.BranchIndex].BezierSplineData[_SplineCreator.SelectedPointIndex.HandleIndex]) Handles.DrawLine(segment[0], segment[1]);
+			}
 
-            DrawSplinePositionHandle(_SplineCreator.SelectedPointIndex.BranchIndex, _SplineCreator.SelectedPointIndex.HandleIndex);
+	        if (_SplineCreator.SelectedPointIndex.HandleIndex / 3 > 0)
+	        {
+				Vector3[] lastSegment = _SplineCreator[_SplineCreator.SelectedPointIndex.BranchIndex].BezierSplineData.GetSegmentPoints(_SplineCreator.SelectedPointIndex.HandleIndex / 3 - 1);
+				if (lastSegment[3] == _SplineCreator[_SplineCreator.SelectedPointIndex.BranchIndex].BezierSplineData[_SplineCreator.SelectedPointIndex.HandleIndex]) Handles.DrawLine(lastSegment[2], lastSegment[3]);
+	        }
+
+			DrawSplinePositionHandle(_SplineCreator.SelectedPointIndex.BranchIndex, _SplineCreator.SelectedPointIndex.HandleIndex);
             if (_SplineCreator.SelectedPointIndex.HandleIndex + 1 < _SplineCreator[_SplineCreator.SelectedPointIndex.BranchIndex].BezierSplineData.PointCount)
                 DrawSplinePositionHandle(_SplineCreator.SelectedPointIndex.BranchIndex, _SplineCreator.SelectedPointIndex.HandleIndex + 1);
             if (_SplineCreator.SelectedPointIndex.HandleIndex - 1 >= 0)

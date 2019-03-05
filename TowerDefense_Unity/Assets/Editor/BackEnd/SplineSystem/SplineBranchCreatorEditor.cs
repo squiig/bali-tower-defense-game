@@ -242,18 +242,23 @@ namespace Game.SplineSystem.Editor
             {
                 Vector3[] segment = _SplineDataObject.GetSegmentPoints(i);
 
-                Handles.color = Color.yellow;
-                if (segment[0] == _SplineDataObject[_SplineBranchCreator.SelectedPointIndex]) Handles.DrawLine(segment[0], segment[1]);
-                if (segment[3] == _SplineDataObject[_SplineBranchCreator.SelectedPointIndex]) Handles.DrawLine(segment[2], segment[3]);
+				Handles.color = Color.yellow;
+	            if (segment[0] == _SplineDataObject[_SplineBranchCreator.SelectedPointIndex])
+					Handles.DrawLine(segment[0], segment[1]);
+	            if (segment[3] == _SplineDataObject[_SplineBranchCreator.SelectedPointIndex])
+					Handles.DrawLine(segment[2], segment[3]);
 
                 Handles.DrawBezier(segment[0], segment[3], segment[1], segment[2], Color.magenta, null, CURVE_LINE_WIDTH);
 
                 if (!_SplineBranchCreator.DrawTangents && !_SplineBranchCreator.DrawNormals && !_SplineBranchCreator.DrawBiNormals) continue;
                 for (float t = 0; t < 1; t += 1 / AMOUNT_TANGENTS_PER_CURVE)
                 {
-                    if (_SplineBranchCreator.DrawTangents) DrawTangents(segment, t);
-                    if (_SplineBranchCreator.DrawBiNormals) DrawBiNormals(segment, t);
-                    if (_SplineBranchCreator.DrawNormals) DrawNormals(segment, t);
+                    if (_SplineBranchCreator.DrawTangents)
+	                    DrawTangents(segment, t);
+                    if (_SplineBranchCreator.DrawBiNormals)
+	                    DrawBiNormals(segment, t);
+                    if (_SplineBranchCreator.DrawNormals)
+	                    DrawNormals(segment, t);
                 }
             }
         }

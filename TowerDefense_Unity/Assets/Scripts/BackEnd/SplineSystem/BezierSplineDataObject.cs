@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -19,10 +19,11 @@ namespace Game.SplineSystem
             get => _Points[i];
             set => _Points[i] = value;
         }
-        public Vector3[] GetSegmentPoints(int index) => new[] { _Points[index * 3], _Points[index * 3 + 1], _Points[index * 3 + 2], _Points[LoopIndex(index * 3 + 3)] };
+        public Vector3[] GetSegmentPoints(int segmentIndex) => new[] { _Points[segmentIndex * 3], _Points[segmentIndex * 3 + 1], _Points[segmentIndex * 3 + 2], _Points[LoopIndex(segmentIndex * 3 + 3)] };
         public int SegmentCount => _Points.Count / 3;
+	    public int GetSegmentIndex(int pointIndex) => pointIndex - 1 / 3;
         public int PointCount => _Points.Count;
-        private int LoopIndex(int i) => (i + _Points.Count) % _Points.Count;
+        private int LoopIndex(int index) => (index + _Points.Count) % _Points.Count;
         public bool IsClosed
         {
             get => _IsClosed;
