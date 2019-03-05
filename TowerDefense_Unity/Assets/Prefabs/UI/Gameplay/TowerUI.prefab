@@ -171,6 +171,7 @@ GameObject:
   - component: {fileID: 11640124759077392}
   - component: {fileID: 11640124759077406}
   - component: {fileID: 11640124759077393}
+  - component: {fileID: 3090335995134452077}
   m_Layer: 5
   m_Name: TowerUI
   m_TagString: Untagged
@@ -239,6 +240,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_HorizontalFit: 0
   m_VerticalFit: 2
+--- !u!114 &3090335995134452077
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 11640124759077395}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae04d9a0f591cf7468f0931a04490e14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _TitleText: {fileID: 11640125201302991}
+  _DamageHUD: {fileID: 5038927328989620304}
+  _UpgradeCostHUD: {fileID: 5291421891969440785}
+  _UpgradeButton: {fileID: 11640125436507238}
+  _DestroyButton: {fileID: 11640125633169907}
 --- !u!1 &11640124761870687
 GameObject:
   m_ObjectHideFlags: 0
@@ -975,6 +993,18 @@ PrefabInstance:
     m_RemovedComponents:
     - {fileID: 901623285665303338, guid: 022be9c300ff2fa499d6524861f1c7ff, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 022be9c300ff2fa499d6524861f1c7ff, type: 3}
+--- !u!114 &5291421891969440785 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5280385407912124598, guid: 022be9c300ff2fa499d6524861f1c7ff,
+    type: 3}
+  m_PrefabInstance: {fileID: 11640124539567271}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 105b43812d2bf5b43a5383c4ed91d7f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &912664162400696206 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 901623285665303337, guid: 022be9c300ff2fa499d6524861f1c7ff,
@@ -1167,3 +1197,15 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 912664161185237222}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &5038927328989620304 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5280385407912124598, guid: 022be9c300ff2fa499d6524861f1c7ff,
+    type: 3}
+  m_PrefabInstance: {fileID: 912664161185237222}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 105b43812d2bf5b43a5383c4ed91d7f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
