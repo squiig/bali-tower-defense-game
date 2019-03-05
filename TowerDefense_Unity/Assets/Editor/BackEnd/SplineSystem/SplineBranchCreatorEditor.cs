@@ -17,7 +17,7 @@ namespace Game.SplineSystem.Editor
         private const int BUTTON_HEIGHT = 20;
         private const int BUTTON_INTERVAL_Y = 3;
         private readonly string[] _SplineModes = { "Free", "Mirrored" };
-        private const int CURVE_LINE_WIDTH = 3;
+        private const int CURVE_LINE_WIDTH = 4;
         private const float AMOUNT_TANGENTS_PER_CURVE = 10;
 
         public void OnEnable()

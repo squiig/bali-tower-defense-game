@@ -4,36 +4,39 @@ using UnityEngine;
 
 namespace Game.SplineSystem
 {
-    /// <summary>
-    /// Holds all the data regarding a bezierSpline.
-    /// </summary>
-    [CreateAssetMenu(fileName ="new BezierSpline", menuName = "Bezier Spline", order = 0)]
-    public class BezierSplineDataObject : ScriptableObject
-    {
-        [SerializeField] private Vector3 _Position = Vector3.zero;
-        [SerializeField] private bool _IsClosed;
-        [SerializeField] private List<Vector3> _Points = new List<Vector3>();
+	/// <summary>
+	/// Holds all the data regarding a bezierSpline.
+	/// </summary>
+	[CreateAssetMenu(fileName = "new BezierSpline", menuName = "Bezier Spline", order = 0)]
+	public class BezierSplineDataObject : ScriptableObject
+	{
+		[SerializeField] private Vector3 _Position = Vector3.zero;
+		[SerializeField] private bool _IsClosed;
+		[SerializeField] private List<Vector3> _Points = new List<Vector3>();
+		[SerializeField] private List<ConnectionSegment> _ConnectionSegments = new List<ConnectionSegment>();
 
-        public Vector3 this[int i]
-        {
-            get => _Points[i];
-            set => _Points[i] = value;
-        }
-        public Vector3[] GetSegmentPoints(int segmentIndex) => new[] { _Points[segmentIndex * 3], _Points[segmentIndex * 3 + 1], _Points[segmentIndex * 3 + 2], _Points[LoopIndex(segmentIndex * 3 + 3)] };
-        public int SegmentCount => _Points.Count / 3;
-	    public int GetSegmentIndex(int pointIndex) => pointIndex - 1 / 3;
-        public int PointCount => _Points.Count;
+		public Vector3 this[int i]
+		{
+			get => _Points[i];
+			set => _Points[i] = value;
+		}
+		public Vector3[] GetSegmentPoints(int segmentIndex) => new[] { _Points[segmentIndex * 3], _Points[segmentIndex * 3 + 1], _Points[segmentIndex * 3 + 2], _Points[LoopIndex(segmentIndex * 3 + 3)] };
+		public int SegmentCount => _Points.Count / 3;
+		public int PointCount => _Points.Count;
+		public bool IsClosed
+		{
+			get => _IsClosed;
+			set => _IsClosed = value;
+		}
+		public Vector3 Position
+		{
+			get => _Position;
+			set => _Position = value;
+		}
+		public ConnectionSegment GetConnectionSegment(int i) => _ConnectionSegments[i];
+		public int ConnectionSegmentCount => _ConnectionSegments.Count;
+
         private int LoopIndex(int index) => (index + _Points.Count) % _Points.Count;
-        public bool IsClosed
-        {
-            get => _IsClosed;
-            set => _IsClosed = value;
-        }
-        public Vector3 Position
-        {
-            get => _Position;
-            set => _Position = value;
-        }
 
         public void Reset(Vector3 center)
         {
@@ -109,20 +112,21 @@ namespace Game.SplineSystem
         public void ToggleClosed(bool closed)
         {
             _IsClosed = closed;
-            if (closed)
-            {
-                _Points.Add(_Points[_Points.Count - 1] * 2 - _Points[_Points.Count - 2]);
-                _Points.Add(_Points[0] * 2 - _Points[1]);
-                return;
-            }
-            _Points.RemoveRange(_Points.Count - 2, 2);
+	        if (closed)
+	        {
+		        _Points.Add(_Points[_Points.Count - 4] * 2 - _Points[_Points.Count - 5]);
+		        _Points.Add(_Points[0] * 2 - _Points[1]);
+		        return;
+	        }
+	        _Points.RemoveRange(_Points.Count - 2, 2);
+	        return;
         }
 
-        public void MergeIntoOtherBranch(Vector3 destinationPoint)
+        public void MergeIntoOtherBranch(int selectedHandleIndex, int modifierHandleIndex, BezierSplineDataObject receiverSpline)
         {
-            _Points.Add(_Points[_Points.Count - 1] * 2 - _Points[_Points.Count - 2]);
-            _Points.Add(destinationPoint);
-            _Points.Add(destinationPoint);
+	        ConnectionSegment connectionSegment = new ConnectionSegment();
+	        connectionSegment.SetCurve(selectedHandleIndex, modifierHandleIndex, this, receiverSpline);
+	        _ConnectionSegments.Add(connectionSegment);
         }
 
         public void InsertSegment(int pointIndex, Vector3 point)

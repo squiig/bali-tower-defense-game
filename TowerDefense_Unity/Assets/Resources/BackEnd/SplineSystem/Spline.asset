@@ -22,3 +22,13 @@ MonoBehaviour:
   - {x: 40.214195, y: -3.4011078, z: 37.24694}
   - {x: 39.75665, y: -3.3812027, z: 14.183907}
   - {x: 36.79415, y: -3.3812027, z: -6.1822166}
+  _ConnectionSegments:
+  - _Points:
+    - {x: 36.79415, y: -3.3812027, z: -6.1822166}
+    - {x: 33.831654, y: -3.3812027, z: -26.54834}
+    - {x: -13.131755, y: -3.1, z: -50.982685}
+    - {x: 0.41500378, y: -3.1, z: -62.795307}
+    _SenderSpline: {fileID: 11400000}
+    _ReceiverSpline: {fileID: 11400000, guid: 07a24350ae52a6a4cb073b6bc920edb4, type: 2}
+    _StartHandleIndex: 6
+    _EndHandleIndex: 9
