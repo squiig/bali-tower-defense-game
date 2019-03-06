@@ -15,8 +15,9 @@ namespace Game.SplineSystem.Editor
         private SplineDebugInspector<SplineCreator> _DebugInspector;
         private const int CURVE_LINE_WIDTH = 4;
         private const float AMOUNT_TANGENTS_PER_CURVE = 10;
+	    private int _SelectedSegmentIndex = -1;
 
-        public void OnEnable()
+	    public void OnEnable()
         {
 	        Undo.undoRedoPerformed += UndoCallback;
 			_SplineCreator = (SplineCreator)target;
@@ -79,13 +80,12 @@ namespace Game.SplineSystem.Editor
         {
 			if (_SplineCreator.ModifierPointIndex.HandleIndex == -1 || _SplineCreator.ModifierPointIndex.BranchIndex == -1) return;
 			BezierSplineDataObject selectedSpline = _SplineCreator.Branches[_SplineCreator.SelectedPointIndex.BranchIndex].BezierSplineData;
-			BezierSplineDataObject modifierSpline = _SplineCreator.Branches[_SplineCreator.ModifierPointIndex.BranchIndex].BezierSplineData;
 	        Undo.RecordObject(selectedSpline, "Merge_Branch_Into_Other");
-			selectedSpline.MergeIntoOtherBranch(
+			selectedSpline.AddConnectionSegment(
 				_SplineCreator.SelectedPointIndex.HandleIndex, 
 				_SplineCreator.ModifierPointIndex.HandleIndex,
 				_SplineCreator.Branches[_SplineCreator.ModifierPointIndex.BranchIndex].BezierSplineData);
-	        SceneView.RepaintAll();
+	        HandleUtility.Repaint();
 	        EditorUtility.SetDirty(selectedSpline);
         }
 
@@ -96,6 +96,7 @@ namespace Game.SplineSystem.Editor
             {
                 if (_SplineCreator[i].BezierSplineData == null) return;
 
+	            HandleInput(i);
 	            DrawConnectionSegments(i);
                 DrawSegments(i);
                 DrawSplineHandles(i);
@@ -108,11 +109,17 @@ namespace Game.SplineSystem.Editor
             DrawSelectedHandles();
         }
 
+	    private void HandleInput(int branchIndex)
+	    {
+		    HandleShiftCommands(branchIndex);
+		    HandleConnectionSegmentDeletion(branchIndex);
+	    }
+
         private void DrawSegments(int branchIndex)
         {
             for (int i = 0; i < _SplineCreator[branchIndex].BezierSplineData.SegmentCount; i++)
             {
-                Vector3[] segment = _SplineCreator[branchIndex].BezierSplineData.GetSegmentPoints(i);
+				Vector3[] segment = _SplineCreator[branchIndex].BezierSplineData.GetSegmentPoints(i);
                 Handles.DrawBezier(segment[0], segment[3], segment[1], segment[2], Color.magenta, null, CURVE_LINE_WIDTH);
 
                 if (!_SplineCreator.DrawTangents && !_SplineCreator.DrawNormals && !_SplineCreator.DrawBiNormals) continue;
@@ -128,7 +135,10 @@ namespace Game.SplineSystem.Editor
 	    private void DrawConnectionSegments(int branchIndex)
 	    {
 		    for (int i = 0; i < _SplineCreator[branchIndex].BezierSplineData.ConnectionSegmentCount; i++)
-			    _SplineCreator[branchIndex].BezierSplineData.GetConnectionSegment(i).Draw();
+		    {
+			    Color segmentDrawColor = _SelectedSegmentIndex == i && InputManagerEditor.IsKeyDown(KeyCode.LeftShift) ? Color.yellow : Color.cyan;
+				_SplineCreator[branchIndex].BezierSplineData.GetConnectionSegment(i).Draw(segmentDrawColor);
+		    }
 	    }
 
         private void DrawTangents(Vector3[] segment, float t)
@@ -245,9 +255,52 @@ namespace Game.SplineSystem.Editor
             for (int i = 0; i < _SplineCreator[branchIndex].BezierSplineData.PointCount; i++)
                 _SplineCreator[branchIndex].BezierSplineData[i] += distanceVector;
 
-            SceneView.RepaintAll();
+            HandleUtility.Repaint();
             EditorUtility.SetDirty(_SplineCreator[branchIndex]);
             EditorUtility.SetDirty(_SplineCreator[branchIndex].BezierSplineData);
         }
+
+	    private void HandleShiftCommands(int branchIndex)
+	    {
+			Event e = Event.current;
+		    if (e.type == EventType.MouseDown && e.button == 0 && e.shift && _SelectedSegmentIndex > -1)
+		    {
+			    Undo.RecordObject(_SplineCreator, "RemoveConnectionPoint");
+			    _SplineCreator[branchIndex].BezierSplineData.RemoveConnectionSegment(_SplineCreator[branchIndex].BezierSplineData.GetConnectionSegment(_SelectedSegmentIndex));
+			    _SelectedSegmentIndex = -1;
+		    }
+	    }
+
+	    private void HandleConnectionSegmentDeletion(int branchIndex)
+	    {
+		    Event e = Event.current;
+			if (e.type != EventType.MouseMove) return;
+
+		    float selectionThreshHold = 5f;
+		    int newSelectedIndex = -1;
+
+		    for (int i = 0; i < _SplineCreator[branchIndex].BezierSplineData.ConnectionSegmentCount; i++)
+		    {
+				ConnectionSegment segment = _SplineCreator[branchIndex].BezierSplineData.GetConnectionSegment(i);
+				float distance = HandleUtility.DistancePointBezier(
+					Event.current.mousePosition, 
+					HandleUtility.WorldToGUIPoint(segment[0]), 
+					HandleUtility.WorldToGUIPoint(segment[3]), 
+					HandleUtility.WorldToGUIPoint(segment[1]), 
+					HandleUtility.WorldToGUIPoint(segment[2]));
+
+			    if (distance < selectionThreshHold)
+			    {
+					selectionThreshHold = distance;
+					newSelectedIndex = i;
+			    }
+
+			    if (newSelectedIndex == _SelectedSegmentIndex)
+				    continue;
+
+			    _SelectedSegmentIndex = newSelectedIndex;
+			    HandleUtility.Repaint();
+		    }
+	    }
     }
 }

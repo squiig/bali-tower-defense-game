@@ -82,7 +82,7 @@ namespace Game.SplineSystem.Editor
             OnSplineObjectReferenceChanged();
 
             if (_BezierSplineData.objectReferenceValue == null) return;
-            SceneView.RepaintAll();
+            HandleUtility.Repaint();
             EditorUtility.SetDirty(_SplineBranchCreator);
         }
 
@@ -130,7 +130,7 @@ namespace Game.SplineSystem.Editor
             if ((int)_SplineBranchCreator.DrawMode == splineMode) return;
 
             _SplineBranchCreator.DrawMode = (SplineBranchCreator.SplineMode)splineMode;
-            SceneView.RepaintAll();
+            HandleUtility.Repaint();
             EditorUtility.SetDirty(_SplineBranchCreator);
         }
 
@@ -141,7 +141,7 @@ namespace Game.SplineSystem.Editor
             float deltaLastSegment = (_SplineDataObject[_SplineDataObject.PointCount - 1] - _SplineDataObject[_SplineDataObject.PointCount - 3]).magnitude;
 
             _SplineDataObject.AddSegment(_SplineDataObject[_SplineDataObject.PointCount - 1] + direction * deltaLastSegment);
-            SceneView.RepaintAll();
+            HandleUtility.Repaint();
             EditorUtility.SetDirty(_SplineBranchCreator);
         }
 
@@ -155,7 +155,7 @@ namespace Game.SplineSystem.Editor
             else if (_SplineBranchCreator.SelectedPointIndex == 0 && !_SplineDataObject.IsClosed)
                 _SplineBranchCreator.SelectedPointIndex += 3;
 
-            SceneView.RepaintAll();
+            HandleUtility.Repaint();
             EditorUtility.SetDirty(_SplineDataObject);
         }
 
@@ -164,7 +164,7 @@ namespace Game.SplineSystem.Editor
             Undo.RecordObject(_SplineDataObject, "Reset_spline");
             _SplineBranchCreator.Reset();
             _SplineBranchCreator.SelectedPointIndex = 0;
-            SceneView.RepaintAll();
+            HandleUtility.Repaint();
             EditorUtility.SetDirty(_SplineDataObject);
         }
 
@@ -202,7 +202,7 @@ namespace Game.SplineSystem.Editor
                             d: _SplineDataObject[_SplineBranchCreator.SelectedPointIndex + 3], 0.5f));
                 }
             }
-            SceneView.RepaintAll();
+            HandleUtility.Repaint();
             EditorUtility.SetDirty(_SplineDataObject);
         }
 
@@ -213,7 +213,7 @@ namespace Game.SplineSystem.Editor
             if (isClosed == _SplineDataObject.IsClosed) return;
 
             _SplineDataObject.ToggleClosed(!_SplineDataObject.IsClosed);
-            SceneView.RepaintAll();
+            HandleUtility.Repaint();
             EditorUtility.SetDirty(_SplineBranchCreator);
         }
 
@@ -221,7 +221,7 @@ namespace Game.SplineSystem.Editor
         {
             Undo.RecordObject(_SplineBranchCreator, "Center_Spline_Position_Handle");
             _SplineBranchCreator.transform.position = _SplineDataObject.GetCenterPoint();
-            SceneView.RepaintAll();
+            HandleUtility.Repaint();
             EditorUtility.SetDirty(_SplineBranchCreator);
         }
 
@@ -338,7 +338,7 @@ namespace Game.SplineSystem.Editor
             for (int i = 0; i < _SplineBranchCreator.BezierSplineData.PointCount; i++)
                 _SplineBranchCreator.BezierSplineData[i] += distanceVector;
 
-            SceneView.RepaintAll();
+            HandleUtility.Repaint();
             EditorUtility.SetDirty(_SplineBranchCreator);
             EditorUtility.SetDirty(_SplineBranchCreator.BezierSplineData);
         }

@@ -26,14 +26,14 @@ namespace Game.SplineSystem
 			_ReceiverSpline = receiver;
 		}
 
-		public void Draw()
+		public void Draw(Color color)
 		{
 			_Points[0] = _SenderSpline[_StartHandleIndex];
 			_Points[1] = _SenderSpline[_SenderSpline.PointCount - 1] * 2 - _SenderSpline[_SenderSpline.PointCount - 2];
 			_Points[2] = _EndHandleIndex > 0 ? _ReceiverSpline[_EndHandleIndex - 1] : _ReceiverSpline[_EndHandleIndex + 1] * -1;
 			_Points[3] = _ReceiverSpline[_EndHandleIndex];
 
-			Handles.DrawBezier(_Points[0], _Points[3], _Points[1], _Points[2], Color.cyan, null, 4f);
+			Handles.DrawBezier(_Points[0], _Points[3], _Points[1], _Points[2], color, null, 4f);
 		}
 	}
 }

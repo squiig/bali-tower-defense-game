@@ -122,12 +122,18 @@ namespace Game.SplineSystem
 	        return;
         }
 
-        public void MergeIntoOtherBranch(int selectedHandleIndex, int modifierHandleIndex, BezierSplineDataObject receiverSpline)
+        public void AddConnectionSegment(int selectedHandleIndex, int modifierHandleIndex, BezierSplineDataObject receiverSpline)
         {
 	        ConnectionSegment connectionSegment = new ConnectionSegment();
 	        connectionSegment.SetCurve(selectedHandleIndex, modifierHandleIndex, this, receiverSpline);
 	        _ConnectionSegments.Add(connectionSegment);
         }
+
+		public void RemoveConnectionSegment(ConnectionSegment connectionSegment)
+		{
+			if(_ConnectionSegments.Contains(connectionSegment))
+				_ConnectionSegments.Remove(connectionSegment);
+		}
 
         public void InsertSegment(int pointIndex, Vector3 point)
         {
