@@ -21,24 +21,24 @@ namespace Game.Audio.Editor
 
 		private readonly AudioPreviewer _AudioPreviewer = new AudioPreviewer();
 
-		public void Awake()
+		private void Awake()
 		{
 			titleContent = new GUIContent("Audio System", "Used for editing what sounds belong where");
 		}
 
-		public void OnFocus()
+		private void OnFocus()
 		{
 			_AudioPreviewer.Create();
 			AssemblyReloadEvents.beforeAssemblyReload += _AudioPreviewer.Remove;
 		}
 
-		public void OnLostFocus()
+		private void OnLostFocus()
 		{
 			_AudioPreviewer.Remove();
 			AssemblyReloadEvents.beforeAssemblyReload -= _AudioPreviewer.Remove;
 		}
 
-		public void OnEnable()
+		private void OnEnable()
 		{
 			_AudioLibraryList.OnSelected += _AudioLibraryEditor.SetTarget;
 			_AudioLibraryEditor.OnSelected += _AudioAssetEditor.SetTarget;
@@ -47,7 +47,7 @@ namespace Game.Audio.Editor
 			_AudioLibraryList.OnRequestRepaint += Repaint;
 		}
 
-		public void OnDisable()
+		private void OnDisable()
 		{
 			_AudioLibraryList.OnSelected -= _AudioLibraryEditor.SetTarget;
 			_AudioLibraryEditor.OnSelected -= _AudioAssetEditor.SetTarget;
@@ -56,7 +56,7 @@ namespace Game.Audio.Editor
 			_AudioLibraryList.OnRequestRepaint -= Repaint;
 		}
 
-		public void Area(Rect view, Color color)
+		private void Area(Rect view, Color color)
 		{
 			Color reset = GUI.color;
 			GUI.color = color;
@@ -64,7 +64,7 @@ namespace Game.Audio.Editor
 			GUI.color = reset;
 		}
 
-		public void OnGUI()
+		private void OnGUI()
 		{
 			Color color = new Color(0.8f, 0.8f, 0.8f);
 
