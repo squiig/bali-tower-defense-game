@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -37,6 +37,6 @@ namespace Game.SplineSystem
             set => _SplineSplineMode = value;
         }
 
-        public abstract void Reset();
+        public virtual void Reset(){}
     }
 }

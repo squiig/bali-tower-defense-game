@@ -1,10 +1,7 @@
-﻿using UnityEngine;
+using UnityEngine;
 
 namespace Game.Utils
 {
-    /// <summary>
-    /// Holds helper methods for bezier calculations.
-    /// </summary>
     public static class Bezier3DUtility
     {
         //Curves.

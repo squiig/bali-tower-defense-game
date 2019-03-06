@@ -46,8 +46,10 @@ namespace Game.SplineSystem.Editor
         {
             DrawSplineObjectField();
 
-            if (_SplineBranchCreator.BezierSplineData == null) return;
-            if (_SplineBranchCreator.BezierSplineData.PointCount <= 0) return;
+            if (_SplineBranchCreator.BezierSplineData == null)
+	            return;
+            if (_SplineBranchCreator.BezierSplineData.PointCount <= 0)
+	            return;
 
             DrawSplineCustomizationSettings();
             _SplineDebugInspector.DrawSplineSettings();
@@ -59,8 +61,10 @@ namespace Game.SplineSystem.Editor
             _SplineDataObject = _SplineBranchCreator.BezierSplineData;
             _SplineBranchCreator.SelectedPointIndex = 0;
 
-            if (_SplineBranchCreator.BezierSplineData == null) return;
-            if (_SplineBranchCreator.BezierSplineData.SegmentCount > 0) return;
+            if (_SplineBranchCreator.BezierSplineData == null)
+	            return;
+            if (_SplineBranchCreator.BezierSplineData.SegmentCount > 0)
+	            return;
             _SplineBranchCreator.Reset();
         }
 
@@ -77,11 +81,13 @@ namespace Game.SplineSystem.Editor
                 allowSceneObjects: true);
             GUILayout.EndHorizontal();
 
-            if (_SerializedSplineCreator == null || !_SerializedSplineCreator.hasModifiedProperties) return;
+            if (_SerializedSplineCreator == null || !_SerializedSplineCreator.hasModifiedProperties)
+	            return;
             _SerializedSplineCreator.ApplyModifiedProperties();
             OnSplineObjectReferenceChanged();
 
-            if (_BezierSplineData.objectReferenceValue == null) return;
+            if (_BezierSplineData.objectReferenceValue == null)
+	            return;
             HandleUtility.Repaint();
             EditorUtility.SetDirty(_SplineBranchCreator);
         }
@@ -127,9 +133,10 @@ namespace Game.SplineSystem.Editor
         {
             Undo.RecordObject(_SplineBranchCreator, "Changed_spline_mode");
             int splineMode = GUILayout.Toolbar((int)_SplineBranchCreator.DrawMode, _SplineModes, GUILayout.Height(BUTTON_HEIGHT + 5));
-            if ((int)_SplineBranchCreator.DrawMode == splineMode) return;
+            if ((int)_SplineBranchCreator.DrawMode == splineMode)
+	            return;
 
-            _SplineBranchCreator.DrawMode = (SplineBranchCreator.SplineMode)splineMode;
+            _SplineBranchCreator.DrawMode = (SplineCreatorBase.SplineMode)splineMode;
             HandleUtility.Repaint();
             EditorUtility.SetDirty(_SplineBranchCreator);
         }
@@ -210,7 +217,8 @@ namespace Game.SplineSystem.Editor
         {
             Undo.RecordObject(_SplineDataObject, "Toggle_Closed");
             bool isClosed = GUILayout.Toggle(_SplineDataObject.IsClosed, "Is closed", GUILayout.Height(BUTTON_HEIGHT), GUILayout.Width(Screen.width / 2 + 25));
-            if (isClosed == _SplineDataObject.IsClosed) return;
+            if (isClosed == _SplineDataObject.IsClosed)
+	            return;
 
             _SplineDataObject.ToggleClosed(!_SplineDataObject.IsClosed);
             HandleUtility.Repaint();
@@ -227,11 +235,13 @@ namespace Game.SplineSystem.Editor
 
         protected void OnSceneGUI()
         {
-            if (_SplineBranchCreator.BezierSplineData == null) return;
+            if (_SplineBranchCreator.BezierSplineData == null)
+	            return;
             DrawSegments();
             DrawCurveHandles();
 
-            if (!_SplineBranchCreator.transform.hasChanged) return;
+            if (!_SplineBranchCreator.transform.hasChanged)
+	            return;
             UpdateSplinePosition();
             _SplineBranchCreator.transform.hasChanged = false;
         }
@@ -250,7 +260,8 @@ namespace Game.SplineSystem.Editor
 
                 Handles.DrawBezier(segment[0], segment[3], segment[1], segment[2], Color.magenta, null, CURVE_LINE_WIDTH);
 
-                if (!_SplineBranchCreator.DrawTangents && !_SplineBranchCreator.DrawNormals && !_SplineBranchCreator.DrawBiNormals) continue;
+                if (!_SplineBranchCreator.DrawTangents && !_SplineBranchCreator.DrawNormals && !_SplineBranchCreator.DrawBiNormals)
+	                continue;
                 for (float t = 0; t < 1; t += 1 / AMOUNT_TANGENTS_PER_CURVE)
                 {
                     if (_SplineBranchCreator.DrawTangents)
@@ -318,7 +329,8 @@ namespace Game.SplineSystem.Editor
         private void DrawSelectedHandle(int index, bool recordAction = true)
         {
             Vector3 point = Handles.DoPositionHandle(_SplineDataObject[index], Quaternion.identity);
-            if (point == _SplineDataObject[index]) return;
+            if (point == _SplineDataObject[index])
+	            return;
 
             if (recordAction) Undo.RecordObject(_SplineBranchCreator, "Move_point");
             _SplineDataObject.MovePoint(index, point, _SplineBranchCreator.DrawMode);

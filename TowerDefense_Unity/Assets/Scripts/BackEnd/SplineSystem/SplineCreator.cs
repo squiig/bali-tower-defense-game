@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 
 namespace Game.SplineSystem
 {
@@ -42,11 +42,6 @@ namespace Game.SplineSystem
         {
             get => _ModifierPointIndex;
             set => _ModifierPointIndex = value;
-        }
-
-        public override void Reset()
-        {
-            
         }
     }
 }

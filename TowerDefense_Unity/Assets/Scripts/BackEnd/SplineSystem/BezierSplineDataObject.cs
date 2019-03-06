@@ -95,7 +95,8 @@ namespace Game.SplineSystem
 
         public void RemoveSegment(int controlPointIndex)
         {
-            if (controlPointIndex % 3 != 0 || SegmentCount <= 1) return;
+            if (controlPointIndex % 3 != 0 || SegmentCount <= 1)
+	            return;
 
             if (controlPointIndex == 0)
             {

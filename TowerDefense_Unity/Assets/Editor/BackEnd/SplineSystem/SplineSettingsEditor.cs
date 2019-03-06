@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
@@ -39,7 +39,8 @@ namespace Game.SplineSystem.Editor
         {
             Undo.RecordObject(_SplineBranchCreator, "Show_Tangents");
             bool drawTangents = GUILayout.Toggle(_SplineBranchCreator.DrawTangents, "Show tangents.");
-            if (drawTangents == _SplineBranchCreator.DrawTangents) return;
+            if (drawTangents == _SplineBranchCreator.DrawTangents)
+	            return;
 
             _SplineBranchCreator.DrawTangents = drawTangents;
             SceneView.RepaintAll();
@@ -50,7 +51,8 @@ namespace Game.SplineSystem.Editor
         {
             Undo.RecordObject(_SplineBranchCreator, "Show_BiNormals");
             bool drawBiNormals = GUILayout.Toggle(_SplineBranchCreator.DrawBiNormals, "Show bi-normals.");
-            if (drawBiNormals == _SplineBranchCreator.DrawBiNormals) return;
+            if (drawBiNormals == _SplineBranchCreator.DrawBiNormals)
+	            return;
 
             _SplineBranchCreator.DrawBiNormals = drawBiNormals;
             SceneView.RepaintAll();
@@ -61,7 +63,8 @@ namespace Game.SplineSystem.Editor
         {
             Undo.RecordObject(_SplineBranchCreator, "Show_Normals");
             bool drawNormals = GUILayout.Toggle(_SplineBranchCreator.DrawNormals, "Show normals.");
-            if (drawNormals == _SplineBranchCreator.DrawNormals) return;
+            if (drawNormals == _SplineBranchCreator.DrawNormals)
+	            return;
 
             _SplineBranchCreator.DrawNormals = drawNormals;
             SceneView.RepaintAll();

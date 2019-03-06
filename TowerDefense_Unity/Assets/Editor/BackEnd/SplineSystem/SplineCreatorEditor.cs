@@ -78,7 +78,8 @@ namespace Game.SplineSystem.Editor
 
         private void MergeCurves()
         {
-			if (_SplineCreator.ModifierPointIndex.HandleIndex == -1 || _SplineCreator.ModifierPointIndex.BranchIndex == -1) return;
+			if (_SplineCreator.ModifierPointIndex.HandleIndex == -1 || _SplineCreator.ModifierPointIndex.BranchIndex == -1)
+				return;
 			BezierSplineDataObject selectedSpline = _SplineCreator.Branches[_SplineCreator.SelectedPointIndex.BranchIndex].BezierSplineData;
 	        Undo.RecordObject(selectedSpline, "Merge_Branch_Into_Other");
 			selectedSpline.AddConnectionSegment(
@@ -91,17 +92,20 @@ namespace Game.SplineSystem.Editor
 
         private void OnSceneGUI()
         {
-            if (_SplineCreator.BranchCount <= 0) return;
+            if (_SplineCreator.BranchCount <= 0)
+	            return;
             for (int i = 0; i < _SplineCreator.BranchCount; i++)
             {
-                if (_SplineCreator[i].BezierSplineData == null) return;
+                if (_SplineCreator[i].BezierSplineData == null)
+	                return;
 
 	            HandleInput(i);
 	            DrawConnectionSegments(i);
                 DrawSegments(i);
                 DrawSplineHandles(i);
 
-				if (!_SplineCreator[i].transform.hasChanged) continue;
+				if (!_SplineCreator[i].transform.hasChanged)
+					continue;
                 UpdateSplinePosition(i);
                 _SplineCreator[i].transform.hasChanged = false;
             }
@@ -125,9 +129,12 @@ namespace Game.SplineSystem.Editor
                 if (!_SplineCreator.DrawTangents && !_SplineCreator.DrawNormals && !_SplineCreator.DrawBiNormals) continue;
                 for (float t = 0; t < 1; t += 1 / AMOUNT_TANGENTS_PER_CURVE)
                 {
-                    if (_SplineCreator.DrawTangents) DrawTangents(segment, t);
-                    if (_SplineCreator.DrawBiNormals) DrawBiNormals(segment, t);
-                    if (_SplineCreator.DrawNormals) DrawNormals(segment, t);
+                    if (_SplineCreator.DrawTangents)
+	                    DrawTangents(segment, t);
+                    if (_SplineCreator.DrawBiNormals)
+	                    DrawBiNormals(segment, t);
+                    if (_SplineCreator.DrawNormals)
+	                    DrawNormals(segment, t);
                 }
             }
         }
@@ -181,7 +188,8 @@ namespace Game.SplineSystem.Editor
 				float handleSize = HandleUtility.GetHandleSize(_SplineCreator[branchIndex].BezierSplineData[i]);
 
                 bool leftShift = InputManagerEditor.IsKeyDown(KeyCode.LeftShift);
-                if (Handles.Button(_SplineCreator[branchIndex].BezierSplineData[i], Quaternion.identity, handleSize * 0.12f, handleSize * 0.16f, Handles.SphereHandleCap))
+                if (Handles.Button(_SplineCreator[branchIndex].BezierSplineData[i], Quaternion.identity, 
+	                handleSize * 0.12f, handleSize * 0.16f, Handles.SphereHandleCap))
                 {
                     if (leftShift)
                     {
@@ -213,13 +221,15 @@ namespace Game.SplineSystem.Editor
 	        if (_SplineCreator.SelectedPointIndex.HandleIndex / 3 < _SplineCreator[_SplineCreator.SelectedPointIndex.BranchIndex].BezierSplineData.PointCount / 3)
 	        {
 		        Vector3[] segment = _SplineCreator[_SplineCreator.SelectedPointIndex.BranchIndex].BezierSplineData.GetSegmentPoints(_SplineCreator.SelectedPointIndex.HandleIndex / 3);
-				if (segment[0] == _SplineCreator[_SplineCreator.SelectedPointIndex.BranchIndex].BezierSplineData[_SplineCreator.SelectedPointIndex.HandleIndex]) Handles.DrawLine(segment[0], segment[1]);
+				if (segment[0] == _SplineCreator[_SplineCreator.SelectedPointIndex.BranchIndex].BezierSplineData[_SplineCreator.SelectedPointIndex.HandleIndex])
+					Handles.DrawLine(segment[0], segment[1]);
 			}
 
 	        if (_SplineCreator.SelectedPointIndex.HandleIndex / 3 > 0)
 	        {
 				Vector3[] lastSegment = _SplineCreator[_SplineCreator.SelectedPointIndex.BranchIndex].BezierSplineData.GetSegmentPoints(_SplineCreator.SelectedPointIndex.HandleIndex / 3 - 1);
-				if (lastSegment[3] == _SplineCreator[_SplineCreator.SelectedPointIndex.BranchIndex].BezierSplineData[_SplineCreator.SelectedPointIndex.HandleIndex]) Handles.DrawLine(lastSegment[2], lastSegment[3]);
+				if (lastSegment[3] == _SplineCreator[_SplineCreator.SelectedPointIndex.BranchIndex].BezierSplineData[_SplineCreator.SelectedPointIndex.HandleIndex])
+					Handles.DrawLine(lastSegment[2], lastSegment[3]);
 	        }
 
 			DrawSplinePositionHandle(_SplineCreator.SelectedPointIndex.BranchIndex, _SplineCreator.SelectedPointIndex.HandleIndex);
@@ -235,7 +245,8 @@ namespace Game.SplineSystem.Editor
         {
             Undo.RecordObject(_SplineCreator[branchIndex].BezierSplineData, "Move_point");
             Vector3 point = Handles.DoPositionHandle(_SplineCreator[branchIndex].BezierSplineData[index], Quaternion.identity);
-            if (point == _SplineCreator[branchIndex].BezierSplineData[index]) return;
+            if (point == _SplineCreator[branchIndex].BezierSplineData[index])
+	            return;
 
             EditorUtility.SetDirty(_SplineCreator[branchIndex].BezierSplineData);
             _SplineCreator[branchIndex].BezierSplineData.MovePoint(index, point, _SplineCreator[branchIndex].DrawMode);

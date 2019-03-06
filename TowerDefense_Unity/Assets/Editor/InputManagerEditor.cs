@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -24,7 +24,8 @@ namespace Game.Editor
         {
             Event e = Event.current;
             HandleFilthyShiftInput(e);
-            if (e.keyCode == KeyCode.None) return; //Sometimes returns none for some reason, might be unity input lag.
+            if (e.keyCode == KeyCode.None)
+	            return; //Sometimes returns none for some reason, might be unity input lag.
 
             switch (e.type)
             {
