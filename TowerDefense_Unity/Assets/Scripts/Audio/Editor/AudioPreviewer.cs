@@ -1,3 +1,4 @@
+using UnityEditor;
 using UnityEngine;
 
 namespace Game.Audio.Editor
@@ -20,6 +21,7 @@ namespace Game.Audio.Editor
 			};
 
 			_AudioPreviewer = gameObject.AddComponent<AudioSource>();
+			AssemblyReloadEvents.beforeAssemblyReload += Remove;
 		}
 
 		public void Remove()
@@ -29,6 +31,8 @@ namespace Game.Audio.Editor
 
 			Object.DestroyImmediate(_AudioPreviewer.gameObject);
 			_AudioPreviewer = null;
+
+			AssemblyReloadEvents.beforeAssemblyReload -= Remove;
 		}
 
 		public void Play(AudioAsset audioAsset)
