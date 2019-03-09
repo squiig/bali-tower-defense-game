@@ -1,51 +1,26 @@
-﻿using System.Collections;
+using System;
+using System.Collections;
 using System.Collections.Generic;
-
 using UnityEngine;
 
 namespace Game
 {
-	/// <summary>
-	/// Non-persistent singleton class. Will make a new instance when called and none exists. Will destroy itself if another instance already exists. No thread-safety features.
-	/// </summary>
-	/// <typeparam name="T">The class that's inheriting from Singleton.</typeparam>
-	[DisallowMultipleComponent]
-	public abstract class Singleton<T> : MonoBehaviour where T : Component
+	public class Singleton<T>
 	{
-		private static T _Instance;
+		private static readonly Lazy<Singleton<T>> _Instance = new Lazy<Singleton<T>>(() => new Singleton<T>());
 
-		/// <summary>
-		/// Referencing this field creates an instance if it doesn't already exist.
-		/// </summary>
-		public static T Instance
+		public static Singleton<T> Instance => _Instance.Value;
+
+		/*
+		 * Explicit static constructor to tell C# compiler 
+		 * not to mark type as beforefieldinit.
+		 */
+		static Singleton()
 		{
-			get {
-				if (_Instance == null)
-				{
-					_Instance = FindObjectOfType<T>();
-
-					if (_Instance == null)
-					{
-						GameObject obj = new GameObject();
-						obj.name = typeof(T).Name;
-						_Instance = obj.AddComponent<T>();
-					}
-				}
-
-				return _Instance;
-			}
 		}
 
-		protected virtual void Awake()
+		private Singleton()
 		{
-			if (_Instance == null)
-			{
-				_Instance = this as T;
-			}
-			else
-			{
-				Destroy(gameObject);
-			}
 		}
 	}
 }
