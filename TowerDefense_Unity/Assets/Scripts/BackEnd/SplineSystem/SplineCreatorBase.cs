@@ -4,7 +4,6 @@ using UnityEngine;
 
 namespace Game.SplineSystem
 {
-    /// <summary>Serves as a base class with basic variables for later purpose.</summary>
     public abstract class SplineCreatorBase : MonoBehaviour
     {
         [SerializeField, HideInInspector] protected bool _DrawTangents, _DrawNormals, _DrawBiNormals;

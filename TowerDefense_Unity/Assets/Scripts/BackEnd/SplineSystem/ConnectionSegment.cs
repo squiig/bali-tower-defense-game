@@ -17,6 +17,8 @@ namespace Game.SplineSystem
 		public Vector3 this[int i] => _Points[i];
 		public BezierSplineDataObject SenderSpline => _SenderSpline;
 		public BezierSplineDataObject ReceiverSpline => _ReceiverSpline;
+		public int SenderHandleIndex => _StartHandleIndex;
+		public int ReceiverHandleIndex => _EndHandleIndex;
 
 		public void SetCurve(int startHandleIndex, int endHandleIndex, BezierSplineDataObject sender, BezierSplineDataObject receiver)
 		{
