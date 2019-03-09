@@ -66,7 +66,7 @@ namespace Game.Entities.MovingEntities
         private void GetNewTarget(out IDamageable target)
 		{
 			//TODO: Not quite what we want, large performance impact.
-			target = ObjectPool<IDamageable>.Instance.
+			target = MemoryObjectPool<IDamageable>.Instance.
 				Where(x=> x.IsConducting() && 
 						  x.GetAllegiance() != GetAllegiance() &&
 				          Vector3.Distance(GetPosition(), x.GetPosition()) < _maxRange).
