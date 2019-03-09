@@ -10,6 +10,8 @@ namespace Game.Entities
     /// </summary>
 	public class ResourceSystem : Singleton<ResourceSystem>
 	{
+		
+
 		/// <summary>
         /// Event fired when a transaction is attempted.
         /// see <see cref="RunTransaction"/> to start a transaction.

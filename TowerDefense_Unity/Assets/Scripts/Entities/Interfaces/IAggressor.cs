@@ -29,3 +29,17 @@
 		IAttack GetAttack();
 	}
 }
+
+// AoE:
+// - Position
+// - Allegiance
+// - Range
+// AoE aggressor
+// - Attack
+
+// Single target
+// - Target
+// Single target Aggressor
+// - Attack
+// - Target
+// - Range

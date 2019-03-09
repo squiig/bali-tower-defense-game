@@ -1,4 +1,5 @@
 ﻿using Game.Entities.Interfaces;
+using UnityEngine;
 
 namespace Game.Entities.MovingEntities
 {
@@ -26,6 +27,7 @@ namespace Game.Entities.MovingEntities
 		/// <summary>
 		/// Executes the attack on the damageable given.
 		/// </summary>
-		public void ExecuteAttack(in IDamageable damageable) => damageable.ApplyOnHitEffects(_attackEffects);
+		public void ExecuteAttack(in IDamageable damageable, Vector3? position = null) => 
+			damageable.ApplyOnHitEffects(_attackEffects);
 	}
 }

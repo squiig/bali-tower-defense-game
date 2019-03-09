@@ -25,7 +25,7 @@ namespace Game.Entities.Interfaces
 		/// <summary>
         /// Executes the attack on the damageable given.
         /// </summary>
-		void ExecuteAttack(in IDamageable damageable);
+		void ExecuteAttack(in IDamageable damageable, Vector3? positionOverride = null);
 
 	}
 }

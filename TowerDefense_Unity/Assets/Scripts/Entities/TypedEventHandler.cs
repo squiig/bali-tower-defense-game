@@ -13,9 +13,3 @@ namespace Game.Entities
 	public delegate void TypedEventHandler<TSender, TPayload>(in TSender sender, in TPayload payload) 
 		where TSender : class where TPayload : EventArgs;
 }
-
-// Delegate which when fired must send:
-// sender as "readonly" variable.
-// sender must be a value type.
-// must return a contravariant payload.
-// payload must be of type 'EventArgs'

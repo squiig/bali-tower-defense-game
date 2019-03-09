@@ -10,17 +10,30 @@ namespace Game.Entities.MovingEntities
 	{
 		protected float Health;
 
-		protected readonly IAttack Attack;
+		protected IAttack Attack;
+
+		protected Allegiance Allegiance;
 
 		protected IDamageable TargetIDamageable;
 
-		private readonly int _priority;
+		private int _priority;
 
-		protected TraversingEntity(float maxHealth, int priority, in IAttack attack)
+		private bool _isConducting = true;
+
+		protected void Initialize(float maxHealth, int priority, Allegiance allegiance, in IAttack attack)
 		{
-			Health = maxHealth;
+			if (!ObjectPool<IDamageable>.Instance.Contains(this))
+			{
+				ObjectPool<IDamageable>.Instance.Add(this);
+				OnDeath += (in IDamageable sender, in EntityDamaged payload) => ReleaseOwnership();
+            }
+
+			Allegiance = allegiance;
+            Health = maxHealth;
 			_priority = priority;
 			Attack = attack;
+
+
 		}
 
 		/// <inheritdoc />
@@ -51,6 +64,52 @@ namespace Game.Entities.MovingEntities
 		/// </summary>
 		/// <returns> The priority to attack this instance of this damageable.</returns>
 		public int GetPriority() => _priority;
+
+		/// <inheritdoc />
+		/// <summary>
+		/// Used to check whether this object is currently in the game
+		/// or is only available in the pool.
+		/// [TRUE] if in scene, [FALSE] if only available from pool.
+		/// </summary>
+		/// <returns> [TRUE] if in scene, [FALSE] if only available from pool.</returns>
+		public bool IsConducting() => _isConducting;
+
+		/// <inheritdoc />
+		/// <summary>
+		/// Activate this instance. Called when an object has been requested from
+		/// the pool.
+		/// </summary>
+        public void Activate()
+		{
+			_isConducting = true;
+			GetInstance().SetActive(true);
+
+			OnDeath += (in IDamageable sender, in EntityDamaged payload) => ReleaseOwnership();
+		}
+
+		/// <inheritdoc />
+		/// <summary>
+		/// Releases ownership of this object and returns it to the pool.
+		/// </summary>
+        public void ReleaseOwnership()
+        {
+	        GetInstance().SetActive(false);
+            _isConducting = false;
+        }
+
+		/// <inheritdoc />
+		/// <summary>
+		/// Returns the allegiance of this unit
+		/// </summary>
+		/// <returns></returns>
+		public Allegiance GetAllegiance() => Allegiance;
+
+        /// <inheritdoc />
+        /// <summary>
+        /// Returns the GameObject of this instance.
+        /// </summary>
+        /// <returns>Returns the GameObject of this instance.</returns>
+        public GameObject GetEntity() => GetInstance();
 
 		/// <inheritdoc />
 		/// <summary>
@@ -108,5 +167,6 @@ namespace Game.Entities.MovingEntities
 		/// </summary>
 		/// <returns>Returns the attack class of this instance.</returns>
 		public IAttack GetAttack() => Attack;
+
 	}
 }
