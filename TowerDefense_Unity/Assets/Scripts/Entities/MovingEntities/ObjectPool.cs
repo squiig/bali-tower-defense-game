@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,9 +14,9 @@ namespace Game.Entities.MovingEntities
 	/// Can be used as collection, indexer is get only;
 	/// </summary>
 	/// <typeparam name="T"> Class or object you wish to pool.</typeparam>
-	public abstract class SceneObjectPool<T> : Singleton<SceneObjectPool<T>>, ICollection<T> where T : IPoolable
+	public abstract class SceneObjectPool<T> : MonoBehaviourSingleton<SceneObjectPool<T>>, ICollection<T> where T : IPoolable
 	{
-        private readonly List<T> _objects = new List<T>();
+        protected readonly List<T> _objects = new List<T>();
 
 		public T this[int index] => _objects[index];
 
@@ -39,12 +39,12 @@ namespace Game.Entities.MovingEntities
 		public bool Remove(T item) => _objects.Remove(item);
 
 		/// <summary>
-        /// Activates the first object if any that is not active.
-        /// Any poolable object with '<see cref="IPoolable.IsConducting"/>'
-        /// set to false will be included.
-        /// </summary>
-        /// <param name="predicate">any predicate selecting what to enable.</param>
-		public void ActivateObject(Func<T, bool> predicate)
+		/// Activates the first object if any that is not active.
+		/// Any poolable object with '<see cref="IPoolable.IsConducting"/>'
+		/// set to false will be included.
+		/// </summary>
+		/// <param name="predicate">any predicate selecting what to enable.</param>
+		public virtual void ActivateObject(Func<T, bool> predicate)
 		{
 			 _objects.Where(x => !x.IsConducting()).FirstOrDefault(predicate)?.Activate();
         }		

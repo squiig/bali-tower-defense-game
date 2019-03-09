@@ -149,57 +149,5 @@ namespace Game.SplineSystem
                 totalPos += point;
             return _Position = totalPos / PointCount;
         }
-
-        public Vector3[] CalculateEvenlySpacedPoints(float spacing, float resolution = 1)
-        {
-            float splineLength = 0;
-            List<Vector3> points = GetEvenlySpacedPoints(ref splineLength, spacing, resolution);
-            float remainingPointLength = IsClosed
-                ? Mathf.Sqrt(
-                    (points[0].x - points[points.Count - 1].x) * (points[0].x - points[points.Count - 1].x) +
-                    (points[0].y - points[points.Count - 1].y) * (points[0].y - points[points.Count - 1].y) +
-                    (points[0].z - points[points.Count - 1].z) * (points[0].z - points[points.Count - 1].z))
-                : Mathf.Sqrt(
-                    (_Points[PointCount - 1].x - points[points.Count - 1].x) * (_Points[PointCount - 1].x - points[points.Count - 1].x) +
-                    (_Points[PointCount - 1].y - points[points.Count - 1].y) * (_Points[PointCount - 1].y - points[points.Count - 1].y) +
-                    (_Points[PointCount - 1].z - points[points.Count - 1].z) * (_Points[PointCount - 1].z - points[points.Count - 1].z));
-
-            spacing += remainingPointLength / points.Count;
-            return GetEvenlySpacedPoints(ref splineLength, spacing, resolution).ToArray();
-        }
-
-        private List<Vector3> GetEvenlySpacedPoints(ref float splineLength, float spacing, float resolution = 1)
-        {
-            List<Vector3> points = new List<Vector3> { _Points[0] };
-            Vector3 prevPoint = _Points[0];
-            float distanceSinceLastPoint = 0;
-
-            for (int segmentIndex = 0; segmentIndex < SegmentCount; segmentIndex++)
-            {
-                Vector3[] segment = GetSegmentPoints(segmentIndex);
-                float curveLength = Utils.Bezier3DUtility.Get3DCurveLength(segment[0], segment[1], segment[2], segment[3]);
-                int divisions = Mathf.CeilToInt(curveLength * resolution * 10);
-                splineLength += curveLength;
-
-                float pointPos = 0;
-                while (pointPos <= 1)
-                {
-                    pointPos += 1f / divisions;
-                    Vector3 pointOnCurve = Utils.Bezier3DUtility.CubicCurveVector3(segment[0], segment[1], segment[2], segment[3], pointPos);
-                    distanceSinceLastPoint += Vector3.Distance(prevPoint, pointOnCurve);
-
-                    while (distanceSinceLastPoint >= spacing)
-                    {
-                        float overShootDistance = distanceSinceLastPoint - spacing;
-                        Vector3 newCorrectedPoint = pointOnCurve + (prevPoint - pointOnCurve).normalized * overShootDistance;
-                        points.Add(newCorrectedPoint);
-                        distanceSinceLastPoint = overShootDistance;
-                        prevPoint = newCorrectedPoint;
-                    }
-                    prevPoint = pointOnCurve;
-                }
-            }
-            return points;
-        }
     }
 }
