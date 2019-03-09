@@ -1,7 +1,5 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System.Linq;
 
 namespace Game.SplineSystem
 {
@@ -13,13 +11,16 @@ namespace Game.SplineSystem
 		private Dictionary<BezierSplineDataObject, Vector3[]> _EvenlySpacedSplinePoints = new Dictionary<BezierSplineDataObject, Vector3[]>();
 
 		public Vector3 this[BezierSplineDataObject dataObject, int i] => _EvenlySpacedSplinePoints[dataObject][i];
+		public int SplineCount => _EvenlySpacedSplinePoints.Count;
 
-		private void Start()
+		private void Awake()
 		{
-			foreach(var spline in _EvenlySpacedSplinePoints)
+			BezierSplineDataObject[] splines = Resources.LoadAll<BezierSplineDataObject>("BackEnd/SplineSystem");
+			foreach (var spline in splines)
 			{
-				Vector3[] points = CalculateEvenlySpacedPoints(spline.Key, _Spacing, _Resolution);
-				foreach (Vector3 point in points)
+				Vector3[] evenlySpacedPoints = CalculateEvenlySpacedPoints(spline, _Spacing, _Resolution);
+				_EvenlySpacedSplinePoints.Add(spline, evenlySpacedPoints);
+				foreach (Vector3 point in evenlySpacedPoints)
 				{
 					GameObject sphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
 					sphere.transform.position = point;

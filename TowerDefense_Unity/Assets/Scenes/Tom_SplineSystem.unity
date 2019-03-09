@@ -238,6 +238,7 @@ MonoBehaviour:
   _MinionPrefab: {fileID: 7373164451941745485, guid: d8fa2642eec5a114b8b5d298eed9ea1f,
     type: 3}
   _PoolObjectCount: 20
+  _PathManager: {fileID: 282143804}
 --- !u!4 &822442444
 Transform:
   m_ObjectHideFlags: 0

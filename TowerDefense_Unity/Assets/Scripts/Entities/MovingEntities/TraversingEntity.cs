@@ -18,7 +18,7 @@ namespace Game.Entities.MovingEntities
 
 		private int _priority;
 
-		private bool _isConducting = true;
+		private bool _isConducting = false;
 
 		protected void Initialize(float maxHealth, int priority, Allegiance allegiance, in IAttack attack)
 		{
