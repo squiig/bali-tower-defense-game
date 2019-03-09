@@ -22,9 +22,9 @@ namespace Game.Entities.MovingEntities
 
 		protected void Initialize(float maxHealth, int priority, Allegiance allegiance, in IAttack attack)
 		{
-			if (!ObjectPool<IDamageable>.Instance.Contains(this))
+			if (!MemoryObjectPool<IDamageable>.Instance.Contains(this))
 			{
-				ObjectPool<IDamageable>.Instance.Add(this);
+				MemoryObjectPool<IDamageable>.Instance.Add(this);
 				OnDeath += (in IDamageable sender, in EntityDamaged payload) => ReleaseOwnership();
             }
 
@@ -32,8 +32,6 @@ namespace Game.Entities.MovingEntities
             Health = maxHealth;
 			_priority = priority;
 			Attack = attack;
-
-
 		}
 
 		/// <inheritdoc />
@@ -82,7 +80,7 @@ namespace Game.Entities.MovingEntities
         public void Activate()
 		{
 			_isConducting = true;
-			GetInstance().SetActive(true);
+			SetActive(true);
 
 			OnDeath += (in IDamageable sender, in EntityDamaged payload) => ReleaseOwnership();
 		}
@@ -93,7 +91,7 @@ namespace Game.Entities.MovingEntities
 		/// </summary>
         public void ReleaseOwnership()
         {
-	        GetInstance().SetActive(false);
+	        SetActive(false);
             _isConducting = false;
         }
 

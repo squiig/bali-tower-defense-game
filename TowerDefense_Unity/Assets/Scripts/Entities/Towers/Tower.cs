@@ -91,7 +91,7 @@ namespace Game.Entities.Towers
 		private void GetNewTarget(out IDamageable target)
 		{
 			//TODO: Not quite what we want, large performance impact.
-			target = ObjectPool<IDamageable>.Instance.
+			target = MemoryObjectPool<IDamageable>.Instance.
 				Where(x => x.IsConducting() &&
 				           x.GetAllegiance() != _allegiance &&
 				           Vector3.Distance(GetLocation(), x.GetPosition()) < AttackRange).
@@ -212,7 +212,7 @@ namespace Game.Entities.Towers
 
 		private void AreaAttack(Allegiance allegiance, Vector3 position)
 		{
-			foreach (IDamageable damageable in ObjectPool<IDamageable>.Instance.
+			foreach (IDamageable damageable in MemoryObjectPool<IDamageable>.Instance.
 				Where(x => x.GetAllegiance() != allegiance &&
 				           Vector3.Distance(x.GetPosition(), position) < _areaOfEffect))
 				damageable.ApplyOnHitEffects(_attackEffects);
