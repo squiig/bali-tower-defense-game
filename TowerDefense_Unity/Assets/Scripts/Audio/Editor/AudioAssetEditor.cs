@@ -88,8 +88,6 @@ namespace Game.Audio.Editor
 			_SelectableList.DoList(_ClipList.arraySize, _ScrollVector);
             _SerializedTarget.ApplyModifiedProperties();
 
-
-
             GUILayout.EndScrollView();
         }
 

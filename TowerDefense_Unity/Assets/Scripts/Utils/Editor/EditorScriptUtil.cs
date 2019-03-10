@@ -28,7 +28,7 @@ namespace Game.Utils.Editor
 
 
 			EditorGUILayout.EndHorizontal();
-			EditorGUILayout.MinMaxSlider(ref floatMin, ref floatMax, -2, 2);
+			EditorGUILayout.MinMaxSlider(ref floatMin, ref floatMax, minLimit, maxLimit);
 			GUILayout.EndVertical();
 
 

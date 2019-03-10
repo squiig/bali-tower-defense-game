@@ -16,7 +16,12 @@ namespace Game.Audio
         public AudioClip[] AudioClips => _AudioClips;
         public int ClipCount => _AudioClips.Length;
         public float Volume => _Volume;
-        public float Pitch => Random.Range(_PitchMin, _PitchMax);
+        public float Pitch => GetPitch();
+
+        public float GetPitch()
+        {
+	        return Random.Range(_PitchMin, _PitchMax);
+        }
 
         public AudioClip GetClip()
         {
