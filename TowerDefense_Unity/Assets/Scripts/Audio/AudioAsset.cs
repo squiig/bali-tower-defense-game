@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 
 namespace Game.Audio
 {
@@ -10,9 +10,13 @@ namespace Game.Audio
         [SerializeField] private AudioClip[] _AudioClips;
         [SerializeField] private float _Volume = 1;
 
+        [SerializeField] private float _PitchMin = 1;
+        [SerializeField] private float _PitchMax = 1;
+
         public AudioClip[] AudioClips => _AudioClips;
         public int ClipCount => _AudioClips.Length;
         public float Volume => _Volume;
+        public float Pitch => Random.Range(_PitchMin, _PitchMax);
 
         public AudioClip GetClip()
         {

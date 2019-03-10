@@ -1,5 +1,4 @@
-﻿using Game.Utils.Editor;
-
+using Game.Utils.Editor;
 using UnityEditor;
 using UnityEngine;
 
@@ -10,7 +9,9 @@ namespace Game.Audio.Editor
     /// </summary>
     public class AudioAssetEditor
     {
-        private readonly SelectableList _SelectableList;
+	    private const float PITCH_MINIMUM = -2f;
+	    private const float PITCH_MAXIMUM = 2f;
+	    private readonly SelectableList _SelectableList;
 
         private AudioAsset _RawTarget;
         private SerializedObject _SerializedTarget;
@@ -78,8 +79,17 @@ namespace Game.Audio.Editor
             GUILayout.EndHorizontal();
 
 
-            _SelectableList.DoList(_ClipList.arraySize, _ScrollVector);
+            EditorScriptUtil.RangeSlider(
+	            _SerializedTarget.FindProperty("_PitchMin"),
+	            _SerializedTarget.FindProperty("_PitchMax"),
+	            PITCH_MINIMUM,
+	            PITCH_MAXIMUM);
+
+			_SelectableList.DoList(_ClipList.arraySize, _ScrollVector);
             _SerializedTarget.ApplyModifiedProperties();
+
+
+
             GUILayout.EndScrollView();
         }
 

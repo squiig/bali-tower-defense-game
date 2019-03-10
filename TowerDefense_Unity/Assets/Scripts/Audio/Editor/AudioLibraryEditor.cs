@@ -85,7 +85,7 @@ namespace Game.Audio.Editor
 
             audioIdentifierProperty.stringValue = EditorGUILayout.TextField(audioIdentifierProperty.stringValue);
 
-            GUILayout.BeginHorizontal();
+			GUILayout.BeginHorizontal();
             EditorGUILayout.ObjectField(audioAssetProperty);
 
             if (GUILayout.Button("Preview"))

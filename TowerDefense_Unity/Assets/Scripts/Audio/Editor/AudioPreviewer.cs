@@ -46,8 +46,9 @@ namespace Game.Audio.Editor
 				Debug.LogWarning("Audio asset returned null. Make sure all audioclip fields are filled.");
 			}
 
-
+			_AudioPreviewer.pitch = audioAsset.Pitch;
 			_AudioPreviewer.clip = audioAsset.GetClip();
+			_AudioPreviewer.timeSamples = _AudioPreviewer.pitch < 0 ? _AudioPreviewer.clip.samples-1 : 0;
 			_AudioPreviewer.Play();
 		}
 	}

@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 
 namespace Game.Audio
 {
@@ -31,7 +31,9 @@ namespace Game.Audio
         {
             _GameObject.transform.SetAsFirstSibling();
             _GameObject.SetActive(true);
+			
             Context = context;
+            _AudioSource.pitch = asset.Pitch;
             _AudioSource.clip = asset.GetClip();
             _AudioSource.volume = asset.Volume;
             _AudioSource.Play();
