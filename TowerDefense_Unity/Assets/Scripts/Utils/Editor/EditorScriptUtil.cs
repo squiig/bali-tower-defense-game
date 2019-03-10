@@ -13,8 +13,6 @@ namespace Game.Utils.Editor
 			float floatMin = minFloat.floatValue;
 			float floatMax = maxFloat.floatValue;
 
-			GUILayout.BeginVertical(GUI.skin.box);
-			EditorGUILayout.LabelField("Pitch Range");
 			EditorGUILayout.BeginHorizontal();
 			floatMin = Mathf.Clamp(EditorGUILayout.FloatField(floatMin), minLimit, maxLimit);
 
@@ -29,8 +27,6 @@ namespace Game.Utils.Editor
 
 			EditorGUILayout.EndHorizontal();
 			EditorGUILayout.MinMaxSlider(ref floatMin, ref floatMax, minLimit, maxLimit);
-			GUILayout.EndVertical();
-
 
 			minFloat.floatValue = floatMin;
 			maxFloat.floatValue = floatMax;

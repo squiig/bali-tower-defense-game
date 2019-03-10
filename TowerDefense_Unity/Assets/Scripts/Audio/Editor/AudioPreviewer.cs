@@ -34,7 +34,7 @@ namespace Game.Audio.Editor
 
 			AssemblyReloadEvents.beforeAssemblyReload -= Remove;
 		}
-
+		
 		public void Play(AudioAsset audioAsset)
 		{
 			AudioSysUtil.ConfigureAudioSource(_AudioSource, audioAsset);

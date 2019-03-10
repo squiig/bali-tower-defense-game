@@ -1,3 +1,4 @@
+#pragma warning disable 649
 using UnityEngine;
 
 namespace Game.Audio
@@ -7,11 +8,16 @@ namespace Game.Audio
     /// </summary>
     public class AudioAsset : ScriptableObject
     {
+		private const int INVALID_INDEX = -1;
+
         [SerializeField] private AudioClip[] _AudioClips;
         [SerializeField] private float _Volume = 1;
 
         [SerializeField] private float _PitchMin = 1;
         [SerializeField] private float _PitchMax = 1;
+
+		[SerializeField] private bool _AvoidRepetition = true;
+        private int _LastIndex = INVALID_INDEX;
 
         public AudioClip[] AudioClips => _AudioClips;
         public int ClipCount => _AudioClips.Length;
@@ -30,7 +36,15 @@ namespace Game.Audio
 
         private AudioClip GetRandomClip()
         {
-            return AudioClips[Random.Range(0, ClipCount)];
+	        int index;
+
+	        do
+	        {
+				index = Random.Range(0, ClipCount);
+	        } while (index == _LastIndex && _AvoidRepetition && ClipCount > 1);
+
+	        _LastIndex = index;
+            return AudioClips[index];
         }
     }
 }

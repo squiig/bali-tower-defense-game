@@ -4,109 +4,149 @@ using UnityEngine;
 
 namespace Game.Audio.Editor
 {
-    /// <summary>
-    /// Used to render and control a window to edit an audio asset
-    /// </summary>
-    public class AudioAssetEditor
-    {
-	    private const float PITCH_MINIMUM = -2f;
-	    private const float PITCH_MAXIMUM = 2f;
-	    private readonly SelectableList _SelectableList;
+	/// <summary>
+	/// Used to render and control a window to edit an audio asset
+	/// </summary>
+	public class AudioAssetEditor
+	{
+		private const float PITCH_MINIMUM = -2f;
+		private const float PITCH_MAXIMUM = 2f;
+		private readonly SelectableList _SelectableList;
 
-        private AudioAsset _RawTarget;
-        private SerializedObject _SerializedTarget;
-        private SerializedProperty _ClipList;
+		private AudioAsset _RawTarget;
+		private SerializedObject _SerializedTarget;
+		private SerializedProperty _ClipList;
 
-        private Vector3 _ScrollVector;
+		private SerializedProperty _PitchMin;
+		private SerializedProperty _PitchMax;
+		private SerializedProperty _AvoidRepetition;
+		private SerializedProperty _Volume;
 
-        public void SetTarget(AudioAsset audioAsset)
-        {
-            if (audioAsset == null)
-            {
-                ResetTarget();
-                return;
-            }
+		private Vector3 _ScrollVector;
 
-            _RawTarget = audioAsset;
-            _SerializedTarget = new SerializedObject(_RawTarget);
-            _ClipList = _SerializedTarget.FindProperty("_AudioClips");
-            _SelectableList.ResetSelection();
-        }
+		private readonly GUIContent _AvoidRepetitionContent = new GUIContent("Avoid repetition", "Avoids repeating the same clip twice");
+		private readonly GUIContent _VolumeLabel = new GUIContent("Volume", "Changes the loudness of this asset");
+		private readonly GUIContent _PitchLabel = new GUIContent("Pitch range", "Changes the pitch range the audio asset is randomly played at");
 
-        public void AddElement()
-        {
-            _ClipList.InsertArrayElementAtIndex(0);
-        }
+		public void SetTarget(AudioAsset audioAsset)
+		{
+			if (audioAsset == null)
+			{
+				ResetTarget();
+				return;
+			}
 
-        public void RemoveElement()
-        {
-            _ClipList.DeleteArrayElementAtIndex(
-                _SelectableList.SelectedElementIndex);
-        }
+			_RawTarget = audioAsset;
+			_SerializedTarget = new SerializedObject(_RawTarget);
+			_ClipList = _SerializedTarget.FindProperty("_AudioClips");
+			_PitchMin = _SerializedTarget.FindProperty("_PitchMin");
+			_PitchMax = _SerializedTarget.FindProperty("_PitchMax");
+			_Volume = _SerializedTarget.FindProperty("_Volume");
+			_AvoidRepetition = _SerializedTarget.FindProperty("_AvoidRepetition");
+			_SelectableList.ResetSelection();
+		}
 
-        public void RemoveAllElements()
-        {
-            _ClipList.ClearArray();
-        }
+		public void AddElement()
+		{
+			_ClipList.InsertArrayElementAtIndex(0);
+		}
 
-        public void DoAssetEditor()
-        {
-            if (_RawTarget == null) return;
+		public void RemoveElement()
+		{
+			_ClipList.DeleteArrayElementAtIndex(
+				_SelectableList.SelectedElementIndex);
+		}
 
-            _ScrollVector = GUILayout.BeginScrollView(_ScrollVector);
+		public void RemoveAllElements()
+		{
+			_ClipList.ClearArray();
+		}
 
-            GUILayout.BeginHorizontal();
-            GUILayout.Label($"{nameof(AudioAssetEditor)}");
+		public void DoAssetEditor()
+		{
+			if (_RawTarget == null) return;
 
-            if (GUILayout.Button("Nuke"))
-            {
-                EditorWindow.CreateInstance<ConfirmActionPopup>()
-                    .SetQuestion("You're about to remove all soundclips. Are you sure?")
-                    .OnConfirm += RemoveAllElements;
-            }
+			_ScrollVector = GUILayout.BeginScrollView(_ScrollVector);
 
-            if (GUILayout.Button("Remove"))
-            {
-                RemoveElement();
-            }
+			GUILayout.Label($"{nameof(AudioAssetEditor)}");
 
-            if (GUILayout.Button("Add"))
-            {
-                AddElement();
-            }
+			DrawProperties();
+			DrawClipList();
+
+			if (_SerializedTarget.hasModifiedProperties)
+			{
+				_SerializedTarget.ApplyModifiedProperties();
+			}
+
+			GUILayout.EndScrollView();
+		}
+
+		public void DrawProperties()
+		{
+			GUILayout.BeginVertical(GUI.skin.box);
 
 
-            GUILayout.EndHorizontal();
+			EditorGUILayout.LabelField(_VolumeLabel);
+			_Volume.floatValue = EditorGUILayout.FloatField(_Volume.floatValue);
 
+			EditorGUILayout.LabelField(_PitchLabel);
+			EditorScriptUtil.RangeSlider(
+				_PitchMin,
+				_PitchMax,
+				PITCH_MINIMUM,
+				PITCH_MAXIMUM);
 
-            EditorScriptUtil.RangeSlider(
-	            _SerializedTarget.FindProperty("_PitchMin"),
-	            _SerializedTarget.FindProperty("_PitchMax"),
-	            PITCH_MINIMUM,
-	            PITCH_MAXIMUM);
+			_AvoidRepetition.boolValue = EditorGUILayout.Toggle(_AvoidRepetitionContent, _AvoidRepetition.boolValue);
+
+			GUILayout.EndVertical();
+
+		}
+
+		public void DrawClipList()
+		{
+			GUILayout.BeginVertical(GUI.skin.box);
+			GUILayout.BeginHorizontal();
+			GUILayout.Label("Sound clips");
+
+			if (GUILayout.Button("Nuke"))
+			{
+				EditorWindow.CreateInstance<ConfirmActionPopup>()
+					.SetQuestion("You're about to remove all soundclips. Are you sure?")
+					.OnConfirm += RemoveAllElements;
+			}
+
+			if (GUILayout.Button("Remove"))
+			{
+				RemoveElement();
+			}
+
+			if (GUILayout.Button("Add"))
+			{
+				AddElement();
+			}
+			GUILayout.EndHorizontal();
+
 
 			_SelectableList.DoList(_ClipList.arraySize, _ScrollVector);
-            _SerializedTarget.ApplyModifiedProperties();
+			GUILayout.EndVertical();
+		}
 
-            GUILayout.EndScrollView();
-        }
+		public AudioAssetEditor()
+		{
+			_SelectableList = new SelectableList(DrawElement);
+		}
 
-        public AudioAssetEditor()
-        {
-            _SelectableList = new SelectableList(DrawElement);
-        }
+		private void DrawElement(int index)
+		{
+			SerializedProperty clip = _ClipList.GetArrayElementAtIndex(index);
+			EditorGUILayout.ObjectField(clip);
+		}
 
-        private void DrawElement(int index)
-        {
-            SerializedProperty clip = _ClipList.GetArrayElementAtIndex(index);
-            EditorGUILayout.ObjectField(clip);
-        }
-
-        private void ResetTarget()
-        {
-            _RawTarget = null;
-            _SerializedTarget = null;
-            _ClipList = null;
-        }
-    }
+		private void ResetTarget()
+		{
+			_RawTarget = null;
+			_SerializedTarget = null;
+			_ClipList = null;
+		}
+	}
 }
