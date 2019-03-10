@@ -1,4 +1,4 @@
-﻿using System.Linq;
+using System.Linq;
 using Game.Entities.Interfaces;
 using UnityEngine;
 
@@ -24,7 +24,8 @@ namespace Game.Entities.MovingEntities
         }
 
 		private void Update()
-        {
+		{
+			base.Update();
             if (_isDebug)
                 DrawDebug();
 

@@ -2,17 +2,43 @@ using UnityEngine;
 
 namespace Game.SplineSystem
 {
-	/// <summary></summary>
-	public class SplineWalker : MonoBehaviour
+	/// <summary>The spline walker object will walk over one of the spline branches until he reaches the end,
+	/// then he will look what state he is supposed to execute.</summary>
+	public class SplineWalker : Entities.Entity
 	{
+		[SerializeField] private const float UPDATE_NEXT_DESTINATION = 0.1f;
+		[SerializeField] private float _MoveSpeed = 7.0f;
+
+		private SplinePathManager _PathManager;
+		private int _CurrentDestinationIndex;
+
+		public BezierSplineDataObject SplineBranch { get; set; }
+
 		private void Start()
 		{
-			
+			_CurrentDestinationIndex = 0;
+			_PathManager = FindObjectOfType<SplinePathManager>();
 		}
 
 		public void Update()
 		{
+			if ((_PathManager[SplineBranch, _CurrentDestinationIndex] - transform.position).magnitude < UPDATE_NEXT_DESTINATION)
+				UpdateSplineDestinationPoint();
+			else
+				MoveSplineWalker();
 			
+		}
+
+		private void MoveSplineWalker()
+		{
+			transform.position = Vector3.MoveTowards(transform.position, _PathManager[SplineBranch, _CurrentDestinationIndex], _MoveSpeed * Time.deltaTime);
+		}
+
+		private void UpdateSplineDestinationPoint()
+		{
+			if (_PathManager.EvenlySpacedSplinePointCount(SplineBranch) - 1 < _CurrentDestinationIndex + 1)
+				return;
+			_CurrentDestinationIndex++;
 		}
 	}
 }

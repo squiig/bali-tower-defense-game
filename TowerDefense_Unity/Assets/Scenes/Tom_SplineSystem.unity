@@ -141,7 +141,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc92fd3ec70f14344a72fbfb64aef273, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _Spacing: 2
+  _Spacing: 1.5
   _Resolution: 1
 --- !u!4 &282143805
 Transform:
@@ -238,7 +238,6 @@ MonoBehaviour:
   _MinionPrefab: {fileID: 7373164451941745485, guid: d8fa2642eec5a114b8b5d298eed9ea1f,
     type: 3}
   _PoolObjectCount: 20
-  _PathManager: {fileID: 282143804}
 --- !u!4 &822442444
 Transform:
   m_ObjectHideFlags: 0

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 namespace Game.SplineSystem
 {
@@ -12,14 +13,17 @@ namespace Game.SplineSystem
 
 		public Vector3 this[BezierSplineDataObject dataObject, int i] => _EvenlySpacedSplinePoints[dataObject][i];
 		public int SplineCount => _EvenlySpacedSplinePoints.Count;
+		public int EvenlySpacedSplinePointCount(BezierSplineDataObject spline) => _EvenlySpacedSplinePoints[spline].Length;
 
-		private void Awake()
+		protected override void Awake()
 		{
 			BezierSplineDataObject[] splines = Resources.LoadAll<BezierSplineDataObject>("BackEnd/SplineSystem");
-			foreach (var spline in splines)
+			foreach (BezierSplineDataObject spline in splines)
 			{
-				Vector3[] evenlySpacedPoints = CalculateEvenlySpacedPoints(spline, _Spacing, _Resolution);
+				Vector3[] evenlySpacedPoints = CalculateEvenlySpacedPoints(spline);
 				_EvenlySpacedSplinePoints.Add(spline, evenlySpacedPoints);
+
+#if UNITY_EDITOR //Spawns in balls to also show the path in-game.
 				foreach (Vector3 point in evenlySpacedPoints)
 				{
 					GameObject sphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
@@ -27,6 +31,7 @@ namespace Game.SplineSystem
 					sphere.transform.localScale = Vector3.one * _Spacing * 0.5f;
 					sphere.transform.parent = transform;
 				}
+#endif
 			}
 		}
 
@@ -44,10 +49,22 @@ namespace Game.SplineSystem
 			return starterPoints;
 		}
 
-		public Vector3[] CalculateEvenlySpacedPoints(BezierSplineDataObject spline, float spacing, float resolution = 1)
+		public BezierSplineDataObject GetSplineDataObject(int index)
+		{
+			int counter = 0;
+			foreach (KeyValuePair<BezierSplineDataObject, Vector3[]> spline in _EvenlySpacedSplinePoints)
+			{
+				if (index == counter)
+					return spline.Key;
+				counter++;
+			}
+			return null;
+		}
+
+		public Vector3[] CalculateEvenlySpacedPoints(BezierSplineDataObject spline)
 		{
 			float splineLength = 0;
-			List<Vector3> points = GetEvenlySpacedPoints(spline, ref splineLength, spacing, resolution);
+			List<Vector3> points = GetEvenlySpacedPoints(spline, ref splineLength, _Spacing);
 			float remainingPointLength = spline.IsClosed
 				? Mathf.Sqrt(
 					(points[0].x - points[points.Count - 1].x) * (points[0].x - points[points.Count - 1].x) +
@@ -58,11 +75,11 @@ namespace Game.SplineSystem
 					(spline[spline.PointCount - 1].y - points[points.Count - 1].y) * (spline[spline.PointCount - 1].y - points[points.Count - 1].y) +
 					(spline[spline.PointCount - 1].z - points[points.Count - 1].z) * (spline[spline.PointCount - 1].z - points[points.Count - 1].z));
 
-			spacing += remainingPointLength / points.Count;
-			return GetEvenlySpacedPoints(spline, ref splineLength, spacing, resolution).ToArray();
+			float totalSpacing = _Spacing + remainingPointLength / points.Count;
+			return GetEvenlySpacedPoints(spline, ref splineLength, totalSpacing).ToArray();
 		}
 
-		private List<Vector3> GetEvenlySpacedPoints(BezierSplineDataObject spline, ref float splineLength, float spacing, float resolution = 1)
+		private List<Vector3> GetEvenlySpacedPoints(BezierSplineDataObject spline, ref float splineLength, float spacing)
 		{
 			List<Vector3> points = new List<Vector3> { spline[0] };
 			Vector3 prevPoint = spline[0];
@@ -72,7 +89,7 @@ namespace Game.SplineSystem
 			{
 				Vector3[] segment = spline.GetSegmentPoints(segmentIndex);
 				float curveLength = Utils.Bezier3DUtility.Get3DCurveLength(segment[0], segment[1], segment[2], segment[3]);
-				int divisions = Mathf.CeilToInt(curveLength * resolution * 10);
+				int divisions = Mathf.CeilToInt(curveLength * _Resolution * 10);
 				splineLength += curveLength;
 
 				float pointPos = 0;

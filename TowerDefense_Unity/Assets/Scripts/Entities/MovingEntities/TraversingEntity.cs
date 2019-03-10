@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Game.Entities.MovingEntities
 {
-	public abstract class TraversingEntity : Entity, IDamageable, IAggressor
+	public abstract class TraversingEntity : SplineSystem.SplineWalker, IDamageable, IAggressor
 	{
 		protected float Health;
 
