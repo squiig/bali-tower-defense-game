@@ -1,4 +1,4 @@
-﻿using Game.Utils.Editor;
+using Game.Utils.Editor;
 
 using UnityEditor;
 using UnityEngine;
@@ -14,6 +14,7 @@ namespace Game.Audio.Editor
     {
         private readonly SelectableList _SelectableAudioAssetList;
         public event Action<AudioAsset> OnSelected;
+        public event Action<AudioAsset> OnPreview;
         public event Action OnRequestRepaint;
 
         private AudioAssetLibrary _RawTarget;
@@ -83,7 +84,16 @@ namespace Game.Audio.Editor
             SerializedProperty audioIdentifierProperty = currentMapping.FindPropertyRelative("_Identifier");
 
             audioIdentifierProperty.stringValue = EditorGUILayout.TextField(audioIdentifierProperty.stringValue);
+
+            GUILayout.BeginHorizontal();
             EditorGUILayout.ObjectField(audioAssetProperty);
+
+            if (GUILayout.Button("Preview"))
+            {
+	            OnPreview?.Invoke((AudioAsset) audioAssetProperty.objectReferenceValue);
+            }
+
+            EditorGUILayout.EndHorizontal();
         }
 
         private void AddElement(AudioAsset asset)
@@ -136,6 +146,6 @@ namespace Game.Audio.Editor
             AudioAsset audioAsset = AssetDatabase.LoadAssetAtPath<AudioAsset>(path);
 
             OnSelected?.Invoke(audioAsset);
-        }
+		}
     }
 }
