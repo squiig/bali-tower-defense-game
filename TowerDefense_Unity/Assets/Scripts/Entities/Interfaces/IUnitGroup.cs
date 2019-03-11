@@ -18,7 +18,7 @@ namespace Game.Entities.Interfaces
 		/// Used to get all aggressors of this group.
 		/// Will never return null.
 		/// </summary>
-		/// <returns> Returns all agressors contained within this unit. Never null.</returns>
+		/// <returns> Returns all aggressors contained within this unit. Never null.</returns>
 		IAggressor[] GetAggressors();
 
 		/// <summary>

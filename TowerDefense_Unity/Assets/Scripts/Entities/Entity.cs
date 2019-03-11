@@ -23,5 +23,11 @@ namespace Game.Entities
 		/// </summary>
 		/// <param name="active"> Boolean representing the GameObject state.</param>
 		public void SetActive(bool active) => gameObject.SetActive(active);
+
+        /// <summary>
+        /// Returns the location of this entity
+        /// </summary>
+        /// <returns>Returns the location of this entity</returns>
+        public Vector3 GetLocation() => transform.position;
 	}
 }

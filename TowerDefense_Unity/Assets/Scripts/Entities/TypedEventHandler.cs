@@ -10,6 +10,6 @@ namespace Game.Entities
 	/// <typeparam name="TPayload">Represents the data given to listeners when fired.</typeparam>
 	/// <param name="sender"> The class that fired this event. </param>
 	/// <param name="payload"> The data to be given to listeners. </param>
-	public delegate void TypedEventHandler<in TSender, in TPayload>(TSender sender, TPayload payload) 
+	public delegate void TypedEventHandler<TSender, TPayload>(in TSender sender, in TPayload payload) 
 		where TSender : class where TPayload : EventArgs;
 }
