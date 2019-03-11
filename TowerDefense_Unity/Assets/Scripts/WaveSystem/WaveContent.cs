@@ -5,6 +5,7 @@ using UnityEngine;
 
 namespace Game.WaveSystem
 {
+	[CreateAssetMenu(fileName = "New Wave", menuName = "Wave")]
 	public class WaveContent : ScriptableObject
 	{
 		[SerializeField] private List<Minion> _Minions = null;

@@ -18,7 +18,7 @@ namespace Game.WaveSystem
 		public int Index => _Index;
 		public WaveContent WaveContent => _WaveContent;
 		public bool IsActive => _Coroutine != null;
-		
+
 		public Wave(int index, WaveContent data)
 		{
 			_Index = index;
