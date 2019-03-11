@@ -1,9 +1,9 @@
-﻿using Game.Entities.Interfaces;
+using Game.Entities.Interfaces;
 using Game.Entities.Towers;
 
 namespace Game.Entities.Towers
 {
-	public class TowerRangeUpgrade : IUpgrade<Tower>
+	public class TowerUpgrade : IUpgrade
 	{
 		private readonly float _upgradeValue = 20.0f;
 
@@ -11,7 +11,11 @@ namespace Game.Entities.Towers
 		/// <summary>
 		/// Applies an upgrade to the instance 
 		/// </summary>
-		public void ApplyUpgrade(in Tower instance) => instance.IncreaseRange(_upgradeValue);
+		public void ApplyUpgrade(in Tower instance)
+		{
+			instance.IncreaseRange(_upgradeValue);
+			instance.IncreaseDamage(_upgradeValue);
+		}
 
 		/// <inheritdoc />
 		/// <summary>

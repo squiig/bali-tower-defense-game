@@ -26,6 +26,7 @@ namespace Game.Entities.MovingEntities
 		private void Update()
 		{
 			base.Update();
+			
             if (_isDebug)
                 DrawDebug();
 
@@ -92,6 +93,8 @@ namespace Game.Entities.MovingEntities
 
 			_attackCoolDown = ATTACK_COOL_DOWN_DURATION;
 			Attack.ExecuteAttack(TargetIDamageable);
+
+			ReleaseOwnership();
 		}
 
 		private bool IsTargetForsaken()

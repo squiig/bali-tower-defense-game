@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Game.Entities.EventContainers;
@@ -148,8 +148,10 @@ namespace Game.Entities.Towers
 		}
     }
 
-	public class Tower : TowerBase, IUpgradeable<TowerRangeUpgrade, Tower>
-    {
+	public class Tower : TowerBase, IUpgradeable
+	{
+		[SerializeField] private IUpgrade[] _Upgrades;
+
         /// <summary>
         /// Increases the range of this turret.
         /// Should only ever be called by an upgrade.
@@ -161,18 +163,24 @@ namespace Game.Entities.Towers
 			AttackRange = Mathf.Clamp(AttackRange, StartAttackRange, MaxAttackRange);
 		}
 
-		/// <inheritdoc />
+	    public void IncreaseDamage(float increase)
+	    {
+			Attack = new TowerAttack(80);
+	    }
+
+	    /// <inheritdoc />
 		/// <summary>
 		/// Upgrades the instance by T.
-		/// T must be gotten via <see cref="M:Game.Entities.Towers.Tower.GetPossibleUpgrades(TowerRangeUpgrade[]@)" />
+		/// T must be gotten via <see cref="GetPossibleUpgrades"/>
 		/// Upgrade can be rejected if not enough resources are available.
 		/// </summary>
 		/// <param name="upgrade"> Upgrade to apply to this instance.</param>
-		public void Upgrade(in TowerRangeUpgrade upgrade)
+		public void Upgrade(in IUpgrade upgrade)
 		{
-			ResourceSystem.Instance.RunTransaction(upgrade.GetCost());
+			if(!ResourceSystem.Instance.RunTransaction(upgrade.GetCost()))
+				return;
+
 			upgrade.ApplyUpgrade(this);
-			throw new NotImplementedException("Transactions will always be false positive.");
 		}
 
 		/// <inheritdoc />
@@ -183,10 +191,15 @@ namespace Game.Entities.Towers
 		/// Will never be null.
 		/// </summary>
 		/// <returns> An array of T with all possible upgrades. Never null.</returns>
-		public void GetPossibleUpgrades(out TowerRangeUpgrade[] upgrades)
+		public void GetPossibleUpgrades(out IUpgrade[] upgrades)
 		{
-			upgrades = new TowerRangeUpgrade[0];
-			throw new System.NotImplementedException("Upgrades have not been implemented yet.");
+			if (_Upgrades == null)
+			{
+				upgrades = new IUpgrade[0];
+				return;
+			}
+
+			upgrades = _Upgrades;
 		}
     }
 
@@ -194,10 +207,14 @@ namespace Game.Entities.Towers
 	{
 		[SerializeField] private AttackType _attackType;
 		[SerializeField] private float _areaOfEffect = -1.0f;
-		private readonly AttackEffects _attackEffects = new AttackEffects(60, new[] { StatusEffects.NONE });
+		private readonly AttackEffects _attackEffects;
         public AttackType GetAttackType() => AttackType.AREA_OF_EFFECT;
 
 		public float GetAreaOfEffect() => 10.0f;
+
+		public float GetDamage() => _attackEffects.GetDamage();
+
+		public TowerAttack(float damage = 60) => _attackEffects = new AttackEffects(damage, new [] {StatusEffects.NONE});
 
 		public void ExecuteAttack(in IDamageable damageable, Vector3? position = null)
 		{
