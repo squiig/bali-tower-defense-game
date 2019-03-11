@@ -4,23 +4,26 @@ using UnityEngine.UI;
 
 namespace Game.UI
 {
-    public class EnemyUI : MonoBehaviour
+    public class HealthBarUI : MonoBehaviour
     {
 	    [SerializeField] private Image _HealthBarMainLayer;
         [SerializeField] private Image _HealthBarHealthLayer;
         [SerializeField] private Image _HealthBarDamageLayer;
 
+        [Header("Debug Variables:")]
         [SerializeField] private float _CurrentHealth;
         [SerializeField] private float _MaxHealth;
 
+        [SerializeField] private bool _HealthBarCoroutineRunning;
+
 		/// <summary>
-		/// Initializes the starting variables, making sure everything is here what this needs, and gives out errors if it doesn't know certain inforamtion
+		/// Initializes the starting variables, making sure everything is here what this needs, and gives out errors if it doesn't know certain information
 		/// </summary>
-        private void Initialize()
+		private void Initialize()
         {
 			//Checking if all of the health bars that have to be adjusted are known to the script, and if not, stop the script here.
 			//If we don't do this then there will be more errors in the script later
-			if(_HealthBarDamageLayer == null || _HealthBarDamageLayer == null)
+			if(_HealthBarDamageLayer == null || _HealthBarDamageLayer == null || _HealthBarMainLayer == null)
             {
 				if(_HealthBarMainLayer == null)
 					Debug.LogError("Please select the Main Health Bar Layer in the inspector.", this.gameObject);
@@ -34,7 +37,7 @@ namespace Game.UI
             }
 
 			//Show the health bars
-			Activate(true);
+			ActivateHealthBarUI(true);
 
 			//Settings the health bars to their default fill amount
             _HealthBarHealthLayer.fillAmount = 1;
@@ -61,7 +64,7 @@ namespace Game.UI
 
 			if(newHealth <= 0)
 			{
-				Activate(false);
+				ActivateHealthBarUI(false);
 				return;
 			}
 
@@ -78,27 +81,34 @@ namespace Game.UI
 			//Update the current health to the new health
 			_CurrentHealth = newHealth;
 
-			//Start the animation of the damage health bar through a Coroutine
-			StartCoroutine(UpdateHealthBar());
+			//Start the animation of the damage health bar through a Coroutine if it isn't running already
+			if(!_HealthBarCoroutineRunning)
+				StartCoroutine(UpdateHealthBar());
         }
 
         private IEnumerator UpdateHealthBar()
         {
+			//Lets the script know that the coroutine is already running, so it won't start 2 coroutines
+			_HealthBarCoroutineRunning = true;
+
 			//Loop through this loop and decrease the fill amount from the damage health bar until it reached 0
-            while(_HealthBarDamageLayer.fillAmount > 0)
+			while(_HealthBarDamageLayer.fillAmount > 0)
             {
 	            _HealthBarDamageLayer.fillAmount -= 0.01f;
 
 				//Wait a small amount before doing it again to make it smooth
-                yield return new WaitForSeconds(0.01f);
+				yield return null;
             }
-        }
+
+			//Lets the script know that the coroutine is done with running, so it can start a new coroutine
+			_HealthBarCoroutineRunning = false;
+		}
 
 		/// <summary>
 		/// Activate/De-active the health bar layers
 		/// </summary>
 		/// <param name="state">Health bar layers active state</param>
-		private void Activate(bool state)
+		private void ActivateHealthBarUI(bool state)
 		{
 			_HealthBarMainLayer.enabled = state;
 			_HealthBarDamageLayer.enabled = state;
