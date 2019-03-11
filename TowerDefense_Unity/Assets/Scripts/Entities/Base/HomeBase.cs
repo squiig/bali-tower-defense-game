@@ -2,12 +2,13 @@ using System;
 using System.Linq;
 using Game.Entities.EventContainers;
 using Game.Entities.Interfaces;
+using Game.Entities.MovingEntities;
 using UnityEngine;
 
 namespace Game.Entities.Base
 {
 	public class HomeBase : Entity, IDamageable
-	{
+	{	
 		[SerializeField] private float _Health;
 
 		public bool IsConducting() => true;
@@ -32,6 +33,11 @@ namespace Game.Entities.Base
 		public Allegiance GetAllegiance() => Allegiance.FRIENDLY;
 
 		public GameObject GetEntity() => GetInstance();
+
+		private void Awake()
+		{
+			MemoryObjectPool<IDamageable>.Instance.Add(this);
+		}
 
 		/// <inheritdoc />
 		/// <summary>

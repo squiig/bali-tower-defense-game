@@ -23,11 +23,11 @@ namespace Game.Entities.MovingEntities
 		protected void Initialize(float maxHealth, int priority, Allegiance allegiance, in IAttack attack)
 		{
 			//Deprecated
-			//if (!MemoryObjectPool<IDamageable>.Instance.Contains(this))
-			//{
-			//	MemoryObjectPool<IDamageable>.Instance.Add(this);
-			//	OnDeath += (in IDamageable sender, in EntityDamaged payload) => ReleaseOwnership();
-            //}
+			if (!MemoryObjectPool<IDamageable>.Instance.Contains(this))
+			{
+				MemoryObjectPool<IDamageable>.Instance.Add(this);
+				OnDeath += (in IDamageable sender, in EntityDamaged payload) => ReleaseOwnership();
+			}
 
 			Allegiance = allegiance;
             Health = maxHealth;
