@@ -7,6 +7,9 @@ using System;
 
 namespace Game.UI
 {
+	/// <summary>
+	/// Manages all UI components of individual tower selecting.
+	/// </summary>
     public class TowerUI : MonoBehaviour
     {
 		public event Action OnUpgrade;
