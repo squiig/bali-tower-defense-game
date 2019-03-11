@@ -20,7 +20,7 @@ namespace Game.Entities
 				Minion minionGameObject = Instantiate(_MinionPrefab, transform);
 				Add(minionGameObject);
 			}
-			ActivateObject(x => x != x.IsConducting()); //TODO: Debug code. (spawns in 1 minion from the pool)
+			//ActivateObject(x => x != x.IsConducting()); //TODO: Debug code. (spawns in 1 minion from the pool)
 		}
 
 		public override void ActivateObject(Func<Minion, bool> predicate)
