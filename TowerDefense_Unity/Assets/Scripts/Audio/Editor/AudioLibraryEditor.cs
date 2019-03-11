@@ -46,34 +46,42 @@ namespace Game.Audio.Editor
 
             _ScrollVector = GUILayout.BeginScrollView(_ScrollVector);
 
-            GUILayout.BeginHorizontal();
             GUILayout.Label($"{nameof(AudioLibraryEditor)}");
+            DrawAssetMappingList();
 
-
-            if (GUILayout.Button("Nuke"))
-            {
-                ScriptableObject.CreateInstance<ConfirmActionPopup>()
-                    .SetQuestion("You're about to nuke all elements from this library, are you sure?").
-                    OnConfirm += DeleteAllElements;
-            }
-
-            if (GUILayout.Button("Remove"))
-            {
-                RemoveSelectedElement();
-            }
-
-            if (GUILayout.Button("Add"))
-            {
-                EditorWindow.CreateInstance<CreateAudioAssetPopup>()
-                    .SetFolder("Assets/Audio/AudioAssets/")
-                    .OnCreated += AddElement;
-            }
-
-            GUILayout.EndHorizontal();
-
-            _SelectableAudioAssetList.DoList(_MappingList.arraySize, _ScrollVector);
-            _SerializedTarget.ApplyModifiedProperties();
+			_SerializedTarget.ApplyModifiedProperties();
             GUILayout.EndScrollView();
+        }
+
+        private void DrawAssetMappingList()	
+        {
+	        GUILayout.BeginVertical(GUI.skin.box);
+	        GUILayout.BeginHorizontal();
+
+	        GUILayout.Label($"Audio Asset Mappings");
+
+
+			if (GUILayout.Button("Nuke"))
+	        {
+		        ScriptableObject.CreateInstance<ConfirmActionPopup>()
+			        .SetQuestion("You're about to nuke all elements from this library, are you sure?").
+			        OnConfirm += DeleteAllElements;
+	        }
+
+	        if (GUILayout.Button("Remove"))
+	        {
+		        RemoveSelectedElement();
+	        }
+
+	        if (GUILayout.Button("Add"))
+	        {
+		        EditorWindow.CreateInstance<CreateAudioAssetPopup>()
+			        .SetFolder("Assets/Audio/AudioAssets/")
+			        .OnCreated += AddElement;
+	        }
+	        GUILayout.EndHorizontal();
+	        _SelectableAudioAssetList.DoList(_MappingList.arraySize, _ScrollVector);
+	        GUILayout.EndVertical();
         }
 
 

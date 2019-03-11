@@ -55,6 +55,14 @@ namespace Game.Audio.Editor
 			_ClipList.InsertArrayElementAtIndex(0);
 		}
 
+		public void AddClip(AudioClip clip)
+		{
+			int length = _ClipList.arraySize;
+			_ClipList.InsertArrayElementAtIndex(length);
+			_ClipList.GetArrayElementAtIndex(length)
+				.objectReferenceValue = clip;
+		}
+
 		public void RemoveElement()
 		{
 			_ClipList.DeleteArrayElementAtIndex(
@@ -89,7 +97,6 @@ namespace Game.Audio.Editor
 		{
 			GUILayout.BeginVertical(GUI.skin.box);
 
-
 			EditorGUILayout.LabelField(_VolumeLabel);
 			_Volume.floatValue = EditorGUILayout.FloatField(_Volume.floatValue);
 
@@ -104,7 +111,6 @@ namespace Game.Audio.Editor
 			_AvoidRepetition.boolValue = EditorGUILayout.Toggle(_AvoidRepetitionContent, _AvoidRepetition.boolValue);
 
 			GUILayout.EndVertical();
-
 		}
 
 		public void DrawClipList()
@@ -112,7 +118,7 @@ namespace Game.Audio.Editor
 			GUILayout.BeginVertical(GUI.skin.box);
 			GUILayout.BeginHorizontal();
 			GUILayout.Label("Sound clips");
-
+			
 			if (GUILayout.Button("Nuke"))
 			{
 				EditorWindow.CreateInstance<ConfirmActionPopup>()
@@ -134,6 +140,14 @@ namespace Game.Audio.Editor
 
 			_SelectableList.DoList(_ClipList.arraySize, _ScrollVector);
 			GUILayout.EndVertical();
+
+			AudioClip[] audioclips = EditorScriptUtil.FilteredDrop<AudioClip>();
+
+			if (audioclips != null)
+			{
+				foreach (AudioClip clip in audioclips)
+					AddClip(clip);
+			}
 		}
 
 		public AudioAssetEditor()

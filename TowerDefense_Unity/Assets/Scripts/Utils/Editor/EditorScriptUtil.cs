@@ -24,12 +24,50 @@ namespace Game.Utils.Editor
 			if (floatMax < floatMin)
 				floatMin = floatMax;
 
-
 			EditorGUILayout.EndHorizontal();
 			EditorGUILayout.MinMaxSlider(ref floatMin, ref floatMax, minLimit, maxLimit);
 
 			minFloat.floatValue = floatMin;
 			maxFloat.floatValue = floatMax;
+		}
+
+		/// <summary>
+		/// Creates a dropzone inside of a rect
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <param name="rect"></param>
+		/// <returns></returns>
+		public static T[] FilteredDrop<T>() where T : Object
+		{
+			DragAndDrop.visualMode = DragAndDropVisualMode.Copy;
+			Rect rect = GUILayoutUtility.GetLastRect();
+			// I've got the inspiraion from
+			// https://forum.unity.com/threads/working-with-draganddrop-for-a-custom-editor-window.94192/
+			EventType eventType = Event.current.type;
+
+			bool isAccepted = false;
+			if (eventType == EventType.DragUpdated || eventType == EventType.DragPerform)
+			{
+				if (rect.Contains(Event.current.mousePosition))
+					DragAndDrop.visualMode = DragAndDropVisualMode.Link;
+
+				if (eventType == EventType.DragPerform)
+				{
+					DragAndDrop.AcceptDrag();
+					isAccepted = true;
+				}
+
+				Event.current.Use();
+			}
+
+			T[] objects = null;
+
+			if (isAccepted)
+			{
+				objects = ArrayUtility.ObjectTypeFilter<T>(DragAndDrop.objectReferences);
+			}
+
+			return objects;
 		}
 
 		/// <summary>

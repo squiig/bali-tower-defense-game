@@ -1,4 +1,3 @@
-﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,6 +5,18 @@ namespace Game.Utils
 {
 	public static class ArrayUtility
 	{
+		/// <summary>
+		/// Filter an collection of objects on a specific type
+		/// </summary>
+		public static T[] ObjectTypeFilter<T>(IEnumerable<Object> list) where T : Object
+		{
+			List<T> filtered = new List<T>();
+			foreach (var obj in list)
+				if (obj is T item)
+					filtered.Add(item);
+			return filtered.ToArray();
+		}
+
         /// <summary>
         /// Filters an array of GameObjects to Components
         /// </summary>
