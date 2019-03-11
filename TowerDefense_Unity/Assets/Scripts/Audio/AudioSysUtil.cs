@@ -25,6 +25,7 @@ namespace Game.Audio
 				return;
 			}
 
+			audioSource.outputAudioMixerGroup = asset.AudioMixerGroup;
 			audioSource.pitch = pitch;
 			audioSource.clip = clip;
 			audioSource.volume = asset.Volume;

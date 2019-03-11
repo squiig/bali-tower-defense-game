@@ -1,6 +1,7 @@
 using Game.Utils.Editor;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Audio;
 
 namespace Game.Audio.Editor
 {
@@ -17,6 +18,7 @@ namespace Game.Audio.Editor
 		private SerializedObject _SerializedTarget;
 		private SerializedProperty _ClipList;
 
+		private SerializedProperty _AudioMixerGroup;
 		private SerializedProperty _PitchMin;
 		private SerializedProperty _PitchMax;
 		private SerializedProperty _AvoidRepetition;
@@ -27,6 +29,7 @@ namespace Game.Audio.Editor
 		private readonly GUIContent _AvoidRepetitionContent = new GUIContent("Avoid repetition", "Avoids repeating the same clip twice");
 		private readonly GUIContent _VolumeLabel = new GUIContent("Volume", "Changes the loudness of this asset");
 		private readonly GUIContent _PitchLabel = new GUIContent("Pitch range", "Changes the pitch range the audio asset is randomly played at");
+		private readonly GUIContent _MixerLabel = new GUIContent("Audio mixer group", "The channel in the mixer the audio is supposed to play on");
 
 		public void SetTarget(AudioAsset audioAsset)
 		{
@@ -41,6 +44,7 @@ namespace Game.Audio.Editor
 			_ClipList = _SerializedTarget.FindProperty("_AudioClips");
 			_PitchMin = _SerializedTarget.FindProperty("_PitchMin");
 			_PitchMax = _SerializedTarget.FindProperty("_PitchMax");
+			_AudioMixerGroup = _SerializedTarget.FindProperty("_AudioMixerGroup");
 			_Volume = _SerializedTarget.FindProperty("_Volume");
 			_AvoidRepetition = _SerializedTarget.FindProperty("_AvoidRepetition");
 			_SelectableList.ResetSelection();
@@ -96,6 +100,7 @@ namespace Game.Audio.Editor
 				PITCH_MINIMUM,
 				PITCH_MAXIMUM);
 
+			EditorGUILayout.ObjectField(_AudioMixerGroup, typeof(AudioMixerGroup));
 			_AvoidRepetition.boolValue = EditorGUILayout.Toggle(_AvoidRepetitionContent, _AvoidRepetition.boolValue);
 
 			GUILayout.EndVertical();

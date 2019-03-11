@@ -1,5 +1,6 @@
 #pragma warning disable 649
 using UnityEngine;
+using UnityEngine.Audio;
 
 namespace Game.Audio
 {
@@ -10,6 +11,7 @@ namespace Game.Audio
     {
 		private const int INVALID_INDEX = -1;
 
+		[SerializeField] private AudioMixerGroup _AudioMixerGroup;
         [SerializeField] private AudioClip[] _AudioClips;
         [SerializeField] private float _Volume = 1;
 
@@ -19,6 +21,7 @@ namespace Game.Audio
 		[SerializeField] private bool _AvoidRepetition = true;
         private int _LastIndex = INVALID_INDEX;
 
+        public AudioMixerGroup AudioMixerGroup => _AudioMixerGroup;
         public AudioClip[] AudioClips => _AudioClips;
         public int ClipCount => _AudioClips.Length;
         public float Volume => _Volume;
