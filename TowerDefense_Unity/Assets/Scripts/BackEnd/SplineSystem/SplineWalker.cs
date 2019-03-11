@@ -1,3 +1,4 @@
+using Game.Utils;
 using UnityEngine;
 
 namespace Game.SplineSystem
@@ -8,6 +9,7 @@ namespace Game.SplineSystem
 	{
 		[SerializeField] private const float UPDATE_NEXT_DESTINATION = 0.1f;
 		[SerializeField] private float _MoveSpeed = 7.0f;
+		[SerializeField] private float _RotationSpeed = 5.0f;
 
 		private SplinePathManager _PathManager;
 		private int _CurrentDestinationIndex;
@@ -26,11 +28,20 @@ namespace Game.SplineSystem
 				UpdateSplineDestinationPoint();
 			else
 				MoveSplineWalker();
-			
 		}
 
 		private void MoveSplineWalker()
 		{
+			if (_PathManager.EvenlySpacedSplinePointCount(SplineBranch) - 1 >= _CurrentDestinationIndex + 1)
+			{
+				transform.rotation = Quaternion.Slerp(
+				a: transform.rotation,
+				b: Quaternion.LookRotation(Bezier3DUtility.GetTangent(
+					_PathManager[SplineBranch, _CurrentDestinationIndex + 1],
+					_PathManager[SplineBranch, _CurrentDestinationIndex])),
+				t: _RotationSpeed * Time.deltaTime);
+			}
+
 			transform.position = Vector3.MoveTowards(transform.position, _PathManager[SplineBranch, _CurrentDestinationIndex], _MoveSpeed * Time.deltaTime);
 		}
 

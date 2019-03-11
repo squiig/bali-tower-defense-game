@@ -8,7 +8,7 @@ namespace Game.SplineSystem
 	/// Also returns the connections to make sure that the minions traverse the gaps in between the splines.</summary>
 	public class SplinePathManager : MonoBehaviourSingleton<SplinePathManager>
 	{
-		[SerializeField] private float _Spacing = 0.1f, _Resolution = 1f;
+		[SerializeField] private float _Spacing = 1.0f, _Resolution = 1.0f;
 		private Dictionary<BezierSplineDataObject, Vector3[]> _EvenlySpacedSplinePoints = new Dictionary<BezierSplineDataObject, Vector3[]>();
 
 		public Vector3 this[BezierSplineDataObject dataObject, int i] => _EvenlySpacedSplinePoints[dataObject][i];
@@ -17,6 +17,11 @@ namespace Game.SplineSystem
 
 		protected override void Awake()
 		{
+#if UNITY_EDITOR
+			GameObject sphereParent = new GameObject {name = "SphereParent"};
+			sphereParent.transform.parent = transform;
+#endif
+
 			BezierSplineDataObject[] splines = Resources.LoadAll<BezierSplineDataObject>("BackEnd/SplineSystem");
 			foreach (BezierSplineDataObject spline in splines)
 			{
@@ -29,7 +34,7 @@ namespace Game.SplineSystem
 					GameObject sphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
 					sphere.transform.position = point;
 					sphere.transform.localScale = Vector3.one * _Spacing * 0.5f;
-					sphere.transform.parent = transform;
+					sphere.transform.parent = sphereParent.transform;
 				}
 #endif
 			}

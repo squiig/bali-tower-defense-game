@@ -112,51 +112,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1 &282143803
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 282143805}
-  - component: {fileID: 282143804}
-  m_Layer: 0
-  m_Name: SplinePathManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &282143804
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 282143803}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dc92fd3ec70f14344a72fbfb64aef273, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _Spacing: 1.5
-  _Resolution: 1
---- !u!4 &282143805
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 282143803}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 8.06155, y: -12.889473, z: -10.217173}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 4
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &666858483
 GameObject:
   m_ObjectHideFlags: 0
@@ -206,52 +161,6 @@ Transform:
   m_Father: {fileID: 915358948}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &822442442
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 822442444}
-  - component: {fileID: 822442443}
-  m_Layer: 0
-  m_Name: MinionPoolController
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &822442443
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 822442442}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e2a73d4e3f920ff4a974afea0054b638, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _MinionPrefab: {fileID: 7373164451941745485, guid: d8fa2642eec5a114b8b5d298eed9ea1f,
-    type: 3}
-  _PoolObjectCount: 20
---- !u!4 &822442444
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 822442442}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &915358947
 GameObject:
   m_ObjectHideFlags: 0
@@ -262,6 +171,8 @@ GameObject:
   m_Component:
   - component: {fileID: 915358948}
   - component: {fileID: 915358949}
+  - component: {fileID: 915358951}
+  - component: {fileID: 915358950}
   m_Layer: 0
   m_Name: SplineSystem
   m_TagString: Untagged
@@ -305,6 +216,35 @@ MonoBehaviour:
   - {fileID: 666858484}
   - {fileID: 1386967986}
   _Position: {x: 0, y: 0, z: 0}
+--- !u!114 &915358950
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 915358947}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc92fd3ec70f14344a72fbfb64aef273, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _Spacing: 1.5
+  _Resolution: 1
+--- !u!114 &915358951
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 915358947}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2a73d4e3f920ff4a974afea0054b638, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _MinionPrefab: {fileID: 7373164451941745485, guid: d8fa2642eec5a114b8b5d298eed9ea1f,
+    type: 3}
+  _PoolObjectCount: 20
 --- !u!1 &1351140954
 GameObject:
   m_ObjectHideFlags: 0

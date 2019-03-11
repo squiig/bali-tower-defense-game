@@ -45,7 +45,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e1e96d67815ca94ca562614e210f9ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _MoveSpeed: 20
+  _MoveSpeed: 5
+  _LookAheadCount: 1
   _maxHealth: 100
   _maxRange: 10
   _attackPriority: 0
