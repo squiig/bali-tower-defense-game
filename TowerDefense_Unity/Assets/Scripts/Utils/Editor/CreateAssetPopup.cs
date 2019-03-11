@@ -1,4 +1,4 @@
-﻿using System.IO;
+using System.IO;
 
 using UnityEditor;
 using UnityEngine;
@@ -88,6 +88,11 @@ namespace Game.Utils.Editor
                 {
                     CreateAndClose();
                 }
+            }
+
+            if (KeyPressed(KeyCode.Escape))
+            {
+	            Close();
             }
 
             if (_ShowFileExistsMessage && IsLayoutOrRepaint())
