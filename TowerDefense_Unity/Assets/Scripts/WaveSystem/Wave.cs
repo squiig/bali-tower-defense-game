@@ -1,65 +1,97 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Game.Entities;
+using Game.Entities.MovingEntities;
 using UnityEngine;
 
 namespace Game.WaveSystem
 {
 	public class Wave
 	{
-		public event Action<Wave> WaveStarted;
-		public event Action<Wave> WaveStoppedOrEnded;
+		public event Action<Wave> Started;
+		public event Action<Wave> Ended;
 
+		private bool _IsActive;
 		private WaveSystem _WaveSystem;
 		private int _Index;
-		private WaveContent _WaveContent;
-		private Coroutine _Coroutine;
+		private WaveContent _Content;
+		private Coroutine _SpawningCoroutine;
+		private List<Minion> _ActiveMinions;
 
+		public bool IsActive => _IsActive;
 		public int Index => _Index;
-		public WaveContent WaveContent => _WaveContent;
-		public bool IsActive => _Coroutine != null;
+		public WaveContent Content => _Content;
+		public List<Minion> ActiveMinions => _ActiveMinions;
+		public bool IsSpawning => _SpawningCoroutine != null;
 
 		public Wave(int index, WaveContent data)
 		{
 			_Index = index;
-			_WaveContent = data;
+			_Content = data;
 		}
 
+		/// <summary>
+		/// Use this to start spawning the minions and await their gruesome but ultimate death.
+		/// </summary>
+		/// <param name="waveSystem"></param>
 		public void Start(WaveSystem waveSystem)
 		{
-			_Coroutine = waveSystem.StartCoroutine(WaveRoutine());
-			OnWaveStarted();
+			_ActiveMinions = new List<Minion>();
+			_SpawningCoroutine = waveSystem.StartCoroutine(SpawnRoutine());
+			OnStarted();
 		}
 
-		public void Stop()
+		/// <summary>
+		/// Use this to force stop the wave.
+		/// </summary>
+		public void Stop(bool killRemaining)
 		{
-			if (!IsActive)
-				return;
-
-			_WaveSystem.StopCoroutine(_Coroutine);
-			OnWaveStoppedOrEnded();
-		}
-
-		private IEnumerator WaveRoutine()
-		{
-			int len = _WaveContent.Minions.Count;
-			for (int i = 0; i < len; i++)
+			if (IsSpawning)
 			{
-				// spawn minion
-				yield return null;
+				_WaveSystem.StopCoroutine(_SpawningCoroutine);
 			}
 
-			OnWaveStoppedOrEnded();
+			if (killRemaining)
+			{
+				foreach (Minion minion in _ActiveMinions)
+				{
+					minion.ApplyOnHitEffects(new AttackEffects(damage: 9001, null));
+				}
+			}
+
+			OnEnded();
 		}
 
-		protected virtual void OnWaveStarted()
+		private IEnumerator SpawnRoutine()
 		{
-			WaveStarted?.Invoke(this);
+			int len = _Content.Minions.Count;
+			for (int i = 0; i < len; i++)
+			{
+				Minion minion = MinionPoolController.Instance.ActivateObject(x => x != x.IsConducting());
+				minion.OnDeath += Minion_OnDeath;
+				_ActiveMinions.Add(minion);
+				yield return new WaitForSeconds(_Content.SpawnInterval);
+			}
 		}
 
-		protected virtual void OnWaveStoppedOrEnded()
+		protected virtual void Minion_OnDeath(in Entities.Interfaces.IDamageable sender, in Entities.EventContainers.EntityDamaged payload)
 		{
-			WaveStoppedOrEnded?.Invoke(this);
+			// End the wave if there are no minions left
+			if (_ActiveMinions.Count <= 0)
+				OnEnded();
+		}
+
+		protected virtual void OnStarted()
+		{
+			_IsActive = true;
+			Started?.Invoke(this);
+		}
+
+		protected virtual void OnEnded()
+		{
+			_IsActive = false;
+			Ended?.Invoke(this);
 		}
 	}
 }

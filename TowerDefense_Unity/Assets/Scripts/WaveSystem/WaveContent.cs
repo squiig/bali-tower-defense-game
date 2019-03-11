@@ -9,7 +9,9 @@ namespace Game.WaveSystem
 	public class WaveContent : ScriptableObject
 	{
 		[SerializeField] private List<Minion> _Minions = null;
+		[SerializeField] private float _SpawnInterval = 1f;
 
 		public List<Minion> Minions { get => _Minions; set => _Minions = value; }
+		public float SpawnInterval => _SpawnInterval;
 	}
 }

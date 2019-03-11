@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Game.WaveSystem
 {
-	public class WaveSystem : MonoBehaviour
+	public class WaveSystem : MonoBehaviourSingleton<WaveSystem>
 	{
 		public event Action<Wave> NextWaveStarted;
 		public event Action<Wave> LastWaveEnded;
@@ -21,8 +21,10 @@ namespace Game.WaveSystem
 		public int CurrentWaveIndex => _CurrentWaveIndex;
 		public List<Wave> ActiveWaves => _ActiveWaves;
 
-		private void Awake()
+		protected override void Awake()
 		{
+			base.Awake();
+
 			InitializeWaveQueue();
 		}
 
@@ -51,21 +53,21 @@ namespace Game.WaveSystem
 			Wave nextWave = _WaitingWaves.Dequeue();
 
 			// Attempt to start new wave
-			nextWave.WaveStarted += OnNextWaveStarted;
+			nextWave.Started += OnNextWaveStarted;
 			nextWave.Start(this);
 		}
 
 		protected virtual void OnNextWaveStarted(Wave wave)
 		{
 			// Wave has succesfully started
-			wave.WaveStoppedOrEnded += OnWaveStoppedOrEnded;
+			wave.Ended += OnWaveStoppedOrEnded;
 			_ActiveWaves.Add(wave);
 			NextWaveStarted?.Invoke(wave);
 		}
 
 		protected virtual void OnWaveStoppedOrEnded(Wave wave)
 		{
-			wave.WaveStoppedOrEnded -= OnWaveStoppedOrEnded;
+			wave.Ended -= OnWaveStoppedOrEnded;
 			_ActiveWaves.Remove(wave);
 
 			if (_WaitingWaves.Count <= 0)
