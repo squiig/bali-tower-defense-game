@@ -71,6 +71,7 @@ namespace Game.WaveSystem
 			wave.Ended -= OnWaveStoppedOrEnded;
 			_ActiveWaves.Remove(wave);
 
+			// Is this the last wave?
 			if (_WaitingWaves.Count <= 0)
 				OnLastWaveEnded(wave);
 		}
