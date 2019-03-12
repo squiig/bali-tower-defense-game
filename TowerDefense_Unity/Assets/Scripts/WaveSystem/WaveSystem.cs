@@ -34,6 +34,7 @@ namespace Game.WaveSystem
 		private void InitializeWaveQueue()
 		{
 			_WaitingWaves = new Queue<Wave>();
+			_ActiveWaves = new List<Wave>();
 
 			int len = _Waves.Count;
 			for (int i = 0; i < len; i++)
