@@ -77,6 +77,9 @@ namespace Game.WaveSystem
 
 		protected virtual void Minion_OnDeath(in Entities.Interfaces.IDamageable sender, in Entities.EventContainers.EntityDamaged payload)
 		{
+			// Reward
+			ResourceSystem.Instance.RunTransaction(10);
+
 			// End the wave if there are no minions left
 			if (_ActiveMinions.Count <= 0)
 				OnEnded();
