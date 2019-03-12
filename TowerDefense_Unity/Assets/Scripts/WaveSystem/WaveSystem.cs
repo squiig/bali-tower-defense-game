@@ -11,6 +11,7 @@ namespace Game.WaveSystem
 		public event Action<Wave> LastWaveEnded;
 
 		[SerializeField] private List<WaveContent> _Waves = null;
+		[SerializeField] private int _IntermissionTime = 20;
 
 		private Queue<Wave> _WaitingWaves;
 		private List<Wave> _ActiveWaves;
@@ -47,7 +48,7 @@ namespace Game.WaveSystem
 		{
 			if (_WaitingWaves.Count <= 0)
 			{
-				Debug.Log("[WaveSystem] No more waves to start, aborting the attempt!");
+				Debug.LogWarning("[WaveSystem] No more waves to start, aborting the attempt!");
 				return;
 			}
 
@@ -56,6 +57,18 @@ namespace Game.WaveSystem
 			// Attempt to start new wave
 			nextWave.Started += OnNextWaveStarted;
 			nextWave.Start(this);
+		}
+
+		private IEnumerator IntermissionCoroutine()
+		{
+			float timer = _IntermissionTime;
+			while (timer > 0)
+			{
+				timer -= Time.deltaTime;
+				yield return null;
+			}
+
+			StartNextWave();
 		}
 
 		protected virtual void OnNextWaveStarted(Wave wave)
@@ -74,6 +87,8 @@ namespace Game.WaveSystem
 			// Is this the last wave?
 			if (_WaitingWaves.Count <= 0)
 				OnLastWaveEnded(wave);
+			else
+				StartCoroutine(IntermissionCoroutine());
 		}
 
 		protected virtual void OnLastWaveEnded(Wave wave)
