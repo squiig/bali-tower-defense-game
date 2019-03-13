@@ -2,29 +2,26 @@ using UnityEngine;
 
 namespace Game.Audio
 {
-	public class AudioSysUtil
+	public static class AudioSysUtil
 	{
 		public static void ConfigureAudioSource(AudioSource audioSource, AudioAsset asset)
 		{
 			if (asset.ClipCount == 0)
 			{
-#if DEBUG
-				Debug.LogWarning($"[Audio] tried playing asset {asset.name} but it has no clips.");
-#endif
+				AudioLog.Warning($"tried playing asset {asset.name} but it has no clips.");
 				return;
-			}
+			} 
 
 			float pitch = asset.GetPitch();
 			AudioClip clip = asset.GetClip();
 
 			if (clip == null)
 			{
-#if DEBUG
-				Debug.LogWarning($"[Audio] {asset.name} asset returned null as clip.");
-#endif
+				AudioLog.Warning($"{asset.name} asset returned null as clip.");
 				return;
 			}
 
+			audioSource.panStereo = asset.Pan;
 			audioSource.outputAudioMixerGroup = asset.AudioMixerGroup;
 			audioSource.pitch = pitch;
 			audioSource.clip = clip;

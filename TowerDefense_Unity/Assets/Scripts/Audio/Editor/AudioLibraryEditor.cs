@@ -58,7 +58,7 @@ namespace Game.Audio.Editor
 	        GUILayout.BeginVertical(GUI.skin.box);
 	        GUILayout.BeginHorizontal();
 
-	        GUILayout.Label($"Audio Asset Mappings");
+	        GUILayout.Label("Audio Asset Mappings");
 
 
 			if (GUILayout.Button("Nuke"))
@@ -85,6 +85,14 @@ namespace Game.Audio.Editor
         }
 
 
+        private bool PreviewKeyPressed(int index)
+        {
+	        return Event.current.isKey
+				   && Event.current.type == EventType.KeyDown
+				   && Event.current.keyCode == KeyCode.P
+	               && _SelectableAudioAssetList.SelectedElementIndex == index;
+        }
+
         private void DrawElement(int index)
         {
             SerializedProperty currentMapping = _MappingList.GetArrayElementAtIndex(index);
@@ -96,7 +104,7 @@ namespace Game.Audio.Editor
 			GUILayout.BeginHorizontal();
             EditorGUILayout.ObjectField(audioAssetProperty);
 
-            if (GUILayout.Button("Preview"))
+            if (GUILayout.Button("Preview") || PreviewKeyPressed(index))
             {
 	            OnPreview?.Invoke((AudioAsset) audioAssetProperty.objectReferenceValue);
             }

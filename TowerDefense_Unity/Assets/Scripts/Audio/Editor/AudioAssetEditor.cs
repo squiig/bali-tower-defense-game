@@ -23,11 +23,13 @@ namespace Game.Audio.Editor
 		private SerializedProperty _PitchMax;
 		private SerializedProperty _AvoidRepetition;
 		private SerializedProperty _Volume;
+		private SerializedProperty _Pan;
 
 		private Vector3 _ScrollVector;
 
 		private readonly GUIContent _AvoidRepetitionContent = new GUIContent("Avoid repetition", "Avoids repeating the same clip twice");
 		private readonly GUIContent _VolumeLabel = new GUIContent("Volume", "Changes the loudness of this asset");
+		private readonly GUIContent _PanLabel = new GUIContent("Pan (Left - Right)", "Which side should the 2D audio be played at");
 		private readonly GUIContent _PitchLabel = new GUIContent("Pitch range", "Changes the pitch range the audio asset is randomly played at");
 		private readonly GUIContent _MixerLabel = new GUIContent("Audio mixer group", "The channel in the mixer the audio is supposed to play on");
 
@@ -44,6 +46,7 @@ namespace Game.Audio.Editor
 			_ClipList = _SerializedTarget.FindProperty("_AudioClips");
 			_PitchMin = _SerializedTarget.FindProperty("_PitchMin");
 			_PitchMax = _SerializedTarget.FindProperty("_PitchMax");
+			_Pan = _SerializedTarget.FindProperty("_Pan");
 			_AudioMixerGroup = _SerializedTarget.FindProperty("_AudioMixerGroup");
 			_Volume = _SerializedTarget.FindProperty("_Volume");
 			_AvoidRepetition = _SerializedTarget.FindProperty("_AvoidRepetition");
@@ -99,6 +102,8 @@ namespace Game.Audio.Editor
 
 			EditorGUILayout.LabelField(_VolumeLabel);
 			_Volume.floatValue = EditorGUILayout.FloatField(_Volume.floatValue);
+			EditorGUILayout.LabelField(_PanLabel);
+			_Pan.floatValue = EditorGUILayout.Slider(_Pan.floatValue, -1f, 1f);
 
 			EditorGUILayout.LabelField(_PitchLabel);
 			EditorScriptUtil.RangeSlider(

@@ -14,6 +14,7 @@ namespace Game.Audio
 		[SerializeField] private AudioMixerGroup _AudioMixerGroup;
         [SerializeField] private AudioClip[] _AudioClips;
         [SerializeField] private float _Volume = 1;
+        [SerializeField] private float _Pan = 1;
 
         [SerializeField] private float _PitchMin = 1;
         [SerializeField] private float _PitchMax = 1;
@@ -26,6 +27,7 @@ namespace Game.Audio
         public int ClipCount => _AudioClips.Length;
         public float Volume => _Volume;
         public float Pitch => GetPitch();
+        public float Pan => _Pan;
 
         public float GetPitch()
         {
