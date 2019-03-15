@@ -13,7 +13,7 @@ namespace Game.WaveSystem
 		public event Action<Wave> Ended;
 
 		private bool _IsActive;
-		private WaveSystem _WaveSystem;
+		private WaveManager _WaveManager;
 		private int _Index;
 		private WaveContent _Content;
 		private Coroutine _SpawningCoroutine;
@@ -34,11 +34,11 @@ namespace Game.WaveSystem
 		/// <summary>
 		/// Use this to start spawning the minions and await their gruesome but ultimate death.
 		/// </summary>
-		/// <param name="waveSystem"></param>
-		public void Start(WaveSystem waveSystem)
+		/// <param name="waveManager"></param>
+		public void Start(WaveManager waveManager)
 		{
 			_ActiveMinions = new List<Minion>();
-			_SpawningCoroutine = waveSystem.StartCoroutine(SpawnRoutine());
+			_SpawningCoroutine = waveManager.StartCoroutine(SpawnRoutine());
 			OnStarted();
 		}
 
@@ -49,7 +49,7 @@ namespace Game.WaveSystem
 		{
 			if (IsSpawning)
 			{
-				_WaveSystem.StopCoroutine(_SpawningCoroutine);
+				_WaveManager.StopCoroutine(_SpawningCoroutine);
 			}
 
 			if (killRemaining)

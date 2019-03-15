@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Game.WaveSystem
 {
-	public class WaveSystem : MonoBehaviourSingleton<WaveSystem>
+	public class WaveManager : MonoBehaviourSingleton<WaveManager>
 	{
 		public event Action<Wave> NextWaveStarted;
 		public event Action<Wave> LastWaveEnded;
@@ -77,6 +77,8 @@ namespace Game.WaveSystem
 			wave.Ended += OnWaveStoppedOrEnded;
 			_ActiveWaves.Add(wave);
 			NextWaveStarted?.Invoke(wave);
+
+			Debug.Log("[WaveSystem] Succesfully started next wave!");
 		}
 
 		protected virtual void OnWaveStoppedOrEnded(Wave wave)
