@@ -4,27 +4,27 @@ using UnityEngine.UI;
 
 namespace Game.UI
 {
-	public class HealthBarUI : MonoBehaviour
+	public class HealthBarParentUI : MonoBehaviour
 	{
 		[Header("Required variables: ")]
-		[SerializeField] private Image _HealthBarMainLayer;
-		[SerializeField] private Image _HealthBarHealthLayer;
-		[SerializeField] private Image _HealthBarDamageLayer;
+		[SerializeField] protected Image _HealthBarMainLayer;
+		[SerializeField] protected Image _HealthBarHealthLayer;
+		[SerializeField] protected Image _HealthBarDamageLayer;
 
-		[SerializeField] private Game.Entities.Interfaces.IDamageable _DamageInterface;
+		[SerializeField] protected Game.Entities.Interfaces.IDamageable _DamageInterface;
 
-		[SerializeField] private float _DecreaseDamageBarSpeed = .5f;
+		[SerializeField] protected float _DecreaseDamageBarSpeed = .5f;
 
 		[Header("Debug Variables (set by script):")]
-		[SerializeField] private float _CurrentHealth;
-		[SerializeField] private float _MaxHealth;
+		[SerializeField] protected float _CurrentHealth;
+		[SerializeField] protected float _MaxHealth;
 
-		[SerializeField] private Coroutine _HealthBarRoutine;
+		[SerializeField] protected Coroutine _HealthBarRoutine;
 
 		/// <summary>
 		/// Gets called every time the game object gets turned off
 		/// </summary>
-		private void OnDisable()
+		protected void OnDisable()
 		{
 			//Check if the co routine exists. If it does, then force stop it, since the health bar won't exists anymore.
 			if(_HealthBarRoutine != null)
@@ -36,10 +36,10 @@ namespace Game.UI
 		/// <summary>
 		/// Gets called every time the game object gets turned on
 		/// </summary>
-		private void OnEnable()
+		protected virtual void OnEnable()
 		{
 			//Check if the interface is null. If it is, then it shouldn't be allowed to go further then this
-			if(_DamageInterface != null)//_DamageInterface == null)
+			if(_DamageInterface == null)
 			{
 				Debug.LogError("Please select the Entity Script in the inspector.", this.gameObject);
 				this.enabled = false;
@@ -47,13 +47,12 @@ namespace Game.UI
 			}
 
 			//Setup the script
-			//SetStartHealth(_DamageInterface.GetHealth());
-			SetStartHealth(100f);
+			SetStartHealth(_DamageInterface.GetHealth());
 		}
 		/// <summary>
 		/// Initializes the starting variables, making sure everything is here what this needs, and gives out errors if it doesn't know certain information
 		/// </summary>
-		private void Initialize()
+		protected void Initialize()
 		{
 			//Checking if all of the health bars that have to be adjusted are known to the script, and if not, stop the script here.
 			//If we don't do this then there will be more errors in the script later
@@ -71,7 +70,7 @@ namespace Game.UI
 			}
 
 			//Subscribe our event to its onHit event so we can update if the entity has been hit
-			//_DamageInterface.OnHit += GetDamageFromEntity;
+			_DamageInterface.OnHit += GetDamageFromEntity;
 
 			//Show the health bars
 			ActivateHealthBarUI(true);
@@ -81,7 +80,7 @@ namespace Game.UI
 			_HealthBarDamageLayer.fillAmount = 0;
 		}
 
-		private void GetDamageFromEntity(in Entities.Interfaces.IDamageable sender, in Entities.EventContainers.EntityDamaged payload)
+		protected void GetDamageFromEntity(in Entities.Interfaces.IDamageable sender, in Entities.EventContainers.EntityDamaged payload)
 		{
 			//Set the damage and start the damage process
 			SetDamage(payload.DamageNumber);
@@ -120,7 +119,7 @@ namespace Game.UI
 				_HealthBarRoutine = StartCoroutine(UpdateHealthBar());
 		}
 
-		private IEnumerator UpdateHealthBar()
+		protected IEnumerator UpdateHealthBar()
 		{
 			//Loop through this loop and decrease the fill amount from the damage health bar until it reached 0
 			while(_HealthBarDamageLayer.fillAmount > 0)
@@ -139,17 +138,11 @@ namespace Game.UI
 		/// Activate/De-active the health bar layers
 		/// </summary>
 		/// <param name="state">Health bar layers active state</param>
-		private void ActivateHealthBarUI(bool state)
+		protected void ActivateHealthBarUI(bool state)
 		{
 			_HealthBarMainLayer.enabled = state;
 			_HealthBarDamageLayer.enabled = state;
 			_HealthBarHealthLayer.enabled = state;
-		}
-
-		private void Update()
-		{
-			if (Input.GetKeyDown(KeyCode.Space))
-				SetDamage(20f);
 		}
 	}
 }

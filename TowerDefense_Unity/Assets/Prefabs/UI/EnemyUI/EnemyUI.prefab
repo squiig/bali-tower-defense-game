@@ -195,7 +195,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7444712254663634290}
-  - component: {fileID: 2792758676578861151}
+  - component: {fileID: 8683026450286968505}
   - component: {fileID: 8879712705329780945}
   - component: {fileID: 8824020261454445997}
   m_Layer: 0
@@ -220,7 +220,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2792758676578861151
+--- !u!114 &8683026450286968505
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -229,14 +229,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 6444004767621144544}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2aa4555b1de4c4144bee8b8d55ac3402, type: 3}
+  m_Script: {fileID: 11500000, guid: 03e4f87ad1461544d9ce18708696e546, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _HealthBarMainLayer: {fileID: 6933403080347865955}
-  _HealthBarHealthLayer: {fileID: 2123843318066671915}
-  _HealthBarDamageLayer: {fileID: 6360842305461308423}
+  _HealthBarMainLayer: {fileID: 0}
+  _HealthBarHealthLayer: {fileID: 0}
+  _HealthBarDamageLayer: {fileID: 0}
   _DecreaseDamageBarSpeed: 0.5
-  _CurrentHealth: 100
+  _CurrentHealth: 0
   _MaxHealth: 0
 --- !u!23 &8879712705329780945
 MeshRenderer:
