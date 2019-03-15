@@ -235,6 +235,7 @@ MonoBehaviour:
   _HealthBarMainLayer: {fileID: 6933403080347865955}
   _HealthBarHealthLayer: {fileID: 2123843318066671915}
   _HealthBarDamageLayer: {fileID: 6360842305461308423}
+  _DecreaseDamageBarSpeed: 0.5
   _CurrentHealth: 100
   _MaxHealth: 0
 --- !u!23 &8879712705329780945
