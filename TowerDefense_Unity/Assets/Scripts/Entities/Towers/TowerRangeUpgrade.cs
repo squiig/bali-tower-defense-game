@@ -1,11 +1,13 @@
-﻿using Game.Entities.Interfaces;
+using Game.Entities.Interfaces;
 using Game.Entities.Towers;
+using UnityEngine;
 
 namespace Game.Entities.Towers
 {
-	public class TowerRangeUpgrade : IUpgrade<Tower>
+	[CreateAssetMenu(fileName = "Range Upgrade", menuName = "Tower/Upgrades/Range Upgrade", order = 1)]
+	public class TowerRangeUpgrade : ScriptableObject, IUpgrade<Tower>
 	{
-		private readonly float _upgradeValue = 20.0f;
+		[SerializeField] private float _upgradeValue = 20.0f;
 
 		/// <inheritdoc />
 		/// <summary>

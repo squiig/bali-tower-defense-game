@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Game;
 using Game.Entities.EventContainers;
 using UnityEngine;
@@ -10,8 +10,6 @@ namespace Game.Entities
     /// </summary>
 	public class ResourceSystem : MonoBehaviourSingleton<ResourceSystem>
 	{
-		
-
 		/// <summary>
         /// Event fired when a transaction is attempted.
         /// see <see cref="RunTransaction"/> to start a transaction.

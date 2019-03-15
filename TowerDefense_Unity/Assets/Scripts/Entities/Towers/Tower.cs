@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Game.Entities.EventContainers;
@@ -17,13 +17,14 @@ namespace Game.Entities.Towers
 		[SerializeField] protected readonly float MaxAttackRange;
 		[SerializeField] protected float AttackRange;
         [Space]
-		[SerializeField] protected IAttack Attack;
+		[SerializeField] protected TowerAttack Attack;
 		[Space]
 		[SerializeField] protected IDamageable TargetDamageable;
 		[Space]
 		[SerializeField] private Allegiance _allegiance;
 		[Space]
 		[SerializeField] private bool _isDebug;
+
 
         /// <inheritdoc />
         /// <summary>
@@ -42,11 +43,6 @@ namespace Game.Entities.Towers
         /// </summary>
         /// <param name="target"> Target to focus upon.</param>
         public void SetTarget(in IDamageable target) => TargetDamageable = target;
-
-		private void Awake()
-		{
-			Attack = new TowerAttack();
-		}
 
 		private void Update()
 		{
@@ -148,6 +144,7 @@ namespace Game.Entities.Towers
 		}
     }
 
+
 	public class Tower : TowerBase, IUpgradeable<TowerRangeUpgrade, Tower>
     {
         /// <summary>
@@ -190,7 +187,8 @@ namespace Game.Entities.Towers
 		}
     }
 
-	public class TowerAttack : IAttack
+	[CreateAssetMenu(fileName = "TowerAttack", menuName = "Tower/Tower Attack", order = 1)]
+	public class TowerAttack : ScriptableObject, IAttack
 	{
 		[SerializeField] private AttackType _attackType;
 		[SerializeField] private float _areaOfEffect = -1.0f;
