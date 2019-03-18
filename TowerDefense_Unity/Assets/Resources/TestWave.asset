@@ -16,4 +16,6 @@ MonoBehaviour:
   - {fileID: 7373164451941745485, guid: d8fa2642eec5a114b8b5d298eed9ea1f, type: 3}
   - {fileID: 7373164451941745485, guid: d8fa2642eec5a114b8b5d298eed9ea1f, type: 3}
   - {fileID: 7373164451941745485, guid: d8fa2642eec5a114b8b5d298eed9ea1f, type: 3}
-  _SpawnInterval: 1
+  _SpawnInterval:
+    _Min: 1
+    _Max: 2
