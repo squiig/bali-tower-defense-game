@@ -227,6 +227,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AttackRange: 50
+  Attack: {fileID: 0}
   _allegiance: 1
   _isDebug: 1
 --- !u!65 &1242835010
@@ -330,6 +331,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e1e96d67815ca94ca562614e210f9ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _MoveSpeed: 7
+  _RotationSpeed: 5
   _maxHealth: 100
   _maxRange: 10
   _attackPriority: 0
@@ -447,6 +450,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e1e96d67815ca94ca562614e210f9ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _MoveSpeed: 7
+  _RotationSpeed: 5
   _maxHealth: 2000
   _maxRange: 15
   _attackPriority: 0
