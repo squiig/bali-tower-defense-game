@@ -71,7 +71,7 @@ namespace Game.WaveSystem
 				Minion minion = MinionPoolController.Instance.ActivateObject(x => x != x.IsConducting());
 				minion.OnDeath += Minion_OnDeath;
 				_ActiveMinions.Add(minion);
-				yield return new WaitForSeconds(_Content.SpawnInterval);
+				yield return new WaitForSeconds(_Content.SpawnInterval.GetRandom());
 			}
 		}
 
