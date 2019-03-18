@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace Game.Entities.Interfaces
 {
@@ -7,8 +7,7 @@ namespace Game.Entities.Interfaces
 	/// </summary>
 	/// <typeparam name="TUpgrade"> The upgrade that can be applied to the inheritor.</typeparam>
 	/// <typeparam name="TUpgradeDependency">Class that has to be upgraded.</typeparam>
-	public interface IUpgradeable<TUpgrade, TUpgradeDependency> 
-		where TUpgrade : IUpgrade<TUpgradeDependency> where TUpgradeDependency : class
+	public interface IUpgradeable
 	{
 		/// <summary>
 		/// Upgrades the instance by T.
@@ -16,7 +15,7 @@ namespace Game.Entities.Interfaces
 		/// Upgrade can be rejected if not enough resources are available.
 		/// </summary>
 		/// <param name="upgrade"> Upgrade to apply to this instance.</param>
-		void Upgrade(in TUpgrade upgrade);
+		void Upgrade(in IUpgrade upgrade);
 
 		/// <summary>
 		/// Returns an array of T containing all
@@ -25,6 +24,6 @@ namespace Game.Entities.Interfaces
 		/// Will never be null.
 		/// </summary>
 		/// <returns> An array of T with all possible upgrades. Never null.</returns>
-		void GetPossibleUpgrades(out TUpgrade[] upgrades);
+		void GetPossibleUpgrades(out IUpgrade[] upgrades);
 	}
 }

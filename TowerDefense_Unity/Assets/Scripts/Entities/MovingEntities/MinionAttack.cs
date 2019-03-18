@@ -1,11 +1,11 @@
-﻿using Game.Entities.Interfaces;
+using Game.Entities.Interfaces;
 using UnityEngine;
 
 namespace Game.Entities.MovingEntities
 {
 	public class MinionAttack : IAttack
 	{
-		private readonly AttackEffects _attackEffects = new AttackEffects(20, new[] {StatusEffects.NONE});
+		private readonly AttackEffects _attackEffects = new AttackEffects(1, new[] {StatusEffects.NONE});
 
 		/// <inheritdoc />
 		/// <summary>

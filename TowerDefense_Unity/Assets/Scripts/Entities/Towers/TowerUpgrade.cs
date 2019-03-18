@@ -4,8 +4,10 @@ using UnityEngine;
 
 namespace Game.Entities.Towers
 {
+
 	[CreateAssetMenu(fileName = "Range Upgrade", menuName = "Tower/Upgrades/Range Upgrade", order = 1)]
-	public class TowerRangeUpgrade : ScriptableObject, IUpgrade<Tower>
+	public class TowerUpgrade : IUpgrade
+
 	{
 		[SerializeField] private float _upgradeValue = 20.0f;
 
@@ -13,7 +15,11 @@ namespace Game.Entities.Towers
 		/// <summary>
 		/// Applies an upgrade to the instance 
 		/// </summary>
-		public void ApplyUpgrade(in Tower instance) => instance.IncreaseRange(_upgradeValue);
+		public void ApplyUpgrade(in Tower instance)
+		{
+			instance.IncreaseRange(_upgradeValue);
+			instance.IncreaseDamage(_upgradeValue);
+		}
 
 		/// <inheritdoc />
 		/// <summary>
