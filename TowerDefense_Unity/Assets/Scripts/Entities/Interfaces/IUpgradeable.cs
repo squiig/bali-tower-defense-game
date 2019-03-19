@@ -1,4 +1,6 @@
-﻿namespace Game.Entities.Interfaces
+﻿using System;
+
+namespace Game.Entities.Interfaces
 {
 	/// <summary>
 	/// Interface representing that the inheritor can be upgraded by param T.
@@ -14,7 +16,7 @@
 		/// Upgrade can be rejected if not enough resources are available.
 		/// </summary>
 		/// <param name="upgrade"> Upgrade to apply to this instance.</param>
-		void Upgrade(TUpgrade upgrade);
+		void Upgrade(in TUpgrade upgrade);
 
 		/// <summary>
 		/// Returns an array of T containing all
