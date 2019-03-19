@@ -13,20 +13,20 @@ namespace Game.SplineSystem
     /// <summary>A spline branch manager which, keeps track of the spline branches, which are represented as child objects.</summary>
     public class SplineCreator : SplineCreatorBase
     {
-        [SerializeField, HideInInspector] private SplineBranchCreator[] _BranchCreatorCreators = new SplineBranchCreator[0];
+        [SerializeField, HideInInspector] private SplineBranchCreator[] _BranchCreators = new SplineBranchCreator[0];
         [SerializeField, HideInInspector] private Vector3 _Position;
         [SerializeField, HideInInspector] private HandlePointIndex _SelectedPointIndex, _ModifierPointIndex;
 	    [SerializeField, HideInInspector] private List<ConnectionSegment> _ConnectionSegments = new List<ConnectionSegment>();
 		private System.Action<ConnectionSegment> _ConnectionSegmentDestroyCallback;
 
-	    public SplineBranchCreator this[int i] => _BranchCreatorCreators[i];
+	    public SplineBranchCreator this[int i] => _BranchCreators[i];
 		public ConnectionSegment GetConnectionSegment(int i) => _ConnectionSegments[i];
 	    public int ConnectionSegmentCount => _ConnectionSegments.Count;
-        public int BranchCount => _BranchCreatorCreators.Length;
+        public int BranchCount => _BranchCreators.Length;
         public SplineBranchCreator[] BranchCreators
         {
-            get => _BranchCreatorCreators;
-            set => _BranchCreatorCreators = value;
+            get => _BranchCreators;
+            set => _BranchCreators = value;
         }
         public Vector3 Position
         {
