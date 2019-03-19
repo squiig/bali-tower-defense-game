@@ -11,11 +11,17 @@ namespace Game.Interaction
 		public event System.Action<Vector2> OnDragDelta;
 		public event System.Action<float> OnPinchDelta;
 		public event System.Action OnDeselect;
+		public event System.Action OnTap;
 
 		[SerializeField] private float _PinchThreshold = 2;
-		[SerializeField] private float _DragThreshold = 4;
+		[SerializeField] private float _DragThreshold = 2;
 		private TouchInputState _CurrentState = TouchInputState.TAPPING;
-		private readonly Camera _CurrentCamera = Camera.main;
+		private Camera _CurrentCamera;
+
+		public void Start()
+		{
+			_CurrentCamera = Camera.main;
+		}
 
 		private void Update()
 		{
@@ -40,13 +46,12 @@ namespace Game.Interaction
 			Touch[] touches = Input.touches;
 			for (int i = 0; i < touches.Length; i++)
 			{
-				if (touches[i].phase == TouchPhase.Ended)
-				{
-					if (!ShootRay(touches[i].position))
-					{
-						OnDeselect?.Invoke();
-					}
-				}
+				if (touches[i].phase != TouchPhase.Ended)
+					continue;
+				OnTap?.Invoke();
+
+				if (!ShootRay(touches[i].position))
+					OnDeselect?.Invoke();
 			}
 
 			if (touches.Length == 1)
@@ -97,6 +102,16 @@ namespace Game.Interaction
 			{
 				OnDragDelta?.Invoke(touches[0].deltaPosition);
 			}
+
+			if (touches.Length == 2)
+			{
+				float delta = InputUtils.GetTouchDistanceDelta(touches[0], touches[1]);
+
+				if (Mathf.Abs(delta) > _PinchThreshold)
+				{
+					_CurrentState = TouchInputState.PINCHING;
+				}
+			}
 		}
 
 		private void HandlePinching()
@@ -108,10 +123,18 @@ namespace Game.Interaction
 			}
 			else
 			{
+				if (touches.Length == 1)
+				{
+					if (touches[0].deltaPosition.magnitude > _DragThreshold)
+					{
+						_CurrentState = TouchInputState.DRAGGING;
+					}
+				}
+
 				if (touches.Length < 2)
 					return;
 
-				OnPinchDelta?.Invoke(InputUtils.GetTouchDistanceDelta(touches[0], touches[1]));
+				OnPinchDelta?.Invoke(-InputUtils.GetTouchDistanceDelta(touches[0], touches[1]));
 			}
 		}
 	}
