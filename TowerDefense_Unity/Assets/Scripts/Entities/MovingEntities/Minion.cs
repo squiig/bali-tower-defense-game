@@ -23,7 +23,7 @@ namespace Game.Entities.MovingEntities
 			Initialize(_maxHealth, _attackPriority, _allegiance, new MinionAttack());
         }
 
-		private void Update()
+		protected override void Update()
 		{
 			base.Update();
             if (_isDebug)

@@ -112,55 +112,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1 &666858483
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 666858485}
-  - component: {fileID: 666858484}
-  m_Layer: 0
-  m_Name: SplineBranch_1
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &666858484
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 666858483}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e2c7347d5f8aada43ab405e718957eb7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _DrawTangents: 0
-  _DrawNormals: 0
-  _DrawBiNormals: 0
-  _SplineSplineMode: 1
-  _BezierSplineData: {fileID: 11400000, guid: 188ffccc12a51f749a0907f7a9a6333a, type: 2}
-  _SelectedPointIndex: 0
---- !u!4 &666858485
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 666858483}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 8.2, y: -0.30110788, z: 16}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 915358948}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &915358947
 GameObject:
   m_ObjectHideFlags: 0
@@ -188,11 +139,9 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 915358947}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 7.5, y: -3.1, z: 3}
+  m_LocalPosition: {x: 20.7, y: -3.1, z: 71.3}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 666858485}
-  - {fileID: 1386967985}
+  m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -212,10 +161,10 @@ MonoBehaviour:
   _DrawNormals: 0
   _DrawBiNormals: 0
   _SplineSplineMode: 0
-  _Branches:
-  - {fileID: 666858484}
-  - {fileID: 1386967986}
+  _BranchCreatorCreators:
+  - {fileID: 0}
   _Position: {x: 0, y: 0, z: 0}
+  _ConnectionSegments: []
 --- !u!114 &915358950
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -230,6 +179,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _Spacing: 1.5
   _Resolution: 1
+  _SpawnSpheres: 1
 --- !u!114 &915358951
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -327,55 +277,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1386967984
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1386967985}
-  - component: {fileID: 1386967986}
-  m_Layer: 0
-  m_Name: SplineBranch_2
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1386967985
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1386967984}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -24.6, y: -0, z: -44.8}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 915358948}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1386967986
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1386967984}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e2c7347d5f8aada43ab405e718957eb7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _DrawTangents: 0
-  _DrawNormals: 0
-  _DrawBiNormals: 0
-  _SplineSplineMode: 1
-  _BezierSplineData: {fileID: 11400000, guid: 07a24350ae52a6a4cb073b6bc920edb4, type: 2}
-  _SelectedPointIndex: 0
 --- !u!1 &1724414697
 GameObject:
   m_ObjectHideFlags: 0
