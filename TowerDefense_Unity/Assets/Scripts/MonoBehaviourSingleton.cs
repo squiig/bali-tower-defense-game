@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 
 using UnityEngine;
@@ -6,11 +6,11 @@ using UnityEngine;
 namespace Game
 {
 	/// <summary>
-	/// Same as the Singleton but with DontDestroyOnLoad functionality (persistency through scenes).
+	/// Non-persistent singleton class. Will make a new instance when called and none exists. Will destroy itself if another instance already exists. No thread-safety features.
 	/// </summary>
-	/// <typeparam name="T">The class that's inheriting from DDOLSingleton.</typeparam>
+	/// <typeparam name="T">The class that's inheriting from Singleton.</typeparam>
 	[DisallowMultipleComponent]
-	public abstract class DDOLSingleton<T> : MonoBehaviour where T : Component
+	public abstract class MonoBehaviourSingleton<T> : MonoBehaviour where T : Component
 	{
 		private static T _Instance;
 
@@ -23,14 +23,15 @@ namespace Game
 				if (_Instance == null)
 				{
 					_Instance = FindObjectOfType<T>();
+
 					if (_Instance == null)
 					{
 						GameObject obj = new GameObject();
 						obj.name = typeof(T).Name;
 						_Instance = obj.AddComponent<T>();
-						DontDestroyOnLoad(obj);
 					}
 				}
+
 				return _Instance;
 			}
 		}
@@ -40,7 +41,6 @@ namespace Game
 			if (_Instance == null)
 			{
 				_Instance = this as T;
-				DontDestroyOnLoad(gameObject);
 			}
 			else
 			{
