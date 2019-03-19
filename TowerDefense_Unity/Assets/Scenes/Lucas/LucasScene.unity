@@ -227,8 +227,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AttackRange: 50
+  Attack: {fileID: 0}
   _allegiance: 1
   _isDebug: 1
+  _Upgrades: []
 --- !u!65 &1242835010
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -330,9 +332,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e1e96d67815ca94ca562614e210f9ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _MoveSpeed: 7
+  _RotationSpeed: 5
   _maxHealth: 100
   _maxRange: 10
   _attackPriority: 0
+  _MinionAttack: {fileID: 0}
   _allegiance: 0
   _isDebug: 0
 --- !u!4 &1246235249
@@ -447,11 +452,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e1e96d67815ca94ca562614e210f9ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _MoveSpeed: 7
+  _RotationSpeed: 5
   _maxHealth: 2000
   _maxRange: 15
   _attackPriority: 0
+  _MinionAttack: {fileID: 0}
   _allegiance: 0
-  _isDebug: 1
+  _isDebug: 0
 --- !u!4 &1670756543
 Transform:
   m_ObjectHideFlags: 0
