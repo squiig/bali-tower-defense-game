@@ -9,6 +9,7 @@ namespace Game.SplineSystem
 	public class SplinePathManager : MonoBehaviourSingleton<SplinePathManager>
 	{
 		[SerializeField] private float _Spacing = 1.0f, _Resolution = 1.0f;
+		[SerializeField] private bool _SpawnSpheres = false;
 		private Dictionary<BezierSplineDataObject, Vector3[]> _EvenlySpacedSplinePoints = new Dictionary<BezierSplineDataObject, Vector3[]>();
 
 		public Vector3 this[BezierSplineDataObject dataObject, int i] => _EvenlySpacedSplinePoints[dataObject][i];
@@ -29,6 +30,7 @@ namespace Game.SplineSystem
 				_EvenlySpacedSplinePoints.Add(spline, evenlySpacedPoints);
 
 #if UNITY_EDITOR //Spawns in balls to also show the path in-game.
+				if (!_SpawnSpheres) continue;
 				foreach (Vector3 point in evenlySpacedPoints)
 				{
 					GameObject sphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);

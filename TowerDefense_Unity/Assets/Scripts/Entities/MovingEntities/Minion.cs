@@ -45,7 +45,7 @@ namespace Game.Entities.MovingEntities
 			gameObject.AddComponent<Rigidbody>().useGravity = false;
 		}
 
-		private void Update()
+		protected override void Update()
 		{
 			base.Update();
 			
