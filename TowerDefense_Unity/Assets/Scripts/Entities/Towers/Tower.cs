@@ -49,15 +49,6 @@ namespace Game.Entities.Towers
 		/// Will never be null.
 		/// </summary>
 		/// <returns> An array of T with all possible upgrades. Never null.</returns>
-		public void GetPossibleUpgrades(out TowerUpgrade[] upgrades)
-		{
-			if (_Upgrades == null)
-			{
-				upgrades = new TowerUpgrade[0];
-				return;
-			}
-
-			upgrades = _Upgrades;
-		}
+		public void GetPossibleUpgrades(out TowerUpgrade[] upgrades) => upgrades = _Upgrades ?? new TowerUpgrade[0];
 	}
 }
