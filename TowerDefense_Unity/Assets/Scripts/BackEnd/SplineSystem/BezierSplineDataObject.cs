@@ -13,7 +13,6 @@ namespace Game.SplineSystem
 		[SerializeField] private Vector3 _Position = Vector3.zero;
 		[SerializeField] private bool _IsClosed;
 		[SerializeField] private List<Vector3> _Points = new List<Vector3>();
-		[SerializeField] private List<ConnectionSegment> _ConnectionSegments = new List<ConnectionSegment>();
 
 		public Vector3 this[int i]
 		{
@@ -33,8 +32,6 @@ namespace Game.SplineSystem
 			get => _Position;
 			set => _Position = value;
 		}
-		public ConnectionSegment GetConnectionSegment(int i) => _ConnectionSegments[i];
-		public int ConnectionSegmentCount => _ConnectionSegments.Count;
 
         private int LoopIndex(int index) => (index + _Points.Count) % _Points.Count;
 
@@ -122,19 +119,6 @@ namespace Game.SplineSystem
 	        _Points.RemoveRange(_Points.Count - 2, 2);
 	        return;
         }
-
-        public void AddConnectionSegment(int selectedHandleIndex, int modifierHandleIndex, BezierSplineDataObject receiverSpline)
-        {
-	        ConnectionSegment connectionSegment = new ConnectionSegment();
-	        connectionSegment.SetCurve(selectedHandleIndex, modifierHandleIndex, this, receiverSpline);
-	        _ConnectionSegments.Add(connectionSegment);
-        }
-
-		public void RemoveConnectionSegment(ConnectionSegment connectionSegment)
-		{
-			if(_ConnectionSegments.Contains(connectionSegment))
-				_ConnectionSegments.Remove(connectionSegment);
-		}
 
         public void InsertSegment(int pointIndex, Vector3 point)
         {
