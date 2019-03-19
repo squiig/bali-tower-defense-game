@@ -67,7 +67,7 @@ namespace Game.Interaction
 		
 		private void OnDrawGizmos()
 		{
-			Gizmos.color = Color.red;
+			Gizmos.color = Color.cyan;
 			Gizmos.DrawWireCube(_positionOfClamp, sizeOfClamp);
 		}
 	}
