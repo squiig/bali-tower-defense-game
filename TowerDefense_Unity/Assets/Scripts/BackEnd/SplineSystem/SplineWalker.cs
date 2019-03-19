@@ -24,7 +24,7 @@ namespace Game.SplineSystem
 			_PathManager = FindObjectOfType<SplinePathManager>();
 		}
 
-		protected void Update()
+		private void Update()
 		{
 			if (_PathManager == null)
 				return;
