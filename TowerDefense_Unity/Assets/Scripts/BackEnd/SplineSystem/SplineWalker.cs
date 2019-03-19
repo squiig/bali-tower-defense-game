@@ -8,8 +8,8 @@ namespace Game.SplineSystem
 	public class SplineWalker : Entities.Entity
 	{
 		[SerializeField] private const float UPDATE_NEXT_DESTINATION = 0.1f;
-		[SerializeField] private float _MoveSpeed = 7.0f;
-		[SerializeField] private float _RotationSpeed = 5.0f;
+		[SerializeField] protected float _MoveSpeed = 7.0f;
+		[SerializeField] protected float _RotationSpeed = 5.0f;
 
 		private SplinePathManager _PathManager;
 		private int _CurrentDestinationIndex;

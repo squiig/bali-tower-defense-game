@@ -1,3 +1,4 @@
+using System.Linq;
 using Game.Editor;
 using Game.Utils;
 using UnityEngine;
@@ -23,7 +24,7 @@ namespace Game.SplineSystem.Editor
         {
 	        Undo.undoRedoPerformed += UndoCallback;
 			_SplineCreator = (SplineCreator)target;
-            _SplineCreator.Branches = ArrayUtility.ComponentFilter<SplineBranchCreator>(HierarchyUtility.GetChildrenOfAllParents(Selection.gameObjects));
+            _SplineCreator.BranchCreators = ArrayUtility.ComponentFilter<SplineBranchCreator>(HierarchyUtility.GetChildrenOfAllParents(Selection.gameObjects));
             _DebugInspector = new SplineDebugInspector<SplineCreator>(_SplineCreator);
         }
 
@@ -34,7 +35,7 @@ namespace Game.SplineSystem.Editor
 
 		private void UndoCallback()
 		{
-			if (_SplineCreator.SelectedPointIndex.HandleIndex > _SplineCreator.Branches[_SplineCreator.SelectedPointIndex.BranchIndex].BezierSplineData.PointCount - 3)
+			if (_SplineCreator.SelectedPointIndex.HandleIndex > _SplineCreator.BranchCreators[_SplineCreator.SelectedPointIndex.BranchIndex].BezierSplineData.PointCount - 3)
 			{
 				_SplineCreator.SelectedPointIndex = new HandlePointIndex()
 				{
@@ -100,16 +101,16 @@ namespace Game.SplineSystem.Editor
 	        _SplineCreator.AddConnectionSegment(
 				_SplineCreator.SelectedPointIndex.HandleIndex, 
 				_SplineCreator.ModifierPointIndex.HandleIndex,
-				_SplineCreator.Branches[_SplineCreator.SelectedPointIndex.BranchIndex].BezierSplineData,
-				_SplineCreator.Branches[_SplineCreator.ModifierPointIndex.BranchIndex].BezierSplineData);
+				_SplineCreator.BranchCreators[_SplineCreator.SelectedPointIndex.BranchIndex].BezierSplineData,
+				_SplineCreator.BranchCreators[_SplineCreator.ModifierPointIndex.BranchIndex].BezierSplineData);
 	        HandleUtility.Repaint();
 	        EditorUtility.SetDirty(_SplineCreator);
         }
 
         private void OnSceneGUI()
         {
-            if (_SplineCreator.BranchCount <= 0)
-	            return;
+			if (!DrawSplines())
+				return;
 
             for (int i = 0; i < _SplineCreator.BranchCount; i++)
             {
@@ -134,6 +135,13 @@ namespace Game.SplineSystem.Editor
 	    {
 		    HandleShiftCommands(branchIndex);
 		    HandleConnectionSegmentDeletion(branchIndex);
+	    }
+
+	    private bool DrawSplines()
+	    {
+		    if (_SplineCreator.BranchCount <= 0)
+			    return false;
+		    return _SplineCreator.BranchCreators.Count(splineCreator => splineCreator.BezierSplineData != null) > 0;
 	    }
 
         private void DrawSegments(int branchIndex)

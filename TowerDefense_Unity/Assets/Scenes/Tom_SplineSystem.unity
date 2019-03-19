@@ -161,8 +161,7 @@ MonoBehaviour:
   _DrawNormals: 0
   _DrawBiNormals: 0
   _SplineSplineMode: 0
-  _Branches:
-  - {fileID: 0}
+  _BranchCreatorCreators:
   - {fileID: 0}
   _Position: {x: 0, y: 0, z: 0}
   _ConnectionSegments: []
