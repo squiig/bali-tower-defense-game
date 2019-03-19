@@ -19,11 +19,15 @@ namespace Game.SplineSystem
 		private void Start()
 		{
 			_CurrentDestinationIndex = 0;
+			if (FindObjectOfType<SplinePathManager>() == null)
+				return;
 			_PathManager = FindObjectOfType<SplinePathManager>();
 		}
 
-		public void Update()
+		protected void Update()
 		{
+			if (_PathManager == null)
+				return;
 			if ((_PathManager[SplineBranch, _CurrentDestinationIndex] - transform.position).magnitude < UPDATE_NEXT_DESTINATION)
 				UpdateSplineDestinationPoint();
 			else
