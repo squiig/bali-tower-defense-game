@@ -17,9 +17,11 @@ namespace Game.WaveSystem
 		private List<Wave> _ActiveWaves;
 
 		private int _CurrentWaveIndex = 0;
+		private float _IntermissionTimer = 0;
 
 		public int TotalWaveCount => _Waves.Count;
 		public int CurrentWaveIndex => _CurrentWaveIndex;
+		public float IntermissionTimeLeft => _IntermissionTimer;
 		public List<Wave> ActiveWaves => _ActiveWaves;
 
 		protected override void Awake()
@@ -46,6 +48,8 @@ namespace Game.WaveSystem
 
 		public void StartNextWave()
 		{
+			Debug.Log("[WaveSystem] Starting next wave...");
+
 			if (_WaitingWaves.Count <= 0)
 			{
 				Debug.LogWarning("[WaveSystem] No more waves to start, aborting the attempt!");
@@ -61,12 +65,14 @@ namespace Game.WaveSystem
 
 		private IEnumerator IntermissionCoroutine()
 		{
-			float timer = _IntermissionTime;
-			while (timer > 0)
+			_IntermissionTimer = _IntermissionTime;
+			while (_IntermissionTimer > 0)
 			{
-				timer -= Time.deltaTime;
+				_IntermissionTimer -= Time.deltaTime;
 				yield return null;
 			}
+
+			_IntermissionTimer = 0f;
 
 			StartNextWave();
 		}
@@ -78,7 +84,7 @@ namespace Game.WaveSystem
 			_ActiveWaves.Add(wave);
 			NextWaveStarted?.Invoke(wave);
 
-			Debug.Log("[WaveSystem] Succesfully started next wave!");
+			Debug.Log("<color=lime>[WaveSystem] Succesfully started next wave!</color>");
 		}
 
 		protected virtual void OnWaveStoppedOrEnded(Wave wave)
