@@ -2,11 +2,12 @@ using System;
 using System.Linq;
 using Game.Entities.EventContainers;
 using Game.Entities.Interfaces;
+using Game.SplineSystem;
 using UnityEngine;
 
 namespace Game.Entities.MovingEntities
 {
-	public abstract class TraversingEntity : SplineSystem.SplineWalker, IDamageable, IAggressor
+	public abstract class TraversingEntity : SplineWalker, IDamageable, IAggressor
 	{
 		protected float Health;
 		private float _StartHealth;

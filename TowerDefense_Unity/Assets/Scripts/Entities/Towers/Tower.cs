@@ -18,13 +18,13 @@ namespace Game.Entities.Towers
 		{
 			AttackRange += increase;
 			AttackRange = Mathf.Clamp(AttackRange, StartAttackRange, MaxAttackRange);
+			
+			if(Attack.GetAttackType() == AttackType.AREA_OF_EFFECT)
+				Attack.SetAreaOfEffect(AttackRange + increase);
 		}
 
-		public void IncreaseDamage(float increase)
-		{
-			throw new NotImplementedException("new system does not provide upgrades just yet");
-			//Attack.
-		}
+		public void IncreaseDamage(float increase) => Attack.SetDamage(Attack.GetDamage() + increase);
+		
 
 		/// <inheritdoc />
 		/// <summary>

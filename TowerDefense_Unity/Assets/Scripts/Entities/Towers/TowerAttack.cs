@@ -19,6 +19,10 @@ namespace Game.Entities.Towers
 
 		public float GetDamage() => _attackEffects.GetDamage();
 
+		public void SetAreaOfEffect(float value) => _areaOfEffect = value;
+
+		public void SetDamage(float value) => _attackEffects.SetDamage(value);
+
 		public void ExecuteAttack(in IDamageable damageable, Vector3? position = null)
 		{
 			if (position != null && _areaOfEffect > 0)

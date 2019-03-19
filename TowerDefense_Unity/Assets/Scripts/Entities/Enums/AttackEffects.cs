@@ -27,6 +27,8 @@ namespace Game.Entities.MovingEntities
 		/// <returns> A positive number representing damage inflicted.</returns>
 		public override float GetDamage() => _damage;
 
+		public void SetDamage(float value) => _damage = value;
+
 		/// <inheritdoc />
 		/// <summary>
 		/// Used to apply effects of the status effects.
