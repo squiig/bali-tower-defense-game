@@ -230,6 +230,7 @@ MonoBehaviour:
   Attack: {fileID: 0}
   _allegiance: 1
   _isDebug: 1
+  _Upgrades: []
 --- !u!65 &1242835010
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -336,6 +337,7 @@ MonoBehaviour:
   _maxHealth: 100
   _maxRange: 10
   _attackPriority: 0
+  _MinionAttack: {fileID: 0}
   _allegiance: 0
   _isDebug: 0
 --- !u!4 &1246235249
@@ -455,8 +457,9 @@ MonoBehaviour:
   _maxHealth: 2000
   _maxRange: 15
   _attackPriority: 0
+  _MinionAttack: {fileID: 0}
   _allegiance: 0
-  _isDebug: 1
+  _isDebug: 0
 --- !u!4 &1670756543
 Transform:
   m_ObjectHideFlags: 0

@@ -1,12 +1,11 @@
 using System;
+using Game.Entities.Towers;
 
 namespace Game.Entities.Interfaces
 {
 	/// <summary>
-	/// Interface representing that the inheritor can be upgraded by param T.
+	/// Interface representing that the inheritor can be upgraded
 	/// </summary>
-	/// <typeparam name="TUpgrade"> The upgrade that can be applied to the inheritor.</typeparam>
-	/// <typeparam name="TUpgradeDependency">Class that has to be upgraded.</typeparam>
 	public interface IUpgradeable
 	{
 		/// <summary>
@@ -24,6 +23,6 @@ namespace Game.Entities.Interfaces
 		/// Will never be null.
 		/// </summary>
 		/// <returns> An array of T with all possible upgrades. Never null.</returns>
-		void GetPossibleUpgrades(out IUpgrade[] upgrades);
+		void GetPossibleUpgrades(out TowerUpgrade[] upgrades);
 	}
 }

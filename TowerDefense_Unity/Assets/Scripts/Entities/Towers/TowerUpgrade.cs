@@ -5,8 +5,8 @@ using UnityEngine;
 namespace Game.Entities.Towers
 {
 
-	[CreateAssetMenu(fileName = "Range Upgrade", menuName = "Tower/Upgrades/Range Upgrade", order = 1)]
-	public class TowerUpgrade : IUpgrade
+	[CreateAssetMenu(fileName = "General Upgrade", menuName = "Tower/Upgrades/General Upgrade", order = 1)]
+	public class TowerUpgrade : ScriptableObject, IUpgrade
 
 	{
 		[SerializeField] private float _upgradeValue = 20.0f;
