@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -35,6 +36,9 @@ namespace Game.Interaction
 		{
 			delta = delta * 0.2f;
 			_Transform.position += _CameraTransform.forward * delta;
+			if (CheckClamp())
+				_Transform.position -= _CameraTransform.forward * delta;
+
 			Clamp();
 		}
 
@@ -50,10 +54,21 @@ namespace Game.Interaction
 			_Transform.position = pos;
 		}
 
+		private bool CheckClamp()
+		{
+			Vector3 pos = _Transform.position;
+			Vector3 maxCube = _positionOfClamp + sizeOfClamp / 2;
+			Vector3 minCube = _positionOfClamp - sizeOfClamp / 2;
+
+			return pos.x < minCube.x || pos.x > maxCube.x
+			    || pos.y < minCube.y || pos.y > maxCube.y
+			    || pos.z < minCube.z || pos.z > maxCube.z;
+		}
+		
 		private void OnDrawGizmos()
 		{
 			Gizmos.color = Color.red;
-			Gizmos.DrawCube(_positionOfClamp, sizeOfClamp);
+			Gizmos.DrawWireCube(_positionOfClamp, sizeOfClamp);
 		}
 	}
 }
