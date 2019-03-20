@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class TowerSelectionUI : MonoBehaviour
 {
-	[SerializeField] private GameObject[] _TowerPrefabs;
+	[SerializeField] private TowerSelectionDataObject _TowerSelectionDataObject;
 	[SerializeField] private GameObject _TowerSelectionOptionUIPrefab;
 
 	private void Awake()
 	{
-		for (int i = 0; i < _TowerPrefabs.Length; i++)
+		for (int i = 0; i < _TowerSelectionDataObject.TowerPrefab.Length; i++)
 		{
 			GameObject towerSelection = Instantiate(_TowerSelectionOptionUIPrefab);
 			TowerSelectionOptionUI towerSelectionOptionUIScript = towerSelection.AddComponent<TowerSelectionOptionUI>();
@@ -20,7 +20,7 @@ public class TowerSelectionUI : MonoBehaviour
 			towerSelection.transform.localPosition = newPositionTowerSelectionOption;
 			towerSelection.transform.localScale = Vector3.one;
 
-			towerSelectionOptionUIScript.SetPrefabToSpawnOnSelection(_TowerPrefabs[i]);
+			towerSelectionOptionUIScript.SetPrefabAndImage(_TowerSelectionDataObject.TowerPrefab[i], _TowerSelectionDataObject.TowerSelectionOptionSprite[i]);
 		}
 	}
 }

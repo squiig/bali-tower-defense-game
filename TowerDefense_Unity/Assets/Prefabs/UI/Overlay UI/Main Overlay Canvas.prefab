@@ -48,9 +48,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e46ac0b16cfb1d49ae91b7a66f17287, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _TowerPrefabs:
-  - {fileID: 808282167440405445, guid: 43cc9271709afcd40a41c336aa5affd7, type: 3}
-  - {fileID: 808282167440405445, guid: 43cc9271709afcd40a41c336aa5affd7, type: 3}
+  _TowerSelectionDataObject: {fileID: 11400000, guid: 50c5f4888b88e394284d2076b1e0838b,
+    type: 2}
   _TowerSelectionOptionUIPrefab: {fileID: 808282167440405445, guid: 43cc9271709afcd40a41c336aa5affd7,
     type: 3}
 --- !u!1 &6166387354006816612
