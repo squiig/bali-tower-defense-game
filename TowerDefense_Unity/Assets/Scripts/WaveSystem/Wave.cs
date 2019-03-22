@@ -55,7 +55,9 @@ namespace Game.WaveSystem
 			if (killRemaining)
 			{
 				foreach (Minion minion in _ActiveMinions)
+				{
 					minion.Kill();
+				}
 			}
 
 			OnEnded();
