@@ -9,7 +9,7 @@ namespace Game.Interaction
 	{
 		private GameObject _SelectedObject;
 		public GameObject selectedObject { get; set; }
-		public bool hasSelectedObject { get => _SelectedObject != null; }
+		public bool HasSelection { get => _SelectedObject != null; }
 
 		public event System.Action<GameObject> OnSelectionRecieved;
 		public event System.Action<GameObject> OnSelectionCleared;
@@ -26,7 +26,7 @@ namespace Game.Interaction
 		/// <summary>
 		/// Returns the currently selected tower and clears the selection.
 		/// </summary>
-		public GameObject Take(GameObject tower)
+		public GameObject Take()
 		{
 			GameObject selected = _SelectedObject;
 			Clear();
