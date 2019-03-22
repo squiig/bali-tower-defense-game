@@ -74,7 +74,7 @@ namespace Game.WaveSystem
 			{
 				foreach (Minion minion in _ActiveMinions)
 				{
-					minion.ApplyOnHitEffects(new AttackEffects(damage: 9001, null));
+					minion.Kill();
 				}
 			}
 
