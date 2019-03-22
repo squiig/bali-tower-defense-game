@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Game.WaveSystem
 {
-	public class IntermissionEndedArgs : EventArgs
+	public class IntermissionEventArgs : EventArgs
 	{
 		/// <summary>
 		/// The wave that ended before this intermission started.
@@ -17,7 +17,7 @@ namespace Game.WaveSystem
 		/// </summary>
 		public readonly Wave NextWave;
 
-		public IntermissionEndedArgs(Wave previousWave, Wave nextWave)
+		public IntermissionEventArgs(Wave previousWave, Wave nextWave)
 		{
 			PreviousWave = previousWave;
 			NextWave = nextWave;

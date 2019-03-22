@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Game.WaveSystem
 {
-	public class WaveEndedArgs : EventArgs
+	public class WaveEventArgs : EventArgs
 	{
 		/// <summary>
 		/// The wave that ended.
@@ -15,12 +15,12 @@ namespace Game.WaveSystem
 		/// <summary>
 		/// If this was the last planned wave.
 		/// </summary>
-		public readonly bool WasLastWave;
+		public readonly bool IsLastWave;
 		
-		public WaveEndedArgs(Wave wave, bool wasLastWave)
+		public WaveEventArgs(Wave wave, bool isLastWave)
 		{
 			Wave = wave;
-			WasLastWave = wasLastWave;
+			IsLastWave = isLastWave;
 		}
 	}
 }

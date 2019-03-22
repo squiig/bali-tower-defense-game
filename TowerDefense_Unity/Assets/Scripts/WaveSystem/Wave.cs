@@ -18,19 +18,32 @@ namespace Game.WaveSystem
 		private WaveManager _WaveManager;
 		private int _Index;
 		private WaveContent _Content;
-		private Coroutine _SpawningCoroutine;
+		private Coroutine _SpawnRoutine;
 		private List<Minion> _ActiveMinions;
 
+		public enum EState
+		{
+			UNSTARTED = 0,
+			SPAWNING,
+			IDLE,
+			FINISHED
+		}
+
+		private EState _State;
+
+		public EState State => _State;
+
 		public bool IsActive => _IsActive;
-		public bool IsSpawning => _SpawningCoroutine != null;
+		public bool IsSpawning => _SpawnRoutine != null;
 		public int Index => _Index;
 		public WaveContent Content => _Content;
 		public List<Minion> ActiveMinions => _ActiveMinions;
 
-		public Wave(int index, WaveContent data)
+		public Wave(int index, WaveContent content)
 		{
 			_Index = index;
-			_Content = data;
+			_Content = content;
+			_State = EState.UNSTARTED;
 		}
 
 		/// <summary>
@@ -39,10 +52,11 @@ namespace Game.WaveSystem
 		/// <param name="waveManager">The wave manager to run the coroutine on.</param>
 		public void Start(WaveManager waveManager)
 		{
-			_ActiveMinions = new List<Minion>();
-			_SpawningCoroutine = waveManager.StartCoroutine(SpawnRoutine());
 			_IsActive = true;
+			_ActiveMinions = new List<Minion>();
 			OnHasStarted();
+
+			_SpawnRoutine = waveManager.StartCoroutine(SpawnRoutine());
 		}
 
 		/// <summary>
@@ -53,7 +67,7 @@ namespace Game.WaveSystem
 		{
 			if (IsSpawning)
 			{
-				_WaveManager.StopCoroutine(_SpawningCoroutine);
+				_WaveManager.StopCoroutine(_SpawnRoutine);
 			}
 
 			if (killRemaining)
@@ -71,6 +85,8 @@ namespace Game.WaveSystem
 
 		private IEnumerator SpawnRoutine()
 		{
+			_State = EState.SPAWNING;
+
 			int len = _Content.Minions.Count;
 			for (int i = 0; i < len; i++)
 			{
@@ -79,6 +95,11 @@ namespace Game.WaveSystem
 				_ActiveMinions.Add(minion);
 				yield return new WaitForSeconds(_Content.SpawnInterval.GetRandom());
 			}
+
+			_State = EState.IDLE;
+
+			if (_ActiveMinions.Count <= 0)
+				Stop(false);
 		}
 
 		protected virtual void Minion_OnDeath(in IDamageable sender, in EntityDamaged payload)
@@ -88,7 +109,10 @@ namespace Game.WaveSystem
 
 			// End the wave if there are no minions left
 			if (_ActiveMinions.Count <= 0)
+			{
+				_State = EState.FINISHED;
 				OnHasEnded();
+			}
 		}
 
 		protected virtual void OnHasStarted()
