@@ -3,15 +3,15 @@ using Game.Turrets;
 
 namespace Game.Interaction
 {
-	public class BuildTowerOnTap : MonoBehaviour/*, ITappable */
+	public class BuildTowerOnTap : MonoBehaviour
 	{
 		private TowerBuildSelection _TowerBuildSelection;
-		private TurretGridCell _TurredGridCell;
+		private TurretGridCell _TurretGridCell;
 
 		public void Start()
 		{
 			_TowerBuildSelection = TowerBuildSelection.Instance;
-			_TurredGridCell = gameObject.GetComponent<TurretGridCell>();
+			_TurretGridCell = gameObject.GetComponent<TurretGridCell>();
 		}
 
 		public void Tapped()
@@ -21,14 +21,12 @@ namespace Game.Interaction
 
 		private void BuildTower()
 		{
-			if (!_TowerBuildSelection.HasSelection)
-				return;
-			if (_TurredGridCell.IsOccupied)
+			if (!_TowerBuildSelection.HasSelection || _TurretGridCell.IsOccupied)
 				return;
 			
 			GameObject tower = Instantiate(_TowerBuildSelection.Take());
 			tower.transform.position = transform.position;
-			_TurredGridCell.OccupyTurret(tower);
+			_TurretGridCell.OccupyTurret(tower);
 		}
 	}
 }

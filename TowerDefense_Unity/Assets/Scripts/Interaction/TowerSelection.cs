@@ -8,34 +8,25 @@ namespace Game.Interaction
 	public class TowerBuildSelection : DDOLMonoBehaviourSingleton<TowerBuildSelection>
 	{
 		private GameObject _SelectedObject;
-		public GameObject selectedObject { get; set; }
-		public bool HasSelection { get => _SelectedObject != null; }
+		public GameObject SelectedObject { get; set; }
+		public bool HasSelection => _SelectedObject != null;
 
 		public event System.Action<GameObject> OnSelectionRecieved;
 		public event System.Action<GameObject> OnSelectionCleared;
 
-		/// <summary>
-		/// Clears the selection.
-		/// </summary>
-		public void Clear()
+		public void ClearSelection()
 		{
 			OnSelectionCleared?.Invoke(_SelectedObject);
 			_SelectedObject = null;
 		}
 
-		/// <summary>
-		/// Returns the currently selected tower and clears the selection.
-		/// </summary>
-		public GameObject Take()
+		public GameObject TakeSelectionAndClear()
 		{
 			GameObject selected = _SelectedObject;
-			Clear();
+			ClearSelection();
 			return selected;
 		}
 
-		/// <summary>
-		/// Sets the current selected tower tto build
-		/// </summary>
 		public void SetTowerSelected(GameObject tower)
 		{
 			_SelectedObject = tower;
