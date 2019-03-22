@@ -1,7 +1,6 @@
-﻿using System;
 using Game;
 using Game.Entities.EventContainers;
-using UnityEngine;
+
 
 namespace Game.Entities
 {
@@ -10,6 +9,8 @@ namespace Game.Entities
     /// </summary>
 	public class ResourceSystem : MonoBehaviourSingleton<ResourceSystem>
 	{
+		public int ResourceCount { get; private set; }
+
 		/// <summary>
         /// Event fired when a transaction is attempted.
         /// see <see cref="RunTransaction"/> to start a transaction.
@@ -25,10 +26,18 @@ namespace Game.Entities
         /// Returns a transaction result at <see cref="OnTransaction"/>
         /// </summary>
         /// <param name="amount"> Amount to give or take to the player.</param>
-		public void RunTransaction(int amount)
+		public bool RunTransaction(int amount)
 		{
-			OnTransaction?.Invoke(this, new TransactionResult(true, 0,0));
-			throw new NotImplementedException("We have not implemented a transaction yet. Transaction will always fail");
+			int updateCount = ResourceCount + amount;
+			if (updateCount > 0)
+			{
+				OnTransaction?.Invoke(this, new TransactionResult(false, updateCount, ResourceCount));
+				ResourceCount = updateCount;
+				return true;
+			}
+
+			OnTransaction?.Invoke(this, new TransactionResult(true, updateCount, ResourceCount));
+			return false;
 		}
     }
 }

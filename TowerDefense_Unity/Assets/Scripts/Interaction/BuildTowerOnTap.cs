@@ -24,7 +24,7 @@ namespace Game.Interaction
 			if (!_TowerBuildSelection.HasSelection || _TurretGridCell.IsOccupied)
 				return;
 			
-			GameObject tower = Instantiate(_TowerBuildSelection.Take());
+			GameObject tower = Instantiate(_TowerBuildSelection.TakeSelectionAndClear());
 			tower.transform.position = transform.position;
 			_TurretGridCell.OccupyTurret(tower);
 		}
