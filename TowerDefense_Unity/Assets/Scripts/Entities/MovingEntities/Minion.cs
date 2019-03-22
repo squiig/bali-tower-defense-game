@@ -121,5 +121,10 @@ namespace Game.Entities.MovingEntities
 
 			TargetIDamageable = damageable;
 		}
+
+		public void Kill()
+		{
+			ReleaseOwnership();
+		}
 	}
 }
