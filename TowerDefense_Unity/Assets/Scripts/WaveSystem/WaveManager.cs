@@ -1,23 +1,35 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Game.Entities;
 using UnityEngine;
 
 namespace Game.WaveSystem
 {
 	public class WaveManager : MonoBehaviourSingleton<WaveManager>
 	{
-		public event Action<Wave> NextWaveStarted;
-		public event Action<Wave> LastWaveEnded;
+		public event TypedEventHandler<WaveManager, WaveEndedArgs> WaveEnded;
+		public event TypedEventHandler<WaveManager, IntermissionEndedArgs> IntermissionEnded;
 
 		[SerializeField] private List<WaveContent> _Waves = null;
 		[SerializeField] private int _IntermissionTime = 20;
+
+		public enum EState
+		{
+			INACTIVE = 0,
+			WAVE,
+			INTERMISSION
+		}
+
+		private EState _State;
 
 		private Queue<Wave> _WaitingWaves;
 		private List<Wave> _ActiveWaves;
 
 		private int _CurrentWaveIndex = 0;
 		private float _IntermissionTimer = 0;
+
+		public EState State => _State;
 
 		public int TotalWaveCount => _Waves.Count;
 		public int CurrentWaveIndex => _CurrentWaveIndex;
@@ -59,12 +71,19 @@ namespace Game.WaveSystem
 			Wave nextWave = _WaitingWaves.Dequeue();
 
 			// Attempt to start new wave
-			nextWave.Started += OnNextWaveStarted;
+			nextWave.HasStarted += OnNextWaveStarted;
 			nextWave.Start(this);
+		}
+
+		private void StartIntermission()
+		{
+			StartCoroutine(IntermissionCoroutine());
 		}
 
 		private IEnumerator IntermissionCoroutine()
 		{
+			_State = EState.INTERMISSION;
+
 			_IntermissionTimer = _IntermissionTime;
 			while (_IntermissionTimer > 0)
 			{
@@ -80,28 +99,27 @@ namespace Game.WaveSystem
 		protected virtual void OnNextWaveStarted(Wave wave)
 		{
 			// Wave has succesfully started
-			wave.Ended += OnWaveStoppedOrEnded;
+			wave.HasEnded += OnWaveEnded;
 			_ActiveWaves.Add(wave);
-			NextWaveStarted?.Invoke(wave);
+			_State = EState.WAVE;
 
 			Debug.Log("<color=lime>[WaveSystem] Succesfully started next wave!</color>");
 		}
 
-		protected virtual void OnWaveStoppedOrEnded(Wave wave)
+		protected virtual void OnWaveEnded(Wave wave)
 		{
-			wave.Ended -= OnWaveStoppedOrEnded;
+			wave.HasEnded -= OnWaveEnded;
 			_ActiveWaves.Remove(wave);
 
-			// Is this the last wave?
-			if (_WaitingWaves.Count <= 0)
-				OnLastWaveEnded(wave);
-			else
-				StartCoroutine(IntermissionCoroutine());
-		}
+			bool wasLastWave = _WaitingWaves.Count <= 0;
 
-		protected virtual void OnLastWaveEnded(Wave wave)
-		{
-			LastWaveEnded?.Invoke(wave);
+			WaveEndedArgs payload = new WaveEndedArgs(wave, wasLastWave);
+			WaveEnded?.Invoke(this, payload);
+
+			if (!wasLastWave)
+				StartIntermission();
+			else
+				_State = EState.INACTIVE;
 		}
 	}
 }
