@@ -2,13 +2,15 @@ using System;
 using System.Linq;
 using Game.Entities.EventContainers;
 using Game.Entities.Interfaces;
+using Game.SplineSystem;
 using UnityEngine;
 
 namespace Game.Entities.MovingEntities
 {
-	public abstract class TraversingEntity : SplineSystem.SplineWalker, IDamageable, IAggressor
+	public abstract class TraversingEntity : SplineWalker, IDamageable, IAggressor
 	{
 		protected float Health;
+		private float _StartHealth;
 
 		protected IAttack Attack;
 
@@ -22,15 +24,9 @@ namespace Game.Entities.MovingEntities
 
 		protected void Initialize(float maxHealth, int priority, Allegiance allegiance, in IAttack attack)
 		{
-			//Deprecated
-			//if (!MemoryObjectPool<IDamageable>.Instance.Contains(this))
-			//{
-			//	MemoryObjectPool<IDamageable>.Instance.Add(this);
-			//	OnDeath += (in IDamageable sender, in EntityDamaged payload) => ReleaseOwnership();
-            //}
-
 			Allegiance = allegiance;
             Health = maxHealth;
+            _StartHealth = maxHealth;
 			_priority = priority;
 			Attack = attack;
 		}
@@ -83,7 +79,8 @@ namespace Game.Entities.MovingEntities
 			_isConducting = true;
 			SetActive(true);
 
-			OnDeath += (in IDamageable sender, in EntityDamaged payload) => ReleaseOwnership();
+			Health = _StartHealth;
+			OnHit?.Invoke(this, new EntityDamaged(this, _StartHealth, _StartHealth));
 		}
 
 		/// <inheritdoc />

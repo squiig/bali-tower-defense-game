@@ -7,24 +7,21 @@ public class TowerSelectionOptionUI : MonoBehaviour
 	[SerializeField] private GameObject _PrefabToSpawnOnSelection;
 	private UnityEngine.UI.Button _TowerSelectionOptionUIButton;
 
-	private void OnEnable()
+	public void Initialize(GameObject prefabToSpawn, UnityEngine.UI.Button towerSelectionOptionUIButton)
 	{
-		_TowerSelectionOptionUIButton = GetComponent<UnityEngine.UI.Button>();
+		_PrefabToSpawnOnSelection = prefabToSpawn;
+		_TowerSelectionOptionUIButton = towerSelectionOptionUIButton;
+
 		_TowerSelectionOptionUIButton.onClick.AddListener(OnTowerUIPress);
 	}
+
 	private void OnDisable()
 	{
 		_TowerSelectionOptionUIButton.onClick.RemoveListener(OnTowerUIPress);
 	}
 
-	public void SetPrefabAndImage(GameObject prefabToSpawn, UnityEngine.UI.Image towerSelectionOptionImage)
-	{
-		_PrefabToSpawnOnSelection = prefabToSpawn;
-		_TowerSelectionOptionUIButton.image = towerSelectionOptionImage;
-	}
 	public void OnTowerUIPress()
 	{
-		Debug.Log("TowerUI Pressed");
-		//Game.Interaction.TowerSelection.SelectTower(_PrefabToSpawnOnSelection);
+		//Game.Interaction.TowerBuildSelection.SetTowerSelected(_PrefabToSpawnOnSelection);
 	}
 }

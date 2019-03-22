@@ -1,18 +1,14 @@
-﻿using System;
+using System;
 using System.Linq;
+using UnityEngine;
 
 namespace Game.Entities.MovingEntities
 {
+	[CreateAssetMenu(fileName = "Attack Effects", menuName = "AttackEffects/Attack Effects", order = 1)]
 	public class AttackEffects : OnHitEffects
 	{
-		private readonly StatusEffects[] _statusEffects;
-		private readonly float _damage;
-
-		public AttackEffects(float damage, StatusEffects[] status)
-		{
-			_damage = damage;
-			_statusEffects = status;
-		}
+		[SerializeField] private StatusEffects[] _statusEffects;
+		[SerializeField] private float _damage;
 
 		/// <inheritdoc />
 		/// <summary>
@@ -30,6 +26,8 @@ namespace Game.Entities.MovingEntities
 		/// </summary>
 		/// <returns> A positive number representing damage inflicted.</returns>
 		public override float GetDamage() => _damage;
+
+		public void SetDamage(float value) => _damage = value;
 
 		/// <inheritdoc />
 		/// <summary>

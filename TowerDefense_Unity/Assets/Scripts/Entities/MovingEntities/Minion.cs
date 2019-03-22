@@ -1,4 +1,5 @@
 using System.Linq;
+using Game.Entities.EventContainers;
 using Game.Entities.Interfaces;
 using UnityEngine;
 
@@ -14,31 +15,50 @@ namespace Game.Entities.MovingEntities
 		[SerializeField] private float _maxRange;
 		[SerializeField] private int _attackPriority;
 		[Space]
+		[SerializeField] private MinionAttack _MinionAttack;
+		[Space]
 		[SerializeField] private Allegiance _allegiance;
 		[Space]
-		[SerializeField] private bool _isDebug;
+		[SerializeField] private bool _isDebug = false;
+
+		private SphereCollider _SphereCollider;
 
 		private void Awake()
 		{
-			Initialize(_maxHealth, _attackPriority, _allegiance, new MinionAttack());
-        }
+			Initialize(_maxHealth, _attackPriority, _allegiance, _MinionAttack);
 
-		private void Update()
+			SetObjectDependencies();
+			base.OnDeath += OnDeath;
+		}
+
+		private void OnDeath(in IDamageable sender, in EntityDamaged payload)
+		{
+			ReleaseOwnership();
+		}
+
+		private void SetObjectDependencies()
+		{
+			_SphereCollider = gameObject.AddComponent<SphereCollider>();
+			_SphereCollider.radius = _maxRange;
+			_SphereCollider.isTrigger = true;
+
+			gameObject.AddComponent<Rigidbody>().useGravity = false;
+		}
+
+		protected override void Update()
 		{
 			base.Update();
+			
             if (_isDebug)
                 DrawDebug();
 
-            TargetingAndAttacks();
+            AttackAndCooldown();
         }
 
-        private void TargetingAndAttacks()
+        private void AttackAndCooldown()
         {
-            if (TargetIDamageable == null)
-                GetNewTarget(out TargetIDamageable);
-
-            if (_attackCoolDown > 0)
-                _attackCoolDown -= Time.unscaledDeltaTime;
+	        if (_attackCoolDown > 0)
+                _attackCoolDown -= Time.deltaTime;
 
             ExecuteAttack();
         }
@@ -59,23 +79,6 @@ namespace Game.Entities.MovingEntities
 			Gizmos.DrawWireSphere(GetPosition(), 1.0f);
         }
 
-		/// <summary>
-        /// Sets a new target. Does not check if target isn't already set.
-        /// if it is will be overriden with a new target or null.
-        /// </summary>
-        /// <param name="target"></param>
-        private void GetNewTarget(out IDamageable target)
-		{
-			//TODO: Not quite what we want, large performance impact.
-			target = MemoryObjectPool<IDamageable>.Instance.
-				Where(x=> x.IsConducting() && 
-						  x.GetAllegiance() != GetAllegiance() &&
-				          Vector3.Distance(GetPosition(), x.GetPosition()) < _maxRange).
-				OrderByDescending(x => x.GetPriority()).
-				ThenBy(x => Vector3.Distance(GetPosition(), x.GetPosition())).
-				FirstOrDefault(x => !ReferenceEquals(x, this));
-		}
-
         /// <inheritdoc />
         /// <summary>
         /// Used to forcefully attack the current target.
@@ -92,6 +95,8 @@ namespace Game.Entities.MovingEntities
 
 			_attackCoolDown = ATTACK_COOL_DOWN_DURATION;
 			Attack.ExecuteAttack(TargetIDamageable);
+
+			ReleaseOwnership();
 		}
 
 		private bool IsTargetForsaken()
@@ -102,5 +107,24 @@ namespace Game.Entities.MovingEntities
 			TargetIDamageable = null;
 			return true;
         }
+
+		private void OnTriggerEnter(Collider collider)
+		{
+			if(_isDebug)
+				Debug.Log($"Minion {GetHashCode()} Found damageable [{collider.gameObject.GetComponent<IDamageable>() != null}]");
+
+			IDamageable damageable;
+
+			if((damageable = collider.gameObject.GetComponent<IDamageable>()) != null &&
+			   TargetIDamageable != null && damageable.GetPriority() > TargetIDamageable.GetPriority())
+				return;
+
+			TargetIDamageable = damageable;
+		}
+
+		public void Kill()
+		{
+			ReleaseOwnership();
+		}
 	}
 }

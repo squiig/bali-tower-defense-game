@@ -10,11 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3f1e2fb9b3c30d749a82652b7c468dac, type: 3}
-  m_Name: Tower Selection Options
+  m_Name: Tower_Projectile
   m_EditorClassIdentifier: 
-  _TowerSelectionOptionImage:
-  - {fileID: 0}
-  - {fileID: 0}
-  _TowerPrefab:
-  - {fileID: 0}
-  - {fileID: 0}
+  _TowerUIPrefab: {fileID: 157700612332043365, guid: a4591207f492322499a57f0525251da5,
+    type: 3}
+  _TowerPrefab: {fileID: 3117059664447718178, guid: 49304e650751ac7489101c9a89c7d3eb,
+    type: 3}

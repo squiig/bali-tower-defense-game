@@ -8,8 +8,8 @@ namespace Game.SplineSystem
 	public class SplineWalker : Entities.Entity
 	{
 		[SerializeField] private const float UPDATE_NEXT_DESTINATION = 0.1f;
-		[SerializeField] private float _MoveSpeed = 7.0f;
-		[SerializeField] private float _RotationSpeed = 5.0f;
+		[SerializeField] protected float _MoveSpeed = 7.0f;
+		[SerializeField] protected float _RotationSpeed = 5.0f;
 
 		private SplinePathManager _PathManager;
 		private int _CurrentDestinationIndex;
@@ -19,11 +19,15 @@ namespace Game.SplineSystem
 		private void Start()
 		{
 			_CurrentDestinationIndex = 0;
+			if (FindObjectOfType<SplinePathManager>() == null)
+				return;
 			_PathManager = FindObjectOfType<SplinePathManager>();
 		}
 
-		public void Update()
+		protected virtual void Update()
 		{
+			if (_PathManager == null)
+				return;
 			if ((_PathManager[SplineBranch, _CurrentDestinationIndex] - transform.position).magnitude < UPDATE_NEXT_DESTINATION)
 				UpdateSplineDestinationPoint();
 			else
