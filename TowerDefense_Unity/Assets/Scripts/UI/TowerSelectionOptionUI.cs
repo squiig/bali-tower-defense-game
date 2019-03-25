@@ -8,9 +8,9 @@ public class TowerSelectionOptionUI : MonoBehaviour
 	private UnityEngine.UI.Button _TowerSelectionOptionUIButton;
 
 	/// <summary>
-	/// 
+	/// Initialize the Tower Selection Option
 	/// </summary>
-	/// <param name="prefabToSpawn"></param>
+	/// <param name="prefabToSpawn">The</param>
 	/// <param name="towerSelectionOptionUIButton">The button component from this object</param>
 	public void Initialize(GameObject prefabToSpawn, UnityEngine.UI.Button towerSelectionOptionUIButton)
 	{
