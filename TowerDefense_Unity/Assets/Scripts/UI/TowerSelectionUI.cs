@@ -8,9 +8,6 @@ public class TowerSelectionUI : MonoBehaviour
 
 	private void Awake()
 	{
-		if (FindObjectOfType<UnityEngine.EventSystems.EventSystem>() == null)
-			Debug.LogError("There will be no interaction if there is now Event System. Please make sure there is an event system in the scene at all time if you use a canvas.");
-
 		for (int i = 0; i < _TowerSelectionDataObject.Length; i++)
 		{
 			GameObject towerSelection = Instantiate(_TowerSelectionDataObject[i].TowerUIPrefab);
