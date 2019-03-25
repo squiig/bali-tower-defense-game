@@ -20,7 +20,7 @@ namespace Game.UI
 			ResourceSystem.Instance.OnTransaction -= ResourceSystem_OnTransaction;
 		}
 
-		private void ResourceSystem_OnTransaction(ResourceSystem sender, Entities.EventContainers.TransactionResult result)
+		private void ResourceSystem_OnTransaction(in ResourceSystem sender, in Entities.EventContainers.TransactionResult result)
 		{
 			if (result.HasTransactionFailed)
 				return;
