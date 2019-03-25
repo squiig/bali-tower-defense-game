@@ -21,6 +21,8 @@ namespace Game.Entities.MovingEntities
 		public T this[int index] => _objects[index];
 
 		public int Count => _objects.Count;
+		
+		public int ActiveCount => _objects.Count(x => x.IsConducting());
 
 		public bool IsReadOnly => false;
 
@@ -44,9 +46,11 @@ namespace Game.Entities.MovingEntities
 		/// set to false will be included.
 		/// </summary>
 		/// <param name="predicate">any predicate selecting what to enable.</param>
-		public virtual void ActivateObject(Func<T, bool> predicate)
+		public virtual T ActivateObject(Func<T, bool> predicate)
 		{
-			 _objects.Where(x => !x.IsConducting()).FirstOrDefault(predicate)?.Activate();
+			T obj = _objects.Where(x => !x.IsConducting()).FirstOrDefault(predicate);
+			obj?.Activate();
+			return obj;
         }		
 	}
 

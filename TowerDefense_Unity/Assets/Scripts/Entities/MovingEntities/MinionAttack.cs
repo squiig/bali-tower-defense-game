@@ -1,12 +1,13 @@
-﻿using Game.Entities.Interfaces;
+using Game.Entities.Interfaces;
 using UnityEngine;
 
 namespace Game.Entities.MovingEntities
 {
-	public class MinionAttack : IAttack
+	[CreateAssetMenu(fileName = "MinionAttack", menuName = "Minion/Minion Attack", order = 1)]
+	public class MinionAttack : ScriptableObject, IAttack
 	{
-		private readonly AttackEffects _attackEffects = new AttackEffects(20, new[] {StatusEffects.NONE});
-
+		[SerializeField] private AttackEffects _AttackEffects;
+		[SerializeField] private AttackType _AttackType;
 		/// <inheritdoc />
 		/// <summary>
 		/// Used to gain the attack type of this instance.
@@ -28,6 +29,6 @@ namespace Game.Entities.MovingEntities
 		/// Executes the attack on the damageable given.
 		/// </summary>
 		public void ExecuteAttack(in IDamageable damageable, Vector3? position = null) => 
-			damageable.ApplyOnHitEffects(_attackEffects);
+			damageable.ApplyOnHitEffects(_AttackEffects);
 	}
 }
