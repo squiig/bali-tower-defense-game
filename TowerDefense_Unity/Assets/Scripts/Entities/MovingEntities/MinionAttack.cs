@@ -8,6 +8,7 @@ namespace Game.Entities.MovingEntities
 	{
 		[SerializeField] private AttackEffects _AttackEffects;
 		[SerializeField] private AttackType _AttackType;
+
 		/// <inheritdoc />
 		/// <summary>
 		/// Used to gain the attack type of this instance.

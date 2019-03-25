@@ -11,33 +11,13 @@ namespace Game.Entities.Base
 	{	
 		[SerializeField] private float _Health;
 
-		public bool IsConducting() => true;
-
-		public void Activate()
-		{
-			throw new System.NotImplementedException();
-		}
-
-		public void ReleaseOwnership()
-		{
-			throw new System.NotImplementedException();
-		}
-
 		public event TypedEventHandler<IDamageable, EntityDamaged> OnHit;
 		public event TypedEventHandler<IDamageable, EntityDamaged> OnDeath;
 
-		public Vector3 GetPosition() => transform.position;
-
+		public override Vector3 GetLocation() => transform.position;
 		public int GetPriority() => int.MaxValue;
-
 		public Allegiance GetAllegiance() => Allegiance.FRIENDLY;
-
-		public GameObject GetEntity() => GetInstance();
-
-		private void Awake()
-		{
-			MemoryObjectPool<IDamageable>.Instance.Add(this);
-		}
+		public Entity GetEntity() => this;
 
 		/// <inheritdoc />
 		/// <summary>
