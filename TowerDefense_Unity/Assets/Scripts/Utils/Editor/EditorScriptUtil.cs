@@ -1,4 +1,4 @@
-﻿using UnityEditor;
+using UnityEditor;
 using UnityEngine;
 
 namespace Game.Utils.Editor
@@ -19,7 +19,7 @@ namespace Game.Utils.Editor
                 return null;
             }
 
-            SerializedProperty indexedProperty = array.GetArrayElementAtIndex(0);
+            SerializedProperty indexedProperty = array.GetArrayElementAtIndex(index);
 
             return indexedProperty.FindPropertyRelative(relative);
         }

@@ -1,75 +1,78 @@
-﻿using UnityEditor;
+using UnityEditor;
 using UnityEngine;
 
 namespace Game.Audio.Editor
 {
-    /// <summary>
-    /// Defines and manages editors for the audio system.
-    /// </summary>
-    public class AudioSystemWindow : EditorWindow
-    {
-        private float ViewWidth  => position.width / 3;
-        private float ViewHeight => position.height;
+	/// <summary>
+	/// Defines and manages editors for the audio system.
+	/// </summary>
+	public class AudioSystemWindow : EditorWindow
+	{
+		private const int VIEW_COUNT = 3;
+		private const float AREA_BG_LIGHTNESS = 0.8f;
 
-        private Rect LibraryListView      => new Rect(0,             0, ViewWidth, ViewHeight);
-        private Rect LibraryEditorView    => new Rect(ViewWidth,     0, ViewWidth, ViewHeight);
-        private Rect AudioAssetEditorView => new Rect(ViewWidth * 2, 0, ViewWidth, ViewHeight);
+		private float ViewWidth => position.width / VIEW_COUNT;
+		private float ViewHeight => position.height;
 
-        private readonly AudioLibraryList   _AudioLibraryList   = new AudioLibraryList();
-        private readonly AudioLibraryEditor _AudioLibraryEditor = new AudioLibraryEditor();
-        private readonly AudioAssetEditor   _AudioAssetEditor   = new AudioAssetEditor();
+		private Rect LibraryListView => new Rect(0, 0, ViewWidth, ViewHeight);
+		private Rect LibraryEditorView => new Rect(ViewWidth, 0, ViewWidth, ViewHeight);
+		private Rect AudioAssetEditorView => new Rect(ViewWidth * 2, 0, ViewWidth, ViewHeight);
 
-        public void Awake()
-        {
-            titleContent = new GUIContent("Audio Editor Window", "Used for editing what sounds belong where");
+		private readonly AudioLibraryList _AudioLibraryList = new AudioLibraryList();
+		private readonly AudioLibraryEditor _AudioLibraryEditor = new AudioLibraryEditor();
+		private readonly AudioAssetEditor _AudioAssetEditor = new AudioAssetEditor();
 
-        }
+		private readonly AudioPreviewer _AudioPreviewer = new AudioPreviewer();
 
-        public void OnEnable()
-        {
-            _AudioLibraryList.OnSelected += _AudioLibraryEditor.SetTarget;
-            _AudioLibraryEditor.OnSelected += _AudioAssetEditor.SetTarget;
-            _AudioLibraryEditor.OnRequestRepaint += Repaint;
-            _AudioLibraryList.OnRequestRepaint += Repaint;
-        }
+		private readonly Color _ViewBackgroundColor = new Color(AREA_BG_LIGHTNESS, AREA_BG_LIGHTNESS, AREA_BG_LIGHTNESS);
 
-        public void OnDisable()
-        {
-            _AudioLibraryList.OnSelected -= _AudioLibraryEditor.SetTarget;
-            _AudioLibraryEditor.OnSelected -= _AudioAssetEditor.SetTarget;
-            _AudioLibraryEditor.OnRequestRepaint -= Repaint;
-            _AudioLibraryList.OnRequestRepaint -= Repaint;
-        }
+		private void Awake()
+		{
+			titleContent = new GUIContent("Audio System", "Used for editing what sounds belong to what identifier");
+		}
 
-        public void Area(Rect view, Color color)
-        {
-            Color reset = GUI.color;
-            GUI.color = color;
-            GUILayout.BeginArea(view, GUI.skin.box);
-            GUI.color = reset;
-        }
+		private void OnEnable()
+		{
+			_AudioPreviewer.Create();
+			_AudioLibraryList.OnSelected += _AudioLibraryEditor.SetTarget;
+			_AudioLibraryEditor.OnSelected += _AudioAssetEditor.SetTarget;
+			_AudioLibraryEditor.OnPreview += _AudioPreviewer.Play;
+			_AudioLibraryEditor.OnRequestRepaint += Repaint;
+			_AudioLibraryList.OnRequestRepaint += Repaint;
+		}
 
-        public void OnGUI()
-        {
-            Color color = new Color(0.8f,0.8f,0.8f);
+		private void OnDisable()
+		{
+			_AudioPreviewer.Remove();
+			_AudioLibraryList.OnSelected -= _AudioLibraryEditor.SetTarget;
+			_AudioLibraryEditor.OnSelected -= _AudioAssetEditor.SetTarget;
+			_AudioLibraryEditor.OnPreview -= _AudioPreviewer.Play;
+			_AudioLibraryEditor.OnRequestRepaint -= Repaint;
+			_AudioLibraryList.OnRequestRepaint -= Repaint;
+		}
 
-            Area(AudioAssetEditorView, color);
-            _AudioAssetEditor.DoAssetEditor();
-            GUILayout.EndArea();
+		private void DrawInViewArea(Rect viewRect, System.Action drawFunc)
+		{
+			Color reset = GUI.color;
+			GUI.color = _ViewBackgroundColor;
+			GUILayout.BeginArea(viewRect, GUI.skin.box);
+			GUI.color = reset;
+			drawFunc.Invoke();
+			GUILayout.EndArea();
+		}
 
+		private void OnGUI()
+		{
+			DrawInViewArea(AudioAssetEditorView, _AudioAssetEditor.DoAssetEditor);
+			DrawInViewArea(LibraryEditorView, _AudioLibraryEditor.DoLibraryEditor);
+			DrawInViewArea(LibraryListView, _AudioLibraryList.DoList);
 
-            Area(LibraryEditorView, color);
-            _AudioLibraryEditor.DoLibraryEditor();
-            GUILayout.EndArea();
-
-            Area(LibraryListView, color);
-            _AudioLibraryList.DoList();
-            GUILayout.EndArea();
-
-            if (Event.current.isMouse && Event.current.type == EventType.MouseDown)
-            {
-                Repaint();
-            }
-        }
-    }
+			if (Event.current.isMouse && Event.current.type == EventType.MouseDown)
+			{
+				// This makes the editor window more responsive in this use case
+				// since it uses custom selectable elements
+				Repaint();
+			}
+		}
+	}
 }
