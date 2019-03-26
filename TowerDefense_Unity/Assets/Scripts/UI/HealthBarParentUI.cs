@@ -11,7 +11,7 @@ namespace Game.UI
 		[SerializeField] protected Image _HealthBarHealthLayer;
 		[SerializeField] protected Image _HealthBarDamageLayer;
 
-		[SerializeField] protected Game.Entities.Interfaces.IDamageable _DamageInterface;
+		[SerializeField] protected GameObject _DamageTextObject;
 
 		[SerializeField] protected float _DecreaseDamageBarSpeed = .5f;
 
@@ -19,7 +19,10 @@ namespace Game.UI
 		[SerializeField] protected float _CurrentHealth;
 		[SerializeField] protected float _MaxHealth;
 
-		[SerializeField] protected Coroutine _HealthBarRoutine;
+		protected Entities.Interfaces.IDamageable _DamageInterface;
+
+		protected Coroutine _HealthBarRoutine;
+		protected Coroutine _DamageTextRoutine;
 
 		/// <summary>
 		/// Gets called every time the game object gets turned off
@@ -42,9 +45,12 @@ namespace Game.UI
 			if(_DamageInterface == null)
 			{
 				Debug.LogError("Please select the Entity Script in the inspector.", this.gameObject);
-				this.enabled = false;
+				//this.enabled = false;
 				return;
 			}
+
+			//Subscribe our event to its onHit event so we can update if the entity has been hit
+			_DamageInterface.OnHit += GetDamageFromEntity;
 
 			//Setup the script
 			SetStartHealth(_DamageInterface.GetHealth());
@@ -56,7 +62,7 @@ namespace Game.UI
 		{
 			//Checking if all of the health bars that have to be adjusted are known to the script, and if not, stop the script here.
 			//If we don't do this then there will be more errors in the script later
-			if(_HealthBarDamageLayer == null || _HealthBarDamageLayer == null || _HealthBarMainLayer == null)
+			if(_HealthBarDamageLayer == null || _HealthBarDamageLayer == null || _HealthBarMainLayer == null || _DamageTextObject == null)
 			{
 				if(_HealthBarMainLayer == null)
 					Debug.LogError("Please select the Main Health Bar Layer in the inspector.", this.gameObject);
@@ -64,16 +70,17 @@ namespace Game.UI
 					Debug.LogError("Please select the Health Bar Damage Layer in the inspector.", this.gameObject);
 				if(_HealthBarHealthLayer == null)
 					Debug.LogError("Please select the Health Bar Layer in the inspector.", this.gameObject);
+				if (_DamageTextObject == null)
+					Debug.LogError("Please select the Damage Text Object in the inspector", this.gameObject);
 
 				this.enabled = false;
 				return;
 			}
 
-			//Subscribe our event to its onHit event so we can update if the entity has been hit
-			_DamageInterface.OnHit += GetDamageFromEntity;
-
 			//Show the health bars
 			ActivateHealthBarUI(true);
+
+			_DamageTextObject.SetActive(false);
 
 			//Settings the health bars to their default fill amount
 			_HealthBarHealthLayer.fillAmount = 1;
@@ -95,12 +102,12 @@ namespace Game.UI
 			//Start initializing the rest of the script
 			Initialize();
 		}
-		public void SetDamage(float health)
+		public void SetDamage(float damage)
 		{
 			//Get the current position of the health bar and store it for later
 			Vector3 healthBarDamagePosition = _HealthBarDamageLayer.transform.localPosition;
 			//Get the new health
-			float newHealth = _CurrentHealth -= health;
+			float newHealth = _CurrentHealth -= damage;
 
 			//Set the new x position of the health bar where it will be moved to
 			healthBarDamagePosition.x = (_HealthBarHealthLayer.rectTransform.sizeDelta.x / 100) * newHealth;
@@ -117,6 +124,9 @@ namespace Game.UI
 			//Start the animation of the damage health bar through a Coroutine if it isn't running already
 			if(_HealthBarRoutine == null)
 				_HealthBarRoutine = StartCoroutine(UpdateHealthBar());
+
+			if (_DamageTextRoutine == null)
+				_DamageTextRoutine = StartCoroutine(ShowFloatingDamageText(damage));
 		}
 
 		protected IEnumerator UpdateHealthBar()
@@ -132,6 +142,30 @@ namespace Game.UI
 
 			//Lets the script know that the coroutine is done with running, so it can start a new coroutine
 			_HealthBarRoutine = null;
+		}
+		protected IEnumerator ShowFloatingDamageText(float damage)
+		{
+			_DamageTextObject.SetActive(true);
+
+			float time = Random.Range(_DamageTextObject.GetComponent<MeshRenderer>().bounds.min.x, _DamageTextObject.GetComponent<MeshRenderer>().bounds.max.x);
+
+			Debug.Log(_DamageTextObject.GetComponent<MeshRenderer>().bounds.min.x);
+			Debug.Log(_DamageTextObject.GetComponent<MeshRenderer>().bounds.max.x);
+			Debug.Log(time);
+
+			Animator animator = null;
+			Vector2 randomPosition = new Vector2(time, _DamageTextObject.transform.position.y);
+			_DamageTextObject.transform.position = randomPosition;
+
+			animator = _DamageTextObject.GetComponent<Animator>();
+
+			_DamageTextObject.GetComponent<TMPro.TextMeshPro>().text = damage.ToString();
+
+			yield return new WaitForSeconds(.5f);
+
+			_DamageTextObject.SetActive(false);
+
+			_DamageTextRoutine = null;
 		}
 
 		/// <summary>
