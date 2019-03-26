@@ -106,8 +106,7 @@ namespace Game.WaveSystem
 		{
 			// Reward
 			ResourceSystem.Instance.RunTransaction(10);
-
-			// End the wave if there are no minions left
+			
 			if (_ActiveMinions.Count <= 0)
 			{
 				_State = EState.FINISHED;
