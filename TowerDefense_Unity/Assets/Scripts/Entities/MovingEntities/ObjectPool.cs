@@ -62,7 +62,6 @@ namespace Game.Entities.MovingEntities
 	/// <typeparam name="T"> Class or object you wish to pool.</typeparam>
 	public class MemoryObjectPool<T> :  ICollection<T> where T : IPoolable
 	{
-		
 		private static MemoryObjectPool<T> s_Instance;
 
 		public static MemoryObjectPool<T> Instance => s_Instance ?? (s_Instance = new MemoryObjectPool<T>());
@@ -100,5 +99,4 @@ namespace Game.Entities.MovingEntities
 			_objects.Where(x => !x.IsConducting()).FirstOrDefault(predicate)?.Activate();
 		}
 	}
-
 }

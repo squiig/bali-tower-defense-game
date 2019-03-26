@@ -1,4 +1,4 @@
-﻿using System.ComponentModel;
+using System.ComponentModel;
 using UnityEngine;
 
 namespace Game.Entities.Interfaces
@@ -26,6 +26,5 @@ namespace Game.Entities.Interfaces
         /// Executes the attack on the damageable given.
         /// </summary>
 		void ExecuteAttack(in IDamageable damageable, Vector3? positionOverride = null);
-
 	}
 }
