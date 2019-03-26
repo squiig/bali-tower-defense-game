@@ -173,6 +173,7 @@ GameObject:
   - component: {fileID: 5499988754889497572}
   - component: {fileID: 5499988754889497573}
   - component: {fileID: 5499988754889497570}
+  - component: {fileID: 5250208894709544031}
   - component: {fileID: 7366212460817528184}
   m_Layer: 5
   m_Name: StartWave_Button
@@ -303,6 +304,18 @@ MonoBehaviour:
   m_ChildForceExpandHeight: 0
   m_ChildControlWidth: 1
   m_ChildControlHeight: 1
+--- !u!225 &5250208894709544031
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5499988754889497575}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!114 &7366212460817528184
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -315,3 +328,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e660f67f74f07cc46924cbd7ecc0b12c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _CanvasGroup: {fileID: 0}
