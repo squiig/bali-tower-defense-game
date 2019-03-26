@@ -25,6 +25,8 @@ namespace Game.Entities.MovingEntities
 		/// <returns> The float representing the attacks range. -1 if not applicable.</returns>
 		public float GetAreaOfEffect() => -1;
 
+		public float GetDamage() => _AttackEffects.GetDamage();
+
 		/// <inheritdoc />
 		/// <summary>
 		/// Executes the attack on the damageable given.
