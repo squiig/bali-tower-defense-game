@@ -1,14 +1,12 @@
 using System.Data;
 using Game;
+using Game.Entities;
 using Game.Entities.EventContainers;
 using UnityEngine;
 
 
-namespace Game.Entities
+namespace Game
 {
-	/// <summary>
-    /// Class handling resources for the user.
-    /// </summary>
 	public class ResourceSystem : MonoBehaviourSingleton<ResourceSystem>
 	{
 		[SerializeField] private int _StartResource, _TickAmount;
