@@ -25,7 +25,6 @@ namespace Game.Entities.Towers
 
 		public void IncreaseDamage(float increase) => Attack.SetDamage(Attack.GetDamage() + increase);
 		
-
 		/// <inheritdoc />
 		/// <summary>
 		/// Upgrades the instance by T.

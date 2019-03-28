@@ -6,32 +6,27 @@ using UnityEngine;
 
 namespace Game.Entities.MovingEntities
 {
-	public class Minion : TraversingEntity
+	public class Minion : TraversingEntity, IPoolable
 	{
-		private float _attackCoolDown = 0.0f;
+		private float _AttackCoolDown = 0.0f;
 		private const float ATTACK_COOL_DOWN_DURATION = 3.0f;
-
-		[SerializeField] private float _maxHealth;
-		[SerializeField] private float _maxRange;
-		[SerializeField] private int _attackPriority;
-		[Space]
-		[SerializeField] private MinionAttack _MinionAttack;
-		[Space]
-		[SerializeField] private Allegiance _allegiance;
-		[Space]
-		[SerializeField] private bool _isDebug = false;
-
 		private SphereCollider _SphereCollider;
+
+		[SerializeField] private float _MaxHealth, _MaxRange;
+		[SerializeField] private int _AttackPriority;
+		[SerializeField] private MinionAttack _MinionAttack;
+		[SerializeField] private Allegiance _Allegiance;
+		[SerializeField] private bool _IsDebug = false;
 
 		private void Awake()
 		{
-			Initialize(_maxHealth, _attackPriority, _allegiance, _MinionAttack);
+			Initialize(_MaxHealth, _AttackPriority, _Allegiance, _MinionAttack);
 
 			SetObjectDependencies();
 			base.OnDeath += OnDeath;
 		}
 
-		private void OnDeath(in IDamageable sender, in EntityDamaged payload)
+		private new void OnDeath(in IDamageable sender, in EntityDamaged payload)
 		{
 			ReleaseOwnership();
 		}
@@ -39,7 +34,7 @@ namespace Game.Entities.MovingEntities
 		private void SetObjectDependencies()
 		{
 			_SphereCollider = gameObject.AddComponent<SphereCollider>();
-			_SphereCollider.radius = _maxRange;
+			_SphereCollider.radius = _MaxRange;
 			_SphereCollider.isTrigger = true;
 
 			gameObject.AddComponent<Rigidbody>().useGravity = false;
@@ -48,17 +43,17 @@ namespace Game.Entities.MovingEntities
 		protected override void Update()
 		{
 			base.Update();
-
-			if (_isDebug)
-				DrawDebug();
+			
+            if (_IsDebug)
+                DrawDebug();
 
 			AttackAndCooldown();
 		}
 
-		private void AttackAndCooldown()
-		{
-			if (_attackCoolDown > 0)
-				_attackCoolDown -= Time.deltaTime;
+        private void AttackAndCooldown()
+        {
+	        if (_AttackCoolDown > 0)
+                _AttackCoolDown -= Time.deltaTime;
 
 			ExecuteAttack();
 		}
@@ -68,37 +63,40 @@ namespace Game.Entities.MovingEntities
 			if (TargetIDamageable == null)
 				return;
 
-			Debug.DrawLine(GetPosition(), TargetIDamageable.GetPosition(), Color.red);
-		}
+            Debug.DrawLine(GetPosition(), TargetIDamageable.GetEntity().GetLocation(), Color.red);
+        }
 
 		private void OnDrawGizmos()
 		{
-			if (!_isDebug || TargetIDamageable == null)
+			if(!_IsDebug || TargetIDamageable == null)
 				return;
 
 			Gizmos.DrawWireSphere(GetPosition(), 1.0f);
-		}
+        }
 
-		/// <inheritdoc />
-		/// <summary>
-		/// Used to forcefully attack the current target.
-		/// If this instance has no target, target is out of
-		/// range, or is reloading. This instance will stand idle.
-		/// </summary>
-		public override void ExecuteAttack()
-		{
-			if (_attackCoolDown > 0 || TargetIDamageable == null)
+        /// <inheritdoc />
+        /// <summary>
+        /// Used to forcefully attack the current target.
+        /// If this instance has no target, target is out of
+        /// range, or is reloading. This instance will stand idle.
+        /// </summary>
+        public override void ExecuteAttack()
+		{			
+			if (_AttackCoolDown > 0 || TargetIDamageable == null)
 				return;
 
 			if (IsTargetForsaken())
 				return;
 
-			_attackCoolDown = ATTACK_COOL_DOWN_DURATION;
-
+			_AttackCoolDown = ATTACK_COOL_DOWN_DURATION;
 
 			if (Attack != null)
 			{
 				Attack.ExecuteAttack(TargetIDamageable);
+			}
+			else
+			{
+				Debug.LogWarning("Tried attacking, but attack is null.");
 			}
 
 			ReleaseOwnership();
@@ -106,25 +104,31 @@ namespace Game.Entities.MovingEntities
 
 		private bool IsTargetForsaken()
 		{
-			// TODO: Fix inaccuracy. Collission with sphere doesn't necessarily mean the pivot is within range.
-			//if (Vector3.Distance(GetPosition(), TargetIDamageable.GetPosition()) < _maxRange)
+			return false;
+			//if (Vector3.Distance(GetPosition(), TargetIDamageable.GetEntity().GetLocation()) < _MaxRange)
 			//	return false;
 			//
 			//TargetIDamageable = null;
 			//return true;
-			return false; // temp fix. deny it's forsaken
-		}
+        }
 
-		private void OnTriggerEnter(Collider collider)
+		private void OnTriggerEnter(Collider other)
 		{
-			if (_isDebug)
-				Debug.Log($"Minion {GetHashCode()} Found damageable [{collider.gameObject.GetComponent<IDamageable>() != null}]");
+			if(_IsDebug)
+				Debug.Log($"Minion {GetHashCode()} Found damageable [{other.gameObject.GetComponent<IDamageable>() != null}]");
 
-			IDamageable damageable;
+			IDamageable damageable = other.gameObject.GetComponent<IDamageable>();
 
-			if ((damageable = collider.gameObject.GetComponent<IDamageable>()) != null &&
-			   TargetIDamageable != null && damageable.GetPriority() > TargetIDamageable.GetPriority()
-			   || damageable.GetAllegiance() == GetAllegiance())
+			if (damageable == null)
+				return;
+
+			if (TargetIDamageable != null)
+			{
+				if(damageable.GetPriority() < TargetIDamageable.GetPriority())
+					return;
+			}
+
+			if (damageable.GetAllegiance() == GetAllegiance())
 				return;
 
 			TargetIDamageable = damageable;

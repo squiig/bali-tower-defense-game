@@ -40,11 +40,8 @@ namespace Game.Entities.Towers
 
 			for (int index = 0; index < hit.Length; index++)
 			{
-				IDamageable damageable;
-				if ((damageable = hit[index].transform.GetComponent<IDamageable>()) == null)
-					continue;
-
-				if(damageable.GetAllegiance() == allegiance)
+				IDamageable damageable = hit[index].transform.GetComponent<IDamageable>();
+				if (damageable == null || damageable.GetAllegiance() == allegiance)
 					continue;
 
 				damageable.ApplyOnHitEffects(_attackEffects);
