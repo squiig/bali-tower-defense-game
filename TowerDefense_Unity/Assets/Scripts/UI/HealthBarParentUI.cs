@@ -1,6 +1,9 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
+using Game.Entities.Interfaces;
+using Game.Entities.EventContainers;
+
 
 namespace Game.UI
 {
@@ -11,7 +14,7 @@ namespace Game.UI
 		[SerializeField] protected Image _HealthBarHealthLayer;
 		[SerializeField] protected Image _HealthBarDamageLayer;
 
-		[SerializeField] protected Game.Entities.Interfaces.IDamageable _DamageInterface;
+		[SerializeField] protected IDamageable _DamageInterface;
 
 		[SerializeField] protected float _DecreaseDamageBarSpeed = .5f;
 
@@ -38,8 +41,12 @@ namespace Game.UI
 		/// </summary>
 		protected virtual void OnEnable()
 		{
+			_DamageInterface = transform.parent.GetComponentInChildren<IDamageable>();
+
+
+			Debug.Assert(_DamageInterface != null);
 			//Check if the interface is null. If it is, then it shouldn't be allowed to go further then this
-			if(_DamageInterface == null)
+			if (_DamageInterface == null)
 			{
 				Debug.LogError("Please select the Entity Script in the inspector.", this.gameObject);
 				this.enabled = false;
@@ -80,7 +87,7 @@ namespace Game.UI
 			_HealthBarDamageLayer.fillAmount = 0;
 		}
 
-		protected void GetDamageFromEntity(in Entities.Interfaces.IDamageable sender, in Entities.EventContainers.EntityDamaged payload)
+		protected void GetDamageFromEntity(in IDamageable sender, in EntityDamaged payload)
 		{
 			//Set the damage and start the damage process
 			SetDamage(payload.DamageNumber);

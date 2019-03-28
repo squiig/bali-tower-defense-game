@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Game.Entities.Interfaces;
 using Game.Entities.EventContainers;
@@ -8,6 +6,9 @@ using Game.Entities;
 
 public class PlayerCore : Entity, IDamageable
 {
+	float _MaxHealth = 100;
+	float _Health = 100;
+
 
     public bool IsConducting()
     {
@@ -21,7 +22,7 @@ public class PlayerCore : Entity, IDamageable
 
     public void ReleaseOwnership()
     {
-	    throw new System.NotImplementedException();
+		OnDeath.Invoke(this, new EntityDamaged(this, 0, 0));
     }
 
     public event TypedEventHandler<IDamageable, EntityDamaged> OnHit;
@@ -49,12 +50,20 @@ public class PlayerCore : Entity, IDamageable
 
     public void ApplyOnHitEffects(in OnHitEffects onHitEffects)
     {
-	    Debug.Log(name + " got hit!");
+		float newHealth = onHitEffects.GetDamage();
+		OnHit.Invoke(this, new EntityDamaged(this, newHealth, _Health));
+
+		_Health = newHealth;
+
+		if (_Health <= 0)
+		{
+			ReleaseOwnership();
+		}
     }
 
     public float GetHealth()
     {
-	    return 100;
+	    return _Health;
     }
 
 	Entity IDamageable.GetEntity()

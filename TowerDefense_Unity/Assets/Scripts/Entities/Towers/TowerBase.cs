@@ -106,7 +106,8 @@ namespace Game.Entities.Towers
 
 		private bool IsTargetForsaken()
 		{
-			if (Vector3.Distance(GetLocation(), TargetDamageable.GetEntity().GetLocation()) < AttackRange)
+			if (Vector3.Distance(GetLocation(), TargetDamageable.GetEntity().GetLocation()) < AttackRange
+				|| !TargetDamageable.GetEntity().isActiveAndEnabled)
 				return false;
 
 			TargetDamageable = null;
