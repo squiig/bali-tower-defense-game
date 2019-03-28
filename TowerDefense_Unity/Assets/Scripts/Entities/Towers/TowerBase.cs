@@ -97,7 +97,7 @@ namespace Game.Entities.Towers
 		/// </summary>
 		public void ExecuteAttack()
 		{
-			if (_attackCoolDown > 0 || TargetDamageable == null && IsTargetForsaken())
+			if (_attackCoolDown > 0 || TargetDamageable == null || IsTargetForsaken())
 				return;
 
 			_attackCoolDown = ATTACK_COOL_DOWN_DURATION;

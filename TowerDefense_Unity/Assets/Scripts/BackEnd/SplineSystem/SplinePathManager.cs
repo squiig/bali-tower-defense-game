@@ -19,7 +19,7 @@ namespace Game.SplineSystem
 		protected override void Awake()
 		{
 #if UNITY_EDITOR
-			GameObject sphereParent = new GameObject {name = "SphereParent"};
+			GameObject sphereParent = new GameObject { name = "SphereParent" };
 			sphereParent.transform.parent = transform;
 #endif
 
@@ -30,6 +30,9 @@ namespace Game.SplineSystem
 #endif
 			foreach (BezierSplineDataObject spline in splines)
 			{
+				if (!spline.Use)
+					continue;
+
 				Vector3[] evenlySpacedPoints = CalculateEvenlySpacedPoints(spline);
 				_EvenlySpacedSplinePoints.Add(spline, evenlySpacedPoints);
 

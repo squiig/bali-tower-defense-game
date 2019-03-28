@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f8b885447ed232488d9c332c2f24965, type: 3}
   m_Name: MinionPathSpline_1
   m_EditorClassIdentifier: 
+  _Use: 0
   _Position: {x: -3.3233032, y: 1, z: 0.6384563}
   _IsClosed: 0
   _Points:
@@ -58,4 +59,3 @@ MonoBehaviour:
   - {x: -20.941475, y: 1, z: -16.388912}
   - {x: -20.812878, y: 1, z: -16.365932}
   - {x: -18.475422, y: 1, z: -16.377104}
-  _ConnectionSegments: []

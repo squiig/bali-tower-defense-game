@@ -56,4 +56,9 @@ public class PlayerCore : Entity, IDamageable
     {
 	    return 100;
     }
+
+	Entity IDamageable.GetEntity()
+	{
+		return (Entity)this;
+	}
 }

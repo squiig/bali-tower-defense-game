@@ -47,12 +47,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _MoveSpeed: 5
   _RotationSpeed: 5
-  _maxHealth: 100
-  _maxRange: 1
-  _attackPriority: 0
+  _MaxHealth: 100
+  _MaxRange: 1
+  _AttackPriority: 0
   _MinionAttack: {fileID: 0}
-  _allegiance: 0
-  _isDebug: 0
+  _Allegiance: 0
+  _IsDebug: 0
 --- !u!23 &7364521763725478458
 MeshRenderer:
   m_ObjectHideFlags: 0

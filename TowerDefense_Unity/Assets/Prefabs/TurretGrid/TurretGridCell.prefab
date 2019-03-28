@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 2361937425545742043}
   - component: {fileID: 2361937425545742042}
   - component: {fileID: 2406945676071177464}
+  - component: {fileID: 6196127058135916340}
   m_Layer: 0
   m_Name: TurretGridCell
   m_TagString: Untagged
@@ -55,5 +56,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d29e8ef39f6bda346bd6114fd0621d27, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &6196127058135916340
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2361937425545742041}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b46dbbae170c8d440a70943729cfb97a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

@@ -3,7 +3,7 @@ using Game.Turrets;
 
 namespace Game.Interaction
 {
-	public class BuildTowerOnTap : MonoBehaviour
+	public class BuildTowerOnTap : MonoBehaviour, ITappable
 	{
 		private TowerBuildSelection _TowerBuildSelection;
 		private TurretGridCell _TurretGridCell;

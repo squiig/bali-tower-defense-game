@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Game.Interaction
 {
@@ -40,8 +41,15 @@ namespace Game.Interaction
 			}
 
 			OnPinchDelta?.Invoke(Input.mouseScrollDelta.y);
-#endif
 
+			if (Input.GetMouseButton(0))
+			{
+				if (!ShootRay(Input.mousePosition))
+				{
+					OnDeselect?.Invoke();
+				}
+			}
+#endif
 
 			switch (_CurrentState)
 			{
