@@ -24,6 +24,10 @@ namespace Game.SplineSystem
 #endif
 
 			BezierSplineDataObject[] splines = Resources.LoadAll<BezierSplineDataObject>("BackEnd/SplineSystem");
+#if DEBUG
+			if (splines.Length == 0)
+				Debug.LogWarning("No splines found in \"BackEnd/SplineSystem\". Please make sure the scriptable objects are located there.");
+#endif
 			foreach (BezierSplineDataObject spline in splines)
 			{
 				Vector3[] evenlySpacedPoints = CalculateEvenlySpacedPoints(spline);

@@ -46,10 +46,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _MoveSpeed: 5
-  _LookAheadCount: 1
+  _RotationSpeed: 5
   _maxHealth: 100
-  _maxRange: 10
+  _maxRange: 1
   _attackPriority: 0
+  _MinionAttack: {fileID: 0}
   _allegiance: 0
   _isDebug: 0
 --- !u!23 &7364521763725478458

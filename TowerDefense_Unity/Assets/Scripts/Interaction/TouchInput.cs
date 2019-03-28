@@ -18,6 +18,9 @@ namespace Game.Interaction
 		private TouchInputState _CurrentState = TouchInputState.TAPPING;
 		private Camera _CurrentCamera;
 
+#if UNITY_EDITOR
+		private Vector2 _PreviousMousePosition;
+#endif
 		public void Start()
 		{
 			_CurrentCamera = Camera.main;
@@ -25,6 +28,21 @@ namespace Game.Interaction
 
 		private void Update()
 		{
+#if UNITY_EDITOR
+			if (Input.GetMouseButtonDown(1))
+				_PreviousMousePosition = Input.mousePosition;
+
+			if (Input.GetMouseButton(1))
+			{
+				Vector2 mousePos = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
+				OnDragDelta?.Invoke(mousePos - _PreviousMousePosition);
+				_PreviousMousePosition = Input.mousePosition;
+			}
+
+			OnPinchDelta?.Invoke(Input.mouseScrollDelta.y);
+#endif
+
+
 			switch (_CurrentState)
 			{
 				case TouchInputState.TAPPING:

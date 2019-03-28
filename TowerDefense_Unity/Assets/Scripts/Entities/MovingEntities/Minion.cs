@@ -48,75 +48,83 @@ namespace Game.Entities.MovingEntities
 		protected override void Update()
 		{
 			base.Update();
-			
-            if (_isDebug)
-                DrawDebug();
 
-            AttackAndCooldown();
-        }
+			if (_isDebug)
+				DrawDebug();
 
-        private void AttackAndCooldown()
-        {
-	        if (_attackCoolDown > 0)
-                _attackCoolDown -= Time.deltaTime;
+			AttackAndCooldown();
+		}
 
-            ExecuteAttack();
-        }
+		private void AttackAndCooldown()
+		{
+			if (_attackCoolDown > 0)
+				_attackCoolDown -= Time.deltaTime;
 
-        private void DrawDebug()
-        {
+			ExecuteAttack();
+		}
+
+		private void DrawDebug()
+		{
 			if (TargetIDamageable == null)
 				return;
 
-            Debug.DrawLine(GetPosition(), TargetIDamageable.GetPosition(), Color.red);
-        }
+			Debug.DrawLine(GetPosition(), TargetIDamageable.GetPosition(), Color.red);
+		}
 
 		private void OnDrawGizmos()
 		{
-			if(!_isDebug || TargetIDamageable == null)
+			if (!_isDebug || TargetIDamageable == null)
 				return;
 
 			Gizmos.DrawWireSphere(GetPosition(), 1.0f);
-        }
+		}
 
-        /// <inheritdoc />
-        /// <summary>
-        /// Used to forcefully attack the current target.
-        /// If this instance has no target, target is out of
-        /// range, or is reloading. This instance will stand idle.
-        /// </summary>
-        public override void ExecuteAttack()
-		{			
+		/// <inheritdoc />
+		/// <summary>
+		/// Used to forcefully attack the current target.
+		/// If this instance has no target, target is out of
+		/// range, or is reloading. This instance will stand idle.
+		/// </summary>
+		public override void ExecuteAttack()
+		{
 			if (_attackCoolDown > 0 || TargetIDamageable == null)
 				return;
 
-			if(IsTargetForsaken())
+			if (IsTargetForsaken())
 				return;
 
 			_attackCoolDown = ATTACK_COOL_DOWN_DURATION;
-			Attack.ExecuteAttack(TargetIDamageable);
+
+
+			if (Attack != null)
+			{
+				Attack.ExecuteAttack(TargetIDamageable);
+			}
 
 			ReleaseOwnership();
 		}
 
 		private bool IsTargetForsaken()
 		{
-			if (Vector3.Distance(GetPosition(), TargetIDamageable.GetPosition()) < _maxRange)
-				return false;
-
-			TargetIDamageable = null;
-			return true;
-        }
+			// TODO: Fix inaccuracy. Collission with sphere doesn't necessarily mean the pivot is within range.
+			//if (Vector3.Distance(GetPosition(), TargetIDamageable.GetPosition()) < _maxRange)
+			//	return false;
+			//
+			//TargetIDamageable = null;
+			//return true;
+			return false; // temp fix. deny it's forsaken
+		}
 
 		private void OnTriggerEnter(Collider collider)
 		{
-			if(_isDebug)
+			if (_isDebug)
 				Debug.Log($"Minion {GetHashCode()} Found damageable [{collider.gameObject.GetComponent<IDamageable>() != null}]");
 
 			IDamageable damageable;
 
-			if((damageable = collider.gameObject.GetComponent<IDamageable>()) != null &&
-			   TargetIDamageable != null && damageable.GetPriority() > TargetIDamageable.GetPriority())
+			if ((damageable = collider.gameObject.GetComponent<IDamageable>()) != null &&
+			   TargetIDamageable != null && damageable.GetPriority() > TargetIDamageable.GetPriority()
+			   || damageable.GetAllegiance() == GetAllegiance())
 				return;
 
 			TargetIDamageable = damageable;

@@ -30,6 +30,13 @@ namespace Game.WaveSystem
 
 			InitializeWaveQueue();
 		}
+#if UNITY_EDITOR || DEBUG
+		private void Update()
+		{
+			if (Input.GetKeyDown(KeyCode.F1))
+				StartNextWave();
+		}
+#endif
 
 		/// <summary>
 		/// Takes the wave contents (defined in the inspector), creates a formal wave from them and lets those take a number, so to speak.
