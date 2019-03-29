@@ -25,7 +25,7 @@ namespace Game
 
 		protected override void Awake()
 		{
-			if (!Instance.RunTransaction(_StartResource))
+			if (Instance.RunTransaction(_StartResource).HasTransactionFailed)
 				throw new DataException($"Failed to create start resource with count of {_StartResource}");
 			_TickTime = _TickInterval;
 		}
@@ -56,18 +56,18 @@ namespace Game
 		/// Returns a transaction result at <see cref="OnTransaction"/>
 		/// </summary>
 		/// <param name="amount"> Amount to give or take to the player.</param>
-		public bool RunTransaction(int amount)
+		public TransactionResult RunTransaction(int amount)
 		{
-			int updateCount = ResourceCount + amount;
-			if (updateCount > 0)
-			{
-				OnTransaction?.Invoke(this, new TransactionResult(false, updateCount, ResourceCount));
-				ResourceCount = updateCount;
-				return true;
-			}
+			int newCount = ResourceCount + amount;
+			bool isOverdraw = newCount < 0;
+			
+			TransactionResult result = new TransactionResult(isOverdraw, newCount, ResourceCount);
 
-			OnTransaction?.Invoke(this, new TransactionResult(true, updateCount, ResourceCount));
-			return false;
+			if (!isOverdraw)
+				ResourceCount = newCount;
+
+			OnTransaction?.Invoke(this, result);
+			return result;
 		}
 	}
 }

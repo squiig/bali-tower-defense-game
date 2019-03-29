@@ -21,6 +21,8 @@ namespace Game.Entities.Interfaces
 		/// </summary>
 		/// <returns> The float representing the attacks range. -1 if not applicable.</returns>
 		float GetAreaOfEffect();
+		
+		float GetDamage();
 
 		/// <summary>
         /// Executes the attack on the damageable given.
