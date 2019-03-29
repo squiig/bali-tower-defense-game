@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Game.Interaction
@@ -18,6 +17,9 @@ namespace Game.Interaction
 		private TouchInputState _CurrentState = TouchInputState.TAPPING;
 		private Camera _CurrentCamera;
 
+#if UNITY_EDITOR
+		private Vector2 _PreviousMousePosition;
+#endif
 		public void Start()
 		{
 			_CurrentCamera = Camera.main;
@@ -25,6 +27,9 @@ namespace Game.Interaction
 
 		private void Update()
 		{
+			HandleDebugMouse();
+			HandleDebugKeyboard();
+
 			switch (_CurrentState)
 			{
 				case TouchInputState.TAPPING:
@@ -136,6 +141,55 @@ namespace Game.Interaction
 
 				OnPinchDelta?.Invoke(-InputUtils.GetTouchDistanceDelta(touches[0], touches[1]));
 			}
+		}
+
+		private void HandleDebugMouse()
+		{
+#if UNITY_EDITOR
+			if (Input.GetMouseButtonDown(1))
+				_PreviousMousePosition = Input.mousePosition;
+
+			if (Input.GetMouseButton(1))
+			{
+				Vector2 mousePos = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
+				OnDragDelta?.Invoke(mousePos - _PreviousMousePosition);
+				_PreviousMousePosition = Input.mousePosition;
+			}
+
+			OnPinchDelta?.Invoke(Input.mouseScrollDelta.y);
+
+			if (Input.GetMouseButton(0))
+			{
+				if (!ShootRay(Input.mousePosition))
+				{
+					OnDeselect?.Invoke();
+				}
+			}
+#endif
+		}
+
+		private void HandleDebugKeyboard()
+		{
+#if UNITY_EDITOR
+			Vector2 moveDelta = Vector2.zero;
+			moveDelta.x = -Input.GetAxis("Horizontal") * 8;
+			moveDelta.y = -Input.GetAxis("Vertical") * 8;
+
+
+			float scrolldelta = 0;
+			if (Input.GetKey(KeyCode.Q))
+			{
+				scrolldelta -= 0.2f;
+			}
+
+			if (Input.GetKey(KeyCode.E))
+			{
+				scrolldelta += 0.2f;
+			}
+
+			OnDragDelta?.Invoke(moveDelta);
+			OnPinchDelta?.Invoke(scrolldelta);
+#endif
 		}
 	}
 
