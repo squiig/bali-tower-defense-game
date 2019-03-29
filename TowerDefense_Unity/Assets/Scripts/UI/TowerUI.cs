@@ -16,11 +16,12 @@ namespace Game.UI
     public class TowerUI : MonoBehaviour
     {
 		[SerializeField] private Tower _Tower = null;
-        [SerializeField] private TMP_Text _TitleText = null;
-        [SerializeField] private ResourceUI _DamageHUD = null;
-        [SerializeField] private ResourceUI _UpgradeCostHUD = null;
+        [SerializeField] private TMP_Text _TitleRenderer = null;
+		[SerializeField] private ResourceUI _DamageUI = null;
+		[SerializeField] private ResourceUI _RangeUI = null;
+		[SerializeField] private ResourceUI _UpgradeCostUI = null;
         [SerializeField] private Button _UpgradeButton = null;
-		
+
 		private int? GetDamage()
 		{
 			IAttack attack = _Tower.GetAttack();
@@ -78,9 +79,10 @@ namespace Game.UI
 				return;
 
 			// I was unsure how to do this elegantly, might take another look at it after first release
-			_TitleText.text = "Towery";
-			_DamageHUD.SetAmount(GetDamage() ?? 0);
-			_UpgradeCostHUD.SetAmount(GetUpgradeCost() ?? 0);
+			_TitleRenderer.text = "Towery";
+			_DamageUI.SetAmount(GetDamage() ?? 0);
+			_RangeUI.SetAmount(Mathf.RoundToInt(_Tower.GetRange()));
+			_UpgradeCostUI.SetAmount(GetUpgradeCost() ?? 0);
 
 			if (ResourceSystem.Instance.ResourceCount < GetUpgradeCost())
 			{

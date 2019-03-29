@@ -19,6 +19,7 @@ namespace Game.Entities.Towers
 		[SerializeField] private Allegiance _allegiance;
 		[SerializeField] private bool _isDebug = false;
 
+		public float GetRange() => AttackRange;
 
 		/// <inheritdoc />
 		/// <summary>
