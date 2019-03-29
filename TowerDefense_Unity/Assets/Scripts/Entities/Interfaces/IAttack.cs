@@ -1,4 +1,7 @@
-﻿namespace Game.Entities.Interfaces
+using System.ComponentModel;
+using UnityEngine;
+
+namespace Game.Entities.Interfaces
 {
 	/// <summary>
 	/// Interface representing an attack.
@@ -18,12 +21,12 @@
 		/// </summary>
 		/// <returns> The float representing the attacks range. -1 if not applicable.</returns>
 		float GetAreaOfEffect();
+		
+		float GetDamage();
 
-        /// <summary>
-        /// Applies the effects of this attack upon the <see cref="IDamageable"/>
-        /// given as parameter. This will: Damage, inflict movement impairing status.
+		/// <summary>
+        /// Executes the attack on the damageable given.
         /// </summary>
-        /// <param name="damageable"> The unit that was hit.</param>
-        void ApplyHitEffects(IDamageable damageable);
+		void ExecuteAttack(in IDamageable damageable, Vector3? positionOverride = null);
 	}
 }
