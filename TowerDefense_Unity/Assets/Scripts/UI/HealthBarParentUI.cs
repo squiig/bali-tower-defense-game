@@ -21,6 +21,8 @@ namespace Game.UI
 
 		protected Entities.Interfaces.IDamageable _DamageInterface;
 
+		protected Collider _Collider;
+
 		protected Coroutine _HealthBarRoutine;
 		protected Coroutine _DamageTextRoutine;
 
@@ -76,6 +78,9 @@ namespace Game.UI
 				this.enabled = false;
 				return;
 			}
+			
+			//Get the collider the get the most acurate bounds
+			_Collider = transform.root.GetComponent<Collider>();
 
 			//Show the health bars
 			ActivateHealthBarUI(true);
@@ -147,7 +152,7 @@ namespace Game.UI
 		{
 			_DamageTextObject.SetActive(true);
 
-			float time = Random.Range(_DamageTextObject.GetComponent<MeshRenderer>().bounds.min.x, _DamageTextObject.GetComponent<MeshRenderer>().bounds.max.x);
+			float time = Random.Range(_Collider.bounds.min.x, _Collider.bounds.max.x);
 
 			Debug.Log(_DamageTextObject.GetComponent<MeshRenderer>().bounds.min.x);
 			Debug.Log(_DamageTextObject.GetComponent<MeshRenderer>().bounds.max.x);
