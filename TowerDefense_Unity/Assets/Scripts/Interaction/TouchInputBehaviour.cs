@@ -158,8 +158,9 @@ namespace Game.Interaction
 
 			OnPinchDelta?.Invoke(Input.mouseScrollDelta.y);
 
-			if (Input.GetMouseButton(0))
+			if (Input.GetMouseButtonDown(0))
 			{
+				OnTap?.Invoke();
 				if (!ShootRay(Input.mousePosition))
 				{
 					OnDeselect?.Invoke();
