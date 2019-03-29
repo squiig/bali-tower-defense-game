@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -191,8 +190,8 @@ namespace Game.Interaction
 
 			OnDragDelta?.Invoke(moveDelta);
 			OnPinchDelta?.Invoke(scrolldelta);
-		}
 #endif
+		}
 	}
 
 	public enum TouchInputState
