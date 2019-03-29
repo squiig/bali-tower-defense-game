@@ -189,8 +189,8 @@ namespace Game.Interaction
 
 			OnDragDelta?.Invoke(moveDelta);
 			OnPinchDelta?.Invoke(scrolldelta);
-		}
 #endif
+		}
 	}
 
 	public enum TouchInputState
