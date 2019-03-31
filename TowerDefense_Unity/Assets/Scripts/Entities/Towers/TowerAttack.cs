@@ -13,9 +13,9 @@ namespace Game.Entities.Towers
 		[SerializeField] private float _areaOfEffect = -1.0f;
 		[SerializeField] private AttackEffects _attackEffects;
 
-		public AttackType GetAttackType() => AttackType.AREA_OF_EFFECT;
+		public AttackType GetAttackType() => _attackType;
 
-		public float GetAreaOfEffect() => 10.0f;
+		public float GetAreaOfEffect() => _areaOfEffect;
 
 		public float GetDamage() => _attackEffects.GetDamage();
 
