@@ -2,36 +2,28 @@ using System;
 using System.Linq;
 using Game.Entities.EventContainers;
 using Game.Entities.Interfaces;
+using Game.SplineSystem;
 using UnityEngine;
 
 namespace Game.Entities.MovingEntities
 {
-	public abstract class TraversingEntity : SplineSystem.SplineWalker, IDamageable, IAggressor
+	public abstract class TraversingEntity : SplineWalker, IDamageable, IAggressor
 	{
+		private float _StartHealth;
+		private int _Priority;
+		private bool _IsConducting;
+
 		protected float Health;
-
 		protected IAttack Attack;
-
 		protected Allegiance Allegiance;
-
 		protected IDamageable TargetIDamageable;
-
-		private int _priority;
-
-		private bool _isConducting = false;
 
 		protected void Initialize(float maxHealth, int priority, Allegiance allegiance, in IAttack attack)
 		{
-			//Deprecated
-			//if (!MemoryObjectPool<IDamageable>.Instance.Contains(this))
-			//{
-			//	MemoryObjectPool<IDamageable>.Instance.Add(this);
-			//	OnDeath += (in IDamageable sender, in EntityDamaged payload) => ReleaseOwnership();
-            //}
-
 			Allegiance = allegiance;
             Health = maxHealth;
-			_priority = priority;
+            _StartHealth = maxHealth;
+			_Priority = priority;
 			Attack = attack;
 		}
 
@@ -62,7 +54,7 @@ namespace Game.Entities.MovingEntities
 		/// Targets with lower priority will be targeted last.
 		/// </summary>
 		/// <returns> The priority to attack this instance of this damageable.</returns>
-		public int GetPriority() => _priority;
+		public int GetPriority() => _Priority;
 
 		/// <inheritdoc />
 		/// <summary>
@@ -71,7 +63,7 @@ namespace Game.Entities.MovingEntities
 		/// [TRUE] if in scene, [FALSE] if only available from pool.
 		/// </summary>
 		/// <returns> [TRUE] if in scene, [FALSE] if only available from pool.</returns>
-		public bool IsConducting() => _isConducting;
+		public bool IsConducting() => _IsConducting;
 
 		/// <inheritdoc />
 		/// <summary>
@@ -80,10 +72,11 @@ namespace Game.Entities.MovingEntities
 		/// </summary>
         public void Activate()
 		{
-			_isConducting = true;
+			_IsConducting = true;
 			SetActive(true);
 
-			OnDeath += (in IDamageable sender, in EntityDamaged payload) => ReleaseOwnership();
+			Health = _StartHealth;
+			OnHit?.Invoke(this, new EntityDamaged(this, _StartHealth, _StartHealth));
 		}
 
 		/// <inheritdoc />
@@ -93,7 +86,7 @@ namespace Game.Entities.MovingEntities
         public void ReleaseOwnership()
         {
 	        SetActive(false);
-            _isConducting = false;
+            _IsConducting = false;
         }
 
 		/// <inheritdoc />
@@ -108,7 +101,7 @@ namespace Game.Entities.MovingEntities
         /// Returns the GameObject of this instance.
         /// </summary>
         /// <returns>Returns the GameObject of this instance.</returns>
-        public GameObject GetEntity() => GetInstance();
+        public Entity GetEntity() => this;
 
 		/// <inheritdoc />
 		/// <summary>
@@ -166,6 +159,5 @@ namespace Game.Entities.MovingEntities
 		/// </summary>
 		/// <returns>Returns the attack class of this instance.</returns>
 		public IAttack GetAttack() => Attack;
-
 	}
 }

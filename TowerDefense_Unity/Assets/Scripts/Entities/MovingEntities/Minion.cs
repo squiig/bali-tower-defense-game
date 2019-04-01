@@ -1,44 +1,59 @@
 using System.Linq;
+using Game.Entities.EventContainers;
 using Game.Entities.Interfaces;
 using UnityEngine;
 
 
 namespace Game.Entities.MovingEntities
 {
-	public class Minion : TraversingEntity
+	public class Minion : TraversingEntity, IPoolable
 	{
-		private float _attackCoolDown = 0.0f;
+		private float _AttackCoolDown = 0.0f;
 		private const float ATTACK_COOL_DOWN_DURATION = 3.0f;
+		private SphereCollider _SphereCollider;
 
-		[SerializeField] private float _maxHealth;
-		[SerializeField] private float _maxRange;
-		[SerializeField] private int _attackPriority;
-		[Space]
-		[SerializeField] private Allegiance _allegiance;
-		[Space]
-		[SerializeField] private bool _isDebug;
+		[SerializeField] private float _MaxHealth, _MaxRange;
+		[SerializeField] private int _AttackPriority;
+		[SerializeField] private MinionAttack _MinionAttack;
+		[SerializeField] private Allegiance _Allegiance;
+		[SerializeField] private bool _IsDebug = false;
 
 		private void Awake()
 		{
-			Initialize(_maxHealth, _attackPriority, _allegiance, new MinionAttack());
-        }
+			Initialize(_MaxHealth, _AttackPriority, _Allegiance, _MinionAttack);
 
-		private void Update()
+			SetObjectDependencies();
+			base.OnDeath += OnDeath;
+		}
+
+		private new void OnDeath(in IDamageable sender, in EntityDamaged payload)
+		{
+			ReleaseOwnership();
+		}
+
+		private void SetObjectDependencies()
+		{
+			_SphereCollider = gameObject.AddComponent<SphereCollider>();
+			_SphereCollider.radius = _MaxRange;
+			_SphereCollider.isTrigger = true;
+
+			gameObject.AddComponent<Rigidbody>().useGravity = false;
+		}
+
+		protected override void Update()
 		{
 			base.Update();
-            if (_isDebug)
+			
+            if (_IsDebug)
                 DrawDebug();
 
-            TargetingAndAttacks();
+            AttackAndCooldown();
         }
 
-        private void TargetingAndAttacks()
+        private void AttackAndCooldown()
         {
-            if (TargetIDamageable == null)
-                GetNewTarget(out TargetIDamageable);
-
-            if (_attackCoolDown > 0)
-                _attackCoolDown -= Time.unscaledDeltaTime;
+	        if (_AttackCoolDown > 0)
+                _AttackCoolDown -= Time.deltaTime;
 
             ExecuteAttack();
         }
@@ -48,33 +63,16 @@ namespace Game.Entities.MovingEntities
 			if (TargetIDamageable == null)
 				return;
 
-            Debug.DrawLine(GetPosition(), TargetIDamageable.GetPosition(), Color.red);
+            Debug.DrawLine(GetPosition(), TargetIDamageable.GetEntity().GetLocation(), Color.red);
         }
 
 		private void OnDrawGizmos()
 		{
-			if(!_isDebug || TargetIDamageable == null)
+			if(!_IsDebug || TargetIDamageable == null)
 				return;
 
 			Gizmos.DrawWireSphere(GetPosition(), 1.0f);
         }
-
-		/// <summary>
-        /// Sets a new target. Does not check if target isn't already set.
-        /// if it is will be overriden with a new target or null.
-        /// </summary>
-        /// <param name="target"></param>
-        private void GetNewTarget(out IDamageable target)
-		{
-			//TODO: Not quite what we want, large performance impact.
-			target = MemoryObjectPool<IDamageable>.Instance.
-				Where(x=> x.IsConducting() && 
-						  x.GetAllegiance() != GetAllegiance() &&
-				          Vector3.Distance(GetPosition(), x.GetPosition()) < _maxRange).
-				OrderByDescending(x => x.GetPriority()).
-				ThenBy(x => Vector3.Distance(GetPosition(), x.GetPosition())).
-				FirstOrDefault(x => !ReferenceEquals(x, this));
-		}
 
         /// <inheritdoc />
         /// <summary>
@@ -84,23 +82,44 @@ namespace Game.Entities.MovingEntities
         /// </summary>
         public override void ExecuteAttack()
 		{			
-			if (_attackCoolDown > 0 || TargetIDamageable == null)
+			if (_AttackCoolDown > 0 || TargetIDamageable == null)
 				return;
 
 			if(IsTargetForsaken())
 				return;
 
-			_attackCoolDown = ATTACK_COOL_DOWN_DURATION;
+			_AttackCoolDown = ATTACK_COOL_DOWN_DURATION;
 			Attack.ExecuteAttack(TargetIDamageable);
+
+			ReleaseOwnership();
 		}
 
 		private bool IsTargetForsaken()
 		{
-			if (Vector3.Distance(GetPosition(), TargetIDamageable.GetPosition()) < _maxRange)
+			if (Vector3.Distance(GetPosition(), TargetIDamageable.GetEntity().GetLocation()) < _MaxRange)
 				return false;
 
 			TargetIDamageable = null;
 			return true;
         }
+
+		private void OnTriggerEnter(Collider other)
+		{
+			if(_IsDebug)
+				Debug.Log($"Minion {GetHashCode()} Found damageable [{other.gameObject.GetComponent<IDamageable>() != null}]");
+
+			IDamageable damageable;
+
+			if((damageable = other.gameObject.GetComponent<IDamageable>()) != null &&
+			   TargetIDamageable != null && damageable.GetPriority() > TargetIDamageable.GetPriority())
+				return;
+
+			TargetIDamageable = damageable;
+		}
+
+		public void Kill()
+		{
+			ReleaseOwnership();
+		}
 	}
 }

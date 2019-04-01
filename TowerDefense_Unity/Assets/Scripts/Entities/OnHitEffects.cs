@@ -1,5 +1,6 @@
-﻿using System;
+using System;
 using System.Data;
+using UnityEngine;
 
 namespace Game.Entities
 {
@@ -7,7 +8,7 @@ namespace Game.Entities
     /// Class representing the contents of
     /// what to apply when hit.
     /// </summary>
-	public abstract class OnHitEffects
+	public abstract class OnHitEffects : ScriptableObject
 	{
 		/// <summary>
         /// Array of status effects currently affecting this
