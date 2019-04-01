@@ -22,7 +22,6 @@ public class CutsceneManager : MonoBehaviour
 		while(_timeLine.state == PlayState.Playing)
 			yield return null;
 
-		//TODO: Replace this with Stans scene manager
-		SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+		Game.Utils.SceneUtility.LoadNext();
 	}
 }
