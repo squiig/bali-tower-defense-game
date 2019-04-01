@@ -10,6 +10,7 @@ namespace Game.Entities.Towers
 		private IAttack _Attack;
 
 		private Vector3 _StartPosition;
+		private Vector3 _LastKnownPosition;
 
 		[SerializeField] private float _Speed = 15.0f;
 
@@ -29,8 +30,19 @@ namespace Game.Entities.Towers
 			_StartPosition = position;
 			_Target = target;
 			_Attack = attack;
-			
+
+			target.OnDeath += TargetOnDeath;
+
 			Activate();
+		}
+
+		private void TargetOnDeath(in IDamageable sender, in EventContainers.EntityDamaged payload)
+		{
+			sender.OnDeath -= TargetOnDeath;
+
+			_LastKnownPosition = sender.GetEntity().GetLocation();
+
+			_Target = null;
 		}
 
 		/// <inheritdoc />
@@ -50,27 +62,28 @@ namespace Game.Entities.Towers
 			gameObject.SetActive(true);
 		}
 
-		private void Update() => GoToTarget();
+		private void Update() => GoToTarget(_Target?.GetEntity().GetLocation() ?? _LastKnownPosition);
 
-		private void GoToTarget()
+		private void GoToTarget(Vector3 targetLocation)
 		{
 			if (!_IsConducting)
 				return;
 
-			transform.position = Vector3.MoveTowards(transform.position, _Target.GetEntity().GetLocation(), _Speed * Time.deltaTime);
-			transform.LookAt(_Target.GetEntity().GetLocation());
+			transform.position = Vector3.MoveTowards(transform.position, targetLocation, _Speed * Time.deltaTime);
+			transform.LookAt(targetLocation);
 
 
-			if (Vector3.Distance(transform.position, _Target.GetEntity().GetLocation()) > 1.0f)
+			if (Vector3.Distance(transform.position, targetLocation) > 1.0f)
 				return;
 
 			TargetHit();
-
 		}
 
 		private void TargetHit()
 		{
-			_Attack.ExecuteAttack(_Target, null);
+			if (_Target != null)
+				_Attack.ExecuteAttack(_Target, null);
+
 			ReleaseOwnership();
 		}
 
