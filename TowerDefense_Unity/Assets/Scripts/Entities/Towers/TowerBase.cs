@@ -1,7 +1,5 @@
-using System.Linq;
 using Game.Entities.EventContainers;
 using Game.Entities.Interfaces;
-using Game.Entities.MovingEntities;
 using UnityEngine;
 
 namespace Game.Entities.Towers
@@ -85,8 +83,15 @@ namespace Game.Entities.Towers
 
 		private void OnTargetDeath(in IDamageable sender, in EntityDamaged payload)
 		{
-			Debug.Log($"Tower [{GetHashCode()}]: Target has died.");
-			sender.OnDeath -= OnTargetDeath;
+			UnlinkEnemy();
+		}
+
+		private void UnlinkEnemy()
+		{
+			if (TargetDamageable == null)
+				return;
+
+			TargetDamageable.OnDeath -= OnTargetDeath;
 			TargetDamageable = null;
 		}
 
@@ -110,18 +115,23 @@ namespace Game.Entities.Towers
 		private bool IsTargetForsaken()
 		{
 			if (Vector3.Distance(GetLocation(), TargetDamageable.GetEntity().GetLocation()) < AttackRange
-				|| !TargetDamageable.GetEntity().isActiveAndEnabled)
+				|| TargetDamageable.GetEntity().isActiveAndEnabled)
 				return false;
 
 			TargetDamageable = null;
 			return true;
 		}
 
-		private void OnTriggerEnter(Collider other)
+		private void OnTriggerExit(Collider other)
 		{
-			if(_isDebug)
-				Debug.Log($"Tower {GetHashCode()}: Found damageable [{other.gameObject.GetComponent<IDamageable>() != null}]");
+			IDamageable damageable = other.gameObject.GetComponent<IDamageable>();
 
+			if (damageable != null && TargetDamageable != null && TargetDamageable == damageable)
+				UnlinkEnemy();
+		}
+
+		private void OnTriggerStay(Collider other)
+		{
 			IDamageable damageable;
 
 			if ((damageable = other.gameObject.GetComponent<IDamageable>()) != null &&
@@ -129,10 +139,6 @@ namespace Game.Entities.Towers
 				return;
 
 			TargetDamageable = damageable;
-
-			if (TargetDamageable == null || !_isDebug)
-				return;
-
 			TargetDamageable.OnDeath += OnTargetDeath;
 		}
 	}

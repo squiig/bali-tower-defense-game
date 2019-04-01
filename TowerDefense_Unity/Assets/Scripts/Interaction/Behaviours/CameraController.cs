@@ -16,6 +16,9 @@ namespace Game.Interaction
 		[SerializeField] private float _MoveSensitivity = 1; 
 		[SerializeField] private float _ZoomSensitivity = 1;
 
+		private Vector2 _DragVelocity = Vector2.zero;
+		private bool _IsDragging;
+
 		public void Start()
 		{
 			_Transform = transform;
@@ -25,11 +28,25 @@ namespace Game.Interaction
 			TouchInputBehaviour.Instance.OnDragDelta += Move;
 		}
 
+		public void Update()
+		{
+			if (!_IsDragging)
+			{
+				_DragVelocity = Vector2.Lerp(_DragVelocity, Vector2.zero, 0.1f);
+				transform.Translate(Vector3.left * _DragVelocity.x + Vector3.back * _DragVelocity.y);
+			}
+			else _IsDragging = false;
+		}
+
 		void Move(Vector2 move)
 		{
-			move = move * (0.05f * transform.position.y / 8) * _MoveSensitivity;
+			move *= (0.05f * transform.position.y / 8) * _MoveSensitivity;
+			_DragVelocity = move;
+
 			transform.Translate(Vector3.left * move.x + Vector3.back * move.y);
 			Clamp();
+
+			_IsDragging = true;
 		}
 
 		void Zoom(float delta)

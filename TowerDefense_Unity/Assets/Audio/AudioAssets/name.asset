@@ -9,8 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9628a0d9eaf6dfa468b0865eb8ed514e, type: 3}
-  m_Name: Tower Effects
+  m_Script: {fileID: 11500000, guid: 2588a25b0087bc84caa0325c7f36f85c, type: 3}
+  m_Name: name
   m_EditorClassIdentifier: 
-  _statusEffects: 
-  _damage: 15
+  _AudioClips: []
+  _Volume: 1

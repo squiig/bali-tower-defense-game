@@ -29,7 +29,7 @@ namespace Game.Interaction
 		private void Update()
 		{
 			HandleDebugMouse();
-			HandleDebugKeyboard();
+			//HandleDebugKeyboard();
 
 			switch (_CurrentState)
 			{

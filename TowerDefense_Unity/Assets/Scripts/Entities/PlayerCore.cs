@@ -50,7 +50,7 @@ public class PlayerCore : Entity, IDamageable
 
     public void ApplyOnHitEffects(in OnHitEffects onHitEffects)
     {
-		float newHealth = onHitEffects.GetDamage();
+		float newHealth = _Health - onHitEffects.GetDamage();
 		OnHit.Invoke(this, new EntityDamaged(this, newHealth, _Health));
 
 		_Health = newHealth;
