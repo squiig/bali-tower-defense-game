@@ -19,6 +19,7 @@ namespace Game.Entities.Towers
 		[SerializeField] private Allegiance _allegiance;
 		[SerializeField] private bool _isDebug = false;
 
+		public float GetRange() => AttackRange;
 
 		/// <inheritdoc />
 		/// <summary>
@@ -89,6 +90,8 @@ namespace Game.Entities.Towers
 			TargetDamageable = null;
 		}
 
+		private bool ShouldAttack() => _attackCoolDown <= 0 && TargetDamageable != null && !IsTargetForsaken();
+
 		/// <inheritdoc />
 		/// <summary>
 		/// Used to forcefully attack the current target.
@@ -97,7 +100,7 @@ namespace Game.Entities.Towers
 		/// </summary>
 		public void ExecuteAttack()
 		{
-			if (_attackCoolDown > 0 || TargetDamageable == null || IsTargetForsaken())
+			if (!ShouldAttack())
 				return;
 
 			_attackCoolDown = ATTACK_COOL_DOWN_DURATION;
