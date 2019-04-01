@@ -13,6 +13,7 @@ namespace Game.Entities.Towers
 		private Vector3 _LastKnownPosition;
 
 		[SerializeField] private float _Speed = 15.0f;
+		[SerializeField] private float _DamageInflictingThreshold = 1.0f;
 
 		private bool _IsConducting = false;
 
@@ -59,6 +60,7 @@ namespace Game.Entities.Towers
 			}
 
 			_IsConducting = true;
+			transform.position = _StartPosition;
 			gameObject.SetActive(true);
 		}
 
@@ -73,7 +75,7 @@ namespace Game.Entities.Towers
 			transform.LookAt(targetLocation);
 
 
-			if (Vector3.Distance(transform.position, targetLocation) > 1.0f)
+			if (Vector3.Distance(transform.position, targetLocation) > _DamageInflictingThreshold)
 				return;
 
 			TargetHit();
