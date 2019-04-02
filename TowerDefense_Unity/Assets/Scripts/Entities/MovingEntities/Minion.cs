@@ -47,19 +47,19 @@ namespace Game.Entities.MovingEntities
             if (_IsDebug)
                 DrawDebug();
 
-            AttackAndCooldown();
-        }
+			AttackAndCooldown();
+		}
 
         private void AttackAndCooldown()
         {
 	        if (_AttackCoolDown > 0)
                 _AttackCoolDown -= Time.deltaTime;
 
-            ExecuteAttack();
-        }
+			ExecuteAttack();
+		}
 
-        private void DrawDebug()
-        {
+		private void DrawDebug()
+		{
 			if (TargetIDamageable == null)
 				return;
 
@@ -85,22 +85,31 @@ namespace Game.Entities.MovingEntities
 			if (_AttackCoolDown > 0 || TargetIDamageable == null)
 				return;
 
-			if(IsTargetForsaken())
+			if (IsTargetForsaken())
 				return;
 
 			_AttackCoolDown = ATTACK_COOL_DOWN_DURATION;
-			Attack.ExecuteAttack(TargetIDamageable);
+
+			if (Attack != null)
+			{
+				Attack.ExecuteAttack(TargetIDamageable);
+			}
+			else
+			{
+				Debug.LogWarning("Tried attacking, but attack is null.");
+			}
 
 			ReleaseOwnership();
 		}
 
 		private bool IsTargetForsaken()
 		{
-			if (Vector3.Distance(GetPosition(), TargetIDamageable.GetEntity().GetLocation()) < _MaxRange)
-				return false;
-
-			TargetIDamageable = null;
-			return true;
+			return false;
+			//if (Vector3.Distance(GetPosition(), TargetIDamageable.GetEntity().GetLocation()) < _MaxRange)
+			//	return false;
+			//
+			//TargetIDamageable = null;
+			//return true;
         }
 
 		private void OnTriggerEnter(Collider other)
@@ -108,10 +117,18 @@ namespace Game.Entities.MovingEntities
 			if(_IsDebug)
 				Debug.Log($"Minion {GetHashCode()} Found damageable [{other.gameObject.GetComponent<IDamageable>() != null}]");
 
-			IDamageable damageable;
+			IDamageable damageable = other.gameObject.GetComponent<IDamageable>();
 
-			if((damageable = other.gameObject.GetComponent<IDamageable>()) != null &&
-			   TargetIDamageable != null && damageable.GetPriority() > TargetIDamageable.GetPriority())
+			if (damageable == null)
+				return;
+
+			if (TargetIDamageable != null)
+			{
+				if(damageable.GetPriority() < TargetIDamageable.GetPriority())
+					return;
+			}
+
+			if (damageable.GetAllegiance() == GetAllegiance())
 				return;
 
 			TargetIDamageable = damageable;
