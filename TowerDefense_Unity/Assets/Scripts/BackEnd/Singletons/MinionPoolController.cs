@@ -2,6 +2,7 @@ using UnityEngine;
 using Game.Entities.MovingEntities;
 using System;
 using System.Linq;
+using Game.SplineSystem;
 
 namespace Game.Entities
 {
@@ -10,11 +11,11 @@ namespace Game.Entities
 	{
 		[SerializeField] private Minion _MinionPrefab = null;
 		[SerializeField] private int _PoolObjectCount = 20;
-		private SplineSystem.SplinePathManager _PathManager;
+		private SplinePathManager _PathManager;
 
 		public void Start()
 		{
-			_PathManager = FindObjectOfType<SplineSystem.SplinePathManager>();
+			_PathManager = SplinePathManager.Instance;
 			for (int i = 0; i < _PoolObjectCount; i++)
 			{
 				Minion minionGameObject = Instantiate(_MinionPrefab, transform);
@@ -25,7 +26,7 @@ namespace Game.Entities
 
 		public override Minion ActivateObject(Func<Minion, bool> predicate)
 		{
-			Minion minion = _objects.Where(x => !x.IsConducting()).FirstOrDefault(predicate);
+			Minion minion = _objects.FirstOrDefault(predicate);
 
 			if (minion == null || _PathManager.SplineCount == 0)
 				return null;
