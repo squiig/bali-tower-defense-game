@@ -18,7 +18,11 @@ namespace Game.Interaction
 		private TouchInputState _CurrentState = TouchInputState.TAPPING;
 		private Camera _CurrentCamera;
 
+
 #if UNITY_EDITOR
+		[SerializeField] private bool _UseMouseInput = true;
+		[SerializeField] private bool _UseKeyboardInput = false;
+
 		private Vector2 _PreviousMousePosition;
 #endif
 		public void Start()
@@ -28,8 +32,12 @@ namespace Game.Interaction
 
 		private void Update()
 		{
-			HandleDebugMouse();
-			//HandleDebugKeyboard();
+#if UNITY_EDITOR
+			if (_UseMouseInput)
+				HandleDebugMouse();
+			if (_UseKeyboardInput)
+				HandleDebugKeyboard();
+#endif
 
 			switch (_CurrentState)
 			{
