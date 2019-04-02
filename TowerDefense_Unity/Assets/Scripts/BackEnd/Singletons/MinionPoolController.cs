@@ -24,14 +24,13 @@ namespace Game.Entities
 			//ActivateObject(x => x != x.IsConducting()); //TODO: Debug code. (spawns in 1 minion from the pool)
 		}
 
-		public override Minion ActivateObject(Func<Minion, bool> predicate)
+		public Minion ActivateMinion(Func<Minion, bool> predicate, int splineBranchIndex)
 		{
 			Minion minion = _objects.FirstOrDefault(predicate);
 
 			if (minion == null || _PathManager.SplineCount == 0)
 				return null;
 
-			int splineBranchIndex = UnityEngine.Random.Range(0, _PathManager.SplineCount);
 			Vector3 startPoint = _PathManager.GetStartedPoints()[splineBranchIndex];
 			minion.transform.position = startPoint;
 			minion.SplineBranch = _PathManager.GetSplineDataObject(splineBranchIndex);
