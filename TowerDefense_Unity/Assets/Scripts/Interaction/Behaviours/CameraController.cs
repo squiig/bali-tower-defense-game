@@ -8,7 +8,8 @@ namespace Game.Interaction
 		private Transform _Transform;
 		private Transform _CameraTransform;
 
-		[SerializeField] private Vector3 _positionOfClamp;
+		[FormerlySerializedAs("_positionOfClamp")]
+		[SerializeField] private Vector3 _PositionOfClamp;
 
 		[FormerlySerializedAs("sizeOfClamp")]
 		[SerializeField] private Vector3 _SizeOfClamp;
@@ -62,8 +63,8 @@ namespace Game.Interaction
 		private void Clamp()
 		{
 			Vector3 pos = _Transform.position;
-			Vector3 maxCube = _positionOfClamp + _SizeOfClamp / 2;
-			Vector3 minCube = _positionOfClamp - _SizeOfClamp / 2;
+			Vector3 maxCube = _PositionOfClamp + _SizeOfClamp / 2;
+			Vector3 minCube = _PositionOfClamp - _SizeOfClamp / 2;
 
 			pos.x = Mathf.Clamp(pos.x, minCube.x, maxCube.x);
 			pos.y = Mathf.Clamp(pos.y, minCube.y, maxCube.y);
@@ -74,8 +75,8 @@ namespace Game.Interaction
 		private bool CheckClamp()
 		{
 			Vector3 pos = _Transform.position;
-			Vector3 maxCube = _positionOfClamp + _SizeOfClamp / 2;
-			Vector3 minCube = _positionOfClamp - _SizeOfClamp / 2;
+			Vector3 maxCube = _PositionOfClamp + _SizeOfClamp / 2;
+			Vector3 minCube = _PositionOfClamp - _SizeOfClamp / 2;
 
 			return pos.x < minCube.x || pos.x > maxCube.x
 			    || pos.y < minCube.y || pos.y > maxCube.y
@@ -85,7 +86,7 @@ namespace Game.Interaction
 		private void OnDrawGizmos()
 		{
 			Gizmos.color = Color.cyan;
-			Gizmos.DrawWireCube(_positionOfClamp, _SizeOfClamp);
+			Gizmos.DrawWireCube(_PositionOfClamp, _SizeOfClamp);
 		}
 	}
 }
