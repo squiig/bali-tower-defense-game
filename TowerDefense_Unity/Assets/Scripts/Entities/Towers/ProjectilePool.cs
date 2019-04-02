@@ -9,7 +9,7 @@ using UnityEngine;
 
 namespace Game.Entities.Towers
 {
-	public class ProjectilePool : SceneObjectPool<TowerProjectile>
+	public class ProjectilePool : SceneObjectPool<TowerProjectile, ProjectilePool>
 	{
 		private const string PROJECTILE_ASSET = "BackEnd/Projectiles/TurretTestProjectile";
 
