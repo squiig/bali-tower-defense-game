@@ -9,7 +9,13 @@ namespace Game.Interaction
 	public class TouchInputBehaviour : DDOLMonoBehaviourSingleton<TouchInputBehaviour>
 	{
 		public event System.Action<Vector2> OnDragDelta;
+		public event System.Action OnDragStart;
+		public event System.Action OnDragStop;
+
 		public event System.Action<float> OnPinchDelta;
+		public event System.Action OnPinchStart;
+		public event System.Action OnPinchStop;
+
 		public event System.Action OnDeselect;
 		public event System.Action OnTap;
 
@@ -20,7 +26,7 @@ namespace Game.Interaction
 
 
 #if UNITY_EDITOR
-		[SerializeField] private bool _UseMouseInput = true;
+		[SerializeField] private bool _UseMouseInput = false;
 		[SerializeField] private bool _UseKeyboardInput = false;
 
 		private Vector2 _PreviousMousePosition;
@@ -72,7 +78,7 @@ namespace Game.Interaction
 			{
 				if (touches[0].deltaPosition.magnitude > _DragThreshold)
 				{
-					_CurrentState = TouchInputState.DRAGGING;
+					SetCurrentState(TouchInputState.DRAGGING);
 				}
 			}
 
@@ -82,9 +88,39 @@ namespace Game.Interaction
 
 				if (Mathf.Abs(delta) > _PinchThreshold)
 				{
-					_CurrentState = TouchInputState.PINCHING;
+					SetCurrentState(TouchInputState.PINCHING);
+
 				}
 			}
+		}
+
+		public void SetCurrentState(TouchInputState state)
+		{
+			switch (_CurrentState)
+			{
+				case TouchInputState.TAPPING:
+					break;
+				case TouchInputState.DRAGGING:
+					OnDragStop?.Invoke();
+					break;
+				case TouchInputState.PINCHING:
+					OnPinchStop?.Invoke();
+					break;
+			}
+
+			switch (state)
+			{
+				case TouchInputState.TAPPING:
+					break;
+				case TouchInputState.DRAGGING:
+					OnDragStart?.Invoke();
+					break;
+				case TouchInputState.PINCHING:
+					OnPinchStart?.Invoke();
+					break;
+			}
+
+			_CurrentState = state;
 		}
 
 		private bool ShootRay(Vector2 screenposition)
@@ -110,7 +146,7 @@ namespace Game.Interaction
 			Touch[] touches = Input.touches;
 			if (touches.Length == 0)
 			{
-				_CurrentState = TouchInputState.TAPPING;
+				SetCurrentState(TouchInputState.TAPPING);
 			}
 			else
 			{
@@ -123,7 +159,7 @@ namespace Game.Interaction
 
 				if (Mathf.Abs(delta) > _PinchThreshold)
 				{
-					_CurrentState = TouchInputState.PINCHING;
+					SetCurrentState(TouchInputState.PINCHING);
 				}
 			}
 		}
@@ -133,7 +169,7 @@ namespace Game.Interaction
 			Touch[] touches = Input.touches;
 			if (touches.Length == 0)
 			{
-				_CurrentState = TouchInputState.TAPPING;
+				SetCurrentState(TouchInputState.TAPPING);
 			}
 			else
 			{
@@ -141,7 +177,7 @@ namespace Game.Interaction
 				{
 					if (touches[0].deltaPosition.magnitude > _DragThreshold)
 					{
-						_CurrentState = TouchInputState.DRAGGING;
+						SetCurrentState(TouchInputState.DRAGGING);
 					}
 				}
 
@@ -156,7 +192,10 @@ namespace Game.Interaction
 		{
 #if UNITY_EDITOR
 			if (Input.GetMouseButtonDown(1))
+			{
 				_PreviousMousePosition = Input.mousePosition;
+				OnDragStart?.Invoke();
+			}
 
 			if (Input.GetMouseButton(1))
 			{
@@ -164,6 +203,9 @@ namespace Game.Interaction
 				OnDragDelta?.Invoke(mousePos - _PreviousMousePosition);
 				_PreviousMousePosition = Input.mousePosition;
 			}
+
+			if (Input.GetMouseButtonUp(1))
+				OnDragStop?.Invoke();
 
 			OnPinchDelta?.Invoke(Input.mouseScrollDelta.y);
 
