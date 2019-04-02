@@ -60,15 +60,20 @@ namespace Game.WaveSystem
 
 			int len = _Waves.Count;
 			for (int i = 0; i < len; i++)
-			{
 				_WaitingWaves.Enqueue(new Wave(i, _Waves[i]));
+		}
+
+		public void Update()
+		{
+			if (Input.GetKeyDown(KeyCode.S))
+			{
+				StartNextWave();
 			}
 		}
 
 		public void StartNextWave()
 		{
 			Debug.Log("[WaveSystem] Starting next wave...");
-
 			if (_WaitingWaves.Count <= 0)
 			{
 				Debug.LogWarning("[WaveSystem] No more waves to start, aborting the attempt!");
@@ -76,8 +81,6 @@ namespace Game.WaveSystem
 			}
 
 			Wave nextWave = _WaitingWaves.Dequeue();
-
-			// Attempt to start new wave
 			nextWave.HasStarted += OnWaveStarted;
 			nextWave.Start(this);
 		}
@@ -101,13 +104,11 @@ namespace Game.WaveSystem
 			}
 
 			_IntermissionTimer = 0f;
-
 			OnIntermissionEnded(this, intermissionEndedArgs);
 		}
 
 		protected virtual void OnWaveStarted(Wave wave)
 		{
-			// Wave has succesfully started
 			wave.HasEnded += OnWaveEnded;
 			_ActiveWaves.Add(wave);
 			_State = EState.WAVE;
