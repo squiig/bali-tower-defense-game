@@ -3,7 +3,7 @@ using Game.Turrets;
 
 namespace Game.Interaction
 {
-	public class BuildTowerOnTap : MonoBehaviour
+	public class BuildTowerOnTap : MonoBehaviour, ITappable
 	{
 		private TowerBuildSelection _TowerBuildSelection;
 		private TurretGridCell _TurretGridCell;
@@ -25,6 +25,7 @@ namespace Game.Interaction
 				return;
 			
 			GameObject tower = Instantiate(_TowerBuildSelection.TakeSelectionAndClear());
+			tower.transform.rotation = Quaternion.Euler(0, transform.rotation.eulerAngles.y, 0);
 			tower.transform.position = transform.position;
 			_TurretGridCell.OccupyTurret(tower);
 		}
