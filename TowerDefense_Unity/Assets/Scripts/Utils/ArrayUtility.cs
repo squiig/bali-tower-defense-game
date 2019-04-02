@@ -1,4 +1,5 @@
-﻿using System.Collections;
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -20,6 +21,18 @@ namespace Game.Utils
             }
             return filteredArray.ToArray();
         }
+
+
+		public static Vector2 GetAverageVec2(params Vector2[] _VelocitySamples)
+		{
+			Vector2 sum = Vector2.zero;
+			foreach (var item in _VelocitySamples)
+			{
+				sum += item;
+			}
+			return sum / _VelocitySamples.Length;
+		}
+
 
 		public static float GetHighestValue(float[,] array)
 		{
@@ -55,6 +68,16 @@ namespace Game.Utils
 			}
 
 			return highest;
+		}
+
+		internal static float Average(float[] floats)
+		{
+			float sum = 0f;
+			foreach (var item in floats)
+			{
+				sum += item;
+			}
+			return sum / floats.Length;
 		}
 	}
 }
