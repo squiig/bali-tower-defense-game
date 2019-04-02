@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Game.Interaction
 {
@@ -28,7 +29,7 @@ namespace Game.Interaction
 		private void Update()
 		{
 			HandleDebugMouse();
-			HandleDebugKeyboard();
+			//HandleDebugKeyboard();
 
 			switch (_CurrentState)
 			{

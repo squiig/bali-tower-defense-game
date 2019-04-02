@@ -1,17 +1,27 @@
-using System.Collections;
-using System.Collections.Generic;
 using Game.Entities.MovingEntities;
 using UnityEngine;
 
 namespace Game.WaveSystem
 {
-	[CreateAssetMenu(fileName = "New Wave", menuName = "Wave")]
+	[CreateAssetMenu(fileName = "NewWave", menuName = "Wave/Wave")]
 	public class WaveContent : ScriptableObject
 	{
-		[SerializeField] private List<Minion> _Minions = null;
-		[SerializeField] private MinMaxFloat _SpawnInterval;
+		[SerializeField] private WaveLegion[] _WaveLegions;
+		[SerializeField] private MinMaxFloat _LegionSpawnInterval;
 
-		public List<Minion> Minions { get => _Minions; set => _Minions = value; }
-		public MinMaxFloat SpawnInterval => _SpawnInterval;
+		public WaveLegion this[int i] => _WaveLegions[i];
+		public int WaveLegionCount => _WaveLegions.Length;
+		public MinMaxFloat LegionSpawnInterval => _LegionSpawnInterval;
+	}
+
+	[CreateAssetMenu(fileName = "NewLegion", menuName = "Wave/Legion")]
+	public class WaveLegion : ScriptableObject
+	{
+		[SerializeField] private Minion[] _Minions;
+		[SerializeField] float _SpawnInterval;
+
+		public Minion this[int i] => _Minions[i];
+		public int MinionCount => _Minions.Length;
+		public float SpawnInterval => _SpawnInterval;
 	}
 }
