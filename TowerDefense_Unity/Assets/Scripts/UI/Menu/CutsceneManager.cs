@@ -19,7 +19,7 @@ public class CutsceneManager : MonoBehaviour
 	{
 		_TimeLine.Play();
 
-		while(_timeLine.state == PlayState.Playing)
+		while(_TimeLine.state == PlayState.Playing)
 			yield return null;
 
 		Game.Utils.SceneUtility.LoadNext();
