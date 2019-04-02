@@ -109,7 +109,14 @@ namespace Game.Entities.Towers
 				return;
 
 			_attackCoolDown = ATTACK_COOL_DOWN_DURATION;
-			Attack.ExecuteAttack(TargetDamageable, TargetDamageable.GetPosition());
+
+			if (Attack.GetAttackType() == AttackType.SINGLE_TARGET)
+			{
+				Attack.ExecuteAttack(TargetDamageable, GetLocation());
+				return;
+			}
+
+			Attack.ExecuteAttack(null, GetLocation());
 		}
 
 		private bool IsTargetForsaken()

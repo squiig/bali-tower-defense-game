@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Linq;
 using Game.Entities.EventContainers;
 using Game.Entities.Interfaces;
@@ -107,7 +108,8 @@ namespace Game.Entities.MovingEntities
         /// <returns>Returns the GameObject of this instance.</returns>
         public GameObject GetEntity() => GetInstance();
 
-		/// <inheritdoc />
+
+        /// <inheritdoc />
 		/// <summary>
 		/// Used when this instance gets hit.
 		/// Will apply the contents of the <see cref="T:Game.Entities.OnHitEffects" />
@@ -126,17 +128,17 @@ namespace Game.Entities.MovingEntities
 			if(Health <= 0)
 				OnDeath?.Invoke(this, payload);
 
-			if(onHitEffects.GetStatusEffects().Any(x=> x == StatusEffects.SLOWED))
-				throw new NotImplementedException("Have not implemented movement impairing effects yet.");
+			if (onHitEffects.GetStatusEffects().Any(x => x == StatusEffects.SLOWED))
+				StartCoroutine(MovementImpaired(StatusEffects.SLOWED, 60));
 		}
 
-		/// <inheritdoc />
+        /// <inheritdoc />
 		/// <summary>
 		/// Used to get the current health of this instance
 		/// When first spawned will always indicate max health.
 		/// </summary>
 		/// <returns> The current health of this instance. </returns>
-		public float GetHealth() => Health;
+		public  float GetHealth() => Health;
 
 		/// <inheritdoc />
 		/// <summary>
@@ -164,5 +166,18 @@ namespace Game.Entities.MovingEntities
 		/// <returns>Returns the attack class of this instance.</returns>
 		public IAttack GetAttack() => Attack;
 
+		private readonly WaitForSeconds _SlowDuration = new WaitForSeconds(2);
+		private IEnumerator MovementImpaired(StatusEffects effect, float percent)
+		{
+			float previousSpeed = _MoveSpeed;
+
+			if (effect == StatusEffects.NONE)
+				yield break;
+
+			_MoveSpeed = (_MoveSpeed / 100.0f) * percent;
+
+			yield return _SlowDuration;
+			_MoveSpeed = previousSpeed;
+		}
 	}
 }

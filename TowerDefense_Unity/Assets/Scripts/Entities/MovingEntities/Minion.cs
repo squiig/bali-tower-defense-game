@@ -94,7 +94,7 @@ namespace Game.Entities.MovingEntities
 				return;
 
 			_attackCoolDown = ATTACK_COOL_DOWN_DURATION;
-			Attack.ExecuteAttack(TargetIDamageable);
+			Attack.ExecuteAttack(TargetIDamageable, GetLocation());
 
 			ReleaseOwnership();
 		}

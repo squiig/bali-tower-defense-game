@@ -9,8 +9,12 @@ namespace Game.Entities.Towers
 	[CreateAssetMenu(fileName = "TowerAttack", menuName = "Tower/Tower Attack", order = 1)]
 	public class TowerAttack : ScriptableObject, IAttack
 	{
+		[SerializeField] private GameObject _Projectile;
+
 		[SerializeField] private AttackType _attackType;
+
 		[SerializeField] private float _areaOfEffect = -1.0f;
+
 		[SerializeField] private AttackEffects _attackEffects;
 
 		public AttackType GetAttackType() => AttackType.AREA_OF_EFFECT;
@@ -23,13 +27,16 @@ namespace Game.Entities.Towers
 
 		public void SetDamage(float value) => _attackEffects.SetDamage(value);
 
-		public void ExecuteAttack(in IDamageable damageable, Vector3? position = null)
+		public void ExecuteAttack(in IDamageable damageable, Vector3 position)
 		{
-			if (position != null && _areaOfEffect > 0)
+			if (damageable == null && _areaOfEffect > 0)
 			{
-				AreaAttack(Allegiance.FRIENDLY, position.Value);
+				AreaAttack(Allegiance.FRIENDLY, position);
 				return;
 			}
+
+			Instantiate(_Projectile, position, Quaternion.identity);
+
 
 			damageable.ApplyOnHitEffects(_attackEffects);
 		}
