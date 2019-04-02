@@ -8,6 +8,7 @@ namespace Game.Entities.MovingEntities
 	{
 		[SerializeField] private AttackEffects _AttackEffects;
 		[SerializeField] private AttackType _AttackType;
+
 		/// <inheritdoc />
 		/// <summary>
 		/// Used to gain the attack type of this instance.
@@ -24,11 +25,13 @@ namespace Game.Entities.MovingEntities
 		/// <returns> The float representing the attacks range. -1 if not applicable.</returns>
 		public float GetAreaOfEffect() => -1;
 
+		public float GetDamage() => _AttackEffects.GetDamage();
+
 		/// <inheritdoc />
 		/// <summary>
 		/// Executes the attack on the damageable given.
 		/// </summary>
-		public void ExecuteAttack(in IDamageable damageable, Vector3? position = null) => 
+		public void ExecuteAttack(in IDamageable damageable, Vector3? position) => 
 			damageable.ApplyOnHitEffects(_AttackEffects);
 	}
 }

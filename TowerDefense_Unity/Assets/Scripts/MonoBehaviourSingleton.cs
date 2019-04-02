@@ -14,6 +14,8 @@ namespace Game
 	{
 		private static T _Instance;
 
+		private static bool _IsNewInstanceAllowed = true;
+
 		/// <summary>
 		/// Referencing this field creates an instance if it doesn't already exist.
 		/// </summary>
@@ -24,7 +26,7 @@ namespace Game
 				{
 					_Instance = FindObjectOfType<T>();
 
-					if (_Instance == null)
+					if (_Instance == null && _IsNewInstanceAllowed)
 					{
 						GameObject obj = new GameObject();
 						obj.name = typeof(T).Name;
@@ -46,6 +48,16 @@ namespace Game
 			{
 				Destroy(gameObject);
 			}
+		}
+
+		protected virtual void OnEnable()
+		{
+			_IsNewInstanceAllowed = true;
+		}
+
+		protected virtual void OnDisable()
+		{
+			_IsNewInstanceAllowed = false;
 		}
 	}
 }

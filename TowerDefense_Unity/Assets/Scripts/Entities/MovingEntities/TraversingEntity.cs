@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Linq;
 using Game.Entities.EventContainers;
 using Game.Entities.Interfaces;
@@ -9,25 +10,21 @@ namespace Game.Entities.MovingEntities
 {
 	public abstract class TraversingEntity : SplineWalker, IDamageable, IAggressor
 	{
-		protected float Health;
 		private float _StartHealth;
+		private int _Priority;
+		private bool _IsConducting;
 
+		protected float Health;
 		protected IAttack Attack;
-
 		protected Allegiance Allegiance;
-
 		protected IDamageable TargetIDamageable;
-
-		private int _priority;
-
-		private bool _isConducting = false;
 
 		protected void Initialize(float maxHealth, int priority, Allegiance allegiance, in IAttack attack)
 		{
 			Allegiance = allegiance;
             Health = maxHealth;
             _StartHealth = maxHealth;
-			_priority = priority;
+			_Priority = priority;
 			Attack = attack;
 		}
 
@@ -58,7 +55,7 @@ namespace Game.Entities.MovingEntities
 		/// Targets with lower priority will be targeted last.
 		/// </summary>
 		/// <returns> The priority to attack this instance of this damageable.</returns>
-		public int GetPriority() => _priority;
+		public int GetPriority() => _Priority;
 
 		/// <inheritdoc />
 		/// <summary>
@@ -67,7 +64,7 @@ namespace Game.Entities.MovingEntities
 		/// [TRUE] if in scene, [FALSE] if only available from pool.
 		/// </summary>
 		/// <returns> [TRUE] if in scene, [FALSE] if only available from pool.</returns>
-		public bool IsConducting() => _isConducting;
+		public bool IsConducting() => _IsConducting;
 
 		/// <inheritdoc />
 		/// <summary>
@@ -76,7 +73,7 @@ namespace Game.Entities.MovingEntities
 		/// </summary>
         public void Activate()
 		{
-			_isConducting = true;
+			_IsConducting = true;
 			SetActive(true);
 
 			Health = _StartHealth;
@@ -90,7 +87,7 @@ namespace Game.Entities.MovingEntities
         public void ReleaseOwnership()
         {
 	        SetActive(false);
-            _isConducting = false;
+            _IsConducting = false;
         }
 
 		/// <inheritdoc />
@@ -105,9 +102,10 @@ namespace Game.Entities.MovingEntities
         /// Returns the GameObject of this instance.
         /// </summary>
         /// <returns>Returns the GameObject of this instance.</returns>
-        public GameObject GetEntity() => GetInstance();
+        public Entity GetEntity() => this;
 
-		/// <inheritdoc />
+
+        /// <inheritdoc />
 		/// <summary>
 		/// Used when this instance gets hit.
 		/// Will apply the contents of the <see cref="T:Game.Entities.OnHitEffects" />
@@ -126,17 +124,17 @@ namespace Game.Entities.MovingEntities
 			if(Health <= 0)
 				OnDeath?.Invoke(this, payload);
 
-			if(onHitEffects.GetStatusEffects().Any(x=> x == StatusEffects.SLOWED))
-				throw new NotImplementedException("Have not implemented movement impairing effects yet.");
+			if (onHitEffects.GetStatusEffects().Any(x => x == StatusEffects.SLOWED))
+				StartCoroutine(MovementImpaired(StatusEffects.SLOWED, 60));
 		}
 
-		/// <inheritdoc />
+        /// <inheritdoc />
 		/// <summary>
 		/// Used to get the current health of this instance
 		/// When first spawned will always indicate max health.
 		/// </summary>
 		/// <returns> The current health of this instance. </returns>
-		public float GetHealth() => Health;
+		public  float GetHealth() => Health;
 
 		/// <inheritdoc />
 		/// <summary>
@@ -164,5 +162,18 @@ namespace Game.Entities.MovingEntities
 		/// <returns>Returns the attack class of this instance.</returns>
 		public IAttack GetAttack() => Attack;
 
+		private readonly WaitForSeconds _SlowDuration = new WaitForSeconds(2);
+		private IEnumerator MovementImpaired(StatusEffects effect, float percent)
+		{
+			float previousSpeed = _MoveSpeed;
+
+			if (effect == StatusEffects.NONE)
+				yield break;
+
+			_MoveSpeed = (_MoveSpeed / 100.0f) * percent;
+
+			yield return _SlowDuration;
+			_MoveSpeed = previousSpeed;
+		}
 	}
 }

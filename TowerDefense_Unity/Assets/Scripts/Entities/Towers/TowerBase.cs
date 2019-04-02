@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using Game.Entities.EventContainers;
 using Game.Entities.Interfaces;
@@ -8,22 +9,18 @@ namespace Game.Entities.Towers
 {
 	public abstract class TowerBase : Entity, IAggressor
 	{
+		private SphereCollider _SphereCollider;
 		private float _attackCoolDown = 0.0f;
 		private const float ATTACK_COOL_DOWN_DURATION = 3.0f;
 
-		[SerializeField] protected readonly float StartAttackRange;
-		[SerializeField] protected readonly float MaxAttackRange;
-		[SerializeField] protected float AttackRange;
-		[Space]
+		[SerializeField] protected float StartAttackRange, MaxAttackRange, AttackRange;
 		[SerializeField] protected TowerAttack Attack;
-		[Space]
 		[SerializeField] protected IDamageable TargetDamageable;
-		[Space]
+
 		[SerializeField] private Allegiance _allegiance;
-		[Space]
 		[SerializeField] private bool _isDebug = false;
 
-		private SphereCollider _SphereCollider;
+		public float GetRange() => AttackRange;
 
 		/// <inheritdoc />
 		/// <summary>
@@ -63,7 +60,7 @@ namespace Game.Entities.Towers
 			if (TargetDamageable == null)
 				return;
 
-			Debug.DrawLine(GetLocation(), TargetDamageable.GetPosition(), Color.red);
+			Debug.DrawLine(GetLocation(), TargetDamageable.GetEntity().transform.position, Color.red);
 		}
 
 		private void OnDrawGizmos()
@@ -92,7 +89,34 @@ namespace Game.Entities.Towers
 			Debug.Log($"Tower [{GetHashCode()}]: Target has died.");
 			sender.OnDeath -= OnTargetDeath;
 			TargetDamageable = null;
+
+			FindNewTarget();
 		}
+
+		private void FindNewTarget()
+		{
+			RaycastHit[] targetsHit = Physics.SphereCastAll(transform.position, AttackRange, Vector3.forward);
+
+			if (targetsHit.Length < 1)
+				return;
+
+			List<IDamageable> possibleTargets = new List<IDamageable>();
+
+			for (int i = 0; i < targetsHit.Length; i++)
+			{
+				IDamageable damageable;
+				if((damageable = targetsHit[i].transform.GetComponent<IDamageable>()) == null)
+					continue;
+
+				possibleTargets.Add(damageable);
+			}
+
+			TargetDamageable = possibleTargets.FirstOrDefault(x =>
+				x.GetAllegiance() != _allegiance && TargetDamageable == null ||
+				x.GetPriority() > TargetDamageable.GetPriority());
+		}
+
+		private bool ShouldAttack() => _attackCoolDown <= 0 && TargetDamageable != null && !IsTargetForsaken();
 
 		/// <inheritdoc />
 		/// <summary>
@@ -102,33 +126,44 @@ namespace Game.Entities.Towers
 		/// </summary>
 		public void ExecuteAttack()
 		{
-			if (_attackCoolDown > 0 || TargetDamageable == null)
-				return;
-
-			if (IsTargetForsaken())
+			if (!ShouldAttack())
 				return;
 
 			_attackCoolDown = ATTACK_COOL_DOWN_DURATION;
-			Attack.ExecuteAttack(TargetDamageable, TargetDamageable.GetPosition());
+
+
+			if(Attack.GetAttackType() == AttackType.SINGLE_TARGET)
+				RangedAttack();
+			else
+				AreaAttack();
+		}
+
+		private void AreaAttack() => Attack.ExecuteAttack(TargetDamageable, TargetDamageable.GetEntity().GetLocation());
+
+		private void RangedAttack()
+		{
+			TowerProjectile projectile = ProjectilePool.Instance.ActivateObject(x => x != null);
+			projectile?.InitializeAndActivate(transform.position, TargetDamageable, Attack);
 		}
 
 		private bool IsTargetForsaken()
 		{
-			if (Vector3.Distance(GetLocation(), TargetDamageable.GetPosition()) < AttackRange)
+			if (Vector3.Distance(GetLocation(), TargetDamageable.GetEntity().GetLocation()) < AttackRange)
 				return false;
 
 			TargetDamageable = null;
+			FindNewTarget();
 			return true;
 		}
 
-		private void OnTriggerEnter(Collider collider)
+		private void OnTriggerEnter(Collider other)
 		{
 			if(_isDebug)
-				Debug.Log($"Tower {GetHashCode()}: Found damageable [{collider.gameObject.GetComponent<IDamageable>() != null}]");
+				Debug.Log($"Tower {GetHashCode()}: Found damageable [{other.gameObject.GetComponent<IDamageable>() != null}]");
 
 			IDamageable damageable;
 
-			if ((damageable = collider.gameObject.GetComponent<IDamageable>()) != null &&
+			if ((damageable = other.gameObject.GetComponent<IDamageable>()) != null &&
 			    TargetDamageable != null && damageable.GetPriority() > TargetDamageable.GetPriority())
 				return;
 

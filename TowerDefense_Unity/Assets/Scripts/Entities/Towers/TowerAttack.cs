@@ -10,12 +10,14 @@ namespace Game.Entities.Towers
 	public class TowerAttack : ScriptableObject, IAttack
 	{
 		[SerializeField] private AttackType _attackType;
+
 		[SerializeField] private float _areaOfEffect = -1.0f;
+
 		[SerializeField] private AttackEffects _attackEffects;
 
-		public AttackType GetAttackType() => AttackType.AREA_OF_EFFECT;
+		public AttackType GetAttackType() => _attackType;
 
-		public float GetAreaOfEffect() => 10.0f;
+		public float GetAreaOfEffect() => _areaOfEffect;
 
 		public float GetDamage() => _attackEffects.GetDamage();
 
@@ -23,15 +25,16 @@ namespace Game.Entities.Towers
 
 		public void SetDamage(float value) => _attackEffects.SetDamage(value);
 
-		public void ExecuteAttack(in IDamageable damageable, Vector3? position = null)
+		public void ExecuteAttack(in IDamageable damageable, Vector3? position)
 		{
-			if (position != null && _areaOfEffect > 0)
+
+			if (damageable == null && position.HasValue && _areaOfEffect > 0)
 			{
 				AreaAttack(Allegiance.FRIENDLY, position.Value);
 				return;
 			}
 
-			damageable.ApplyOnHitEffects(_attackEffects);
+			damageable?.ApplyOnHitEffects(_attackEffects);
 		}
 
 		private void AreaAttack(Allegiance allegiance, Vector3 position)
@@ -40,11 +43,8 @@ namespace Game.Entities.Towers
 
 			for (int index = 0; index < hit.Length; index++)
 			{
-				IDamageable damageable;
-				if ((damageable = hit[index].transform.GetComponent<IDamageable>()) == null)
-					continue;
-
-				if(damageable.GetAllegiance() == allegiance)
+				IDamageable damageable = hit[index].transform.GetComponent<IDamageable>();
+				if (damageable == null || damageable.GetAllegiance() == allegiance)
 					continue;
 
 				damageable.ApplyOnHitEffects(_attackEffects);
