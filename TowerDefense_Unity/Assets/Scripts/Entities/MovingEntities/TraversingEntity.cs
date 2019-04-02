@@ -10,25 +10,21 @@ namespace Game.Entities.MovingEntities
 {
 	public abstract class TraversingEntity : SplineWalker, IDamageable, IAggressor
 	{
-		protected float Health;
 		private float _StartHealth;
+		private int _Priority;
+		private bool _IsConducting;
 
+		protected float Health;
 		protected IAttack Attack;
-
 		protected Allegiance Allegiance;
-
 		protected IDamageable TargetIDamageable;
-
-		private int _priority;
-
-		private bool _isConducting = false;
 
 		protected void Initialize(float maxHealth, int priority, Allegiance allegiance, in IAttack attack)
 		{
 			Allegiance = allegiance;
             Health = maxHealth;
             _StartHealth = maxHealth;
-			_priority = priority;
+			_Priority = priority;
 			Attack = attack;
 		}
 
@@ -59,7 +55,7 @@ namespace Game.Entities.MovingEntities
 		/// Targets with lower priority will be targeted last.
 		/// </summary>
 		/// <returns> The priority to attack this instance of this damageable.</returns>
-		public int GetPriority() => _priority;
+		public int GetPriority() => _Priority;
 
 		/// <inheritdoc />
 		/// <summary>
@@ -68,7 +64,7 @@ namespace Game.Entities.MovingEntities
 		/// [TRUE] if in scene, [FALSE] if only available from pool.
 		/// </summary>
 		/// <returns> [TRUE] if in scene, [FALSE] if only available from pool.</returns>
-		public bool IsConducting() => _isConducting;
+		public bool IsConducting() => _IsConducting;
 
 		/// <inheritdoc />
 		/// <summary>
@@ -77,7 +73,7 @@ namespace Game.Entities.MovingEntities
 		/// </summary>
         public void Activate()
 		{
-			_isConducting = true;
+			_IsConducting = true;
 			SetActive(true);
 
 			Health = _StartHealth;
@@ -91,7 +87,7 @@ namespace Game.Entities.MovingEntities
         public void ReleaseOwnership()
         {
 	        SetActive(false);
-            _isConducting = false;
+            _IsConducting = false;
         }
 
 		/// <inheritdoc />
@@ -106,7 +102,7 @@ namespace Game.Entities.MovingEntities
         /// Returns the GameObject of this instance.
         /// </summary>
         /// <returns>Returns the GameObject of this instance.</returns>
-        public GameObject GetEntity() => GetInstance();
+        public Entity GetEntity() => this;
 
 
         /// <inheritdoc />

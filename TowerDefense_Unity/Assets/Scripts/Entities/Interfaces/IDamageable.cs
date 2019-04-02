@@ -1,4 +1,4 @@
-﻿using Game.Entities.EventContainers;
+using Game.Entities.EventContainers;
 using UnityEngine;
 
 namespace Game.Entities.Interfaces
@@ -6,7 +6,7 @@ namespace Game.Entities.Interfaces
     /// <summary>
     /// Interface representing all damageable entities within the game.
     /// </summary>
-    public interface IDamageable : IPoolable
+    public interface IDamageable
 	{
 		/// <summary>
 		/// Event handler that is fired when this instance is hit.
@@ -19,12 +19,6 @@ namespace Game.Entities.Interfaces
 		/// Gives both this instance and the event class <see cref="EntityDamaged"/>
 		/// </summary>
 		event TypedEventHandler<IDamageable, EntityDamaged> OnDeath;
-
-		/// <summary>
-		/// Returns the position of this unit.
-		/// </summary>
-		/// <returns>Returns the position of this unit.</returns>
-		Vector3 GetPosition();
 
 		/// <summary>
 		/// Used to get the priority of this damageable.
@@ -43,7 +37,7 @@ namespace Game.Entities.Interfaces
 		/// Returns the GameObject attached to this entity.
 		/// </summary>
 		/// <returns></returns>
-		GameObject GetEntity();
+		Entity GetEntity();
 
 		/// <summary>
 		/// Used when this instance gets hit.

@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
@@ -30,7 +30,8 @@ namespace Game.Turrets
             }
         }
 
-        public void DrawHorizontalGridLines()
+#if UNITY_EDITOR
+		public void DrawHorizontalGridLines()
         {
             Vector3 position = transform.position;
             Vector3 rotation = transform.eulerAngles;
@@ -57,5 +58,6 @@ namespace Game.Turrets
                 Handles.DrawLine(position + startPoint.GetPointPosition(), position + endPoint.GetPointPosition());
             }
         }
-    }
+#endif
+	}
 }

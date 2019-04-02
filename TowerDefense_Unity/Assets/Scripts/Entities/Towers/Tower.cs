@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Game.Entities.EventContainers;
 using Game.Entities.Interfaces;
 using UnityEngine;
 
@@ -25,7 +26,6 @@ namespace Game.Entities.Towers
 
 		public void IncreaseDamage(float increase) => Attack.SetDamage(Attack.GetDamage() + increase);
 		
-
 		/// <inheritdoc />
 		/// <summary>
 		/// Upgrades the instance by T.
@@ -33,12 +33,14 @@ namespace Game.Entities.Towers
 		/// Upgrade can be rejected if not enough resources are available.
 		/// </summary>
 		/// <param name="upgrade"> Upgrade to apply to this instance.</param>
-		public void Upgrade(in IUpgrade upgrade)
+		public void Upgrade(in IUpgrade upgrade, Action<TransactionResult> transactionCallback)
 		{
-			if (!ResourceSystem.Instance.RunTransaction(upgrade.GetCost()))
-				return;
+			TransactionResult transaction = ResourceSystem.Instance.RunTransaction(-upgrade.GetCost());
 
-			upgrade.ApplyUpgrade(this);
+			if (!transaction.HasTransactionFailed)
+				upgrade.ApplyUpgrade(this);
+
+			transactionCallback?.Invoke(transaction);
 		}
 
 		/// <inheritdoc />
@@ -49,6 +51,6 @@ namespace Game.Entities.Towers
 		/// Will never be null.
 		/// </summary>
 		/// <returns> An array of T with all possible upgrades. Never null.</returns>
-		public void GetPossibleUpgrades(out TowerUpgrade[] upgrades) => upgrades = _Upgrades ?? new TowerUpgrade[0];
+		public TowerUpgrade[] GetPossibleUpgrades() => _Upgrades ?? new TowerUpgrade[0];
 	}
 }

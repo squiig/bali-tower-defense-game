@@ -1,4 +1,5 @@
 using System;
+using Game.Entities.EventContainers;
 using Game.Entities.Towers;
 
 namespace Game.Entities.Interfaces
@@ -14,7 +15,7 @@ namespace Game.Entities.Interfaces
 		/// Upgrade can be rejected if not enough resources are available.
 		/// </summary>
 		/// <param name="upgrade"> Upgrade to apply to this instance.</param>
-		void Upgrade(in IUpgrade upgrade);
+		void Upgrade(in IUpgrade upgrade, Action<TransactionResult> transactionCallback);
 
 		/// <summary>
 		/// Returns an array of T containing all
@@ -23,6 +24,6 @@ namespace Game.Entities.Interfaces
 		/// Will never be null.
 		/// </summary>
 		/// <returns> An array of T with all possible upgrades. Never null.</returns>
-		void GetPossibleUpgrades(out TowerUpgrade[] upgrades);
+		TowerUpgrade[] GetPossibleUpgrades();
 	}
 }
