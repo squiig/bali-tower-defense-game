@@ -46,10 +46,11 @@ namespace Game.WaveSystem
 
 			InitializeWaveQueue();
 		}
+
 #if UNITY_EDITOR || DEBUG
 		private void Update()
 		{
-			if (Input.GetKeyDown(KeyCode.F1))
+			if (Input.GetKeyDown(KeyCode.F3))
 				StartNextWave();
 		}
 #endif
@@ -68,14 +69,6 @@ namespace Game.WaveSystem
 			int len = _Waves.Count;
 			for (int i = 0; i < len; i++)
 				_WaitingWaves.Enqueue(new Wave(i, _Waves[i]));
-		}
-
-		public void Update()
-		{
-			if (Input.GetKeyDown(KeyCode.S))
-			{
-				StartNextWave();
-			}
 		}
 
 		public void StartNextWave()
