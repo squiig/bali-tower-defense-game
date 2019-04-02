@@ -7,7 +7,7 @@ using Game.SplineSystem;
 namespace Game.Entities
 {
 	/// <summary>Handles minion pooling.</summary>
-	public class MinionPoolController : SceneObjectPool<Minion>
+	public class MinionPoolController : SceneObjectPool<Minion, MinionPoolController>
 	{
 		[SerializeField] private Minion _MinionPrefab = null;
 		[SerializeField] private int _PoolObjectCount = 20;

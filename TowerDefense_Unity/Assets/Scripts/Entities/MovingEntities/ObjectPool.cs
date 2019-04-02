@@ -14,7 +14,7 @@ namespace Game.Entities.MovingEntities
 	/// Can be used as collection, indexer is get only;
 	/// </summary>
 	/// <typeparam name="T"> Class or object you wish to pool.</typeparam>
-	public abstract class SceneObjectPool<T> : MonoBehaviourSingleton<SceneObjectPool<T>>, ICollection<T> where T : IPoolable
+	public abstract class SceneObjectPool<T, U> : MonoBehaviourSingleton<U>, ICollection<T> where T : IPoolable where U : Component
 	{
         protected readonly List<T> _objects = new List<T>();
 

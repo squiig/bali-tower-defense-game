@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Linq;
 using Game.Entities.EventContainers;
 using Game.Entities.Interfaces;
 using UnityEngine;
@@ -93,6 +95,31 @@ namespace Game.Entities.Towers
 
 			TargetDamageable.OnDeath -= OnTargetDeath;
 			TargetDamageable = null;
+
+			FindNewTarget();
+		}
+
+		private void FindNewTarget()
+		{
+			RaycastHit[] targetsHit = Physics.SphereCastAll(transform.position, AttackRange, Vector3.forward);
+
+			if (targetsHit.Length < 1)
+				return;
+
+			List<IDamageable> possibleTargets = new List<IDamageable>();
+
+			for (int i = 0; i < targetsHit.Length; i++)
+			{
+				IDamageable damageable;
+				if((damageable = targetsHit[i].transform.GetComponent<IDamageable>()) == null)
+					continue;
+
+				possibleTargets.Add(damageable);
+			}
+
+			TargetDamageable = possibleTargets.FirstOrDefault(x =>
+				x.GetAllegiance() != _allegiance && TargetDamageable == null ||
+				x.GetPriority() > TargetDamageable.GetPriority());
 		}
 
 		private bool ShouldAttack() => _attackCoolDown <= 0 && TargetDamageable != null && !IsTargetForsaken();
@@ -109,7 +136,20 @@ namespace Game.Entities.Towers
 				return;
 
 			_attackCoolDown = ATTACK_COOL_DOWN_DURATION;
-			Attack.ExecuteAttack(TargetDamageable, TargetDamageable.GetEntity().GetLocation());
+
+
+			if(Attack.GetAttackType() == AttackType.SINGLE_TARGET)
+				RangedAttack();
+			else
+				AreaAttack();
+		}
+
+		private void AreaAttack() => Attack.ExecuteAttack(TargetDamageable, TargetDamageable.GetEntity().GetLocation());
+
+		private void RangedAttack()
+		{
+			TowerProjectile projectile = ProjectilePool.Instance.ActivateObject(x => x != null);
+			projectile?.InitializeAndActivate(transform.position, TargetDamageable, Attack);
 		}
 
 		private bool IsTargetForsaken()
@@ -119,6 +159,7 @@ namespace Game.Entities.Towers
 				return false;
 
 			TargetDamageable = null;
+			FindNewTarget();
 			return true;
 		}
 
