@@ -6,18 +6,18 @@ using UnityEngine.SceneManagement;
 [RequireComponent(typeof(PlayableDirector))]
 public class CutsceneManager : MonoBehaviour
 {
-	[SerializeField] private PlayableDirector _timeLine;
+	[SerializeField] private PlayableDirector _TimeLine;
 
 	private void OnEnable()
 	{
-		_timeLine = GetComponent<PlayableDirector>();
+		_TimeLine = GetComponent<PlayableDirector>();
 
 		StartCoroutine(TimelineCoRoutine());
 	}
 
 	private IEnumerator TimelineCoRoutine()
 	{
-		_timeLine.Play();
+		_TimeLine.Play();
 
 		while(_timeLine.state == PlayState.Playing)
 			yield return null;
