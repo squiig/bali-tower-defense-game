@@ -93,7 +93,7 @@ namespace Game.WaveSystem
 			for (int i = 0; i < legionCount; i++)
 			{
 				int minionCount = _Content[i].MinionCount;
-				Debug.Assert(_PathManager != null, nameof(_PathManager) + " != null");
+				UnityEngine.Debug.Assert(_PathManager != null, nameof(_PathManager) + " != null");
 				int splineBranchIndex = UnityEngine.Random.Range(0, _PathManager.SplineCount);
 				for (int j = 0; j < minionCount; j++)
 				{
