@@ -41,10 +41,6 @@ namespace Game.UI
 		/// </summary>
 		protected virtual void OnEnable()
 		{
-			_DamageInterface = transform.parent.GetComponentInChildren<IDamageable>();
-
-
-			Debug.Assert(_DamageInterface != null);
 			//Check if the interface is null. If it is, then it shouldn't be allowed to go further then this
 			if (_DamageInterface == null)
 			{
