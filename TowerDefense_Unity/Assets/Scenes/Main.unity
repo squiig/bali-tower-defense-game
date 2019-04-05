@@ -3529,8 +3529,8 @@ MonoBehaviour:
   _DrawNormals: 0
   _DrawBiNormals: 0
   _SplineSplineMode: 1
-  _BezierSplineData: {fileID: 11400000, guid: 16b51867f64661e49ab033f1353c1c46, type: 2}
-  _SelectedPointIndex: 6
+  _BezierSplineData: {fileID: 11400000, guid: bae090be9bc4e6442ba28ac3347f6098, type: 2}
+  _SelectedPointIndex: 33
 --- !u!4 &1262920240
 Transform:
   m_ObjectHideFlags: 0
@@ -3539,7 +3539,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1262920238}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -5.8, y: 5.61, z: -0.48}
+  m_LocalPosition: {x: -5.8, y: 4.82, z: -0.48}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
