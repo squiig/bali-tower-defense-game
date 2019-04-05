@@ -19,13 +19,20 @@ namespace Game.SplineSystem
 		protected override void Awake()
 		{
 #if UNITY_EDITOR
-			GameObject sphereParent = new GameObject {name = "SphereParent"};
+			GameObject sphereParent = new GameObject { name = "SphereParent" };
 			sphereParent.transform.parent = transform;
 #endif
 
 			BezierSplineDataObject[] splines = Resources.LoadAll<BezierSplineDataObject>("BackEnd/SplineSystem");
+#if DEBUG
+			if (splines.Length == 0)
+				Debug.LogWarning("No splines found in \"BackEnd/SplineSystem\". Please make sure the scriptable objects are located there.");
+#endif
 			foreach (BezierSplineDataObject spline in splines)
 			{
+				if (!spline.Use)
+					continue;
+
 				Vector3[] evenlySpacedPoints = CalculateEvenlySpacedPoints(spline);
 				_EvenlySpacedSplinePoints.Add(spline, evenlySpacedPoints);
 

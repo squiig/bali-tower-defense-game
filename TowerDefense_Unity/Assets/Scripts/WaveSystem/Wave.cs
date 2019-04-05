@@ -6,6 +6,7 @@ using Game.Entities.MovingEntities;
 using Game.Entities.Interfaces;
 using Game.Entities.EventContainers;
 using UnityEngine;
+using Debug = System.Diagnostics.Debug;
 
 namespace Game.WaveSystem
 {
@@ -86,18 +87,25 @@ namespace Game.WaveSystem
 		private IEnumerator SpawnRoutine()
 		{
 			_State = EState.SPAWNING;
+			int legionCount = _Content.WaveLegionCount;
+			SplineSystem.SplinePathManager _PathManager = MonoBehaviour.FindObjectOfType<SplineSystem.SplinePathManager>();
 
-			int len = _Content.Minions.Count;
-			for (int i = 0; i < len; i++)
+			for (int i = 0; i < legionCount; i++)
 			{
-				Minion minion = MinionPoolController.Instance.ActivateObject(x => x != x.IsConducting());
-				minion.OnDeath += Minion_OnDeath;
-				_ActiveMinions.Add(minion);
-				yield return new WaitForSeconds(_Content.SpawnInterval.GetRandom());
+				int minionCount = _Content[i].MinionCount;
+				UnityEngine.Debug.Assert(_PathManager != null, nameof(_PathManager) + " != null");
+				int splineBranchIndex = UnityEngine.Random.Range(0, _PathManager.SplineCount);
+				for (int j = 0; j < minionCount; j++)
+				{
+					Minion minion = MinionPoolController.Instance.ActivateMinion(x => x != x.IsConducting(), splineBranchIndex);
+					minion.OnDeath += Minion_OnDeath;
+					_ActiveMinions.Add(minion);
+					yield return new WaitForSeconds(_Content[i].SpawnInterval);
+				}
+				yield return new WaitForSeconds(_Content.LegionSpawnInterval.GetRandom());
 			}
 
 			_State = EState.IDLE;
-
 			if (_ActiveMinions.Count <= 0)
 				Stop(false);
 		}
