@@ -42,7 +42,7 @@ namespace Game.UI
 			if(_DamageInterface == null)
 			{
 				Debug.LogError("Please select the Entity Script in the inspector.", this.gameObject);
-				this.enabled = false;
+				//this.enabled = false;
 				return;
 			}
 
