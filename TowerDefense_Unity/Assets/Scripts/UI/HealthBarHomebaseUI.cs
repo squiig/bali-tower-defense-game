@@ -4,22 +4,22 @@ using UnityEngine;
 
 namespace Game.UI
 {
-	public class HealthBarMinionUI : HealthBarBaseUI
+	public class HealthBarHomebaseUI : HealthBarBaseUI
 	{
-		[SerializeField] private Game.Entities.MovingEntities.Minion _MinionScript;
+		[SerializeField] private Game.Entities.Base.HomeBase _HomebaseScript;
 
 		protected override void OnEnable()
 		{
 			//Check if the interface is null. If it is, then it shouldn't be allowed to go further then this
-			if(_MinionScript == null)
+			if(_HomebaseScript == null)
 			{
-				Debug.LogError("Please select the Minion Script in the inspector.", this.gameObject);
+				Debug.LogError("Please select the HomeBase Script in the inspector.", this.gameObject);
 
 				this.enabled = false;
 				return;
 			}
 
-			_DamageInterface = _MinionScript;
+			_DamageInterface = _HomebaseScript;
 
 			base.OnEnable();
 		}

@@ -1,8 +1,6 @@
-using System.Linq;
 using Game.Entities.EventContainers;
 using Game.Entities.Interfaces;
 using UnityEngine;
-
 
 namespace Game.Entities.MovingEntities
 {
@@ -37,7 +35,9 @@ namespace Game.Entities.MovingEntities
 			_SphereCollider.radius = _MaxRange;
 			_SphereCollider.isTrigger = true;
 
-			gameObject.AddComponent<Rigidbody>().useGravity = false;
+			Rigidbody rigidbody = gameObject.AddComponent<Rigidbody>();
+			rigidbody.useGravity = false;
+			rigidbody.constraints = RigidbodyConstraints.FreezeAll;
 		}
 
 		protected override void Update()
