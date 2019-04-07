@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: daf1caf8e5242804dadc026f51c252df, type: 3}
   m_Name: EmptyWave
   m_EditorClassIdentifier: 
-  _Minions: []
-  _SpawnInterval:
+  _WaveLegions:
+  - {fileID: 0}
+  _LegionSpawnInterval:
     _Min: 0
     _Max: 0
