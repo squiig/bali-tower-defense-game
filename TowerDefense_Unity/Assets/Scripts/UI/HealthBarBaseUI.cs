@@ -72,7 +72,7 @@ namespace Game.UI
 			}
 			
 			//Get the collider the get the most acurate bounds
-			_Collider = transform.root.GetComponent<Collider>();
+			_Collider = RecursiveParentFindCollider(transform);
 
 			//Show the health bars
 			ActivateHealthBarUI(true);
@@ -82,6 +82,23 @@ namespace Game.UI
 			//Settings the health bars to their default fill amount
 			_HealthBarHealthLayer.fillAmount = 1;
 			_HealthBarDamageLayer.fillAmount = 0;
+		}
+
+		protected Collider RecursiveParentFindCollider(Transform transform)
+		{
+			Collider collider = transform.GetComponent<Collider>();
+
+			if (collider)
+				return collider;
+
+			if (transform == transform.root)
+			{
+				return null;
+			}
+			else
+			{
+				return RecursiveParentFindCollider(transform.parent);
+			}
 		}
 
 		protected void GetDamageFromEntity(in Entities.Interfaces.IDamageable sender, in Entities.EventContainers.EntityDamaged payload)
