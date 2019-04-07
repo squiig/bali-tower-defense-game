@@ -122,8 +122,8 @@ namespace Game.UI
 			if(_HealthBarRoutine == null)
 				_HealthBarRoutine = StartCoroutine(UpdateHealthBar());
 
-			if (_DamageTextRoutine == null)
-				_DamageTextRoutine = StartCoroutine(ShowFloatingDamageText(damage));
+			//if (_DamageTextRoutine == null)
+			//	_DamageTextRoutine = StartCoroutine(ShowFloatingDamageText(damage));
 		}
 
 		protected IEnumerator UpdateHealthBar()
@@ -146,9 +146,9 @@ namespace Game.UI
 
 			float time = Random.Range(_Collider.bounds.min.x, _Collider.bounds.max.x);
 
-			Debug.Log(_DamageTextObject.GetComponent<MeshRenderer>().bounds.min.x);
-			Debug.Log(_DamageTextObject.GetComponent<MeshRenderer>().bounds.max.x);
-			Debug.Log(time);
+			//Debug.Log(_DamageTextObject.GetComponent<MeshRenderer>().bounds.min.x);
+			//Debug.Log(_DamageTextObject.GetComponent<MeshRenderer>().bounds.max.x);
+			//Debug.Log(time);
 
 			Animator animator = null;
 			Vector2 randomPosition = new Vector2(time, _DamageTextObject.transform.position.y);
