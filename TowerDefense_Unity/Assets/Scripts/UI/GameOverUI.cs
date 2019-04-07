@@ -28,16 +28,8 @@ namespace Game.UI
 
 		private void OnGameOver(GameOverEventArgs eventArgs)
 		{
-			if (eventArgs.HasWon)
-			{
-				_WinTextRenderer.enabled = true;
-				_LoseTextRenderer.enabled = false;
-			}
-			else
-			{
-				_LoseTextRenderer.enabled = true;
-				_WinTextRenderer.enabled = false;
-			}
+			_WinTextRenderer.enabled = eventArgs.HasWon;
+			_LoseTextRenderer.enabled = !eventArgs.HasWon;
 		}
 	}
 }
