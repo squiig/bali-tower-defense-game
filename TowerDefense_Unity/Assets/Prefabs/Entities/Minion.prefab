@@ -49,7 +49,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _MoveSpeed: 5
   _RotationSpeed: 5
-  _MaxHealth: 0
+  _MaxHealth: 100
   _MaxRange: 0
   _AttackPriority: 0
   _MinionAttack: {fileID: 0}
@@ -113,11 +113,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7373164451941745484}
     m_Modifications:
-    - target: {fileID: 8976427504673220606, guid: 7037010f9bbe80848a74e9f10b8e60e3,
-        type: 3}
-      propertyPath: m_Name
-      value: EnemyUI Minion
-      objectReference: {fileID: 0}
     - target: {fileID: 506028968499787338, guid: 7037010f9bbe80848a74e9f10b8e60e3,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -173,10 +168,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5561921320959021272, guid: 7037010f9bbe80848a74e9f10b8e60e3,
+    - target: {fileID: 8976427504673220606, guid: 7037010f9bbe80848a74e9f10b8e60e3,
         type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: -0.036
+      propertyPath: m_Name
+      value: EnemyUI Minion
       objectReference: {fileID: 0}
     - target: {fileID: 1760315373856147813, guid: 7037010f9bbe80848a74e9f10b8e60e3,
         type: 3}
@@ -203,10 +198,20 @@ PrefabInstance:
       propertyPath: _DamageTextObject
       value: 
       objectReference: {fileID: 8571003076282176222}
+    - target: {fileID: 5561921320959021272, guid: 7037010f9bbe80848a74e9f10b8e60e3,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -0.036
+      objectReference: {fileID: 0}
     - target: {fileID: 7046795607277890157, guid: 7037010f9bbe80848a74e9f10b8e60e3,
         type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8148895597826548200, guid: 7037010f9bbe80848a74e9f10b8e60e3,
+        type: 3}
+      propertyPath: m_Mesh
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 994106445223664571, guid: 7037010f9bbe80848a74e9f10b8e60e3,
         type: 3}
@@ -217,11 +222,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_isInputParsingRequired
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8148895597826548200, guid: 7037010f9bbe80848a74e9f10b8e60e3,
-        type: 3}
-      propertyPath: m_Mesh
-      value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7037010f9bbe80848a74e9f10b8e60e3, type: 3}

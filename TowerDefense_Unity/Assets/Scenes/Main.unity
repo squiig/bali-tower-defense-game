@@ -160,26 +160,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _Waves:
-  - {fileID: 11400000, guid: 8f3b0b310a1e6b943aff14beadfee4ec, type: 2}
-  - {fileID: 11400000, guid: 8f3b0b310a1e6b943aff14beadfee4ec, type: 2}
-  - {fileID: 11400000, guid: 8f3b0b310a1e6b943aff14beadfee4ec, type: 2}
-  - {fileID: 11400000, guid: 8f3b0b310a1e6b943aff14beadfee4ec, type: 2}
-  - {fileID: 11400000, guid: 8f3b0b310a1e6b943aff14beadfee4ec, type: 2}
-  - {fileID: 11400000, guid: 8f3b0b310a1e6b943aff14beadfee4ec, type: 2}
-  - {fileID: 11400000, guid: 8f3b0b310a1e6b943aff14beadfee4ec, type: 2}
-  - {fileID: 11400000, guid: 8f3b0b310a1e6b943aff14beadfee4ec, type: 2}
-  - {fileID: 11400000, guid: 8f3b0b310a1e6b943aff14beadfee4ec, type: 2}
-  - {fileID: 11400000, guid: 8f3b0b310a1e6b943aff14beadfee4ec, type: 2}
-  - {fileID: 11400000, guid: 8f3b0b310a1e6b943aff14beadfee4ec, type: 2}
-  - {fileID: 11400000, guid: 8f3b0b310a1e6b943aff14beadfee4ec, type: 2}
-  - {fileID: 11400000, guid: 8f3b0b310a1e6b943aff14beadfee4ec, type: 2}
-  - {fileID: 11400000, guid: 8f3b0b310a1e6b943aff14beadfee4ec, type: 2}
-  - {fileID: 11400000, guid: 8f3b0b310a1e6b943aff14beadfee4ec, type: 2}
-  - {fileID: 11400000, guid: 8f3b0b310a1e6b943aff14beadfee4ec, type: 2}
-  - {fileID: 11400000, guid: 8f3b0b310a1e6b943aff14beadfee4ec, type: 2}
-  - {fileID: 11400000, guid: 8f3b0b310a1e6b943aff14beadfee4ec, type: 2}
-  - {fileID: 11400000, guid: 8f3b0b310a1e6b943aff14beadfee4ec, type: 2}
-  - {fileID: 11400000, guid: 8f3b0b310a1e6b943aff14beadfee4ec, type: 2}
+  - {fileID: 11400000, guid: f2f13bc9984615649805617ba24dfcd6, type: 2}
+  - {fileID: 11400000, guid: f2f13bc9984615649805617ba24dfcd6, type: 2}
+  - {fileID: 11400000, guid: f2f13bc9984615649805617ba24dfcd6, type: 2}
+  - {fileID: 11400000, guid: f2f13bc9984615649805617ba24dfcd6, type: 2}
+  - {fileID: 11400000, guid: f2f13bc9984615649805617ba24dfcd6, type: 2}
+  - {fileID: 11400000, guid: f2f13bc9984615649805617ba24dfcd6, type: 2}
+  - {fileID: 11400000, guid: f2f13bc9984615649805617ba24dfcd6, type: 2}
+  - {fileID: 11400000, guid: f2f13bc9984615649805617ba24dfcd6, type: 2}
+  - {fileID: 11400000, guid: f2f13bc9984615649805617ba24dfcd6, type: 2}
+  - {fileID: 11400000, guid: f2f13bc9984615649805617ba24dfcd6, type: 2}
   _IntermissionTime: 20
 --- !u!114 &16585626
 MonoBehaviour:
