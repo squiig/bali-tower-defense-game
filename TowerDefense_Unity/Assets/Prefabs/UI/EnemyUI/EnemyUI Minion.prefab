@@ -631,9 +631,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03e4f87ad1461544d9ce18708696e546, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _HealthBarMainLayer: {fileID: 0}
-  _HealthBarHealthLayer: {fileID: 0}
-  _HealthBarDamageLayer: {fileID: 0}
+  _HealthBarMainLayer: {fileID: 5126324777058574740}
+  _HealthBarHealthLayer: {fileID: 4399545281152502646}
+  _HealthBarDamageLayer: {fileID: 6730768509952658553}
   _DamageTextObject: {fileID: 0}
   _DecreaseDamageBarSpeed: 0.5
   _CurrentHealth: 0
