@@ -56,7 +56,7 @@ namespace Game.UI
 		{
 			//Checking if all of the health bars that have to be adjusted are known to the script, and if not, stop the script here.
 			//If we don't do this then there will be more errors in the script later
-			if(_HealthBarDamageLayer == null || _HealthBarDamageLayer == null || _HealthBarMainLayer == null || _DamageTextObject == null)
+			if(_HealthBarDamageLayer == null || _HealthBarDamageLayer == null || _HealthBarMainLayer == null/* || _DamageTextObject == null*/)
 			{
 				if(_HealthBarMainLayer == null)
 					Debug.LogError("Please select the Main Health Bar Layer in the inspector.", this.gameObject);
@@ -64,8 +64,8 @@ namespace Game.UI
 					Debug.LogError("Please select the Health Bar Damage Layer in the inspector.", this.gameObject);
 				if(_HealthBarHealthLayer == null)
 					Debug.LogError("Please select the Health Bar Layer in the inspector.", this.gameObject);
-				if (_DamageTextObject == null)
-					Debug.LogError("Please select the Damage Text Object in the inspector", this.gameObject);
+				//if (_DamageTextObject == null)
+				//	Debug.LogError("Please select the Damage Text Object in the inspector", this.gameObject);
 
 				this.enabled = false;
 				return;
@@ -139,8 +139,8 @@ namespace Game.UI
 			if(_HealthBarRoutine == null)
 				_HealthBarRoutine = StartCoroutine(UpdateHealthBar());
 
-			if (_DamageTextRoutine == null)
-				_DamageTextRoutine = StartCoroutine(ShowFloatingDamageText(damage));
+			//if (_DamageTextRoutine == null)
+			//	_DamageTextRoutine = StartCoroutine(ShowFloatingDamageText(damage));
 		}
 
 		protected IEnumerator UpdateHealthBar()
@@ -163,9 +163,9 @@ namespace Game.UI
 
 			float time = Random.Range(_Collider.bounds.min.x, _Collider.bounds.max.x);
 
-			Debug.Log(_DamageTextObject.GetComponent<MeshRenderer>().bounds.min.x);
-			Debug.Log(_DamageTextObject.GetComponent<MeshRenderer>().bounds.max.x);
-			Debug.Log(time);
+			//Debug.Log(_DamageTextObject.GetComponent<MeshRenderer>().bounds.min.x);
+			//Debug.Log(_DamageTextObject.GetComponent<MeshRenderer>().bounds.max.x);
+			//Debug.Log(time);
 
 			Animator animator = null;
 			Vector2 randomPosition = new Vector2(time, _DamageTextObject.transform.position.y);
