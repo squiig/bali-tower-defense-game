@@ -12,10 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: daf1caf8e5242804dadc026f51c252df, type: 3}
   m_Name: TestWave
   m_EditorClassIdentifier: 
-  _Minions:
-  - {fileID: 7373164451941745485, guid: d8fa2642eec5a114b8b5d298eed9ea1f, type: 3}
-  - {fileID: 7373164451941745485, guid: d8fa2642eec5a114b8b5d298eed9ea1f, type: 3}
-  - {fileID: 7373164451941745485, guid: d8fa2642eec5a114b8b5d298eed9ea1f, type: 3}
-  _SpawnInterval:
-    _Min: 1
-    _Max: 2
+  _WaveLegions:
+  - {fileID: 0}
+  - {fileID: 0}
+  _LegionSpawnInterval:
+    _Min: 0
+    _Max: 0
