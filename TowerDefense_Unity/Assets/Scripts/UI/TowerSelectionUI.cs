@@ -1,38 +1,54 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class TowerSelectionUI : MonoBehaviour
 {
-	[SerializeField] private TowerSelectionDataObject[] _TowerSelectionDataObject;
-	[SerializeField] private float _MarginXBetweenTowers;
+	[SerializeField] private Animator _Animator;
+	[SerializeField] private Button _ButtonMenu;
+
+	[SerializeField] private bool _Active;
 
 	private void Awake()
 	{
-		RectTransform previousButton = null;
-
-		for (int i = 0; i < _TowerSelectionDataObject.Length; i++)
+		if (_ButtonMenu == null)
 		{
-			GameObject towerSelection = Instantiate(_TowerSelectionDataObject[i].TowerUIPrefab);
-			//Add the TowerSelectionOptionUI script to the image prefab, since it won't have it at the start
-			TowerSelectionOptionUI towerSelectionOptionUIScript = towerSelection.AddComponent<TowerSelectionOptionUI>();
-			Vector3 newPositionTowerSelectionOption = Vector3.zero;
+			Debug.LogError("Please assign the Button Menu button in the inspector");
 
-			//Add the button component to the image prefab, since it won't have it at the start
-			UnityEngine.UI.Button towerSelectionButton = towerSelection.AddComponent<UnityEngine.UI.Button>();
-
-			//If we have spawned a button before, use his position to determine where the new button must be created
-			if (previousButton != null)
-				newPositionTowerSelectionOption.x = (i * previousButton.sizeDelta.x) + _MarginXBetweenTowers;
-
-			//Reset the object to the local position and scale, and set the new position
-			towerSelection.transform.SetParent(this.transform);
-			towerSelection.transform.localPosition = newPositionTowerSelectionOption;
-
-			//Start the tower selection option and give the prefab from the Data Object to him and the button component
-			towerSelectionOptionUIScript.Initialize(_TowerSelectionDataObject[i].TowerPrefab, towerSelectionButton);
-
-			previousButton = towerSelection.GetComponent<RectTransform>();
+			this.enabled = false;
+			return;
 		}
+
+		_Animator = GetComponent<Animator>();
+
+		_Active = false;
+		SetButtonOnClickState();
 	}
+
+	#region Animation Events
+	public void SetButtonOnClickState()
+	{
+		//Reset the onClick from the buttons
+		_ButtonMenu.onClick.RemoveAllListeners();
+
+		//Has the Tower Selection UI been activated yet? If so, set the right onCLick event to the button
+		if(_Active)
+			_ButtonMenu.onClick.AddListener(DeactivateTowerSelectionUI);
+		else if (!_Active)
+			_ButtonMenu.onClick.AddListener(ActivateTowerSelectionUI);
+	}
+
+	public void ActivateTowerSelectionUI()
+	{
+		_Animator.SetTrigger("FadeIn");
+		_Animator.SetBool("Active", true);
+
+		_Active = true;
+	}
+	public void DeactivateTowerSelectionUI()
+	{
+		_Animator.SetBool("Active", false);
+
+		_Active = false;
+	}
+	#endregion
 }
