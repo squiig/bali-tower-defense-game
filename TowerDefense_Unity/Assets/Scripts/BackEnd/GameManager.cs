@@ -17,6 +17,7 @@ namespace Game
 		private WaveManager _WaveManager;
 
 		[SerializeField] private string _TouchToStartScene = null;
+		[SerializeField] private string _GameOverOverlayScene = null;
 		[SerializeField] private HomeBase _HomeBase = null;
 
 		protected override void OnEnable()
@@ -25,6 +26,11 @@ namespace Game
 			_WaveManager = WaveManager.Instance;
 			_WaveManager.WaveEnded += WaveManager_WaveEnded;
 			_HomeBase.OnDeath += _HomeBase_OnDeath;
+		}
+
+		private void Start()
+		{
+			SceneManager.LoadScene(_GameOverOverlayScene, LoadSceneMode.Additive);
 		}
 
 		private void _HomeBase_OnDeath(in IDamageable sender, in EntityDamaged payload)
