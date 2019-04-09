@@ -14,7 +14,6 @@ namespace Game.Entities.Base
 		public event TypedEventHandler<IDamageable, EntityDamaged> OnHit;
 		public event TypedEventHandler<IDamageable, EntityDamaged> OnDeath;
 
-		public override Vector3 GetLocation() => transform.position;
 		public int GetPriority() => int.MaxValue;
 		public Allegiance GetAllegiance() => Allegiance.FRIENDLY;
 		public Entity GetEntity() => this;
