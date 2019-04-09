@@ -15,7 +15,7 @@ namespace Game
 		public GameOverEventArgs(List<Wave> completedWaves)
 		{
 			CompletedWaves = completedWaves ?? WaveManager.Instance.CompletedWaves;
-			HasWon = WaveManager.Instance.TotalWaveCount == completedWaves.Count;
+			HasWon = WaveManager.Instance.TotalWaveCount == CompletedWaves.Count;
 		}
 	}
 }
