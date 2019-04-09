@@ -1,8 +1,12 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Game.WaveSystem;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using Game.WaveSystem;
+using Game.Entities.Base;
+using Game.Entities.Interfaces;
+using Game.Entities.EventContainers;
 
 namespace Game
 {
@@ -12,11 +16,26 @@ namespace Game
 
 		private WaveManager _WaveManager;
 
+		[SerializeField] private string _TouchToStartScene = null;
+		[SerializeField] private HomeBase _HomeBase = null;
+
 		protected override void OnEnable()
 		{
 			base.OnEnable();
 			_WaveManager = WaveManager.Instance;
 			_WaveManager.WaveEnded += WaveManager_WaveEnded;
+			_HomeBase.OnDeath += _HomeBase_OnDeath;
+		}
+
+		private void _HomeBase_OnDeath(in IDamageable sender, in EntityDamaged payload)
+		{
+			OnGameOver();
+		}
+
+		private void WaveManager_WaveEnded(in WaveManager sender, in WaveEventArgs payload)
+		{
+			if (payload.IsLastWave)
+				OnGameOver();
 		}
 
 		protected override void OnDisable()
@@ -29,18 +48,19 @@ namespace Game
 			_WaveManager.WaveEnded -= WaveManager_WaveEnded;
 		}
 
-		private void WaveManager_WaveEnded(in WaveManager sender, in WaveEventArgs payload)
+		private void OnGameOver(List<Wave> completedWaves = null)
 		{
-			if (payload.IsLastWave)
-			{
-				OnGameOver(sender.CompletedWaves);
-			}
+			GameOver?.Invoke(new GameOverEventArgs(completedWaves));
 		}
 
-		private void OnGameOver(List<Wave> completedWaves)
+		public void RestartGame()
 		{
-			bool hasWon = WaveManager.Instance.TotalWaveCount == completedWaves.Count;
-			GameOver?.Invoke(new GameOverEventArgs(completedWaves, hasWon));
+			SceneManager.LoadScene(_TouchToStartScene);
+		}
+
+		public void EndGame(List<Wave> completedWaves = null)
+		{
+			OnGameOver(completedWaves);
 		}
 	}
 }
