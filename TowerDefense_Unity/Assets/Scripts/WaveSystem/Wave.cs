@@ -3,53 +3,72 @@ using System.Collections;
 using System.Collections.Generic;
 using Game.Entities;
 using Game.Entities.MovingEntities;
+using Game.Entities.Interfaces;
+using Game.Entities.EventContainers;
 using UnityEngine;
+using Debug = System.Diagnostics.Debug;
 
 namespace Game.WaveSystem
 {
 	public class Wave
 	{
-		public event Action<Wave> Started;
-		public event Action<Wave> Ended;
+		public event Action<Wave> HasStarted;
+		public event Action<Wave> HasEnded;
 
 		private bool _IsActive;
 		private WaveManager _WaveManager;
 		private int _Index;
 		private WaveContent _Content;
-		private Coroutine _SpawningCoroutine;
+		private Coroutine _SpawnRoutine;
 		private List<Minion> _ActiveMinions;
 
+		public enum EState
+		{
+			UNSTARTED = 0,
+			SPAWNING,
+			IDLE,
+			FINISHED
+		}
+
+		private EState _State;
+
+		public EState State => _State;
+
 		public bool IsActive => _IsActive;
+		public bool IsSpawning => _SpawnRoutine != null;
 		public int Index => _Index;
 		public WaveContent Content => _Content;
 		public List<Minion> ActiveMinions => _ActiveMinions;
-		public bool IsSpawning => _SpawningCoroutine != null;
 
-		public Wave(int index, WaveContent data)
+		public Wave(int index, WaveContent content)
 		{
 			_Index = index;
-			_Content = data;
+			_Content = content;
+			_State = EState.UNSTARTED;
 		}
 
 		/// <summary>
 		/// Use this to start spawning the minions and await their gruesome but ultimate death.
 		/// </summary>
-		/// <param name="waveManager"></param>
+		/// <param name="waveManager">The wave manager to run the coroutine on.</param>
 		public void Start(WaveManager waveManager)
 		{
+			_IsActive = true;
 			_ActiveMinions = new List<Minion>();
-			_SpawningCoroutine = waveManager.StartCoroutine(SpawnRoutine());
-			OnStarted();
+			OnHasStarted();
+
+			_SpawnRoutine = waveManager.StartCoroutine(SpawnRoutine());
 		}
 
 		/// <summary>
 		/// Use this to force stop the wave.
 		/// </summary>
+		/// <param name="killRemaining">Should all the remaining minions belonging to this wave be killed instantly?</param>
 		public void Stop(bool killRemaining)
 		{
 			if (IsSpawning)
 			{
-				_WaveManager.StopCoroutine(_SpawningCoroutine);
+				_WaveManager.StopCoroutine(_SpawnRoutine);
 			}
 
 			if (killRemaining)
@@ -60,41 +79,57 @@ namespace Game.WaveSystem
 				}
 			}
 
-			OnEnded();
+			_IsActive = false;
+
+			OnHasEnded();
 		}
 
 		private IEnumerator SpawnRoutine()
 		{
-			int len = _Content.Minions.Count;
-			for (int i = 0; i < len; i++)
+			_State = EState.SPAWNING;
+			int legionCount = _Content.WaveLegionCount;
+			SplineSystem.SplinePathManager _PathManager = MonoBehaviour.FindObjectOfType<SplineSystem.SplinePathManager>();
+
+			for (int i = 0; i < legionCount; i++)
 			{
-				Minion minion = MinionPoolController.Instance.ActivateObject(x => x != x.IsConducting());
-				minion.OnDeath += Minion_OnDeath;
-				_ActiveMinions.Add(minion);
-				yield return new WaitForSeconds(_Content.SpawnInterval.GetRandom());
+				int minionCount = _Content[i].MinionCount;
+				UnityEngine.Debug.Assert(_PathManager != null, nameof(_PathManager) + " != null");
+				int splineBranchIndex = UnityEngine.Random.Range(0, _PathManager.SplineCount);
+				for (int j = 0; j < minionCount; j++)
+				{
+					Minion minion = MinionPoolController.Instance.ActivateMinion(x => x != x.IsConducting(), splineBranchIndex);
+					minion.OnDeath += Minion_OnDeath;
+					_ActiveMinions.Add(minion);
+					yield return new WaitForSeconds(_Content[i].SpawnInterval);
+				}
+				yield return new WaitForSeconds(_Content.LegionSpawnInterval.GetRandom());
 			}
+
+			_State = EState.IDLE;
+			if (_ActiveMinions.Count <= 0)
+				Stop(false);
 		}
 
-		protected virtual void Minion_OnDeath(in Entities.Interfaces.IDamageable sender, in Entities.EventContainers.EntityDamaged payload)
+		protected virtual void Minion_OnDeath(in IDamageable sender, in EntityDamaged payload)
 		{
 			// Reward
 			ResourceSystem.Instance.RunTransaction(10);
-
-			// End the wave if there are no minions left
+			
 			if (_ActiveMinions.Count <= 0)
-				OnEnded();
+			{
+				_State = EState.FINISHED;
+				OnHasEnded();
+			}
 		}
 
-		protected virtual void OnStarted()
+		protected virtual void OnHasStarted()
 		{
-			_IsActive = true;
-			Started?.Invoke(this);
+			HasStarted?.Invoke(this);
 		}
 
-		protected virtual void OnEnded()
+		protected virtual void OnHasEnded()
 		{
-			_IsActive = false;
-			Ended?.Invoke(this);
+			HasEnded?.Invoke(this);
 		}
 	}
 }

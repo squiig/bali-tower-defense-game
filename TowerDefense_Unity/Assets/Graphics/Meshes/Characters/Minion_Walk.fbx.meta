@@ -1,0 +1,234 @@
+fileFormatVersion: 2
+guid: 021e8fe01039b254c8b92d7e48652333
+ModelImporter:
+  serializedVersion: 23
+  fileIDToRecycleName:
+    100000: CTRL_LeftFoot
+    100002: CTRL_RightFoot
+    100004: CTRL_Root
+    100006: Head
+    100008: Hip
+    100010: ikHandle1
+    100012: ikHandle2
+    100014: ikHandle3
+    100016: ikHandle4
+    100018: jaw
+    100020: L_Ankle
+    100022: L_Elbow
+    100024: L_Eye
+    100026: L_EyeLid
+    100028: L_EyelidTip
+    100030: L_Finger
+    100032: L_Hand
+    100034: L_Hip
+    100036: L_Knee
+    100038: L_Shoulder
+    100040: L_Toe
+    100042: L_Wrist
+    100044: Lip
+    100046: Lower_Back
+    100048: Lower_beard
+    100050: Mid_Beard
+    100052: Minion
+    100054: //RootNode
+    100056: Neck
+    100058: nurbsCircle3
+    100060: nurbsCircle7
+    100062: R_Ankle
+    100064: R_Elbow
+    100066: R_Eye
+    100068: R_EyeLid
+    100070: R_EyeLidTip
+    100072: R_Finger
+    100074: R_Hand
+    100076: R_Hip
+    100078: R_Knee
+    100080: R_Shoulder
+    100082: R_Toe
+    100084: R_Wrist
+    100086: Root
+    100088: Shoulder
+    100090: Tail_Base
+    100092: Tail_Lower
+    100094: Tail_mid
+    100096: Tail_Tip
+    100098: Upper_Back
+    100100: Upper_Beard
+    400000: CTRL_LeftFoot
+    400002: CTRL_RightFoot
+    400004: CTRL_Root
+    400006: Head
+    400008: Hip
+    400010: ikHandle1
+    400012: ikHandle2
+    400014: ikHandle3
+    400016: ikHandle4
+    400018: jaw
+    400020: L_Ankle
+    400022: L_Elbow
+    400024: L_Eye
+    400026: L_EyeLid
+    400028: L_EyelidTip
+    400030: L_Finger
+    400032: L_Hand
+    400034: L_Hip
+    400036: L_Knee
+    400038: L_Shoulder
+    400040: L_Toe
+    400042: L_Wrist
+    400044: Lip
+    400046: Lower_Back
+    400048: Lower_beard
+    400050: Mid_Beard
+    400052: Minion
+    400054: //RootNode
+    400056: Neck
+    400058: nurbsCircle3
+    400060: nurbsCircle7
+    400062: R_Ankle
+    400064: R_Elbow
+    400066: R_Eye
+    400068: R_EyeLid
+    400070: R_EyeLidTip
+    400072: R_Finger
+    400074: R_Hand
+    400076: R_Hip
+    400078: R_Knee
+    400080: R_Shoulder
+    400082: R_Toe
+    400084: R_Wrist
+    400086: Root
+    400088: Shoulder
+    400090: Tail_Base
+    400092: Tail_Lower
+    400094: Tail_mid
+    400096: Tail_Tip
+    400098: Upper_Back
+    400100: Upper_Beard
+    2100000: Demons_mat
+    2300000: Minion
+    3300000: Minion
+    4300000: Minion
+    7400000: Walk
+    9500000: //RootNode
+    13700000: Minion
+    7973541674914708964: ikHandle3
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Demons_mat
+    second: {fileID: 2100000, guid: a5fea84a336a7b94d9af176f9f43fb98, type: 2}
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 1
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: Walk
+      takeName: Take 001
+      firstFrame: 1
+      lastFrame: 120
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 2
+    meshCompression: 0
+    addColliders: 0
+    useSRGBMaterialColor: 1
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+    previousCalculatedGlobalScale: 0.01
+    hasPreviousCalculatedGlobalScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: Root
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

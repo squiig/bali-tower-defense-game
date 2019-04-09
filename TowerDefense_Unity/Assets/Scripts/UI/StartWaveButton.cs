@@ -9,10 +9,15 @@ namespace Game.UI
 	[RequireComponent(typeof(Button)), DisallowMultipleComponent]
 	public class StartWaveButton : MonoBehaviour
 	{
+	 	[SerializeField] private CanvasGroup _CanvasGroup;
+
 		private Button _Button;
 
 		private void Awake()
 		{
+			if (_CanvasGroup == null)
+				_CanvasGroup = GetComponent<CanvasGroup>();
+
 			_Button = GetComponent<Button>();
 		}
 
@@ -28,7 +33,14 @@ namespace Game.UI
 
 		private void OnButtonPressed()
 		{
+			Deactivate();
 			WaveManager.Instance.StartNextWave();
+		}
+
+		private void Deactivate()
+		{
+			_CanvasGroup.alpha = 0f;
+			_Button.interactable = false;
 		}
 	}
 }

@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Game.UI
 {
-	public class HealthBarDebugUI : HealthBarParentUI
+	public class HealthBarDebugUI : HealthBarBaseUI
 	{
 		private void Start()
 		{

@@ -1,9 +1,8 @@
-﻿namespace Game.Entities.Interfaces
+namespace Game.Entities.Interfaces
 {
     public enum Allegiance
 	{
 		ENEMY,
 		FRIENDLY
 	}
-
 }

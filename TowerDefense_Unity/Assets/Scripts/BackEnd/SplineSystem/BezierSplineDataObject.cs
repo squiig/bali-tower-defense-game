@@ -10,9 +10,12 @@ namespace Game.SplineSystem
 	[CreateAssetMenu(fileName = "new BezierSpline", menuName = "Bezier Spline", order = 0)]
 	public class BezierSplineDataObject : ScriptableObject
 	{
+		[SerializeField] private bool _Use = true;
 		[SerializeField] private Vector3 _Position = Vector3.zero;
 		[SerializeField] private bool _IsClosed;
 		[SerializeField] private List<Vector3> _Points = new List<Vector3>();
+
+		public bool Use => _Use;
 
 		public Vector3 this[int i]
 		{

@@ -1,4 +1,4 @@
-﻿namespace Game.Entities.Interfaces
+namespace Game.Entities.Interfaces
 {
 	/// <summary>
 	/// Interface representing all entities that attack.
@@ -29,17 +29,3 @@
 		IAttack GetAttack();
 	}
 }
-
-// AoE:
-// - Position
-// - Allegiance
-// - Range
-// AoE aggressor
-// - Attack
-
-// Single target
-// - Target
-// Single target Aggressor
-// - Attack
-// - Target
-// - Range
