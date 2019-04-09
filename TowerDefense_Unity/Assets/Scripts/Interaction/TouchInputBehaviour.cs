@@ -29,7 +29,7 @@ namespace Game.Interaction
 
 
 #if UNITY_EDITOR
-		[SerializeField] private bool _UseMouseInput = false;
+		[SerializeField] private bool _UseMouseInput = true;
 		[SerializeField] private bool _UseKeyboardInput = false;
 
 		private Vector2 _PreviousMousePosition;
