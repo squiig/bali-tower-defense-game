@@ -12,7 +12,7 @@ public class TowerSelectionUI : MonoBehaviour
 	{
 		if (_ButtonMenu == null)
 		{
-			Debug.LogError("Please assing the Button Menu button in the inspector");
+			Debug.LogError("Please assign the Button Menu button in the inspector");
 
 			this.enabled = false;
 			return;
