@@ -1,22 +1,16 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using Game.Interaction;
 
 public class TowerSelectionOptionUI : MonoBehaviour
 {
 	[SerializeField] private GameObject _PrefabToSpawnOnSelection;
-	private UnityEngine.UI.Button _TowerSelectionOptionUIButton;
 
-	/// <summary>
-	/// Initialize the Tower Selection Option
-	/// </summary>
-	/// <param name="prefabToSpawn">The</param>
-	/// <param name="towerSelectionOptionUIButton">The button component from this object</param>
-	public void Initialize(GameObject prefabToSpawn, UnityEngine.UI.Button towerSelectionOptionUIButton)
+	private Button _TowerSelectionOptionUIButton;
+
+	private void OnEnable()
 	{
-		_PrefabToSpawnOnSelection = prefabToSpawn;
-		_TowerSelectionOptionUIButton = towerSelectionOptionUIButton;
-
+		_TowerSelectionOptionUIButton = transform.GetComponentInChildren<Button>();
 		_TowerSelectionOptionUIButton.onClick.AddListener(OnTowerUIPress);
 	}
 
@@ -27,6 +21,6 @@ public class TowerSelectionOptionUI : MonoBehaviour
 
 	public void OnTowerUIPress()
 	{
-		Game.Interaction.TowerBuildSelection.Instance.SetTowerSelected(_PrefabToSpawnOnSelection);
+		TowerBuildSelection.Instance.SetTowerSelected(_PrefabToSpawnOnSelection);
 	}
 }
