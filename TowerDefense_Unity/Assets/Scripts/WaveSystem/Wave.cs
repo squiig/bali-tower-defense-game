@@ -7,6 +7,7 @@ using Game.Entities.Interfaces;
 using Game.Entities.EventContainers;
 using UnityEngine;
 using Debug = System.Diagnostics.Debug;
+using Object = UnityEngine.Object;
 
 namespace Game.WaveSystem
 {
@@ -67,20 +68,15 @@ namespace Game.WaveSystem
 		public void Stop(bool killRemaining)
 		{
 			if (IsSpawning)
-			{
 				_WaveManager.StopCoroutine(_SpawnRoutine);
-			}
 
 			if (killRemaining)
 			{
 				foreach (Minion minion in _ActiveMinions)
-				{
 					minion.Kill();
-				}
 			}
 
 			_IsActive = false;
-
 			OnHasEnded();
 		}
 
@@ -88,21 +84,23 @@ namespace Game.WaveSystem
 		{
 			_State = EState.SPAWNING;
 			int legionCount = _Content.WaveLegionCount;
-			SplineSystem.SplinePathManager _PathManager = MonoBehaviour.FindObjectOfType<SplineSystem.SplinePathManager>();
 
-			for (int i = 0; i < legionCount; i++)
+			SplineSystem.SplinePathManager pathManager = Object.FindObjectOfType<SplineSystem.SplinePathManager>();
+			if (pathManager != null)
 			{
-				int minionCount = _Content[i].MinionCount;
-				UnityEngine.Debug.Assert(_PathManager != null, nameof(_PathManager) + " != null");
-				int splineBranchIndex = UnityEngine.Random.Range(0, _PathManager.SplineCount);
-				for (int j = 0; j < minionCount; j++)
+				for (int i = 0; i < legionCount; i++)
 				{
-					Minion minion = MinionPoolController.Instance.ActivateMinion(x => x != x.IsConducting(), splineBranchIndex);
-					minion.OnDeath += Minion_OnDeath;
-					_ActiveMinions.Add(minion);
-					yield return new WaitForSeconds(_Content[i].SpawnInterval);
+					int minionCount = _Content[i].MinionCount;
+					int splineBranchIndex = UnityEngine.Random.Range(0, pathManager.SplineCount);
+					for (int j = 0; j < minionCount; j++)
+					{
+						Minion minion = MinionPoolController.Instance.ActivateMinion(x => x != x.IsConducting(), splineBranchIndex);
+						minion.OnDeath += Minion_OnDeath;
+						_ActiveMinions.Add(minion);
+						yield return new WaitForSeconds(_Content[i].SpawnInterval);
+					}
+					yield return new WaitForSeconds(_Content.LegionSpawnInterval.GetRandom());
 				}
-				yield return new WaitForSeconds(_Content.LegionSpawnInterval.GetRandom());
 			}
 
 			_State = EState.IDLE;
@@ -112,14 +110,14 @@ namespace Game.WaveSystem
 
 		protected virtual void Minion_OnDeath(in IDamageable sender, in EntityDamaged payload)
 		{
-			// Reward
+			sender.OnDeath -= Minion_OnDeath;
 			ResourceSystem.Instance.RunTransaction(10);
-			
-			if (_ActiveMinions.Count <= 0)
-			{
-				_State = EState.FINISHED;
-				OnHasEnded();
-			}
+
+			if (_ActiveMinions.Count > 0)
+				return;
+
+			_State = EState.FINISHED;
+			OnHasEnded();
 		}
 
 		protected virtual void OnHasStarted()
