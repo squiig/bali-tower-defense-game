@@ -27,6 +27,7 @@ namespace Game.WaveSystem
 
 		private Queue<Wave> _WaitingWaves;
 		private List<Wave> _ActiveWaves;
+		private List<Wave> _CompletedWaves;
 
 		private int _CurrentWaveIndex = 0;
 		private float _IntermissionTimer = 0;
@@ -37,6 +38,7 @@ namespace Game.WaveSystem
 		public int CurrentWaveIndex => _CurrentWaveIndex;
 		public float IntermissionTimeLeft => _IntermissionTimer;
 		public List<Wave> ActiveWaves => _ActiveWaves;
+		public List<Wave> CompletedWaves => _CompletedWaves;
 		public Wave NewestWave => ActiveWaves.Count > 0 ? ActiveWaves[ActiveWaves.Count - 1] : null;
 		public Wave NextWave => _WaitingWaves.Peek();
 
@@ -62,6 +64,7 @@ namespace Game.WaveSystem
 		{
 			_WaitingWaves = new Queue<Wave>();
 			_ActiveWaves = new List<Wave>();
+			_CompletedWaves = new List<Wave>();
 
 			if (_Waves == null)
 				return;
@@ -124,16 +127,17 @@ namespace Game.WaveSystem
 		{
 			wave.HasEnded -= OnWaveEnded;
 			_ActiveWaves.Remove(wave);
+			_CompletedWaves.Add(wave);
 
 			bool isLastWave = _WaitingWaves.Count <= 0;
 
 			WaveEventArgs payload = new WaveEventArgs(wave, isLastWave);
 			WaveEnded?.Invoke(this, payload);
 
-			if (!isLastWave)
-				StartIntermission();
-			else
+			if (isLastWave)
 				_State = EState.INACTIVE;
+			else
+				StartIntermission();
 		}
 
 		protected virtual void OnIntermissionStarted(in WaveManager waveManager, in IntermissionEventArgs payload)

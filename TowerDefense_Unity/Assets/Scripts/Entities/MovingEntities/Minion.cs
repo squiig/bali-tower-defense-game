@@ -35,9 +35,9 @@ namespace Game.Entities.MovingEntities
 			_SphereCollider.radius = _MaxRange;
 			_SphereCollider.isTrigger = true;
 
-			Rigidbody rigidbody = gameObject.AddComponent<Rigidbody>();
-			rigidbody.useGravity = false;
-			rigidbody.constraints = RigidbodyConstraints.FreezeAll;
+			//Rigidbody rigidbody = gameObject.AddComponent<Rigidbody>();
+			//rigidbody.useGravity = true;
+			//rigidbody.constraints = RigidbodyConstraints.FreezeAll;
 		}
 
 		protected override void Update()

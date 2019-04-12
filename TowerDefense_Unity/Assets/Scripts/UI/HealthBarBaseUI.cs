@@ -63,8 +63,6 @@ namespace Game.UI
 					Debug.LogError("Please select the Health Bar Damage Layer in the inspector.", this.gameObject);
 				if(_HealthBarHealthLayer == null)
 					Debug.LogError("Please select the Health Bar Layer in the inspector.", this.gameObject);
-				//if (_DamageTextObject == null)
-				//	Debug.LogError("Please select the Damage Text Object in the inspector", this.gameObject);
 
 				this.enabled = false;
 				return;
@@ -123,13 +121,13 @@ namespace Game.UI
 			float newHealth = _CurrentHealth -= damage;
 
 			//Set the new x position of the health bar where it will be moved to
-			healthBarDamagePosition.x = (_HealthBarHealthLayer.rectTransform.sizeDelta.x / 100) * newHealth;
+			healthBarDamagePosition.x = (_HealthBarHealthLayer.rectTransform.sizeDelta.x / _MaxHealth) * newHealth;
 			//Apply it onto the actual position of the damage health bar
 			_HealthBarDamageLayer.transform.localPosition = healthBarDamagePosition;
 			//Change the fill amount from the damage health bar so it can start it's *animation*
-			_HealthBarDamageLayer.fillAmount = _HealthBarHealthLayer.fillAmount - (newHealth / 100);
+			_HealthBarDamageLayer.fillAmount = _HealthBarHealthLayer.fillAmount - (newHealth / _MaxHealth);
 			//Change the Health Bars fill amount behind the damage health bar
-			_HealthBarHealthLayer.fillAmount = newHealth / 100;
+			_HealthBarHealthLayer.fillAmount = newHealth / _MaxHealth;
 
 			//Update the current health to the new health
 			_CurrentHealth = newHealth;
@@ -137,9 +135,6 @@ namespace Game.UI
 			//Start the animation of the damage health bar through a Coroutine if it isn't running already
 			if(_HealthBarRoutine == null)
 				_HealthBarRoutine = StartCoroutine(UpdateHealthBar());
-
-			//if (_DamageTextRoutine == null)
-			//	_DamageTextRoutine = StartCoroutine(ShowFloatingDamageText(damage));
 		}
 
 		protected IEnumerator UpdateHealthBar()

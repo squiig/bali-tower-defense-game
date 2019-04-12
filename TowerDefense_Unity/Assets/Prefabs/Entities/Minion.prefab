@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 7373164451941745485}
   - component: {fileID: 7364521763725478458}
   - component: {fileID: 478953006072472640}
+  - component: {fileID: 4322658037653074980}
   m_Layer: 0
   m_Name: Minion
   m_TagString: Untagged
@@ -49,7 +50,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _MoveSpeed: 5
   _RotationSpeed: 5
-  _MaxHealth: 0
+  _MaxHealth: 100
   _MaxRange: 0
   _AttackPriority: 0
   _MinionAttack: {fileID: 0}
@@ -106,6 +107,22 @@ CapsuleCollider:
   m_Height: 2.1440876
   m_Direction: 1
   m_Center: {x: 0, y: 1.0904044, z: 0}
+--- !u!54 &4322658037653074980
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7373164451941745490}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 112
+  m_CollisionDetection: 0
 --- !u!1001 &1673490404143577267
 PrefabInstance:
   m_ObjectHideFlags: 0
