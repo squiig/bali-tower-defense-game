@@ -64,6 +64,7 @@ namespace Game.WaveSystem
 		{
 			_WaitingWaves = new Queue<Wave>();
 			_ActiveWaves = new List<Wave>();
+			_CompletedWaves = new List<Wave>();
 
 			if (_Waves == null)
 				return;

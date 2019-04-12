@@ -1,5 +1,8 @@
-using UnityEngine;
+using System.Collections.Generic;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using UnityEngine;
+
 
 namespace Game.Interaction
 {
@@ -26,7 +29,7 @@ namespace Game.Interaction
 
 
 #if UNITY_EDITOR
-		[SerializeField] private bool _UseMouseInput = false;
+		[SerializeField] private bool _UseMouseInput = true;
 		[SerializeField] private bool _UseKeyboardInput = false;
 
 		private Vector2 _PreviousMousePosition;
@@ -35,7 +38,7 @@ namespace Game.Interaction
 		{
 			_CurrentCamera = Camera.main;
 		}
-
+		 
 		private void Update()
 		{
 #if UNITY_EDITOR
@@ -70,8 +73,9 @@ namespace Game.Interaction
 					continue;
 				OnTap?.Invoke();
 
-				if (!ShootRay(touches[i].position))
-					OnDeselect?.Invoke();
+				if (!ShootGraphicsRays(Input.mousePosition))
+					if (!ShootPhysicsRay(touches[i].position))
+						OnDeselect?.Invoke();
 			}
 
 			if (touches.Length == 1)
@@ -89,7 +93,6 @@ namespace Game.Interaction
 				if (Mathf.Abs(delta) > _PinchThreshold)
 				{
 					SetCurrentState(TouchInputState.PINCHING);
-
 				}
 			}
 		}
@@ -123,10 +126,28 @@ namespace Game.Interaction
 			_CurrentState = state;
 		}
 
-		private bool ShootRay(Vector2 screenposition)
+		private bool ShootGraphicsRays(Vector2 screenPosition)
+		{
+			PointerEventData data = new PointerEventData(null);
+			data.position = screenPosition;
+
+			// heavy? yes, very dynamic? also yes!
+			GraphicRaycaster[] graphicRaycaster = FindObjectsOfType<GraphicRaycaster>();
+
+			for (int i = 0; i < graphicRaycaster.Length; i++)
+			{
+				List<RaycastResult> results = new List<RaycastResult>();
+				graphicRaycaster[i].Raycast(data, results);
+				if (results.Count > 0)
+					return true;
+			}
+			return false;
+		}
+
+		private bool ShootPhysicsRay(Vector2 screenPosition)
 		{
 			bool success = false;
-			Ray ray = _CurrentCamera.ScreenPointToRay(screenposition);
+			Ray ray = _CurrentCamera.ScreenPointToRay(screenPosition);
 			if (Physics.Raycast(ray, out RaycastHit hit))
 			{
 				ITappable[] tappables = hit.collider.GetComponentsInChildren<ITappable>();
@@ -212,7 +233,9 @@ namespace Game.Interaction
 			if (Input.GetMouseButtonDown(0))
 			{
 				OnTap?.Invoke();
-				if (!ShootRay(Input.mousePosition))
+
+				if (!ShootGraphicsRays(Input.mousePosition))
+				if (!ShootPhysicsRay(Input.mousePosition))
 				{
 					OnDeselect?.Invoke();
 				}

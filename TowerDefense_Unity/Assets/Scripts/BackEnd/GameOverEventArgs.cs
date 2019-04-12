@@ -12,10 +12,10 @@ namespace Game
 
 		public readonly bool HasWon;
 
-		public GameOverEventArgs(List<Wave> completedWaves, bool hasWon)
+		public GameOverEventArgs(List<Wave> completedWaves)
 		{
-			CompletedWaves = completedWaves;
-			HasWon = hasWon;
+			CompletedWaves = completedWaves ?? WaveManager.Instance.CompletedWaves;
+			HasWon = WaveManager.Instance.TotalWaveCount == CompletedWaves.Count;
 		}
 	}
 }
