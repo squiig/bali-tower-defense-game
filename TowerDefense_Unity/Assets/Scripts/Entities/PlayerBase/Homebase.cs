@@ -7,37 +7,18 @@ using UnityEngine;
 
 namespace Game.Entities.Base
 {
-	public class HomeBase : Entity, IDamageable, IPoolable
+	public class HomeBase : Entity, IDamageable
 	{
 		[SerializeField] private float _Health;
 
-		public bool IsConducting() => true;
-
-		public void Activate()
-		{
-			throw new System.NotImplementedException();
-		}
-
-		public void ReleaseOwnership()
-		{
-			throw new System.NotImplementedException();
-		}
-
 		public event TypedEventHandler<IDamageable, EntityDamaged> OnHit;
 		public event TypedEventHandler<IDamageable, EntityDamaged> OnDeath;
-
-		public Vector3 GetPosition() => transform.position;
 
 		public int GetPriority() => int.MaxValue;
 
 		public Allegiance GetAllegiance() => Allegiance.FRIENDLY;
 
 		public Entity GetEntity() => this;
-
-		private void Awake()
-		{
-			MemoryObjectPool<IPoolable>.Instance.Add(this);
-		}
 
 		/// <inheritdoc />
 		/// <summary>
