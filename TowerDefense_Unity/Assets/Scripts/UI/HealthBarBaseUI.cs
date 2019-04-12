@@ -11,13 +11,12 @@ namespace Game.UI
 		[SerializeField] protected Image _HealthBarHealthLayer;
 		[SerializeField] protected Image _HealthBarDamageLayer;
 
-		[SerializeField] protected GameObject _DamageTextObject;
+		protected GameObject _DamageTextObject;
 
 		[SerializeField] protected float _DecreaseDamageBarSpeed = .5f;
 
-		[Header("Debug Variables (set by script):")]
-		[SerializeField] protected float _CurrentHealth;
-		[SerializeField] protected float _MaxHealth;
+		protected float _CurrentHealth;
+		protected float _MaxHealth;
 
 		protected Entities.Interfaces.IDamageable _DamageInterface;
 
