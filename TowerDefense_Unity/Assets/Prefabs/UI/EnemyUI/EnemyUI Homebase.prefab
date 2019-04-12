@@ -409,7 +409,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7283238371247476180}
-  - component: {fileID: 5203809267900494888}
+  - component: {fileID: 4751310869371819263}
   m_Layer: 0
   m_Name: EnemyUI Homebase
   m_TagString: Untagged
@@ -433,7 +433,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5203809267900494888
+--- !u!114 &4751310869371819263
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -442,16 +442,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 6256354221998282498}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 04e4e4e742211ef4a8d85121e8e552c2, type: 3}
+  m_Script: {fileID: 11500000, guid: f9e5f9b81b55f9b45aa1b02785c32c10, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _HealthBarMainLayer: {fileID: 5044570785202682932}
-  _HealthBarHealthLayer: {fileID: 2934041829412862056}
+  _HealthBarHealthLayer: {fileID: 4465258291114754387}
   _HealthBarDamageLayer: {fileID: 2934041829412862056}
-  _DamageTextObject: {fileID: 4467063612232183222}
   _DecreaseDamageBarSpeed: 0.5
-  _CurrentHealth: 0
-  _MaxHealth: 0
   _HomebaseScript: {fileID: 0}
 --- !u!1 &6358904159841458149
 GameObject:
