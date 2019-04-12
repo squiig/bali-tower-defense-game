@@ -28,7 +28,8 @@ namespace Game.SplineSystem
 		{
 			if (_PathManager == null)
 				return;
-			if ((_PathManager[SplineBranch, _CurrentDestinationIndex] - transform.position).magnitude < UPDATE_NEXT_DESTINATION)
+			Vector3 delta = _PathManager[SplineBranch, _CurrentDestinationIndex] - transform.position;
+			if (new Vector3(delta.x, 0, delta.z).magnitude < UPDATE_NEXT_DESTINATION)
 				UpdateSplineDestinationPoint();
 			else
 				MoveSplineWalker();
@@ -46,7 +47,13 @@ namespace Game.SplineSystem
 				t: _RotationSpeed * Time.deltaTime);
 			}
 
-			transform.position = Vector3.MoveTowards(transform.position, _PathManager[SplineBranch, _CurrentDestinationIndex], _MoveSpeed * Time.deltaTime);
+			transform.position = Vector3.MoveTowards(
+				current: transform.position,
+				target: new Vector3(
+					x: _PathManager[SplineBranch, _CurrentDestinationIndex].x,
+					y: transform.position.y,
+					z: _PathManager[SplineBranch, _CurrentDestinationIndex].z),
+				maxDistanceDelta: _MoveSpeed * Time.deltaTime);
 		}
 
 		private void UpdateSplineDestinationPoint()
