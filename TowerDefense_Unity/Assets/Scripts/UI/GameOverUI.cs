@@ -9,6 +9,7 @@ namespace Game.UI
 	{
 		[SerializeField] private TMP_Text _WinTextRenderer = null;
 		[SerializeField] private TMP_Text _LoseTextRenderer = null;
+		[SerializeField] private float _TimeUntilRestart = 5f;
 
 		private GameManager _GameManager;
 
@@ -16,6 +17,11 @@ namespace Game.UI
 		{
 			_GameManager = GameManager.Instance;
 			_GameManager.GameOver += OnGameOver;
+		}
+
+		private void Start()
+		{
+			Deactivate();
 		}
 
 		private void OnDisable()
@@ -28,8 +34,26 @@ namespace Game.UI
 
 		private void OnGameOver(GameOverEventArgs eventArgs)
 		{
-			_WinTextRenderer.enabled = eventArgs.HasWon;
-			_LoseTextRenderer.enabled = !eventArgs.HasWon;
+			StartCoroutine(GameOverRoutine(eventArgs));
+		}
+
+		private IEnumerator GameOverRoutine(GameOverEventArgs eventArgs)
+		{
+			Activate(eventArgs.HasWon);
+			yield return new WaitForSeconds(_TimeUntilRestart);
+			_GameManager.RestartGame();
+		}
+
+		public void Activate(bool hasWon)
+		{
+			_WinTextRenderer.enabled = hasWon;
+			_LoseTextRenderer.enabled = !hasWon;
+		}
+
+		public void Deactivate()
+		{
+			_WinTextRenderer.enabled = false;
+			_LoseTextRenderer.enabled = false;
 		}
 	}
 }
