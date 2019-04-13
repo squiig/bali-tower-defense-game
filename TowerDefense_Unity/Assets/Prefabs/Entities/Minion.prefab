@@ -51,7 +51,7 @@ MonoBehaviour:
   _MoveSpeed: 5
   _RotationSpeed: 5
   _MaxHealth: 100
-  _MaxRange: 5
+  _MaxRange: 2
   _AttackPriority: 0
   _MinionAttack: {fileID: 11400000, guid: 6668c18366562244fa44d7b984d06576, type: 2}
   _Allegiance: 0

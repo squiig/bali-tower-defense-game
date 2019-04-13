@@ -2,7 +2,6 @@ using System;
 using System.Linq;
 using Game.Entities.EventContainers;
 using Game.Entities.Interfaces;
-using Game.Entities.MovingEntities;
 using UnityEngine;
 
 namespace Game.Entities.Base

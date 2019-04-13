@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Game.Entities.MovingEntities
 {
-	public class Minion : TraversingEntity, IPoolable
+	public class Minion : MinionBase, IPoolable
 	{
 		private float _AttackCoolDown = 0.0f;
 		private const float ATTACK_COOL_DOWN_DURATION = 3.0f;
@@ -26,6 +26,7 @@ namespace Game.Entities.MovingEntities
 
 		private new void OnDeath(in IDamageable sender, in EntityDamaged payload)
 		{
+			Debug.Log("OnDeath executed");
 			ReleaseOwnership();
 		}
 
@@ -99,6 +100,7 @@ namespace Game.Entities.MovingEntities
 				Debug.LogWarning("Tried attacking, but attack is null.");
 			}
 
+			Debug.Log("OnExecuteAttack executed");
 			ReleaseOwnership();
 		}
 
@@ -136,6 +138,7 @@ namespace Game.Entities.MovingEntities
 
 		public void Kill()
 		{
+			Debug.Log("OnKillExecuted");
 			ReleaseOwnership();
 		}
 	}

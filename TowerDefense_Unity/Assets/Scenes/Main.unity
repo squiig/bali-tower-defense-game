@@ -3321,7 +3321,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 5235159055188132170, guid: 61027c0e86e4b06498b63fb56a268160, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 61027c0e86e4b06498b63fb56a268160, type: 3}
 --- !u!4 &1120716577 stripped
 Transform:
@@ -4510,7 +4511,7 @@ Camera:
   m_TargetDisplay: 0
   m_TargetEye: 3
   m_HDR: 1
-  m_AllowMSAA: 1
+  m_AllowMSAA: 0
   m_AllowDynamicResolution: 0
   m_ForceIntoRT: 0
   m_OcclusionCulling: 1
