@@ -74,7 +74,7 @@ namespace Game.UI
 			//Show the health bars
 			ActivateHealthBarUI(true);
 
-			_DamageTextObject.SetActive(false);
+			//_DamageTextObject.SetActive(false);
 
 			//Settings the health bars to their default fill amount
 			_HealthBarHealthLayer.fillAmount = 1;

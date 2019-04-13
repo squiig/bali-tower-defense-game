@@ -1606,7 +1606,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _MinionPrefab: {fileID: 7373164451941745485, guid: d8fa2642eec5a114b8b5d298eed9ea1f,
     type: 3}
-  _PoolObjectCount: 20
+  _PoolObjectCount: 50
 --- !u!114 &401777254
 MonoBehaviour:
   m_ObjectHideFlags: 0
