@@ -11,7 +11,7 @@ namespace Game.UI
 		protected override void OnEnable()
 		{
 			//Check if the interface is null. If it is, then it shouldn't be allowed to go further then this
-			if(_HomebaseScript == null)
+			if (_HomebaseScript == null)
 			{
 				Debug.LogError("Please select the HomeBase Script in the inspector.", this.gameObject);
 

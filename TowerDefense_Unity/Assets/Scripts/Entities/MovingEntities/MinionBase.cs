@@ -4,20 +4,49 @@ using System.Linq;
 using Game.Entities.EventContainers;
 using Game.Entities.Interfaces;
 using Game.SplineSystem;
+using Game.Utils;
 using UnityEngine;
 
 namespace Game.Entities.MovingEntities
 {
-	public abstract class TraversingEntity : SplineWalker, IDamageable, IAggressor
+	public abstract class MinionBase : Entity, IDamageable, IAggressor
 	{
+		[SerializeField] private const float UPDATE_NEXT_DESTINATION = 0.1f;
+		[SerializeField] protected float _MoveSpeed = 7.0f;
+		[SerializeField] protected float _RotationSpeed = 5.0f;
+
 		private float _StartHealth;
 		private int _Priority;
 		private bool _IsConducting;
+		private int _CurrentDestinationIndex;
+		private SplinePathManager _PathManager;
+		private readonly WaitForSeconds _SlowDuration = new WaitForSeconds(2);
 
-		protected float Health;
 		protected IAttack Attack;
 		protected Allegiance Allegiance;
 		protected IDamageable TargetIDamageable;
+		protected float Health;
+
+
+		public BezierSplineDataObject SplineBranch { get; set; }
+		/// <inheritdoc />
+		/// <summary>
+		/// Event handler that is fired when this instance is hit.
+		/// Gives both this instance and the event class <see cref="T:Game.Entities.EventContainers.EntityDamaged" />
+		/// </summary>
+		public event TypedEventHandler<IDamageable, EntityDamaged> OnHit;
+		/// <inheritdoc />
+		/// <summary>
+		/// Event handler that is fired when this instance is hit.
+		/// Gives both this instance and the event class <see cref="T:Game.Entities.EventContainers.EntityDamaged" />
+		/// </summary>
+		public event TypedEventHandler<IDamageable, EntityDamaged> OnDeath;
+
+		protected virtual void Start()
+		{
+			if (FindObjectOfType<SplinePathManager>() != null)
+				_PathManager = FindObjectOfType<SplinePathManager>();
+		}
 
 		protected void Initialize(float maxHealth, int priority, Allegiance allegiance, in IAttack attack)
 		{
@@ -28,19 +57,45 @@ namespace Game.Entities.MovingEntities
 			Attack = attack;
 		}
 
-		/// <inheritdoc />
-		/// <summary>
-		/// Event handler that is fired when this instance is hit.
-		/// Gives both this instance and the event class <see cref="T:Game.Entities.EventContainers.EntityDamaged" />
-		/// </summary>
-		public event TypedEventHandler<IDamageable, EntityDamaged> OnHit;
+		protected virtual void Update()
+		{
+			if (_PathManager == null || !_IsConducting)
+				return;
 
-		/// <inheritdoc />
-		/// <summary>
-		/// Event handler that is fired when this instance is hit.
-		/// Gives both this instance and the event class <see cref="T:Game.Entities.EventContainers.EntityDamaged" />
-		/// </summary>
-		public event TypedEventHandler<IDamageable, EntityDamaged> OnDeath;
+			Vector3 delta = _PathManager[SplineBranch, _CurrentDestinationIndex] - transform.position;
+			if (new Vector3(delta.x, 0, delta.z).magnitude < UPDATE_NEXT_DESTINATION)
+				UpdateSplineDestinationPoint();
+			else
+				MoveSplineWalker();
+		}
+
+		private void MoveSplineWalker()
+		{
+			if (_PathManager.EvenlySpacedSplinePointCount(SplineBranch) - 1 >= _CurrentDestinationIndex + 1)
+			{
+				transform.rotation = Quaternion.Slerp(
+					a: transform.rotation,
+					b: Quaternion.LookRotation(Bezier3DUtility.GetTangent(
+						_PathManager[SplineBranch, _CurrentDestinationIndex + 1],
+						_PathManager[SplineBranch, _CurrentDestinationIndex])),
+					t: _RotationSpeed * Time.deltaTime);
+			}
+
+			transform.position = Vector3.MoveTowards(
+				current: transform.position,
+				target: new Vector3(
+					x: _PathManager[SplineBranch, _CurrentDestinationIndex].x,
+					y: transform.position.y,
+					z: _PathManager[SplineBranch, _CurrentDestinationIndex].z),
+				maxDistanceDelta: _MoveSpeed * Time.deltaTime);
+		}
+
+		private void UpdateSplineDestinationPoint()
+		{
+			if (_PathManager.EvenlySpacedSplinePointCount(SplineBranch) - 1 < _CurrentDestinationIndex + 1)
+				return;
+			_CurrentDestinationIndex++;
+		}
 
 		/// <inheritdoc />
 		/// <summary>
@@ -76,6 +131,7 @@ namespace Game.Entities.MovingEntities
 			_IsConducting = true;
 			SetActive(true);
 
+			_CurrentDestinationIndex = 0;
 			Health = _StartHealth;
 			OnHit?.Invoke(this, new EntityDamaged(this, _StartHealth, _StartHealth));
 		}
@@ -103,7 +159,6 @@ namespace Game.Entities.MovingEntities
         /// </summary>
         /// <returns>Returns the GameObject of this instance.</returns>
         public Entity GetEntity() => this;
-
 
         /// <inheritdoc />
 		/// <summary>
@@ -162,7 +217,6 @@ namespace Game.Entities.MovingEntities
 		/// <returns>Returns the attack class of this instance.</returns>
 		public IAttack GetAttack() => Attack;
 
-		private readonly WaitForSeconds _SlowDuration = new WaitForSeconds(2);
 		private IEnumerator MovementImpaired(StatusEffects effect, float percent)
 		{
 			float previousSpeed = _MoveSpeed;

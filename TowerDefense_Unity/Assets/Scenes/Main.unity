@@ -1606,7 +1606,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _MinionPrefab: {fileID: 7373164451941745485, guid: d8fa2642eec5a114b8b5d298eed9ea1f,
     type: 3}
-  _PoolObjectCount: 20
+  _PoolObjectCount: 50
 --- !u!114 &401777254
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3321,20 +3321,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1672995976, guid: 61027c0e86e4b06498b63fb56a268160, type: 3}
-      propertyPath: m_Size.z
-      value: 7.6027355
-      objectReference: {fileID: 0}
-    - target: {fileID: 1672995976, guid: 61027c0e86e4b06498b63fb56a268160, type: 3}
-      propertyPath: m_Center.z
-      value: 0.07090092
-      objectReference: {fileID: 0}
-    - target: {fileID: 7512349870876726610, guid: 61027c0e86e4b06498b63fb56a268160,
-        type: 3}
-      propertyPath: _MaxHealth
-      value: 100
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 5235159055188132170, guid: 61027c0e86e4b06498b63fb56a268160, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 61027c0e86e4b06498b63fb56a268160, type: 3}
 --- !u!4 &1120716577 stripped
 Transform:
@@ -4523,7 +4511,7 @@ Camera:
   m_TargetDisplay: 0
   m_TargetEye: 3
   m_HDR: 1
-  m_AllowMSAA: 1
+  m_AllowMSAA: 0
   m_AllowDynamicResolution: 0
   m_ForceIntoRT: 0
   m_OcclusionCulling: 1
