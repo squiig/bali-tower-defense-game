@@ -17,17 +17,16 @@ namespace Game.Entities.MovingEntities
 
 		private float _StartHealth;
 		private int _Priority;
+		private bool _IsConducting;
+		private int _CurrentDestinationIndex;
 		private SplinePathManager _PathManager;
 		private readonly WaitForSeconds _SlowDuration = new WaitForSeconds(2);
 
 		protected IAttack Attack;
 		protected Allegiance Allegiance;
 		protected IDamageable TargetIDamageable;
+		protected float Health;
 
-		[Space]
-		[SerializeField] protected float Health;
-		[SerializeField] private bool _IsConducting;
-		[SerializeField] private int _CurrentDestinationIndex;
 
 		public BezierSplineDataObject SplineBranch { get; set; }
 		/// <inheritdoc />

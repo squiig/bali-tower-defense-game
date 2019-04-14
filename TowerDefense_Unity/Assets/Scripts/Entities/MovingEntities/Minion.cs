@@ -26,7 +26,6 @@ namespace Game.Entities.MovingEntities
 
 		private new void OnDeath(in IDamageable sender, in EntityDamaged payload)
 		{
-			Debug.Log("OnDeath executed");
 			ReleaseOwnership();
 		}
 
@@ -35,10 +34,6 @@ namespace Game.Entities.MovingEntities
 			_SphereCollider = gameObject.AddComponent<SphereCollider>();
 			_SphereCollider.radius = _MaxRange;
 			_SphereCollider.isTrigger = true;
-
-			//Rigidbody rigidbody = gameObject.AddComponent<Rigidbody>();
-			//rigidbody.useGravity = true;
-			//rigidbody.constraints = RigidbodyConstraints.FreezeAll;
 		}
 
 		protected override void Update()
@@ -92,15 +87,10 @@ namespace Game.Entities.MovingEntities
 			_AttackCoolDown = ATTACK_COOL_DOWN_DURATION;
 
 			if (Attack != null)
-			{
 				Attack.ExecuteAttack(TargetIDamageable);
-			}
 			else
-			{
 				Debug.LogWarning("Tried attacking, but attack is null.");
-			}
 
-			Debug.Log("OnExecuteAttack executed");
 			ReleaseOwnership();
 		}
 
@@ -138,7 +128,6 @@ namespace Game.Entities.MovingEntities
 
 		public void Kill()
 		{
-			Debug.Log("OnKillExecuted");
 			ReleaseOwnership();
 		}
 	}
