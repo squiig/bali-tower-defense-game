@@ -8,10 +8,27 @@ ModelImporter:
     400000: polySurface18
     400002: //RootNode
     2100000: polySurface18Mat
+    2100002: blinn2SG
+    2100004: blinn1SG
     2300000: polySurface18
     3300000: polySurface18
     4300000: polySurface18
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: blinn1SG
+    second: {fileID: 2100000, guid: c37ebe7bb5f58ef4995cb3f3c6f45eb3, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: blinn2SG
+    second: {fileID: 2100000, guid: 9ef6d7c839d6a2d48b76c8d59bf16794, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: polySurface18Mat
+    second: {fileID: 2100000, guid: 9ef6d7c839d6a2d48b76c8d59bf16794, type: 2}
   materials:
     importMaterials: 1
     materialName: 0

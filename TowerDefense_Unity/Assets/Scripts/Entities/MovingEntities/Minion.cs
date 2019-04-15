@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Game.Entities.MovingEntities
 {
-	public class Minion : TraversingEntity, IPoolable
+	public class Minion : MinionBase, IPoolable
 	{
 		private float _AttackCoolDown = 0.0f;
 		private const float ATTACK_COOL_DOWN_DURATION = 3.0f;
@@ -34,10 +34,6 @@ namespace Game.Entities.MovingEntities
 			_SphereCollider = gameObject.AddComponent<SphereCollider>();
 			_SphereCollider.radius = _MaxRange;
 			_SphereCollider.isTrigger = true;
-
-			//Rigidbody rigidbody = gameObject.AddComponent<Rigidbody>();
-			//rigidbody.useGravity = true;
-			//rigidbody.constraints = RigidbodyConstraints.FreezeAll;
 		}
 
 		protected override void Update()
@@ -91,13 +87,9 @@ namespace Game.Entities.MovingEntities
 			_AttackCoolDown = ATTACK_COOL_DOWN_DURATION;
 
 			if (Attack != null)
-			{
 				Attack.ExecuteAttack(TargetIDamageable);
-			}
 			else
-			{
 				Debug.LogWarning("Tried attacking, but attack is null.");
-			}
 
 			ReleaseOwnership();
 		}
