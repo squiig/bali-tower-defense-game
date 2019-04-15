@@ -158,6 +158,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8073272584842387614}
+  - component: {fileID: 2066148501748062951}
   m_Layer: 5
   m_Name: HealthBar
   m_TagString: Untagged
@@ -186,6 +187,21 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: -0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &2066148501748062951
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2313342333654388869}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 32f0990e3ec26bb49bd44116a4f879cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _Target: {fileID: 0}
+  _Axis: 0
+  _ReverseFace: 1
 --- !u!1 &2820784089064366006
 GameObject:
   m_ObjectHideFlags: 0
@@ -634,8 +650,5 @@ MonoBehaviour:
   _HealthBarMainLayer: {fileID: 5126324777058574740}
   _HealthBarHealthLayer: {fileID: 4399545281152502646}
   _HealthBarDamageLayer: {fileID: 6730768509952658553}
-  _DamageTextObject: {fileID: 0}
   _DecreaseDamageBarSpeed: 0.5
-  _CurrentHealth: 0
-  _MaxHealth: 0
   _MinionScript: {fileID: 0}
