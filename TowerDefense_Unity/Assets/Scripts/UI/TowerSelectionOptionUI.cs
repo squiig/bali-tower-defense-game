@@ -5,6 +5,7 @@ using Game.Interaction;
 public class TowerSelectionOptionUI : MonoBehaviour
 {
 	[SerializeField] private GameObject _PrefabToSpawnOnSelection;
+	[SerializeField]
 
 	private Button _TowerSelectionOptionUIButton;
 
