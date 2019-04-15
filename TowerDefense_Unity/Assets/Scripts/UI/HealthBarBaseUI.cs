@@ -11,8 +11,6 @@ namespace Game.UI
 		[SerializeField] protected Image _HealthBarHealthLayer;
 		[SerializeField] protected Image _HealthBarDamageLayer;
 
-		protected GameObject _DamageTextObject;
-
 		[SerializeField] protected float _DecreaseDamageBarSpeed = .5f;
 
 		protected float _CurrentHealth;
@@ -20,10 +18,7 @@ namespace Game.UI
 
 		protected Entities.Interfaces.IDamageable _DamageInterface;
 
-		protected Collider _Collider;
-
 		protected Coroutine _HealthBarRoutine;
-		protected Coroutine _DamageTextRoutine;
 
 		/// <summary>
 		/// Gets called every time the game object gets turned off
@@ -48,6 +43,7 @@ namespace Game.UI
 			//Setup the script
 			SetStartHealth(_DamageInterface.GetHealth());
 		}
+
 		/// <summary>
 		/// Initializes the starting variables, making sure everything is here what this needs, and gives out errors if it doesn't know certain information
 		/// </summary>
@@ -67,41 +63,20 @@ namespace Game.UI
 				this.enabled = false;
 				return;
 			}
-			
-			//Get the collider the get the most acurate bounds
-			_Collider = RecursiveParentFindCollider(transform);
 
 			//Show the health bars
 			ActivateHealthBarUI(true);
-
-			//_DamageTextObject.SetActive(false);
 
 			//Settings the health bars to their default fill amount
 			_HealthBarHealthLayer.fillAmount = 1;
 			_HealthBarDamageLayer.fillAmount = 0;
 		}
 
-		protected Collider RecursiveParentFindCollider(Transform transform)
-		{
-			Collider collider = transform.GetComponent<Collider>();
-
-			if (collider)
-				return collider;
-
-			if (transform == transform.root)
-			{
-				return null;
-			}
-			else
-			{
-				return RecursiveParentFindCollider(transform.parent);
-			}
-		}
-
 		protected void GetDamageFromEntity(in Entities.Interfaces.IDamageable sender, in Entities.EventContainers.EntityDamaged payload)
 		{
 			//Set the damage and start the damage process
-			SetDamage(payload.DamageNumber);
+			_CurrentHealth = payload.Health;
+			SetDamage();
 		}
 
 		public void SetStartHealth(float health)
@@ -113,24 +88,59 @@ namespace Game.UI
 			//Start initializing the rest of the script
 			Initialize();
 		}
-		public void SetDamage(float damage)
+		public void SetDamage()
 		{
+			//Making sure its impossible to enter this when the health is (below) zero
+			if (_CurrentHealth <= 0)
+			{
+				Debug.LogError("This should not happen.");
+				this.enabled = false;
+				return;
+			}
+
 			//Get the current position of the health bar and store it for later
 			Vector3 healthBarDamagePosition = _HealthBarDamageLayer.transform.localPosition;
-			//Get the new health
-			float newHealth = _CurrentHealth -= damage;
 
 			//Set the new x position of the health bar where it will be moved to
-			healthBarDamagePosition.x = (_HealthBarHealthLayer.rectTransform.sizeDelta.x / _MaxHealth) * newHealth;
+			healthBarDamagePosition.x = (_HealthBarHealthLayer.rectTransform.sizeDelta.x / _MaxHealth) * _CurrentHealth;
 			//Apply it onto the actual position of the damage health bar
 			_HealthBarDamageLayer.transform.localPosition = healthBarDamagePosition;
 			//Change the fill amount from the damage health bar so it can start it's *animation*
-			_HealthBarDamageLayer.fillAmount = _HealthBarHealthLayer.fillAmount - (newHealth / _MaxHealth);
+			_HealthBarDamageLayer.fillAmount = _HealthBarHealthLayer.fillAmount - (_CurrentHealth / _MaxHealth);
 			//Change the Health Bars fill amount behind the damage health bar
-			_HealthBarHealthLayer.fillAmount = newHealth / _MaxHealth;
+			_HealthBarHealthLayer.fillAmount = _CurrentHealth / _MaxHealth;
 
-			//Update the current health to the new health
-			_CurrentHealth = newHealth;
+			//Start the animation of the damage health bar through a Coroutine if it isn't running already
+			if(_HealthBarRoutine == null)
+				_HealthBarRoutine = StartCoroutine(UpdateHealthBar());
+		}
+		public void SetDamage(float damage)
+		{
+			//Only here for debugging reasons, so it shouldn't run outside of the editor
+			if(!Application.isEditor)
+				return;
+
+			//Making sure its impossible to enter this when the health is (below) zero
+			if(_CurrentHealth <= 0)
+			{
+				Debug.LogError("This should not happen.");
+				this.enabled = false;
+				return;
+			}
+
+			_CurrentHealth = _CurrentHealth - damage;
+
+			//Get the current position of the health bar and store it for later
+			Vector3 healthBarDamagePosition = _HealthBarDamageLayer.transform.localPosition;
+
+			//Set the new x position of the health bar where it will be moved to
+			healthBarDamagePosition.x = (_HealthBarHealthLayer.rectTransform.sizeDelta.x / _MaxHealth) * _CurrentHealth;
+			//Apply it onto the actual position of the damage health bar
+			_HealthBarDamageLayer.transform.localPosition = healthBarDamagePosition;
+			//Change the fill amount from the damage health bar so it can start it's *animation*
+			_HealthBarDamageLayer.fillAmount = _HealthBarHealthLayer.fillAmount - (_CurrentHealth / _MaxHealth);
+			//Change the Health Bars fill amount behind the damage health bar
+			_HealthBarHealthLayer.fillAmount = _CurrentHealth / _MaxHealth;
 
 			//Start the animation of the damage health bar through a Coroutine if it isn't running already
 			if(_HealthBarRoutine == null)
@@ -150,30 +160,6 @@ namespace Game.UI
 
 			//Lets the script know that the coroutine is done with running, so it can start a new coroutine
 			_HealthBarRoutine = null;
-		}
-		protected IEnumerator ShowFloatingDamageText(float damage)
-		{
-			_DamageTextObject.SetActive(true);
-
-			float time = Random.Range(_Collider.bounds.min.x, _Collider.bounds.max.x);
-
-			//Debug.Log(_DamageTextObject.GetComponent<MeshRenderer>().bounds.min.x);
-			//Debug.Log(_DamageTextObject.GetComponent<MeshRenderer>().bounds.max.x);
-			//Debug.Log(time);
-
-			Animator animator = null;
-			Vector2 randomPosition = new Vector2(time, _DamageTextObject.transform.position.y);
-			_DamageTextObject.transform.position = randomPosition;
-
-			animator = _DamageTextObject.GetComponent<Animator>();
-
-			_DamageTextObject.GetComponent<TMPro.TextMeshPro>().text = damage.ToString();
-
-			yield return new WaitForSeconds(.5f);
-
-			_DamageTextObject.SetActive(false);
-
-			_DamageTextRoutine = null;
 		}
 
 		/// <summary>
