@@ -8,6 +8,7 @@ namespace Game.UI
 {
 	public class WaveUI : MonoBehaviour
 	{
+		[SerializeField] private CanvasGroup _CanvasGroup = null;
 		[SerializeField] private TMP_Text _TextRenderer = null;
 
 		private Coroutine _TimerRoutine;
@@ -21,9 +22,16 @@ namespace Game.UI
 			_WaveManager.WaveStarted += WaveManager_WaveStarted;
 		}
 
+		private void Awake()
+		{
+			if (_CanvasGroup == null)
+				_CanvasGroup = GetComponent<CanvasGroup>();
+		}
+
 		private void WaveManager_WaveStarted(in WaveManager sender, in WaveEventArgs payload)
 		{
-			_TextRenderer.text = $"Wave {payload.Wave.Index + 1}";
+			Activate();
+			_TextRenderer.text = $"Golf {payload.Wave.Index + 1}";
 		}
 
 		private void WaveManager_IntermissionStarted(in WaveManager sender, in IntermissionEventArgs payload)
@@ -36,7 +44,7 @@ namespace Game.UI
 		{
 			while (waveManager.IntermissionTimeLeft > 0)
 			{
-				_TextRenderer.text = $"Next wave in... {Mathf.Ceil(waveManager.IntermissionTimeLeft).ToString("#")}";
+				_TextRenderer.text = $"Volgende aanval in... {Mathf.Ceil(waveManager.IntermissionTimeLeft).ToString("#")}";
 				yield return null;
 			}
 
@@ -50,6 +58,16 @@ namespace Game.UI
 
 			if (_TimerRoutine != null)
 				StopCoroutine(_TimerRoutine);
+		}
+
+		public void Activate()
+		{
+			_CanvasGroup.alpha = 1f;
+		}
+
+		public void Deactivate()
+		{
+			_CanvasGroup.alpha = 0f;
 		}
 	}
 }
