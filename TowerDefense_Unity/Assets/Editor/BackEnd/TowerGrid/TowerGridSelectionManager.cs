@@ -1,4 +1,4 @@
-﻿using UnityEditor;
+using UnityEditor;
 using UnityEngine;
 using ArrayUtility = Game.Utils.ArrayUtility;
 
@@ -6,11 +6,11 @@ namespace Game.Turrets.Editor
 {
     /// <summary>Handles multi-drawing and selecting of the turret grids in the scene view, gets instantiated on project load.</summary>
     [InitializeOnLoad]
-    public class TurretGridSelectionManager : UnityEditor.Editor
+    public class TowerGridSelectionManager : UnityEditor.Editor
     {
-        private static TurretGrid[] _TurretGrids = new TurretGrid[0];
+        private static TowerGrid[] s_TowerGrids = new TowerGrid[0];
 
-        static TurretGridSelectionManager()
+        static TowerGridSelectionManager()
         {
             Selection.selectionChanged += OnNewSelection;
             SceneView.onSceneGUIDelegate += OnSceneRender;
@@ -18,16 +18,18 @@ namespace Game.Turrets.Editor
 
         static void OnNewSelection()
         {
-            _TurretGrids = ArrayUtility.ComponentFilter<TurretGrid>(Selection.gameObjects);
+            s_TowerGrids = ArrayUtility.ComponentFilter<TowerGrid>(Selection.gameObjects);
         }
 
         static void OnSceneRender(SceneView sceneView)
         {
-            for (int i = 0; i < _TurretGrids.Length; i++)
-            {
-                _TurretGrids[i].DrawVerticalGridLines();
-                _TurretGrids[i].DrawHorizontalGridLines();
-            }
+	        foreach (TowerGrid grid in s_TowerGrids)
+	        {
+		        if (grid == null)
+			        continue;
+		        grid.DrawVerticalGridLines();
+		        grid.DrawHorizontalGridLines();
+	        }
         }
     }
 }

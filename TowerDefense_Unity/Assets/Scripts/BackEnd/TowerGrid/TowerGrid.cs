@@ -6,26 +6,26 @@ using UnityEngine;
 namespace Game.Turrets
 {
     /// <summary>Holds the data of the turretgrid.</summary>
-    public class TurretGrid : MonoBehaviour
+    public class TowerGrid : MonoBehaviour
     {
         [SerializeField] private Vector2 _CellSize = new Vector2Int(10, 10);
         [SerializeField] private Vector2Int _GridResolution = new Vector2Int(10, 10);
-        [SerializeField] private TurretGridCell _TurretGridCellPrefab = null;
+        [SerializeField] private TowerGridCell _TowerGridCellPrefab = null;
 
-        private TurretGridCell[] _TurretGrid;
+        private TowerGridCell[] _TowerGrid;
 
         public void Awake()
         {
             Vector2 gridSize = _CellSize * _GridResolution;
-            _TurretGrid = new TurretGridCell[_GridResolution.x * _GridResolution.y];
+            _TowerGrid = new TowerGridCell[_GridResolution.x * _GridResolution.y];
             for (int i = 0, x = 0; x < _GridResolution.x; x++)
             {
                 for (int z = 0; z < _GridResolution.y; z++, i++)
                 {
                     GridPoint gridCellPoint = new GridPoint(new Vector3(-gridSize.x / 2 + x * _CellSize.x, 0, -gridSize.y / 2 + z * _CellSize.y), transform.eulerAngles);
-                    _TurretGrid[i] = Instantiate(_TurretGridCellPrefab, transform.position + gridCellPoint.GetPointPosition(), transform.rotation, transform);
-                    _TurretGrid[i].SetColliderSize(new Vector2(_CellSize.x, _CellSize.y));
-                    _TurretGrid[i].SetColliderOffset(new Vector2(_CellSize.x / 2, _CellSize.y / 2));
+                    _TowerGrid[i] = Instantiate(_TowerGridCellPrefab, transform.position + gridCellPoint.GetPointPosition(), transform.rotation, transform);
+                    _TowerGrid[i].SetColliderSize(new Vector2(_CellSize.x, _CellSize.y));
+                    _TowerGrid[i].SetColliderOffset(new Vector2(_CellSize.x / 2, _CellSize.y / 2));
                 }
             }
         }

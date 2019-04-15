@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,7 +6,7 @@ namespace Game.Turrets
 {
     /// <summary>Contains data of the gridcell itself.</summary>
     [SelectionBase]
-    public class TurretGridCell : MonoBehaviour
+    public class TowerGridCell : MonoBehaviour
     {
         private BoxCollider _BoxCollider;
 
