@@ -582,11 +582,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: caea03e4a9378354faca4533c42b49fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _PrefabToSpawnOnSelection: {fileID: 8680627952643913549, guid: d1a9ade2a512b3048ab887ecb0847e19,
+  _PrefabToSpawnOnSelection: {fileID: 6700256510323383461, guid: 49304e650751ac7489101c9a89c7d3eb,
     type: 3}
-  _TowerAttackText: {fileID: 0}
-  _TowerRangeText: {fileID: 0}
-  _TowerPriceText: {fileID: 0}
+  _TowerAttackText: {fileID: 2912200267964240990}
+  _TowerRangeText: {fileID: 2237768067165729002}
+  _TowerPriceText: {fileID: 3846674618712346831}
   _TowerAttackAmount: 0
   _TowerRangeAmount: 0
   _TowerPrice: 0
@@ -1222,6 +1222,20 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
+--- !u!114 &8229958272721725601
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2797935783525361634}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26fa2dd8e255061418020a828a19e9d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _AmountText: {fileID: 2797935783285084734}
+  _ZeroPadding: 5
 --- !u!1 &2806812227858908739
 GameObject:
   m_ObjectHideFlags: 0
@@ -4830,12 +4844,8 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5280385407912124598, guid: 022be9c300ff2fa499d6524861f1c7ff,
-        type: 3}
-      propertyPath: _AmountText
-      value: 
-      objectReference: {fileID: 2797935783285084734}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 5280385407912124598, guid: 022be9c300ff2fa499d6524861f1c7ff, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 022be9c300ff2fa499d6524861f1c7ff, type: 3}
 --- !u!224 &2797935783525361635 stripped
 RectTransform:
@@ -4855,3 +4865,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &2797935783525361634 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 901623285665303336, guid: 022be9c300ff2fa499d6524861f1c7ff,
+    type: 3}
+  m_PrefabInstance: {fileID: 3051037412461325514}
+  m_PrefabAsset: {fileID: 0}
