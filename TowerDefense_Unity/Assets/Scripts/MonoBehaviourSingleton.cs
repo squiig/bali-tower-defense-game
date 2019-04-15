@@ -8,13 +8,11 @@ namespace Game
 	/// <summary>
 	/// Non-persistent singleton class. Will make a new instance when called and none exists. Will destroy itself if another instance already exists. No thread-safety features.
 	/// </summary>
-	/// <typeparam name="T">The class that's inheriting from Singleton.</typeparam>
+	/// <typeparam name="T">The class that's inheriting from <see cref="MonoBehaviourSingleton{T}"/>.</typeparam>
 	[DisallowMultipleComponent]
-	public abstract class MonoBehaviourSingleton<T> : MonoBehaviour where T : Component
+	public abstract class MonoBehaviourSingleton<T> : MonoBehaviourSingletonBase where T : Component
 	{
 		private static T _Instance;
-
-		private static bool _IsNewInstanceAllowed = true;
 
 		/// <summary>
 		/// Referencing this field creates an instance if it doesn't already exist.
@@ -26,7 +24,7 @@ namespace Game
 				{
 					_Instance = FindObjectOfType<T>();
 
-					if (_Instance == null && _IsNewInstanceAllowed)
+					if (_Instance == null && IsNewInstanceAllowed)
 					{
 						GameObject obj = new GameObject();
 						obj.name = typeof(T).Name;
@@ -48,16 +46,6 @@ namespace Game
 			{
 				Destroy(gameObject);
 			}
-		}
-
-		protected virtual void OnEnable()
-		{
-			_IsNewInstanceAllowed = true;
-		}
-
-		protected virtual void OnDisable()
-		{
-			_IsNewInstanceAllowed = false;
 		}
 	}
 }
