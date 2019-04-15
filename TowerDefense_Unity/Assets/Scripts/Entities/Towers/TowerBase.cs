@@ -13,7 +13,7 @@ namespace Game.Entities.Towers
 		private float _attackCoolDown = 0.0f;
 		private const float ATTACK_COOL_DOWN_DURATION = 3.0f;
 
-		[SerializeField] protected float StartAttackRange, MaxAttackRange, AttackRange;
+		[SerializeField] protected float StartAttackRange, MaxAttackRange, AttackRange, TowerPrice;
 		[SerializeField] protected TowerAttack Attack;
 		[SerializeField] protected IDamageable TargetDamageable;
 
@@ -21,6 +21,7 @@ namespace Game.Entities.Towers
 		[SerializeField] private bool _isDebug = false;
 
 		public float GetRange() => AttackRange;
+		public float GetPrice() => TowerPrice;
 
 		/// <inheritdoc />
 		/// <summary>
