@@ -17,11 +17,7 @@ namespace Game.Entities
 		{
 			_PathManager = SplinePathManager.Instance;
 			for (int i = 0; i < _PoolObjectCount; i++)
-			{
-				Minion minionGameObject = Instantiate(_MinionPrefab, transform);
-				Add(minionGameObject);
-			}
-			//ActivateObject(x => x != x.IsConducting()); //TODO: Debug code. (spawns in 1 minion from the pool)
+				Add(Instantiate(_MinionPrefab, transform));
 		}
 
 		public Minion ActivateMinion(Func<Minion, bool> predicate, int splineBranchIndex)

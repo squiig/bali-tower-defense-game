@@ -2,21 +2,21 @@ using System;
 using System.Linq;
 using Game.Entities.EventContainers;
 using Game.Entities.Interfaces;
-using Game.Entities.MovingEntities;
 using UnityEngine;
 
 namespace Game.Entities.Base
 {
 	public class HomeBase : Entity, IDamageable
-	{	
+	{
 		[SerializeField] private float _Health;
 
 		public event TypedEventHandler<IDamageable, EntityDamaged> OnHit;
 		public event TypedEventHandler<IDamageable, EntityDamaged> OnDeath;
 
-		public override Vector3 GetLocation() => transform.position;
 		public int GetPriority() => int.MaxValue;
+
 		public Allegiance GetAllegiance() => Allegiance.FRIENDLY;
+
 		public Entity GetEntity() => this;
 
 		/// <inheritdoc />
