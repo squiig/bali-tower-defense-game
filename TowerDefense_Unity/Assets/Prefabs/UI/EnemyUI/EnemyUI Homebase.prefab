@@ -501,9 +501,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _Target: {fileID: 0}
-  _IgnoreX: 0
-  _IgnoreY: 0
-  _IgnoreZ: 0
+  _Axis: 0
+  _ReverseFace: 1
 --- !u!1 &6484566808047282719
 GameObject:
   m_ObjectHideFlags: 0

@@ -8,18 +8,23 @@ namespace Game.Animation
 	[DisallowMultipleComponent]
 	public class BillboardingEffect : MonoBehaviour
 	{
-		[SerializeField]
-		private Transform _Target = null;
+		public enum Axis
+		{
+			UP,
+			DOWN,
+			LEFT,
+			RIGHT,
+			FORWARD,
+			BACK
+		};
 
-        [SerializeField]
-        private bool
-            _IgnoreX = false,
-            _IgnoreY = false,
-            _IgnoreZ = false;
+		[SerializeField] private Transform _Target = null;
+		[SerializeField] private Axis _Axis = Axis.UP;
+		[SerializeField] private bool _ReverseFace = false;
 
 		public Transform Target { get => _Target; set => _Target = value; }
 
-		private void Start()
+		private void Awake()
 		{
 			if (_Target == null)
 				_Target = Camera.main?.transform;
@@ -28,25 +33,39 @@ namespace Game.Animation
 		// Orient the target after all movement is completed this frame to avoid jittering
 		private void LateUpdate()
 		{
-            if (_IgnoreX && _IgnoreY && _IgnoreZ)
-                return;
+			Vector3 tPos = transform.position + (_Target.transform.rotation * (_ReverseFace ? Vector3.forward : Vector3.back));
+			Vector3 tRot = _Target.transform.rotation * GetDirFromAxis(_Axis);
 
-			Vector3 tPos = _Target.position;
-			Quaternion tRot = _Target.rotation;
-
-            if (_IgnoreX)
-                tPos.x = transform.position.x;
-
-            if (_IgnoreY)
-                tPos.y = transform.position.y;
-
-            if (_IgnoreZ)
-                tPos.z = transform.position.z;
-
-            if (Vector3.Distance(transform.forward, tPos) > 0f)
+			if (Vector3.Distance(transform.forward, tPos) > 0f)
 			{
-				transform.LookAt(tPos + (tRot * Vector3.forward), tRot * Vector3.up);
+				transform.LookAt(tPos, tRot);
 			}
+			
+		}
+		
+		/// <summary>
+		/// Returns a direction based upon chosen axis.
+		/// </summary>
+		/// <param name="refAxis"></param>
+		/// <returns></returns>
+		public Vector3 GetDirFromAxis(Axis refAxis)
+		{
+			switch (refAxis)
+			{
+				case Axis.DOWN:
+					return Vector3.down;
+				case Axis.FORWARD:
+					return Vector3.forward;
+				case Axis.BACK:
+					return Vector3.back;
+				case Axis.LEFT:
+					return Vector3.left;
+				case Axis.RIGHT:
+					return Vector3.right;
+			}
+
+			// default is Vector3.up
+			return Vector3.up;
 		}
 	}
 }
