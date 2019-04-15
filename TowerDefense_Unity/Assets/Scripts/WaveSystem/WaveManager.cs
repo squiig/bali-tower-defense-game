@@ -27,6 +27,7 @@ namespace Game.WaveSystem
 
 		private Queue<Wave> _WaitingWaves;
 		private List<Wave> _ActiveWaves;
+		private List<Wave> _CompletedWaves;
 
 		private int _CurrentWaveIndex = 0;
 		private float _IntermissionTimer = 0;
@@ -37,6 +38,7 @@ namespace Game.WaveSystem
 		public int CurrentWaveIndex => _CurrentWaveIndex;
 		public float IntermissionTimeLeft => _IntermissionTimer;
 		public List<Wave> ActiveWaves => _ActiveWaves;
+		public List<Wave> CompletedWaves => _CompletedWaves;
 		public Wave NewestWave => ActiveWaves.Count > 0 ? ActiveWaves[ActiveWaves.Count - 1] : null;
 		public Wave NextWave => _WaitingWaves.Peek();
 
@@ -47,6 +49,14 @@ namespace Game.WaveSystem
 			InitializeWaveQueue();
 		}
 
+#if UNITY_EDITOR || DEBUG
+		private void Update()
+		{
+			if (Input.GetKeyDown(KeyCode.F3))
+				StartNextWave();
+		}
+#endif
+
 		/// <summary>
 		/// Takes the wave contents (defined in the inspector), creates a formal wave from them and lets those take a number, so to speak.
 		/// </summary>
@@ -54,21 +64,19 @@ namespace Game.WaveSystem
 		{
 			_WaitingWaves = new Queue<Wave>();
 			_ActiveWaves = new List<Wave>();
+			_CompletedWaves = new List<Wave>();
 
 			if (_Waves == null)
 				return;
 
 			int len = _Waves.Count;
 			for (int i = 0; i < len; i++)
-			{
 				_WaitingWaves.Enqueue(new Wave(i, _Waves[i]));
-			}
 		}
 
 		public void StartNextWave()
 		{
 			Debug.Log("[WaveSystem] Starting next wave...");
-
 			if (_WaitingWaves.Count <= 0)
 			{
 				Debug.LogWarning("[WaveSystem] No more waves to start, aborting the attempt!");
@@ -76,8 +84,6 @@ namespace Game.WaveSystem
 			}
 
 			Wave nextWave = _WaitingWaves.Dequeue();
-
-			// Attempt to start new wave
 			nextWave.HasStarted += OnWaveStarted;
 			nextWave.Start(this);
 		}
@@ -101,13 +107,11 @@ namespace Game.WaveSystem
 			}
 
 			_IntermissionTimer = 0f;
-
 			OnIntermissionEnded(this, intermissionEndedArgs);
 		}
 
 		protected virtual void OnWaveStarted(Wave wave)
 		{
-			// Wave has succesfully started
 			wave.HasEnded += OnWaveEnded;
 			_ActiveWaves.Add(wave);
 			_State = EState.WAVE;
@@ -123,16 +127,17 @@ namespace Game.WaveSystem
 		{
 			wave.HasEnded -= OnWaveEnded;
 			_ActiveWaves.Remove(wave);
+			_CompletedWaves.Add(wave);
 
 			bool isLastWave = _WaitingWaves.Count <= 0;
 
 			WaveEventArgs payload = new WaveEventArgs(wave, isLastWave);
 			WaveEnded?.Invoke(this, payload);
 
-			if (!isLastWave)
-				StartIntermission();
-			else
+			if (isLastWave)
 				_State = EState.INACTIVE;
+			else
+				StartIntermission();
 		}
 
 		protected virtual void OnIntermissionStarted(in WaveManager waveManager, in IntermissionEventArgs payload)

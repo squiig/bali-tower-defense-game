@@ -6,6 +6,8 @@ using Game.Entities.MovingEntities;
 using Game.Entities.Interfaces;
 using Game.Entities.EventContainers;
 using UnityEngine;
+using Debug = System.Diagnostics.Debug;
+using Object = UnityEngine.Object;
 
 namespace Game.WaveSystem
 {
@@ -66,52 +68,56 @@ namespace Game.WaveSystem
 		public void Stop(bool killRemaining)
 		{
 			if (IsSpawning)
-			{
 				_WaveManager.StopCoroutine(_SpawnRoutine);
-			}
 
 			if (killRemaining)
 			{
 				foreach (Minion minion in _ActiveMinions)
-				{
 					minion.Kill();
-				}
 			}
 
 			_IsActive = false;
-
 			OnHasEnded();
 		}
 
 		private IEnumerator SpawnRoutine()
 		{
 			_State = EState.SPAWNING;
+			int legionCount = _Content.WaveLegionCount;
 
-			int len = _Content.Minions.Count;
-			for (int i = 0; i < len; i++)
+			SplineSystem.SplinePathManager pathManager = Object.FindObjectOfType<SplineSystem.SplinePathManager>();
+			if (pathManager != null)
 			{
-				Minion minion = MinionPoolController.Instance.ActivateObject(x => x != x.IsConducting());
-				minion.OnDeath += Minion_OnDeath;
-				_ActiveMinions.Add(minion);
-				yield return new WaitForSeconds(_Content.SpawnInterval.GetRandom());
+				for (int i = 0; i < legionCount; i++)
+				{
+					int minionCount = _Content[i].MinionCount;
+					int splineBranchIndex = UnityEngine.Random.Range(0, pathManager.SplineCount);
+					for (int j = 0; j < minionCount; j++)
+					{
+						Minion minion = MinionPoolController.Instance.ActivateMinion(x => x != x.IsConducting(), splineBranchIndex);
+						minion.OnDeath += Minion_OnDeath;
+						_ActiveMinions.Add(minion);
+						yield return new WaitForSeconds(_Content[i].SpawnInterval);
+					}
+					yield return new WaitForSeconds(_Content.LegionSpawnInterval.GetRandom());
+				}
 			}
 
 			_State = EState.IDLE;
-
 			if (_ActiveMinions.Count <= 0)
 				Stop(false);
 		}
 
 		protected virtual void Minion_OnDeath(in IDamageable sender, in EntityDamaged payload)
 		{
-			// Reward
+			sender.OnDeath -= Minion_OnDeath;
 			ResourceSystem.Instance.RunTransaction(10);
-			
-			if (_ActiveMinions.Count <= 0)
-			{
-				_State = EState.FINISHED;
-				OnHasEnded();
-			}
+
+			if (_ActiveMinions.Count > 0)
+				return;
+
+			_State = EState.FINISHED;
+			OnHasEnded();
 		}
 
 		protected virtual void OnHasStarted()

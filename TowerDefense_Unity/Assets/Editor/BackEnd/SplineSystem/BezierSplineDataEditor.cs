@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
@@ -11,7 +11,20 @@ namespace Game.SplineSystem
     {
         public override void OnInspectorGUI()
         {
-            EditorGUI.BeginDisabledGroup(true);
+
+			if (target == null)
+				return;
+
+			SerializedProperty useProperty =  serializedObject.FindProperty("_Use");
+
+			EditorGUILayout.LabelField("Used by spline manager");
+			useProperty.boolValue = EditorGUILayout.Toggle(useProperty.boolValue);
+
+			if (serializedObject.hasModifiedProperties)
+				serializedObject.ApplyModifiedProperties();
+
+
+			EditorGUI.BeginDisabledGroup(true);
             base.OnInspectorGUI();
             EditorGUI.EndDisabledGroup();
         }

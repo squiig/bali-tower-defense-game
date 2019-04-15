@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -40,7 +40,7 @@ namespace Game.Turrets.Editor
             GUILayout.Label("Grid Edit Settings", EditorStyles.boldLabel);
             _CellSize.vector2Value = EditorGUILayout.Vector2Field("Cell Size", _CellSize.vector2Value);
             _GridResolution.vector2IntValue = EditorGUILayout.Vector2IntField("Grid Resolution", _GridResolution.vector2IntValue);
-            _GridResolution.vector2IntValue = new Vector2Int(Mathf.Clamp(_GridResolution.vector2IntValue.x, 0, 10), Mathf.Clamp(_GridResolution.vector2IntValue.y, 0, 10));
+            _GridResolution.vector2IntValue = new Vector2Int(Mathf.Clamp(_GridResolution.vector2IntValue.x, 0, 40), Mathf.Clamp(_GridResolution.vector2IntValue.y, 0, 40));
             _GridCellPrefab.objectReferenceValue = EditorGUILayout.ObjectField("GridCell Prefab", _GridCellPrefab.objectReferenceValue, typeof(TurretGridCell), false);
 
             GUILayout.Space(5f);

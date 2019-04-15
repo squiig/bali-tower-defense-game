@@ -1,4 +1,8 @@
+using System.Collections.Generic;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
 using UnityEngine;
+
 
 namespace Game.Interaction
 {
@@ -8,7 +12,13 @@ namespace Game.Interaction
 	public class TouchInputBehaviour : DDOLMonoBehaviourSingleton<TouchInputBehaviour>
 	{
 		public event System.Action<Vector2> OnDragDelta;
+		public event System.Action OnDragStart;
+		public event System.Action OnDragStop;
+
 		public event System.Action<float> OnPinchDelta;
+		public event System.Action OnPinchStart;
+		public event System.Action OnPinchStop;
+
 		public event System.Action OnDeselect;
 		public event System.Action OnTap;
 
@@ -17,18 +27,26 @@ namespace Game.Interaction
 		private TouchInputState _CurrentState = TouchInputState.TAPPING;
 		private Camera _CurrentCamera;
 
+
 #if UNITY_EDITOR
+		[SerializeField] private bool _UseMouseInput = true;
+		[SerializeField] private bool _UseKeyboardInput = false;
+
 		private Vector2 _PreviousMousePosition;
 #endif
 		public void Start()
 		{
 			_CurrentCamera = Camera.main;
 		}
-
+		 
 		private void Update()
 		{
-			HandleDebugMouse();
-			HandleDebugKeyboard();
+#if UNITY_EDITOR
+			if (_UseMouseInput)
+				HandleDebugMouse();
+			if (_UseKeyboardInput)
+				HandleDebugKeyboard();
+#endif
 
 			switch (_CurrentState)
 			{
@@ -55,15 +73,16 @@ namespace Game.Interaction
 					continue;
 				OnTap?.Invoke();
 
-				if (!ShootRay(touches[i].position))
-					OnDeselect?.Invoke();
+				if (!ShootGraphicsRays(Input.mousePosition))
+					if (!ShootPhysicsRay(touches[i].position))
+						OnDeselect?.Invoke();
 			}
 
 			if (touches.Length == 1)
 			{
 				if (touches[0].deltaPosition.magnitude > _DragThreshold)
 				{
-					_CurrentState = TouchInputState.DRAGGING;
+					SetCurrentState(TouchInputState.DRAGGING);
 				}
 			}
 
@@ -73,15 +92,62 @@ namespace Game.Interaction
 
 				if (Mathf.Abs(delta) > _PinchThreshold)
 				{
-					_CurrentState = TouchInputState.PINCHING;
+					SetCurrentState(TouchInputState.PINCHING);
 				}
 			}
 		}
 
-		private bool ShootRay(Vector2 screenposition)
+		public void SetCurrentState(TouchInputState state)
+		{
+			switch (_CurrentState)
+			{
+				case TouchInputState.TAPPING:
+					break;
+				case TouchInputState.DRAGGING:
+					OnDragStop?.Invoke();
+					break;
+				case TouchInputState.PINCHING:
+					OnPinchStop?.Invoke();
+					break;
+			}
+
+			switch (state)
+			{
+				case TouchInputState.TAPPING:
+					break;
+				case TouchInputState.DRAGGING:
+					OnDragStart?.Invoke();
+					break;
+				case TouchInputState.PINCHING:
+					OnPinchStart?.Invoke();
+					break;
+			}
+
+			_CurrentState = state;
+		}
+
+		private bool ShootGraphicsRays(Vector2 screenPosition)
+		{
+			PointerEventData data = new PointerEventData(null);
+			data.position = screenPosition;
+
+			// heavy? yes, very dynamic? also yes!
+			GraphicRaycaster[] graphicRaycaster = FindObjectsOfType<GraphicRaycaster>();
+
+			for (int i = 0; i < graphicRaycaster.Length; i++)
+			{
+				List<RaycastResult> results = new List<RaycastResult>();
+				graphicRaycaster[i].Raycast(data, results);
+				if (results.Count > 0)
+					return true;
+			}
+			return false;
+		}
+
+		private bool ShootPhysicsRay(Vector2 screenPosition)
 		{
 			bool success = false;
-			Ray ray = _CurrentCamera.ScreenPointToRay(screenposition);
+			Ray ray = _CurrentCamera.ScreenPointToRay(screenPosition);
 			if (Physics.Raycast(ray, out RaycastHit hit))
 			{
 				ITappable[] tappables = hit.collider.GetComponentsInChildren<ITappable>();
@@ -101,7 +167,7 @@ namespace Game.Interaction
 			Touch[] touches = Input.touches;
 			if (touches.Length == 0)
 			{
-				_CurrentState = TouchInputState.TAPPING;
+				SetCurrentState(TouchInputState.TAPPING);
 			}
 			else
 			{
@@ -114,7 +180,7 @@ namespace Game.Interaction
 
 				if (Mathf.Abs(delta) > _PinchThreshold)
 				{
-					_CurrentState = TouchInputState.PINCHING;
+					SetCurrentState(TouchInputState.PINCHING);
 				}
 			}
 		}
@@ -124,7 +190,7 @@ namespace Game.Interaction
 			Touch[] touches = Input.touches;
 			if (touches.Length == 0)
 			{
-				_CurrentState = TouchInputState.TAPPING;
+				SetCurrentState(TouchInputState.TAPPING);
 			}
 			else
 			{
@@ -132,7 +198,7 @@ namespace Game.Interaction
 				{
 					if (touches[0].deltaPosition.magnitude > _DragThreshold)
 					{
-						_CurrentState = TouchInputState.DRAGGING;
+						SetCurrentState(TouchInputState.DRAGGING);
 					}
 				}
 
@@ -147,7 +213,10 @@ namespace Game.Interaction
 		{
 #if UNITY_EDITOR
 			if (Input.GetMouseButtonDown(1))
+			{
 				_PreviousMousePosition = Input.mousePosition;
+				OnDragStart?.Invoke();
+			}
 
 			if (Input.GetMouseButton(1))
 			{
@@ -156,12 +225,17 @@ namespace Game.Interaction
 				_PreviousMousePosition = Input.mousePosition;
 			}
 
+			if (Input.GetMouseButtonUp(1))
+				OnDragStop?.Invoke();
+
 			OnPinchDelta?.Invoke(Input.mouseScrollDelta.y);
 
 			if (Input.GetMouseButtonDown(0))
 			{
 				OnTap?.Invoke();
-				if (!ShootRay(Input.mousePosition))
+
+				if (!ShootGraphicsRays(Input.mousePosition))
+				if (!ShootPhysicsRay(Input.mousePosition))
 				{
 					OnDeselect?.Invoke();
 				}
