@@ -5,12 +5,18 @@ ModelImporter:
   fileIDToRecycleName:
     100000: TD_TowerOfTheChakram01_mesh
     100002: //RootNode
+    100004: polySurface7
     400000: TD_TowerOfTheChakram01_mesh
     400002: //RootNode
+    400004: polySurface7
     2100000: TD_TowerOfTheChakram01_meshMat
+    2100002: polySurface7Mat
     2300000: TD_TowerOfTheChakram01_mesh
+    2300002: polySurface7
     3300000: TD_TowerOfTheChakram01_mesh
+    3300002: polySurface7
     4300000: TD_TowerOfTheChakram01_mesh
+    4300002: polySurface7
   externalObjects: {}
   materials:
     importMaterials: 1
