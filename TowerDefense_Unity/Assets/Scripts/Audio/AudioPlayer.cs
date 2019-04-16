@@ -11,6 +11,7 @@ namespace Game.Audio
 		private AudioSource _AudioSource;
 		private UnityCallbackBehaviour _Callbacks;
 		private TransformFollower _TransformFollower;
+		private int _ChannelNumber;
 
 		public object Context { get; private set; } = null;
 		public bool IsFree { get; private set; } = true;
@@ -18,6 +19,7 @@ namespace Game.Audio
 		public AudioChannel(Transform parent, UnityCallbackBehaviour callbacks, int channelNumber = -1)
 		{
 			_Callbacks = callbacks;
+			_ChannelNumber = channelNumber;
 			_GameObject = new GameObject($"Audio Channel {channelNumber}");
 			_TransformFollower = new TransformFollower(callbacks, _GameObject.transform);
 
@@ -37,6 +39,7 @@ namespace Game.Audio
 				_TransformFollower.StopFollowing();
 				_Callbacks.OnUpdate -= Update;
 				IsFree = true;
+				_GameObject.name = $"Audio Channel {_ChannelNumber}";
 			}
 		}
 
@@ -50,13 +53,11 @@ namespace Game.Audio
 			_Callbacks.OnUpdate -= Update;
 			_Callbacks.OnUpdate += Update;
 
-#if UNITY_EDITOR // for debugging purposes
-			_GameObject.transform.SetAsFirstSibling();
-#endif
 			_GameObject.SetActive(true);
 			Context = audioEvent.Context;
 			AudioSysUtil.ConfigureAudioSource(_AudioSource, asset);
 			_AudioSource.Play();
+			_GameObject.name = $"Audio Channel {_ChannelNumber}: {audioEvent.Identifier}";
 		}
 
 		public void Stop()

@@ -19,6 +19,8 @@ namespace Game.Audio
 		[SerializeField] private float _SpatialBlend = 1;
 		[SerializeField] private bool _Looped = false;
 		[SerializeField] private bool _RandomStartPosition = false;
+		[SerializeField] private float _MaxDistance = 500;
+		[SerializeField] private float _MinDistance = 1;
 
 		[SerializeField] private float _PitchMin = 1;
         [SerializeField] private float _PitchMax = 1;
@@ -34,6 +36,8 @@ namespace Game.Audio
         public float Pan => _Pan;
 		public float Doppler => _Doppler;
 		public float SpatialBlend => _SpatialBlend;
+		public float MaxDistance => _MaxDistance;
+		public float MinDistance => _MinDistance;
 		public bool IsLooped => _Looped;
 		public bool RandomStartPosition => _RandomStartPosition;
 

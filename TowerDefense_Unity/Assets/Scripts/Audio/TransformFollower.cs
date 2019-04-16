@@ -19,7 +19,6 @@ namespace Game.Audio
 
 		public void StartFollowing(Transform transform)
 		{
-			Debug.Log("Reeee");
 			_TargetTransform = transform;
 
 			// Ensures we're only subscribed once.

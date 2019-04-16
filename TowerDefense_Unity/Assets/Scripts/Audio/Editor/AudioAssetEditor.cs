@@ -27,6 +27,8 @@ namespace Game.Audio.Editor
 		private SerializedProperty _SpatialBlend;
 		private SerializedProperty _Pan;
 		private SerializedProperty _Looped;
+		private SerializedProperty _MaxDistance;
+		private SerializedProperty _MinDistance;
 
 		private Vector3 _ScrollVector;
 
@@ -50,6 +52,8 @@ namespace Game.Audio.Editor
 			_PitchMin = _SerializedTarget.FindProperty("_PitchMin");
 			_PitchMax = _SerializedTarget.FindProperty("_PitchMax");
 			_Looped = _SerializedTarget.FindProperty("_Looped");
+			_MaxDistance = _SerializedTarget.FindProperty("_MaxDistance");
+			_MinDistance = _SerializedTarget.FindProperty("_MinDistance");
 			_Pan = _SerializedTarget.FindProperty("_Pan");
 			_AudioMixerGroup = _SerializedTarget.FindProperty("_AudioMixerGroup");
 			_Volume = _SerializedTarget.FindProperty("_Volume");
@@ -110,10 +114,6 @@ namespace Game.Audio.Editor
 			_Volume.floatValue = EditorGUILayout.FloatField(_Volume.floatValue);
 			EditorGUILayout.LabelField(_PanLabel);
 			_Pan.floatValue = EditorGUILayout.Slider(_Pan.floatValue, -1f, 1f);
-			EditorGUILayout.LabelField("Doppler (2D - 3D)");
-			_Doppler.floatValue = EditorGUILayout.Slider(_Doppler.floatValue, 0, 5f);
-			EditorGUILayout.LabelField("SpatialBlend (2D - 3D)");
-			_SpatialBlend.floatValue = EditorGUILayout.Slider(_SpatialBlend.floatValue, 0, 1f);
 
 			EditorGUILayout.LabelField(_PitchLabel);
 			EditorScriptUtil.RangeSlider(
@@ -124,9 +124,24 @@ namespace Game.Audio.Editor
 
 			EditorGUILayout.ObjectField(_AudioMixerGroup, typeof(AudioMixerGroup));
 			_AvoidRepetition.boolValue = EditorGUILayout.Toggle(_AvoidRepetitionContent, _AvoidRepetition.boolValue);
-			_Looped.boolValue = EditorGUILayout.Toggle("Looped", _Looped.boolValue);
 
 			GUILayout.EndVertical();
+
+
+			EditorGUILayout.LabelField("Audio source settings");
+
+			GUILayout.BeginVertical(GUI.skin.box);
+			EditorGUILayout.LabelField("Doppler (2D - 3D)");
+			_Doppler.floatValue = EditorGUILayout.Slider(_Doppler.floatValue, 0, 5f);
+			EditorGUILayout.LabelField("SpatialBlend (2D - 3D)");
+			_SpatialBlend.floatValue = EditorGUILayout.Slider(_SpatialBlend.floatValue, 0, 1f);
+			EditorGUILayout.LabelField("MaxDistance");
+			_MaxDistance.floatValue = EditorGUILayout.FloatField(_MaxDistance.floatValue);
+			EditorGUILayout.LabelField("MinDistance");
+			_MinDistance.floatValue = EditorGUILayout.FloatField(_MinDistance.floatValue);
+			_Looped.boolValue = EditorGUILayout.Toggle("Looped", _Looped.boolValue);
+			GUILayout.EndVertical();
+
 		}
 
 		public void DrawClipList()
