@@ -4,11 +4,121 @@ ModelImporter:
   serializedVersion: 23
   fileIDToRecycleName:
     100000: //RootNode
+    100002: Fern
+    100004: Fern.High
+    100006: Fern.N
+    100008: Fern.N2
+    100010: Foliage_01
+    100012: Foliage_01.001
+    100014: Foliage_01.002
+    100016: Foliage_01.003
+    100018: Foliage_01.004
+    100020: Foliage_01.005
+    100022: Foliage_01.006
+    100024: Foliage_01.017
+    100026: Foliage_01.SimpleFaces
+    100028: Foliage_01_HigherFaces
+    100030: Leaves_Base
+    100032: Leaves_Base.001
+    100034: Leaves_Base.003
+    100036: Sphere
+    100038: Sphere.001
+    100040: Sphere.002
+    100042: Sphere.003
+    100044: Sun
     400000: //RootNode
+    400002: Fern
+    400004: Fern.High
+    400006: Fern.N
+    400008: Fern.N2
+    400010: Foliage_01
+    400012: Foliage_01.001
+    400014: Foliage_01.002
+    400016: Foliage_01.003
+    400018: Foliage_01.004
+    400020: Foliage_01.005
+    400022: Foliage_01.006
+    400024: Foliage_01.017
+    400026: Foliage_01.SimpleFaces
+    400028: Foliage_01_HigherFaces
+    400030: Leaves_Base
+    400032: Leaves_Base.001
+    400034: Leaves_Base.003
+    400036: Sphere
+    400038: Sphere.001
+    400040: Sphere.002
+    400042: Sphere.003
+    400044: Sun
     2100000: Low_Foliage
+    2100002: No Name
+    2100004: Foliage_01
+    2100006: Leaves_Tri
     2300000: //RootNode
+    2300002: Fern
+    2300004: Fern.High
+    2300006: Fern.N
+    2300008: Fern.N2
+    2300010: Foliage_01
+    2300012: Foliage_01.001
+    2300014: Foliage_01.002
+    2300016: Foliage_01.003
+    2300018: Foliage_01.004
+    2300020: Foliage_01.005
+    2300022: Foliage_01.006
+    2300024: Foliage_01.017
+    2300026: Foliage_01.SimpleFaces
+    2300028: Foliage_01_HigherFaces
+    2300030: Leaves_Base
+    2300032: Leaves_Base.001
+    2300034: Leaves_Base.003
+    2300036: Sphere
+    2300038: Sphere.001
+    2300040: Sphere.002
+    2300042: Sphere.003
     3300000: //RootNode
+    3300002: Fern
+    3300004: Fern.High
+    3300006: Fern.N
+    3300008: Fern.N2
+    3300010: Foliage_01
+    3300012: Foliage_01.001
+    3300014: Foliage_01.002
+    3300016: Foliage_01.003
+    3300018: Foliage_01.004
+    3300020: Foliage_01.005
+    3300022: Foliage_01.006
+    3300024: Foliage_01.017
+    3300026: Foliage_01.SimpleFaces
+    3300028: Foliage_01_HigherFaces
+    3300030: Leaves_Base
+    3300032: Leaves_Base.001
+    3300034: Leaves_Base.003
+    3300036: Sphere
+    3300038: Sphere.001
+    3300040: Sphere.002
+    3300042: Sphere.003
     4300000: Fern.N2
+    4300002: Fern
+    4300004: Fern.N
+    4300006: Sphere
+    4300008: Foliage_01
+    4300010: Sphere.001
+    4300012: Foliage_01.001
+    4300014: Foliage_01.002
+    4300016: Foliage_01.017
+    4300018: Sphere.002
+    4300020: Leaves_Base.001
+    4300022: Foliage_01.003
+    4300024: Foliage_01.005
+    4300026: Fern.High
+    4300028: Sphere.003
+    4300030: Foliage_01.SimpleFaces
+    4300032: Leaves_Base
+    4300034: Foliage_01.004
+    4300036: Foliage_01_HigherFaces
+    4300038: Leaves_Base.003
+    4300040: Foliage_01.006
+    10800000: Sun
   externalObjects: {}
   materials:
     importMaterials: 1
