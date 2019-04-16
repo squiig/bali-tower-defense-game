@@ -13,11 +13,16 @@ MonoBehaviour:
   m_Name: tower_fire
   m_EditorClassIdentifier: 
   _AudioMixerGroup: {fileID: 0}
-  _AudioClips: []
+  _AudioClips:
+  - {fileID: 8300000, guid: 141d28ee5419ec548a5731e448a156db, type: 3}
+  - {fileID: 8300000, guid: 0a5fbde44cd0774419f6481abdca53cf, type: 3}
+  - {fileID: 8300000, guid: 9e0378c68e3d15844ad50c4501fcb771, type: 3}
+  - {fileID: 8300000, guid: 1589299c9998eef4b940cfe8bbe97d03, type: 3}
+  - {fileID: 8300000, guid: 595fbad0f50c5754d91770b07e6e28d3, type: 3}
   _Volume: 1
   _Pan: 0
   _Doppler: 0
   _SpatialBlend: 1
-  _PitchMin: 1
-  _PitchMax: 1
+  _PitchMin: 0.9316958
+  _PitchMax: 1.382962
   _AvoidRepetition: 1

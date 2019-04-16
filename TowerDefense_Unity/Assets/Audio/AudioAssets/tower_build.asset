@@ -13,11 +13,12 @@ MonoBehaviour:
   m_Name: tower_build
   m_EditorClassIdentifier: 
   _AudioMixerGroup: {fileID: 0}
-  _AudioClips: []
+  _AudioClips:
+  - {fileID: 8300000, guid: c84998fa00a5b4b45ba5cf0fae29b8da, type: 3}
   _Volume: 1
   _Pan: 0
   _Doppler: 0
   _SpatialBlend: 1
-  _PitchMin: 1
-  _PitchMax: 1
+  _PitchMin: 0.45691505
+  _PitchMax: 0.7986058
   _AvoidRepetition: 1

@@ -13,5 +13,9 @@ MonoBehaviour:
   m_Name: AudioAssetLibrary
   m_EditorClassIdentifier: 
   _AudioAssetIdentifierMappings:
-  - _Identifier: debug/debug
-    _AudioAsset: {fileID: 11400000, guid: e6a7fde844a7cfd40aee39dbdae3663b, type: 2}
+  - _Identifier: tower/fire
+    _AudioAsset: {fileID: 11400000, guid: e257d5bd10e2ba84c9f6e01f483b41bc, type: 2}
+  - _Identifier: tower/build
+    _AudioAsset: {fileID: 11400000, guid: 224ff768c74f4d148a0311edd60d0d30, type: 2}
+  - _Identifier: minion/growl
+    _AudioAsset: {fileID: 11400000, guid: 0b2b1f3dd488fc94190e9a31c8b39ff0, type: 2}

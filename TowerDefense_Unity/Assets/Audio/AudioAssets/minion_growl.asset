@@ -13,11 +13,14 @@ MonoBehaviour:
   m_Name: minion_growl
   m_EditorClassIdentifier: 
   _AudioMixerGroup: {fileID: 0}
-  _AudioClips: []
+  _AudioClips:
+  - {fileID: 8300000, guid: a843f1a86e0632643883469c198f60fb, type: 3}
+  - {fileID: 8300000, guid: af011b94cd50b7443ad1413d238ce55c, type: 3}
+  - {fileID: 8300000, guid: 7543e424db0ff254ebabc737167d962d, type: 3}
   _Volume: 1
   _Pan: 0
   _Doppler: 0
-  _SpatialBlend: 1
-  _PitchMin: 1
-  _PitchMax: 1
+  _SpatialBlend: 0
+  _PitchMin: 0.8908098
+  _PitchMax: 1.4476798
   _AvoidRepetition: 1
