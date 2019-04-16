@@ -23,6 +23,8 @@ namespace Game.Audio.Editor
 		private SerializedProperty _PitchMax;
 		private SerializedProperty _AvoidRepetition;
 		private SerializedProperty _Volume;
+		private SerializedProperty _Doppler;
+		private SerializedProperty _SpatialBlend;
 		private SerializedProperty _Pan;
 
 		private Vector3 _ScrollVector;
@@ -50,6 +52,8 @@ namespace Game.Audio.Editor
 			_AudioMixerGroup = _SerializedTarget.FindProperty("_AudioMixerGroup");
 			_Volume = _SerializedTarget.FindProperty("_Volume");
 			_AvoidRepetition = _SerializedTarget.FindProperty("_AvoidRepetition");
+			_Doppler = _SerializedTarget.FindProperty("_Doppler");
+			_SpatialBlend = _SerializedTarget.FindProperty("_SpatialBlend");
 			_SelectableList.ResetSelection();
 		}
 
@@ -104,6 +108,10 @@ namespace Game.Audio.Editor
 			_Volume.floatValue = EditorGUILayout.FloatField(_Volume.floatValue);
 			EditorGUILayout.LabelField(_PanLabel);
 			_Pan.floatValue = EditorGUILayout.Slider(_Pan.floatValue, -1f, 1f);
+			EditorGUILayout.LabelField("Doppler (2D - 3D)");
+			_Doppler.floatValue = EditorGUILayout.Slider(_Doppler.floatValue, 0, 5f);
+			EditorGUILayout.LabelField("SpatialBlend (2D - 3D)");
+			_SpatialBlend.floatValue = EditorGUILayout.Slider(_SpatialBlend.floatValue, 0, 1f);
 
 			EditorGUILayout.LabelField(_PitchLabel);
 			EditorScriptUtil.RangeSlider(

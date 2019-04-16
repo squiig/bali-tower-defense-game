@@ -48,8 +48,7 @@ namespace Game.Audio
 			if (!asset)
 				return;
 
-			_AudioChannelPool.Play(asset,
-                audioEvent.Context);
+			_AudioChannelPool.Play(asset, audioEvent);
         }
 
         private AudioAsset ResolveAsset(AudioEvent audioEvent)

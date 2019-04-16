@@ -12,4 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ffd99bc95d9a47478828e293fead334, type: 3}
   m_Name: AudioAssetLibrary
   m_EditorClassIdentifier: 
-  _AudioAssetIndentifierMappings: []
+  _AudioAssetIdentifierMappings:
+  - _Identifier: debug/debug
+    _AudioAsset: {fileID: 11400000, guid: e6a7fde844a7cfd40aee39dbdae3663b, type: 2}

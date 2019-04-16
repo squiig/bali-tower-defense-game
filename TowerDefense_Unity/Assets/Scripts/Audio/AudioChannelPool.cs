@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 
 namespace Game.Audio
 {
@@ -12,21 +12,22 @@ namespace Game.Audio
         public AudioChannelPool(uint channelCount)
         {
             _AudioChannels = new AudioChannel[channelCount];
+			
+			GameObject parentObject = new GameObject("Audio Channels");
+			UnityCallbackBehaviour callbackBehaviour = parentObject.AddComponent<UnityCallbackBehaviour>();
 
-            GameObject parentObject = new GameObject("Audio Channels");
-
-            Object.DontDestroyOnLoad(parentObject);
+			Object.DontDestroyOnLoad(parentObject);
             for (int i = 0; i < _AudioChannels.Length; i++)
             {
-                _AudioChannels[i] = new AudioChannel(parentObject.transform, i + 1);
-            }
+                _AudioChannels[i] = new AudioChannel(parentObject.transform, callbackBehaviour, i + 1);
+			}
         }
 
-        public void Play(AudioAsset asset, object context)
+        public void Play(AudioAsset asset, AudioEvent audioEvent)
         {
             if (FindFreeChannel(out AudioChannel channel))
             {
-                channel.Play(asset, context);
+                channel.Play(asset, audioEvent);
             }
             else
             {

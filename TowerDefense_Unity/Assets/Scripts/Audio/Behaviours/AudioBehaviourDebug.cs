@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 namespace Game.Audio.Debugging
@@ -10,10 +11,18 @@ namespace Game.Audio.Debugging
 	{
 		[SerializeField] private string _Identifier = "debug/debug";
 
-		void Update()
+		void Start()
 		{
-			if (Input.GetKeyDown(KeyCode.Space))
-				Audio.SendEvent(new AudioEvent(this, AudioCommands.PLAY, _Identifier));
+			StartCoroutine(Routine());
+		}
+
+		IEnumerator Routine()
+		{
+			while (true)
+			{
+				yield return new WaitForSeconds(1);
+				Audio.SendEvent(new AudioEvent(this, AudioCommands.PLAY, _Identifier, followTransform: transform));
+			}
 		}
 	}
 }

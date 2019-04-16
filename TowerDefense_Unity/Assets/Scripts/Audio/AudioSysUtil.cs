@@ -21,6 +21,9 @@ namespace Game.Audio
 				return;
 			}
 
+			audioSource.spatialBlend = asset.SpatialBlend;
+			audioSource.dopplerLevel = asset.Doppler;
+
 			audioSource.panStereo = asset.Pan;
 			audioSource.outputAudioMixerGroup = asset.AudioMixerGroup;
 			audioSource.pitch = pitch;
