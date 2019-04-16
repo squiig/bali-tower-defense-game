@@ -45,7 +45,8 @@ namespace Game
 			}
 			else
 			{
-				Destroy(gameObject);
+				if (_Instance != this as T)
+					Destroy(gameObject);
 			}
 		}
 	}
