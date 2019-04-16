@@ -19,3 +19,9 @@ MonoBehaviour:
     _AudioAsset: {fileID: 11400000, guid: 224ff768c74f4d148a0311edd60d0d30, type: 2}
   - _Identifier: minion/growl
     _AudioAsset: {fileID: 11400000, guid: 0b2b1f3dd488fc94190e9a31c8b39ff0, type: 2}
+  - _Identifier: minion/walk
+    _AudioAsset: {fileID: 11400000, guid: e69d08818d210e84fbce13f456b7ae35, type: 2}
+  - _Identifier: minion/hit
+    _AudioAsset: {fileID: 11400000, guid: fca4ddf0b5b3e0b4a9aefa48b61c78ec, type: 2}
+  - _Identifier: minion/death
+    _AudioAsset: {fileID: 11400000, guid: cfeffd60e95233a42aafd4a771425f5c, type: 2}

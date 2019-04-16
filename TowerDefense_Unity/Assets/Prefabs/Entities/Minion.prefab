@@ -149,8 +149,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _MinMaxFloat:
-    _Min: 10
-    _Max: 20
+    _Min: 30
+    _Max: 60
   _Identifier: minion/growl
   _PlayFasterOnStart: 1
 --- !u!1001 &1673490404143577267

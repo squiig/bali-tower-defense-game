@@ -49,6 +49,7 @@ namespace Game.Audio
 
 			if (audioEvent.FollowTransform)
 				_TransformFollower.StartFollowing(audioEvent.FollowTransform);
+			_GameObject.transform.position = audioEvent.WorldPosition;
 
 			_Callbacks.OnUpdate -= Update;
 			_Callbacks.OnUpdate += Update;

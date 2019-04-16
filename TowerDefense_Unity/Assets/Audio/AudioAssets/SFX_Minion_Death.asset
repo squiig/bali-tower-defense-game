@@ -10,13 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2588a25b0087bc84caa0325c7f36f85c, type: 3}
-  m_Name: minion_growl
+  m_Name: SFX_Minion_Death
   m_EditorClassIdentifier: 
   _AudioMixerGroup: {fileID: 0}
   _AudioClips:
-  - {fileID: 8300000, guid: a843f1a86e0632643883469c198f60fb, type: 3}
-  - {fileID: 8300000, guid: af011b94cd50b7443ad1413d238ce55c, type: 3}
-  - {fileID: 8300000, guid: 7543e424db0ff254ebabc737167d962d, type: 3}
+  - {fileID: 8300000, guid: 194a0741c3c5dd844899e235398bc81d, type: 3}
   _Volume: 1
   _Pan: 0
   _Doppler: 0
@@ -25,6 +23,6 @@ MonoBehaviour:
   _RandomStartPosition: 0
   _MaxDistance: 500
   _MinDistance: 3
-  _PitchMin: 0.8908098
-  _PitchMax: 1.4476798
+  _PitchMin: 0.39558047
+  _PitchMax: 0.6872934
   _AvoidRepetition: 1

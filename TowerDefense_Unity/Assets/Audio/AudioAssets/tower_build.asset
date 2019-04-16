@@ -19,6 +19,10 @@ MonoBehaviour:
   _Pan: 0
   _Doppler: 0
   _SpatialBlend: 1
+  _Looped: 0
+  _RandomStartPosition: 0
+  _MaxDistance: 500
+  _MinDistance: 8
   _PitchMin: 0.45691505
   _PitchMax: 0.7986058
   _AvoidRepetition: 1

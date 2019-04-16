@@ -10,21 +10,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2588a25b0087bc84caa0325c7f36f85c, type: 3}
-  m_Name: minion_growl
+  m_Name: SFX_Menu_Transition
   m_EditorClassIdentifier: 
   _AudioMixerGroup: {fileID: 0}
   _AudioClips:
-  - {fileID: 8300000, guid: a843f1a86e0632643883469c198f60fb, type: 3}
-  - {fileID: 8300000, guid: af011b94cd50b7443ad1413d238ce55c, type: 3}
-  - {fileID: 8300000, guid: 7543e424db0ff254ebabc737167d962d, type: 3}
+  - {fileID: 8300000, guid: 84e0385bff8112447b286566e4a0bca8, type: 3}
   _Volume: 1
   _Pan: 0
   _Doppler: 0
-  _SpatialBlend: 1
+  _SpatialBlend: 0
   _Looped: 0
   _RandomStartPosition: 0
   _MaxDistance: 500
-  _MinDistance: 3
-  _PitchMin: 0.8908098
-  _PitchMax: 1.4476798
+  _MinDistance: 1
+  _PitchMin: 1
+  _PitchMax: 1
   _AvoidRepetition: 1
