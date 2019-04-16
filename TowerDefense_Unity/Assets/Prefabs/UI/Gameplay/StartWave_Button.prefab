@@ -330,3 +330,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _CanvasGroup: {fileID: 0}
+  _TextRenderer: {fileID: 5499988754449720305}
+  _Text: Start

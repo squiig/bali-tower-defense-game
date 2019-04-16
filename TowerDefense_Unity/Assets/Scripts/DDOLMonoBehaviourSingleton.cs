@@ -6,15 +6,13 @@ using UnityEngine;
 namespace Game
 {
 	/// <summary>
-	/// Same as the Singleton but with DontDestroyOnLoad functionality (persistency through scenes).
+	/// Same as the <see cref="MonoBehaviourSingleton{T}"/> but with <see cref="DontDestroyOnLoad"/> functionality (persistency through scenes).
 	/// </summary>
-	/// <typeparam name="T">The class that's inheriting from DDOLSingleton.</typeparam>
+	/// <typeparam name="T">The class that's inheriting from <see cref="DDOLMonoBehaviourSingleton{T}"/>.</typeparam>
 	[DisallowMultipleComponent]
-	public abstract class DDOLMonoBehaviourSingleton<T> : MonoBehaviour where T : Component
+	public abstract class DDOLMonoBehaviourSingleton<T> : MonoBehaviourSingletonBase where T : Component
 	{
 		private static T _Instance;
-
-		private static bool _IsNewInstanceAllowed = true;
 
 		/// <summary>
 		/// Referencing this field creates an instance if it doesn't already exist.
@@ -26,7 +24,7 @@ namespace Game
 				{
 					_Instance = FindObjectOfType<T>();
 
-					if (_Instance == null && _IsNewInstanceAllowed)
+					if (_Instance == null && IsNewInstanceAllowed)
 					{
 						GameObject obj = new GameObject();
 						obj.name = typeof(T).Name;
@@ -47,18 +45,9 @@ namespace Game
 			}
 			else
 			{
-				Destroy(gameObject);
+				if (_Instance != this as T)
+					Destroy(gameObject);
 			}
-		}
-
-		protected virtual void OnEnable()
-		{
-			_IsNewInstanceAllowed = true;
-		}
-
-		protected virtual void OnDisable()
-		{
-			_IsNewInstanceAllowed = false;
 		}
 	}
 }

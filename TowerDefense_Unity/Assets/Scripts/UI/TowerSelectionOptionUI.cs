@@ -49,7 +49,6 @@ public class TowerSelectionOptionUI : MonoBehaviour
 		if (_ResourceSystem.ResourceCount >= _TowerPrice)
 		{
 			TowerBuildSelection.Instance.SetTowerSelected(_PrefabToSpawnOnSelection.gameObject);
-			_ResourceSystem.RunTransaction(-_TowerPrice);
 		}
 	}
 }

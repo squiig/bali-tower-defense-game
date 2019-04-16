@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 9a3d732e28ebb1a44b10ba1f8d2ca82e
+guid: c0d7b047bdee7eb4a8d2bb29694c9d50
 ModelImporter:
   serializedVersion: 23
   fileIDToRecycleName:
@@ -7,11 +7,16 @@ ModelImporter:
     100002: //RootNode
     400000: pCube9
     400002: //RootNode
-    2100000: pCube9Mat
+    2100000: blinn1SG
     2300000: pCube9
     3300000: pCube9
     4300000: pCube9
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: blinn1SG
+    second: {fileID: 2100000, guid: f97a77508e1fd9742bab3acb7421e028, type: 2}
   materials:
     importMaterials: 1
     materialName: 0
