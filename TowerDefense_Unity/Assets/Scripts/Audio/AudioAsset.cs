@@ -17,8 +17,10 @@ namespace Game.Audio
         [SerializeField] private float _Pan = 0;
 		[SerializeField] private float _Doppler = 0;
 		[SerializeField] private float _SpatialBlend = 1;
+		[SerializeField] private bool _Looped = false;
+		[SerializeField] private bool _RandomStartPosition = false;
 
-        [SerializeField] private float _PitchMin = 1;
+		[SerializeField] private float _PitchMin = 1;
         [SerializeField] private float _PitchMax = 1;
 
 		[SerializeField] private bool _AvoidRepetition = true;
@@ -32,8 +34,12 @@ namespace Game.Audio
         public float Pan => _Pan;
 		public float Doppler => _Doppler;
 		public float SpatialBlend => _SpatialBlend;
+		public bool IsLooped => _Looped;
+		public bool RandomStartPosition => _RandomStartPosition;
 
-        public float GetPitch()
+
+
+		public float GetPitch()
         {
 	        return Random.Range(_PitchMin, _PitchMax);
         }

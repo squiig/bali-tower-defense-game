@@ -26,6 +26,7 @@ namespace Game.Audio.Editor
 		private SerializedProperty _Doppler;
 		private SerializedProperty _SpatialBlend;
 		private SerializedProperty _Pan;
+		private SerializedProperty _Looped;
 
 		private Vector3 _ScrollVector;
 
@@ -48,6 +49,7 @@ namespace Game.Audio.Editor
 			_ClipList = _SerializedTarget.FindProperty("_AudioClips");
 			_PitchMin = _SerializedTarget.FindProperty("_PitchMin");
 			_PitchMax = _SerializedTarget.FindProperty("_PitchMax");
+			_Looped = _SerializedTarget.FindProperty("_Looped");
 			_Pan = _SerializedTarget.FindProperty("_Pan");
 			_AudioMixerGroup = _SerializedTarget.FindProperty("_AudioMixerGroup");
 			_Volume = _SerializedTarget.FindProperty("_Volume");
@@ -122,6 +124,7 @@ namespace Game.Audio.Editor
 
 			EditorGUILayout.ObjectField(_AudioMixerGroup, typeof(AudioMixerGroup));
 			_AvoidRepetition.boolValue = EditorGUILayout.Toggle(_AvoidRepetitionContent, _AvoidRepetition.boolValue);
+			_Looped.boolValue = EditorGUILayout.Toggle("Looped", _Looped.boolValue);
 
 			GUILayout.EndVertical();
 		}

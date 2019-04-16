@@ -7,7 +7,7 @@ namespace Game.Audio
     /// </summary>
     public class AudioManager
     {
-        private const int AUDIO_CHANNEL_COUNT = 20;
+        private const int AUDIO_CHANNEL_COUNT = 50;
         private AudioAssetLibrary[] _Libraries;
         private AudioChannelPool _AudioChannelPool;
 
