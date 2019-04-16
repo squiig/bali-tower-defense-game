@@ -4567,5 +4567,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: WaterSpout_1
       objectReference: {fileID: 0}
+    - target: {fileID: 7424953335473147017, guid: 72b360f3378776547b71963c62f0b00a,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: eed23eaf22a120042822d618f7b739f5, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 72b360f3378776547b71963c62f0b00a, type: 3}
