@@ -36,7 +36,7 @@ namespace Game.Audio
 		private void OnLateUpdate()
 		{
 			// Stop following if object isn't active
-			if (!_TargetTransform.gameObject.activeInHierarchy)
+			if (_Transform == null || !_TargetTransform.gameObject.activeInHierarchy)
 			{
 				StopFollowing();
 				return;

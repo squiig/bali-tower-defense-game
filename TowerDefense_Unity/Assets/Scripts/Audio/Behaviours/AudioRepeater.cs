@@ -1,14 +1,16 @@
 using System.Collections;
 using Game.Utils;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Game.Audio.Bahaviours
 {
 	public class AudioRepeater : MonoBehaviour
 	{
 		private Coroutine _Coroutine;
-		[SerializeField] private MinMaxFloat MinMaxFloat;
-		[SerializeField] private string Identifier = "";
+		[SerializeField] private MinMaxFloat _MinMaxFloat;
+		[SerializeField] private string _Identifier = "";
+		[SerializeField] private bool _PlayFasterOnStart = true;
 
 		void OnEnable()
 		{
@@ -22,10 +24,16 @@ namespace Game.Audio.Bahaviours
 
 		private IEnumerator RepeatRoutine()
 		{
+			if (_PlayFasterOnStart)
+			{
+				yield return new WaitForSeconds(Random.Range(0, _MinMaxFloat.Max));
+				Audio.SendEvent(new AudioEvent(this, AudioCommands.PLAY, _Identifier, followTransform: transform));
+			}
+
 			while (true)
 			{
-				yield return new WaitForSeconds(MinMaxFloat.GetRandom());
-				Audio.SendEvent(new AudioEvent(this, AudioCommands.PLAY, Identifier, followTransform:transform));
+				yield return new WaitForSeconds(_MinMaxFloat.GetRandom());
+				Audio.SendEvent(new AudioEvent(this, AudioCommands.PLAY, _Identifier, followTransform:transform));
 			}
 		}
 	}

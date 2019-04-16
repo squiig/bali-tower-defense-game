@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 7364521763725478458}
   - component: {fileID: 478953006072472640}
   - component: {fileID: 4322658037653074980}
+  - component: {fileID: 3484257573679255741}
   m_Layer: 8
   m_Name: Minion
   m_TagString: Untagged
@@ -123,6 +124,22 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
+--- !u!114 &3484257573679255741
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7373164451941745490}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 140b0351366fba646b69e4a1ab748e62, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MinMaxFloat:
+    _Min: 5
+    _Max: 10
+  Identifier: minion/growl
 --- !u!1001 &1673490404143577267
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -283,18 +300,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1673490404143577267}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &5772827053638064423 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 5126324777058574740, guid: 7037010f9bbe80848a74e9f10b8e60e3,
-    type: 3}
-  m_PrefabInstance: {fileID: 1673490404143577267}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &3041967935579485125 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4399545281152502646, guid: 7037010f9bbe80848a74e9f10b8e60e3,
@@ -310,6 +315,18 @@ MonoBehaviour:
 --- !u!114 &5355080035690460362 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6730768509952658553, guid: 7037010f9bbe80848a74e9f10b8e60e3,
+    type: 3}
+  m_PrefabInstance: {fileID: 1673490404143577267}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &5772827053638064423 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5126324777058574740, guid: 7037010f9bbe80848a74e9f10b8e60e3,
     type: 3}
   m_PrefabInstance: {fileID: 1673490404143577267}
   m_PrefabAsset: {fileID: 0}
