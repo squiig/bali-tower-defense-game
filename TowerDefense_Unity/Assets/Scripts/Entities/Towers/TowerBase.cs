@@ -10,15 +10,15 @@ namespace Game.Entities.Towers
 	public abstract class TowerBase : Entity, IAggressor
 	{
 		private SphereCollider _SphereCollider;
-		private float _attackCoolDown = 0.0f;
-		private const float ATTACK_COOL_DOWN_DURATION = 3.0f;
+		private float _AttackCoolDown = 0.0f;
+		[SerializeField] private float _AttackCooldownDuration = 3.0f;
 
 		[SerializeField] protected float StartAttackRange, MaxAttackRange, AttackRange, TowerPrice;
 		[SerializeField] protected TowerAttack Attack;
 		[SerializeField] protected IDamageable TargetDamageable;
 
-		[SerializeField] private Allegiance _allegiance;
-		[SerializeField] private bool _isDebug = false;
+		[SerializeField] private Allegiance _Allegiance;
+		[SerializeField] private bool _IsDebug = false;
 
 		public float GetRange() => AttackRange;
 		public float GetPrice() => TowerPrice;
@@ -50,7 +50,7 @@ namespace Game.Entities.Towers
 
 		private void Update()
 		{
-			if (_isDebug)
+			if (_IsDebug)
 				DrawDebug();
 
 			TargetingAndAttacks();
@@ -66,7 +66,7 @@ namespace Game.Entities.Towers
 
 		private void OnDrawGizmos()
 		{
-			if(!_isDebug)
+			if(!_IsDebug)
 				return;
 
 			Gizmos.DrawWireSphere(GetLocation(), AttackRange);
@@ -79,8 +79,8 @@ namespace Game.Entities.Towers
 
 		private void TargetingAndAttacks()
 		{
-			if (_attackCoolDown > 0)
-				_attackCoolDown -= Time.unscaledDeltaTime;
+			if (_AttackCoolDown > 0)
+				_AttackCoolDown -= Time.unscaledDeltaTime;
 
 			ExecuteAttack();
 		}
@@ -112,12 +112,16 @@ namespace Game.Entities.Towers
 				possibleTargets.Add(damageable);
 			}
 
+
+			if (possibleTargets.All(x => x == null))
+				return;
+
 			TargetDamageable = possibleTargets.FirstOrDefault(x =>
-				x.GetAllegiance() != _allegiance && TargetDamageable == null ||
-				x.GetPriority() > TargetDamageable.GetPriority());
+				(x != null && x.GetAllegiance() != _Allegiance && TargetDamageable == null) ||
+				 (x != null && TargetDamageable != null && x.GetPriority() > TargetDamageable.GetPriority()));
 		}
 
-		private bool ShouldAttack() => _attackCoolDown <= 0 && TargetDamageable != null && !IsTargetForsaken();
+		private bool ShouldAttack() => _AttackCoolDown <= 0 && TargetDamageable != null && !IsTargetForsaken();
 
 		/// <inheritdoc />
 		/// <summary>
@@ -130,7 +134,7 @@ namespace Game.Entities.Towers
 			if (!ShouldAttack())
 				return;
 
-			_attackCoolDown = ATTACK_COOL_DOWN_DURATION;
+			_AttackCoolDown = _AttackCooldownDuration;
 
 
 			if(Attack.GetAttackType() == AttackType.SINGLE_TARGET)
@@ -159,7 +163,7 @@ namespace Game.Entities.Towers
 
 		private void OnTriggerEnter(Collider other)
 		{
-			if(_isDebug)
+			if(_IsDebug)
 				Debug.Log($"Tower {GetHashCode()}: Found damageable [{other.gameObject.GetComponent<IDamageable>() != null}]");
 
 			IDamageable damageable;
@@ -170,7 +174,7 @@ namespace Game.Entities.Towers
 
 			TargetDamageable = damageable;
 
-			if (TargetDamageable == null || !_isDebug)
+			if (TargetDamageable == null || !_IsDebug)
 				return;
 
 			TargetDamageable.OnDeath += OnTargetDeath;
