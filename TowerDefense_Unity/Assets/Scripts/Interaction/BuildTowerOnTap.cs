@@ -28,6 +28,8 @@ namespace Game.Interaction
 			tower.transform.rotation = Quaternion.Euler(0, transform.rotation.eulerAngles.y, 0);
 			tower.transform.position = transform.position;
 			_TurretGridCell.OccupyTurret(tower);
+
+			ResourceSystem.Instance.RunTransaction((int)-tower.GetComponent<Entities.Towers.Tower>().GetPrice());
 		}
 	}
 }
