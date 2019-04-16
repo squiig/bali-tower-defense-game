@@ -6,7 +6,7 @@ namespace Game.UI
 {
 	public class HealthBarDebugUI : HealthBarBaseUI
 	{
-		private void Start()
+		protected override void OnEnable()
 		{
 			SetStartHealth(100f);
 		}
