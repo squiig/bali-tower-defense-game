@@ -7,7 +7,6 @@ namespace Game.Interaction
 {
 	public class CameraController : MonoBehaviour
 	{
-		private Transform _Transform;
 		private Transform _CameraTransform;
 
 		[FormerlySerializedAs("_positionOfClamp")]
@@ -31,33 +30,64 @@ namespace Game.Interaction
 		private bool _IsDragging = false;
 		private bool _IsZooming = false;
 
+		private TouchInputBehaviour _TouchInputBehaviour;
 
-		public void Start()
+		public void Awake()
 		{
-			_Transform = transform;
 			_CameraTransform = GetComponentInChildren<Camera>().transform;
-
-			TouchInputBehaviour.Instance.OnPinchDelta += RecieveZoom;
-			TouchInputBehaviour.Instance.OnDragDelta += RecieveMove;
-			TouchInputBehaviour.Instance.OnDragStart += () => _IsDragging = true;
-			TouchInputBehaviour.Instance.OnDragStop += () =>
-			{
-				_MoveVelocity = ArrayUtility.GetAverageVec2(_MoveVelocitySamples.ToArray());
-				_MoveVelocitySamples.Clear();
-				_MoveVelocitySamples.AddRange(new List<Vector2> { Vector2.zero, Vector2.zero, Vector2.zero, Vector2.zero });
-				_IsDragging = false;
-			};
-
-			TouchInputBehaviour.Instance.OnPinchStart += () => _IsZooming = true;
-			TouchInputBehaviour.Instance.OnPinchStop += () =>
-			{
-				_ZoomVelocity = ArrayUtility.Average(_ZoomVelocitySamples.ToArray());
-				_ZoomVelocitySamples.Clear();
-				_ZoomVelocitySamples.AddRange(new List<float> { 0, 0, 0, 0 });
-
-				_IsZooming = false;
-			};
 		}
+
+		private void OnEnable()
+		{
+			_TouchInputBehaviour = TouchInputBehaviour.Instance;
+			_TouchInputBehaviour.OnPinchDelta += RecieveZoom;
+			_TouchInputBehaviour.OnDragDelta += RecieveMove;
+			_TouchInputBehaviour.OnDragStart += _TouchInputBehaviour_OnDragStart;
+			_TouchInputBehaviour.OnDragStop += _TouchInputBehaviour_OnDragStop;
+			_TouchInputBehaviour.OnPinchStart += _TouchInputBehaviour_OnPinchStart;
+			_TouchInputBehaviour.OnPinchStop += _TouchInputBehaviour_OnPinchStop;
+		}
+
+		private void _TouchInputBehaviour_OnPinchStop()
+		{
+			_ZoomVelocity = ArrayUtility.Average(_ZoomVelocitySamples.ToArray());
+			_ZoomVelocitySamples.Clear();
+			_ZoomVelocitySamples.AddRange(new List<float> { 0, 0, 0, 0 });
+
+			_IsZooming = false;
+		}
+
+		private void _TouchInputBehaviour_OnPinchStart()
+		{
+			_IsZooming = true;
+		}
+
+		private void _TouchInputBehaviour_OnDragStop()
+		{
+			_MoveVelocity = ArrayUtility.GetAverageVec2(_MoveVelocitySamples.ToArray());
+			_MoveVelocitySamples.Clear();
+			_MoveVelocitySamples.AddRange(new List<Vector2> { Vector2.zero, Vector2.zero, Vector2.zero, Vector2.zero });
+			_IsDragging = false;
+		}
+
+		private void _TouchInputBehaviour_OnDragStart()
+		{
+			_IsDragging = true;
+		}
+
+		private void OnDisable()
+		{
+			if (_TouchInputBehaviour != null)
+			{
+				_TouchInputBehaviour.OnPinchDelta -= RecieveZoom;
+				_TouchInputBehaviour.OnDragDelta -= RecieveMove;
+				_TouchInputBehaviour.OnDragStart -= _TouchInputBehaviour_OnDragStart;
+				_TouchInputBehaviour.OnDragStop -= _TouchInputBehaviour_OnDragStop;
+				_TouchInputBehaviour.OnPinchStart -= _TouchInputBehaviour_OnPinchStart;
+				_TouchInputBehaviour.OnPinchStop -= _TouchInputBehaviour_OnPinchStop;
+			}
+		}
+
 		public void Update()
 		{
 			if (!_IsDragging)
@@ -81,9 +111,9 @@ namespace Game.Interaction
 
 		private void Zoom(float delta)
 		{
-			_Transform.position += _CameraTransform.forward * delta;
+			transform.position += _CameraTransform.forward * delta;
 			if (CheckClamp())
-				_Transform.position -= _CameraTransform.forward * delta;
+				transform.position -= _CameraTransform.forward * delta;
 			Clamp();
 		}
 
@@ -114,22 +144,22 @@ namespace Game.Interaction
 
 		private void Clamp()
 		{
-			Vector3 pos = _Transform.position;
+			Vector3 pos = transform.position;
 			Vector3 maxCube = _PositionOfClamp + _SizeOfClamp / 2;
 			Vector3 minCube = _PositionOfClamp - _SizeOfClamp / 2;
 
 			pos.x = Mathf.Clamp(pos.x, minCube.x, maxCube.x);
 			pos.y = Mathf.Clamp(pos.y, minCube.y, maxCube.y);
 			pos.z = Mathf.Clamp(pos.z, minCube.z, maxCube.z);
-			_Transform.position = pos;
+			transform.position = pos;
 		}
 
 		private bool CheckClamp()
 		{
-			Vector3 pos = _Transform.position;
+			Vector3 pos = transform.position;
 			Vector3 maxCube = _PositionOfClamp + _SizeOfClamp / 2;
 			Vector3 minCube = _PositionOfClamp - _SizeOfClamp / 2;
-
+			
 			return pos.x < minCube.x || pos.x > maxCube.x
 				|| pos.y < minCube.y || pos.y > maxCube.y
 				|| pos.z < minCube.z || pos.z > maxCube.z;
