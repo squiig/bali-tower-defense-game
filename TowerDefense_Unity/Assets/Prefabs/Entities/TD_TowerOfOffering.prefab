@@ -204,7 +204,7 @@ MonoBehaviour:
   StartAttackRange: 50
   MaxAttackRange: 50
   AttackRange: 50
-  TowerPrice: 150
+  TowerPrice: 50
   Attack: {fileID: 11400000, guid: 875f92684ab391848a55088e60429ac4, type: 2}
   _allegiance: 1
   _isDebug: 1
