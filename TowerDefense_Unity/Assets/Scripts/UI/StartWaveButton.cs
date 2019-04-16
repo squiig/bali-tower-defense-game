@@ -3,13 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Game.WaveSystem;
+using TMPro;
 
 namespace Game.UI
 {
 	[RequireComponent(typeof(Button)), DisallowMultipleComponent]
 	public class StartWaveButton : MonoBehaviour
 	{
-	 	[SerializeField] private CanvasGroup _CanvasGroup;
+	 	[SerializeField] private CanvasGroup _CanvasGroup = null;
+		[SerializeField] private TMP_Text _TextRenderer = null;
+		[SerializeField] private string _Text = "Start";
 
 		private Button _Button;
 
@@ -37,7 +40,14 @@ namespace Game.UI
 			WaveManager.Instance.StartNextWave();
 		}
 
-		private void Deactivate()
+		public void Activate()
+		{
+			_CanvasGroup.alpha = 1f;
+			_TextRenderer.text = _Text;
+			_Button.interactable = true;
+		}
+
+		public void Deactivate()
 		{
 			_CanvasGroup.alpha = 0f;
 			_Button.interactable = false;
