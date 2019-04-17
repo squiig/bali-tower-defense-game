@@ -24,11 +24,12 @@ namespace Game.Interaction
 			if (!_TowerBuildSelection.HasSelection || _TowerGridCell.IsOccupied)
 				return;
 			
+
 			GameObject tower = Instantiate(_TowerBuildSelection.TakeSelectionAndClear());
 			tower.transform.rotation = Quaternion.Euler(0, transform.rotation.eulerAngles.y, 0);
 			tower.transform.position = transform.position;
 			_TowerGridCell.OccupyTurret(tower);
-
+			Audio.Audio.SendEvent(new Audio.AudioEvent(this, Audio.AudioCommands.PLAY, "tower/build", transform.position));
 			ResourceSystem.Instance.RunTransaction((int)-tower.GetComponent<Entities.Towers.Tower>().GetPrice());
 		}
 	}

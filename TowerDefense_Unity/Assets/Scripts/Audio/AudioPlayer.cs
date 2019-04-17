@@ -1,45 +1,69 @@
-﻿using UnityEngine;
+using UnityEngine;
 
 namespace Game.Audio
 {
-    /// <summary>
-    /// Wrapper around the object that plays a sound
-    /// </summary>
-    public class AudioChannel
-    {
-        private GameObject _GameObject;
-        private AudioSource _AudioSource;
+	/// <summary>
+	/// Wrapper around the object that plays a sound
+	/// </summary>
+	public class AudioChannel
+	{
+		private GameObject _GameObject;
+		private AudioSource _AudioSource;
+		private UnityCallbackBehaviour _Callbacks;
+		private TransformFollower _TransformFollower;
+		private int _ChannelNumber;
 
-        public object Context { get; private set; } = null;
+		public object Context { get; private set; } = null;
+		public bool IsFree { get; private set; } = true;
 
-        public bool IsFree => !_AudioSource.isPlaying;
+		public AudioChannel(Transform parent, UnityCallbackBehaviour callbacks, int channelNumber = -1)
+		{
+			_Callbacks = callbacks;
+			_ChannelNumber = channelNumber;
+			_GameObject = new GameObject($"Audio Channel {channelNumber}");
+			_TransformFollower = new TransformFollower(callbacks, _GameObject.transform);
 
-        public AudioChannel(Transform parent = null, int channelNumber = -1)
-        {
-            _GameObject = new GameObject($"Audio Channel {channelNumber}");
+			if (parent)
+			{
+				_GameObject.transform.SetParent(parent);
+			}
+			_GameObject.SetActive(false);
 
-            if (parent)
-            {
-                _GameObject.transform.SetParent(parent);
-            }
-            _GameObject.SetActive(false);
+			_AudioSource = _GameObject.AddComponent<AudioSource>();
+		}
 
-            _AudioSource = _GameObject.AddComponent<AudioSource>();
-        }
+		public void Update()
+		{
+			if (!IsFree && !_AudioSource.isPlaying)
+			{
+				_TransformFollower.StopFollowing();
+				_Callbacks.OnUpdate -= Update;
+				IsFree = true;
+				_GameObject.name = $"Audio Channel {_ChannelNumber}";
+			}
+		}
 
-        public void Play(AudioAsset asset, object context)
-        {
-            _GameObject.transform.SetAsFirstSibling();
-            _GameObject.SetActive(true);
-            Context = context;
-            _AudioSource.clip = asset.GetClip();
-            _AudioSource.volume = asset.Volume;
-            _AudioSource.Play();
-        }
+		public void Play(AudioAsset asset, AudioEvent audioEvent)
+		{
+			IsFree = false;
 
-        public void Stop()
-        {
-            _AudioSource.Stop();
-        }
-    }
+			if (audioEvent.FollowTransform)
+				_TransformFollower.StartFollowing(audioEvent.FollowTransform);
+			_GameObject.transform.position = audioEvent.WorldPosition;
+
+			_Callbacks.OnUpdate -= Update;
+			_Callbacks.OnUpdate += Update;
+
+			_GameObject.SetActive(true);
+			Context = audioEvent.Context;
+			AudioSysUtil.ConfigureAudioSource(_AudioSource, asset);
+			_AudioSource.Play();
+			_GameObject.name = $"Audio Channel {_ChannelNumber}: {audioEvent.Identifier}";
+		}
+
+		public void Stop()
+		{
+			_AudioSource.Stop();
+		}
+	}
 }

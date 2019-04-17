@@ -206,7 +206,6 @@ MonoBehaviour:
   AttackRange: 50
   TowerPrice: 50
   Attack: {fileID: 11400000, guid: 875f92684ab391848a55088e60429ac4, type: 2}
-  _allegiance: 1
   _isDebug: 1
   _Upgrades: []
 --- !u!1 &4190014749486604865

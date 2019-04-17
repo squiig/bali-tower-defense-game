@@ -1,4 +1,4 @@
-﻿using UnityEngine.Serialization;
+using UnityEngine.Serialization;
 using UnityEngine;
 using System;
 
@@ -13,8 +13,9 @@ namespace Game.Audio
         [SerializeField] private AudioIdentifierMapping[] _AudioAssetIdentifierMappings;
 
         /// <summary>
-        /// Resolves an indentifier to an audio asset
+        /// Resolves an indentifier to an audio asset.
         /// </summary>
+        /// <Returns> Audioasset or null on fail</Returns>
         public AudioAsset Resolve(string identifier)
         {
             foreach (AudioIdentifierMapping mapping in _AudioAssetIdentifierMappings)
@@ -24,8 +25,7 @@ namespace Game.Audio
                     return mapping.AudioAsset;
                 }
             }
-
-            throw new Exception($"Argument {identifier} was not found in Audiolibrary (name: {name})");
+			return null;
         }
     }
 }
