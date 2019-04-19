@@ -104,22 +104,18 @@ namespace Game.UI
 			//Change the Health Bars fill amount behind the damage health bar
 			_HealthBarHealthLayer.fillAmount = _CurrentHealth / _MaxHealth;
 
+			//Making sure its impossible to enter this when the health is (below) zero
+			if (_CurrentHealth < 0)
+				return;
+
 			//Start the animation of the damage health bar through a Coroutine if it isn't running already
 			if(_HealthBarRoutine == null)
 				_HealthBarRoutine = StartCoroutine(UpdateHealthBar());
-
-			//Making sure its impossible to enter this when the health is (below) zero
-			if (_CurrentHealth <= 0)
-				return;
 		}
 		public void SetDamage(float damage)
 		{
 			//Only here for debugging reasons, so it shouldn't run outside of the editor
 			if(!Application.isEditor)
-				return;
-
-			//Making sure its impossible to enter this when the health is (below) zero
-			if(_CurrentHealth <= 0)
 				return;
 
 			_CurrentHealth = _CurrentHealth - damage;
@@ -135,6 +131,10 @@ namespace Game.UI
 			_HealthBarDamageLayer.fillAmount = _HealthBarHealthLayer.fillAmount - (_CurrentHealth / _MaxHealth);
 			//Change the Health Bars fill amount behind the damage health bar
 			_HealthBarHealthLayer.fillAmount = _CurrentHealth / _MaxHealth;
+
+			//Making sure its impossible to enter this when the health is (below) zero
+			if(_CurrentHealth < 0)
+				return;
 
 			//Start the animation of the damage health bar through a Coroutine if it isn't running already
 			if(_HealthBarRoutine == null)
