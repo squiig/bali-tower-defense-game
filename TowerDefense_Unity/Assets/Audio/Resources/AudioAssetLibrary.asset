@@ -12,4 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ffd99bc95d9a47478828e293fead334, type: 3}
   m_Name: AudioAssetLibrary
   m_EditorClassIdentifier: 
-  _AudioAssetIndentifierMappings: []
+  _AudioAssetIdentifierMappings:
+  - _Identifier: tower/fire
+    _AudioAsset: {fileID: 11400000, guid: e257d5bd10e2ba84c9f6e01f483b41bc, type: 2}
+  - _Identifier: tower/build
+    _AudioAsset: {fileID: 11400000, guid: 224ff768c74f4d148a0311edd60d0d30, type: 2}
+  - _Identifier: minion/growl
+    _AudioAsset: {fileID: 11400000, guid: 0b2b1f3dd488fc94190e9a31c8b39ff0, type: 2}
+  - _Identifier: minion/walk
+    _AudioAsset: {fileID: 11400000, guid: e69d08818d210e84fbce13f456b7ae35, type: 2}
+  - _Identifier: minion/hit
+    _AudioAsset: {fileID: 11400000, guid: fca4ddf0b5b3e0b4a9aefa48b61c78ec, type: 2}
+  - _Identifier: minion/death
+    _AudioAsset: {fileID: 11400000, guid: cfeffd60e95233a42aafd4a771425f5c, type: 2}

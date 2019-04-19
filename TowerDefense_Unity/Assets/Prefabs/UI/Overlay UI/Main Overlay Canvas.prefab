@@ -163,20 +163,6 @@ MonoBehaviour:
   - {fileID: 0}
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
---- !u!114 &9049702598024285033
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5367634310419787426}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 14cef03ad57e9b04281d884eff434118, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _TextRenderer: {fileID: 5367634310047176372}
-  _CanvasGroup: {fileID: 0}
 --- !u!1 &630396599898713423
 GameObject:
   m_ObjectHideFlags: 0
@@ -2256,6 +2242,20 @@ MonoBehaviour:
   - {fileID: 0}
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &9049702598024285033
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5367634310419787426}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 14cef03ad57e9b04281d884eff434118, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _CanvasGroup: {fileID: 0}
+  _TextRenderer: {fileID: 5367634310047176372}
 --- !u!1 &5420774808043140522
 GameObject:
   m_ObjectHideFlags: 0
@@ -4668,6 +4668,36 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5499988754449720306, guid: f826aa489c858a444b05f3f950752775,
+        type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5499988754449720306, guid: f826aa489c858a444b05f3f950752775,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5499988754449720306, guid: f826aa489c858a444b05f3f950752775,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5499988754449720306, guid: f826aa489c858a444b05f3f950752775,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5499988754449720306, guid: f826aa489c858a444b05f3f950752775,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5499988754449720306, guid: f826aa489c858a444b05f3f950752775,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5499988754889497573, guid: f826aa489c858a444b05f3f950752775,
         type: 3}
