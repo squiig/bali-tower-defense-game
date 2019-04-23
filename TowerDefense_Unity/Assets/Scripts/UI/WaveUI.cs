@@ -53,8 +53,11 @@ namespace Game.UI
 
 		private void OnDisable()
 		{
-			_WaveManager.IntermissionStarted -= WaveManager_IntermissionStarted;
-			_WaveManager.WaveStarted -= WaveManager_WaveStarted;
+			if (_WaveManager != null)
+			{
+				_WaveManager.IntermissionStarted -= WaveManager_IntermissionStarted;
+				_WaveManager.WaveStarted -= WaveManager_WaveStarted;
+			}
 
 			if (_TimerRoutine != null)
 				StopCoroutine(_TimerRoutine);
