@@ -73,8 +73,6 @@ namespace Game.UI
 			_HealthBarHealthLayer.fillAmount = 1;
 			_HealthBarDamageLayer.fillAmount = 0;
 			//_HealthBarDamageLayer.transform.localPosition = new Vector2(0, .25f);
-
-			Debug.Log(_HealthBarDamageLayer.transform.localPosition);
 		}
 
 		protected void GetDamageFromEntity(in Entities.Interfaces.IDamageable sender, in Entities.EventContainers.EntityDamaged payload)
