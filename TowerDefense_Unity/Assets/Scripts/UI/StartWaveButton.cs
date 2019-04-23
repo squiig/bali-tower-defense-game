@@ -49,6 +49,7 @@ namespace Game.UI
 
 		public void Deactivate()
 		{
+			Audio.Audio.SendEvent(new Audio.AudioEvent(this, Audio.AudioCommands.PLAY, "ui/menu/startwave"));
 			_CanvasGroup.alpha = 0f;
 			_Button.interactable = false;
 		}
