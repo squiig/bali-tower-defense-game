@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2588a25b0087bc84caa0325c7f36f85c, type: 3}
   m_Name: SFX_Minion_Attack
   m_EditorClassIdentifier: 
-  _AudioMixerGroup: {fileID: 0}
+  _AudioMixerGroup: {fileID: 24300002, guid: 47651c0ceac484e4dab88eaa6e49b7dd, type: 2}
   _AudioClips:
   - {fileID: 8300000, guid: b7af0c48a459e2849bae7f44ba057255, type: 3}
   _Volume: 1

@@ -32,7 +32,12 @@ namespace Game.Audio
 			audioSource.volume = asset.Volume;
 			audioSource.maxDistance = asset.MaxDistance;
 			audioSource.minDistance = asset.MinDistance;
-			audioSource.timeSamples = pitch < 0 ? (clip.samples -1) : 0; // reverse clip if we play backwards
+
+			if (asset.RandomStartPosition)
+				audioSource.timeSamples = Random.Range(0, clip.samples-1);
+			else
+				audioSource.timeSamples = pitch < 0 ? (clip.samples - 1) : 0;
+
 		}
 	}
 }

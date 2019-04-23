@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2588a25b0087bc84caa0325c7f36f85c, type: 3}
   m_Name: minion_walk
   m_EditorClassIdentifier: 
-  _AudioMixerGroup: {fileID: 0}
+  _AudioMixerGroup: {fileID: 24300002, guid: 47651c0ceac484e4dab88eaa6e49b7dd, type: 2}
   _AudioClips:
   - {fileID: 8300000, guid: 73d67b7cc42fa024bb57a071916c2569, type: 3}
   - {fileID: 8300000, guid: 53988c3338a1cff4fa570c9bcf269d6e, type: 3}

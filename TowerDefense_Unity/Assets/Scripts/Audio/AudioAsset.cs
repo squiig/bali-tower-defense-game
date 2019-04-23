@@ -41,8 +41,6 @@ namespace Game.Audio
 		public bool IsLooped => _Looped;
 		public bool RandomStartPosition => _RandomStartPosition;
 
-
-
 		public float GetPitch()
         {
 	        return Random.Range(_PitchMin, _PitchMax);
