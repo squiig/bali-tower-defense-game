@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: LowPolyWater
+  m_Name: LowPolyWaterWalkWay
   m_Shader: {fileID: 4800000, guid: c5617dffeb9944fa3a50334e9f9f8c5e, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 5
@@ -155,12 +155,12 @@ Material:
     - _Foam: {r: 0.42666668, g: 0.48666668, b: 0, a: 0}
     - _FoamWaveParams: {r: 0, g: 0.24918434, b: 3.3395782, a: 1}
     - _Fresnel_ST: {r: 1, g: 1, b: 0, a: 0}
-    - _GAmplitude: {r: 0.05, g: 0.05, b: 0.05, a: 0.05}
+    - _GAmplitude: {r: 0, g: 0, b: 0, a: 0}
     - _GDirectionAB: {r: 0.46914357, g: 0.35405126, b: -0.2, a: 0.1}
     - _GDirectionCD: {r: 0.7033888, g: -0.6799999, b: 0.7175735, a: -0.2}
-    - _GFrequency: {r: 0.5, g: 0.38, b: 0.59, a: 0.6}
-    - _GSpeed: {r: -3, g: 2, b: 1, a: 3}
-    - _GSteepness: {r: 7, g: 2, b: 6, a: 2}
+    - _GFrequency: {r: 0, g: 0, b: 0, a: 0}
+    - _GSpeed: {r: 0, g: 0, b: 0, a: 0}
+    - _GSteepness: {r: 0, g: 0, b: 0, a: 0}
     - _HorizonColor: {r: 0.052907113, g: 0.24486735, b: 0.2835821, a: 1}
     - _InvFadeParemeter: {r: 1, g: 0.71, b: 2.48, a: 0}
     - _MainTex_ST: {r: 1, g: 1, b: 0, a: 0}
