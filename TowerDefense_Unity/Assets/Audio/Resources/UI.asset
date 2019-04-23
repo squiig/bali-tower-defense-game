@@ -15,3 +15,5 @@ MonoBehaviour:
   _AudioAssetIdentifierMappings:
   - _Identifier: ui/menu/transition
     _AudioAsset: {fileID: 11400000, guid: 1a6a705dd79304c46b1e7319e52dbbb3, type: 2}
+  - _Identifier: ui/menu/startwave
+    _AudioAsset: {fileID: 11400000, guid: e3b6ba94d3050c04d8b9e418f161c2e4, type: 2}

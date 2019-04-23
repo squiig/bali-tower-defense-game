@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: SFX_StartWave
   m_EditorClassIdentifier: 
   _AudioMixerGroup: {fileID: 0}
-  _AudioClips: []
+  _AudioClips:
+  - {fileID: 8300000, guid: 5b2bb17ddac9fed4da3d73c315ec302b, type: 3}
   _Volume: 1
   _Pan: 0
   _Doppler: 0

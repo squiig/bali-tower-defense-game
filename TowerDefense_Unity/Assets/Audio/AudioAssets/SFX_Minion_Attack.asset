@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: SFX_Minion_Attack
   m_EditorClassIdentifier: 
   _AudioMixerGroup: {fileID: 0}
-  _AudioClips: []
+  _AudioClips:
+  - {fileID: 8300000, guid: b7af0c48a459e2849bae7f44ba057255, type: 3}
   _Volume: 1
   _Pan: 0
   _Doppler: 0
