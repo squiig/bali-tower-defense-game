@@ -134,6 +134,8 @@ namespace Game.Entities.MovingEntities
 			_CurrentDestinationIndex = 0;
 			Health = _StartHealth;
 			OnHit?.Invoke(this, new EntityDamaged(this, _StartHealth, _StartHealth));
+
+			transform.GetComponentInChildren<Game.UI.HealthBarBaseUI>().SetStartHealth(Health);
 		}
 
 		/// <inheritdoc />
@@ -172,12 +174,19 @@ namespace Game.Entities.MovingEntities
 			float previousHealth = Health;
 			Health -= onHitEffects.GetDamage();
 
+			// Quick wya to play hurt audio
+			if (onHitEffects.GetDamage() > 0)
+				Audio.Audio.SendEvent(new Audio.AudioEvent(this, Audio.AudioCommands.PLAY, "minion/hit", transform.position));
+
 			EntityDamaged payload = new EntityDamaged(this, Health, previousHealth);
 			
 			OnHit?.Invoke(this, payload);
 
 			if(Health <= 0)
+			{
+				Audio.Audio.SendEvent(new Audio.AudioEvent(this, Audio.AudioCommands.PLAY, "minion/death", transform.position));
 				OnDeath?.Invoke(this, payload);
+			}
 
 			if (onHitEffects.GetStatusEffects().Any(x => x == StatusEffects.SLOWED))
 				StartCoroutine(MovementImpaired(StatusEffects.SLOWED, 60));

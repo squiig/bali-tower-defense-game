@@ -10,15 +10,17 @@ namespace Game.Entities.Towers
 	public abstract class TowerBase : Entity, IAggressor
 	{
 		private SphereCollider _SphereCollider;
-		private float _AttackCoolDown = 0.0f;
-		[SerializeField] private float _AttackCooldownDuration = 3.0f;
+		private float _attackCoolDown = 0.0f;
+		private const float ATTACK_COOL_DOWN_DURATION = 3.0f;
 
 		[SerializeField] protected float StartAttackRange, MaxAttackRange, AttackRange, TowerPrice;
 		[SerializeField] protected TowerAttack Attack;
 		[SerializeField] protected IDamageable TargetDamageable;
-
-		[SerializeField] private Allegiance _Allegiance;
-		[SerializeField] private bool _IsDebug = false;
+		[Space]
+		[SerializeField] private float _offset = 18;
+		[Space]
+		private Allegiance _allegiance = Allegiance.FRIENDLY;
+		[SerializeField] private bool _isDebug = false;
 
 		public float GetRange() => AttackRange;
 		public float GetPrice() => TowerPrice;
@@ -50,7 +52,7 @@ namespace Game.Entities.Towers
 
 		private void Update()
 		{
-			if (_IsDebug)
+			if (_isDebug)
 				DrawDebug();
 
 			TargetingAndAttacks();
@@ -66,7 +68,7 @@ namespace Game.Entities.Towers
 
 		private void OnDrawGizmos()
 		{
-			if(!_IsDebug)
+			if(!_isDebug)
 				return;
 
 			Gizmos.DrawWireSphere(GetLocation(), AttackRange);
@@ -79,15 +81,14 @@ namespace Game.Entities.Towers
 
 		private void TargetingAndAttacks()
 		{
-			if (_AttackCoolDown > 0)
-				_AttackCoolDown -= Time.unscaledDeltaTime;
+			if (_attackCoolDown > 0)
+				_attackCoolDown -= Time.unscaledDeltaTime;
 
 			ExecuteAttack();
 		}
 
 		private void OnTargetDeath(in IDamageable sender, in EntityDamaged payload)
 		{
-			Debug.Log($"Tower [{GetHashCode()}]: Target has died.");
 			sender.OnDeath -= OnTargetDeath;
 			TargetDamageable = null;
 
@@ -112,16 +113,11 @@ namespace Game.Entities.Towers
 				possibleTargets.Add(damageable);
 			}
 
-
-			if (possibleTargets.All(x => x == null))
-				return;
-
 			TargetDamageable = possibleTargets.FirstOrDefault(x =>
-				(x != null && x.GetAllegiance() != _Allegiance && TargetDamageable == null) ||
-				 (x != null && TargetDamageable != null && x.GetPriority() > TargetDamageable.GetPriority()));
+				x.GetAllegiance() != _allegiance);
 		}
 
-		private bool ShouldAttack() => _AttackCoolDown <= 0 && TargetDamageable != null && !IsTargetForsaken();
+		private bool ShouldAttack() => _attackCoolDown <= 0 && TargetDamageable != null && !IsTargetForsaken();
 
 		/// <inheritdoc />
 		/// <summary>
@@ -134,8 +130,7 @@ namespace Game.Entities.Towers
 			if (!ShouldAttack())
 				return;
 
-			_AttackCoolDown = _AttackCooldownDuration;
-
+			_attackCoolDown = ATTACK_COOL_DOWN_DURATION;
 
 			if(Attack.GetAttackType() == AttackType.SINGLE_TARGET)
 				RangedAttack();
@@ -143,12 +138,17 @@ namespace Game.Entities.Towers
 				AreaAttack();
 		}
 
-		private void AreaAttack() => Attack.ExecuteAttack(TargetDamageable, TargetDamageable.GetEntity().GetLocation());
+		private void AreaAttack()
+		{
+			Attack.ExecuteAttack(TargetDamageable, TargetDamageable.GetEntity().GetLocation());
+		}
 
 		private void RangedAttack()
 		{
-			TowerProjectile projectile = ProjectilePool.Instance.ActivateObject(x => x != null);
-			projectile?.InitializeAndActivate(transform.position, TargetDamageable, Attack);
+
+			Audio.Audio.SendEvent(new Audio.AudioEvent(this, Audio.AudioCommands.PLAY, "tower/fire", followTransform:transform));
+			ProjectilePool.Instance.ActivateObject(x => x != null)?.
+				InitializeAndActivate(new Vector3(transform.position.x, transform.position.y + _offset * 8, transform.position.z), TargetDamageable, Attack);
 		}
 
 		private bool IsTargetForsaken()
@@ -163,18 +163,22 @@ namespace Game.Entities.Towers
 
 		private void OnTriggerEnter(Collider other)
 		{
-			if(_IsDebug)
-				Debug.Log($"Tower {GetHashCode()}: Found damageable [{other.gameObject.GetComponent<IDamageable>() != null}]");
+			if (other.gameObject.GetComponent<IDamageable>() == null)
+				return;
 
-			IDamageable damageable;
+			if (TargetDamageable == null)
+			{
+				FindNewTarget();
+				return;
+			}
 
-			if ((damageable = other.gameObject.GetComponent<IDamageable>()) != null &&
-			    TargetDamageable != null && damageable.GetPriority() > TargetDamageable.GetPriority())
+			IDamageable damageable = other.gameObject.GetComponent<IDamageable>();
+			if (damageable.GetPriority() <= TargetDamageable.GetPriority() || damageable.GetAllegiance() == _allegiance)
 				return;
 
 			TargetDamageable = damageable;
 
-			if (TargetDamageable == null || !_IsDebug)
+			if (TargetDamageable == null)
 				return;
 
 			TargetDamageable.OnDeath += OnTargetDeath;

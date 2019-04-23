@@ -28,7 +28,7 @@ namespace Game.Audio.Editor
 
 		private void Awake()
 		{
-			titleContent = new GUIContent("Audio System", "Used for editing what sounds belong to what identifier");
+			titleContent = new GUIContent("Audio System", "Used for editing what sounds belong to wha");
 		}
 
 		private void OnEnable()
@@ -63,16 +63,16 @@ namespace Game.Audio.Editor
 
 		private void OnGUI()
 		{
-			DrawInViewArea(AudioAssetEditorView, _AudioAssetEditor.DoAssetEditor);
-			DrawInViewArea(LibraryEditorView, _AudioLibraryEditor.DoLibraryEditor);
-			DrawInViewArea(LibraryListView, _AudioLibraryList.DoList);
-
 			if (Event.current.isMouse && Event.current.type == EventType.MouseDown)
 			{
 				// This makes the editor window more responsive in this use case
 				// since it uses custom selectable elements
 				Repaint();
 			}
+
+			DrawInViewArea(AudioAssetEditorView, _AudioAssetEditor.DoAssetEditor);
+			DrawInViewArea(LibraryEditorView, _AudioLibraryEditor.DoLibraryEditor);
+			DrawInViewArea(LibraryListView, _AudioLibraryList.DoList);
 		}
 	}
 }

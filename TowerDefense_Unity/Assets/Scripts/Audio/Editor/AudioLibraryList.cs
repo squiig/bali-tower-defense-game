@@ -1,11 +1,11 @@
-﻿using Game.Utils.Editor;
+using Game.Utils.Editor;
 
 using UnityEditor;
 using UnityEngine;
 
 namespace Game.Audio.Editor
 {
-    /// <summary>
+	/// <summary>
     /// Used to render and control a selectable list of all audio libraries in the project
     /// /// </summary>
     public class AudioLibraryList
