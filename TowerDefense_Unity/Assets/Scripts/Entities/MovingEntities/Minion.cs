@@ -87,7 +87,10 @@ namespace Game.Entities.MovingEntities
 			_AttackCoolDown = ATTACK_COOL_DOWN_DURATION;
 
 			if (Attack != null)
+			{
 				Attack.ExecuteAttack(TargetIDamageable);
+				Audio.Audio.SendEvent(new Audio.AudioEvent(this, Audio.AudioCommands.PLAY, "minion/attack", transform.position));
+			}
 			else
 				Debug.LogWarning("Tried attacking, but attack is null.");
 
