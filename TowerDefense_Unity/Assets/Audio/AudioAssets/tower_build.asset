@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2588a25b0087bc84caa0325c7f36f85c, type: 3}
   m_Name: tower_build
   m_EditorClassIdentifier: 
-  _AudioMixerGroup: {fileID: 0}
+  _AudioMixerGroup: {fileID: 24300002, guid: 47651c0ceac484e4dab88eaa6e49b7dd, type: 2}
   _AudioClips:
   - {fileID: 8300000, guid: c84998fa00a5b4b45ba5cf0fae29b8da, type: 3}
   _Volume: 1
