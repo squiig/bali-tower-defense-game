@@ -134,6 +134,8 @@ namespace Game.Entities.MovingEntities
 			_CurrentDestinationIndex = 0;
 			Health = _StartHealth;
 			OnHit?.Invoke(this, new EntityDamaged(this, _StartHealth, _StartHealth));
+
+			transform.GetComponentInChildren<Game.UI.HealthBarBaseUI>().SetStartHealth(Health);
 		}
 
 		/// <inheritdoc />

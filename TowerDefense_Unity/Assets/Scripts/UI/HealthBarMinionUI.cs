@@ -10,6 +10,11 @@ namespace Game.UI
 
 		protected override void OnEnable()
 		{
+			StartMinionHealthBar();
+		}
+
+		public void StartMinionHealthBar()
+		{
 			//Check if the interface is null. If it is, then it shouldn't be allowed to go further then this
 			if(_MinionScript == null)
 			{
