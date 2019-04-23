@@ -10,10 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7ffd99bc95d9a47478828e293fead334, type: 3}
-  m_Name: UI
+  m_Name: Music
   m_EditorClassIdentifier: 
   _AudioAssetIdentifierMappings:
-  - _Identifier: ui/menu/transition
-    _AudioAsset: {fileID: 11400000, guid: 1a6a705dd79304c46b1e7319e52dbbb3, type: 2}
-  - _Identifier: ui/menu/startwave
-    _AudioAsset: {fileID: 11400000, guid: e3b6ba94d3050c04d8b9e418f161c2e4, type: 2}
+  - _Identifier: music/main
+    _AudioAsset: {fileID: 11400000, guid: 70df7668938289b45a30edd08d6e06c9, type: 2}

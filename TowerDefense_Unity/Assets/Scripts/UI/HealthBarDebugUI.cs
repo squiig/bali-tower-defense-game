@@ -13,8 +13,8 @@ namespace Game.UI
 
 		private void Update()
 		{
-			if (Input.GetKeyDown(KeyCode.Space))
-				SetDamage(20f);
+			//if (Input.GetKeyDown(KeyCode.Space))
+				//SetDamage(20f);
 		}
 	}
 }

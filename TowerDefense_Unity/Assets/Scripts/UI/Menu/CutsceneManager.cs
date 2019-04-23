@@ -1,18 +1,31 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Playables;
-using UnityEngine.SceneManagement;
 
 [RequireComponent(typeof(PlayableDirector))]
 public class CutsceneManager : MonoBehaviour
 {
 	[SerializeField] private PlayableDirector _TimeLine;
+	[SerializeField] private TMPro.TextMeshProUGUI _CutsceneText;
+	private Coroutine _CoRoutine;
 
 	private void OnEnable()
 	{
 		_TimeLine = GetComponent<PlayableDirector>();
 
-		StartCoroutine(TimelineCoRoutine());
+		_CoRoutine = StartCoroutine(TimelineCoRoutine());
+	}
+
+	private void Update()
+	{
+		if (Input.GetMouseButtonDown(0))
+		{
+			StopCoroutine(_CoRoutine);
+
+			_CutsceneText.enabled = false;
+
+			Game.Utils.SceneUtility.LoadNext();
+		}
 	}
 
 	private IEnumerator TimelineCoRoutine()
