@@ -201,14 +201,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8122b30273298e24d84298477d1f904f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _AttackCooldownDuration: 3
   StartAttackRange: 50
   MaxAttackRange: 50
   AttackRange: 50
   TowerPrice: 50
   Attack: {fileID: 11400000, guid: 875f92684ab391848a55088e60429ac4, type: 2}
-  _Allegiance: 1
-  _IsDebug: 0
+  _isDebug: 1
   _Upgrades: []
 --- !u!1 &4190014749486604865
 GameObject:

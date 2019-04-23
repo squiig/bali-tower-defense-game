@@ -46,36 +46,52 @@ namespace Game.Audio.Editor
 
             _ScrollVector = GUILayout.BeginScrollView(_ScrollVector);
 
-            GUILayout.BeginHorizontal();
             GUILayout.Label($"{nameof(AudioLibraryEditor)}");
+            DrawAssetMappingList();
 
-
-            if (GUILayout.Button("Nuke"))
-            {
-                ScriptableObject.CreateInstance<ConfirmActionPopup>()
-                    .SetQuestion("You're about to nuke all elements from this library, are you sure?").
-                    OnConfirm += DeleteAllElements;
-            }
-
-            if (GUILayout.Button("Remove"))
-            {
-                RemoveSelectedElement();
-            }
-
-            if (GUILayout.Button("Add"))
-            {
-                EditorWindow.CreateInstance<CreateAudioAssetPopup>()
-                    .SetFolder("Assets/Audio/AudioAssets/")
-                    .OnCreated += AddElement;
-            }
-
-            GUILayout.EndHorizontal();
-
-            _SelectableAudioAssetList.DoList(_MappingList.arraySize, _ScrollVector);
-            _SerializedTarget.ApplyModifiedProperties();
+			_SerializedTarget.ApplyModifiedProperties();
             GUILayout.EndScrollView();
         }
 
+        private void DrawAssetMappingList()	
+        {
+	        GUILayout.BeginVertical(GUI.skin.box);
+	        GUILayout.BeginHorizontal();
+
+	        GUILayout.Label("Audio Asset Mappings");
+
+
+			if (GUILayout.Button("Nuke"))
+	        {
+		        ScriptableObject.CreateInstance<ConfirmActionPopup>()
+			        .SetQuestion("You're about to nuke all elements from this library, are you sure?").
+			        OnConfirm += DeleteAllElements;
+	        }
+
+	        if (GUILayout.Button("Remove"))
+	        {
+		        RemoveSelectedElement();
+	        }
+
+	        if (GUILayout.Button("Add"))
+	        {
+		        EditorWindow.CreateInstance<CreateAudioAssetPopup>()
+			        .SetFolder("Assets/Audio/AudioAssets/")
+			        .OnCreated += AddElement;
+	        }
+	        GUILayout.EndHorizontal();
+	        _SelectableAudioAssetList.DoList(_MappingList.arraySize, _ScrollVector);
+	        GUILayout.EndVertical();
+        }
+
+
+        private bool PreviewKeyPressed(int index)
+        {
+	        return Event.current.isKey
+				   && Event.current.type == EventType.KeyDown
+				   && Event.current.keyCode == KeyCode.P
+	               && _SelectableAudioAssetList.SelectedElementIndex == index;
+        }
 
         private void DrawElement(int index)
         {
@@ -85,10 +101,10 @@ namespace Game.Audio.Editor
 
             audioIdentifierProperty.stringValue = EditorGUILayout.TextField(audioIdentifierProperty.stringValue);
 
-            GUILayout.BeginHorizontal();
+			GUILayout.BeginHorizontal();
             EditorGUILayout.ObjectField(audioAssetProperty);
 
-            if (GUILayout.Button("Preview"))
+            if (GUILayout.Button("Preview") || PreviewKeyPressed(index))
             {
 	            OnPreview?.Invoke((AudioAsset) audioAssetProperty.objectReferenceValue);
             }
