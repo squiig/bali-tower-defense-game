@@ -6,17 +6,29 @@ ModelImporter:
     100000: pCylinder4
     100002: //RootNode
     100004: TD_TempleGateHalf:polySurface37_TD_TempleGateHalf:polySurface38_pCylinder4
+    100006: shrine
+    100008: TD_TempleGateHalf:polySurface37_TD_TempleGateHalf:polySurface38_shrine
     400000: pCylinder4
     400002: //RootNode
     400004: TD_TempleGateHalf:polySurface37_TD_TempleGateHalf:polySurface38_pCylinder4
+    400006: shrine
+    400008: TD_TempleGateHalf:polySurface37_TD_TempleGateHalf:polySurface38_shrine
     2100000: pCylinder4Mat
     2100002: TD_TempleGateHalf_polySurface37_TD_TempleGateHalf_polySurface38_pCylinder4Mat
+    2100004: shrineMat
+    2100006: TD_TempleGateHalf_polySurface37_TD_TempleGateHalf_polySurface38_shrineMat
     2300000: pCylinder4
     2300002: TD_TempleGateHalf:polySurface37_TD_TempleGateHalf:polySurface38_pCylinder4
+    2300004: shrine
+    2300006: TD_TempleGateHalf:polySurface37_TD_TempleGateHalf:polySurface38_shrine
     3300000: pCylinder4
     3300002: TD_TempleGateHalf:polySurface37_TD_TempleGateHalf:polySurface38_pCylinder4
+    3300004: shrine
+    3300006: TD_TempleGateHalf:polySurface37_TD_TempleGateHalf:polySurface38_shrine
     4300000: pCylinder4
     4300002: TD_TempleGateHalf:polySurface37_TD_TempleGateHalf:polySurface38_pCylinder4
+    4300004: shrine
+    4300006: TD_TempleGateHalf:polySurface37_TD_TempleGateHalf:polySurface38_shrine
     2186277476908879412: ImportLogs
   externalObjects: {}
   materials:
