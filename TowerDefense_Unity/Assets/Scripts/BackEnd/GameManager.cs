@@ -18,6 +18,7 @@ namespace Game
 
 		[SerializeField] private string _TouchToStartScene = null;
 		[SerializeField] private string _GameOverOverlayScene = null;
+		[SerializeField] private string _MainOverlayScene = null;
 		[SerializeField] private HomeBase _HomeBase = null;
 
 		protected override void OnEnable()
@@ -31,6 +32,7 @@ namespace Game
 		private void Start()
 		{
 			SceneManager.LoadScene(_GameOverOverlayScene, LoadSceneMode.Additive);
+			SceneManager.LoadScene(_MainOverlayScene, LoadSceneMode.Additive);
 		}
 
 		private void _HomeBase_OnDeath(in IDamageable sender, in EntityDamaged payload)

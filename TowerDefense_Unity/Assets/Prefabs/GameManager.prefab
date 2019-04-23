@@ -45,4 +45,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _TouchToStartScene: MainMenu
   _GameOverOverlayScene: GameOverOverlay
+  _MainOverlayScene: MainOverlay
   _HomeBase: {fileID: 0}
