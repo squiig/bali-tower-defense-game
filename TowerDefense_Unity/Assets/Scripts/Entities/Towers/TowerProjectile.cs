@@ -28,7 +28,7 @@ namespace Game.Entities.Towers
 
 		public void InitializeAndActivate(Vector3 position, IDamageable target, IAttack attack)
 		{
-			_StartPosition = position;
+			_StartPosition = new Vector3(position.x + 1.2f, position.y + 4.5f, position.z);
 			_Target = target;
 			_Attack = attack;
 

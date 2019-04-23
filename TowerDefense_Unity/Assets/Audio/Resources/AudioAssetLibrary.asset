@@ -25,3 +25,5 @@ MonoBehaviour:
     _AudioAsset: {fileID: 11400000, guid: fca4ddf0b5b3e0b4a9aefa48b61c78ec, type: 2}
   - _Identifier: minion/death
     _AudioAsset: {fileID: 11400000, guid: cfeffd60e95233a42aafd4a771425f5c, type: 2}
+  - _Identifier: minion/attack
+    _AudioAsset: {fileID: 11400000, guid: a25009484720d5444b8f481ba2dc3629, type: 2}

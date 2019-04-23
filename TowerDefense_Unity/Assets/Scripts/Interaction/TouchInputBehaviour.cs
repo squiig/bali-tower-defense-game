@@ -215,14 +215,14 @@ namespace Game.Interaction
 			if (Input.GetMouseButton(1))
 			{
 				Vector2 mousePos = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
-				OnDragDelta?.Invoke(mousePos - _PreviousMousePosition);
+				OnDragDelta?.Invoke((mousePos - _PreviousMousePosition) * 2);
 				_PreviousMousePosition = Input.mousePosition;
 			}
 
 			if (Input.GetMouseButtonUp(1))
 				OnDragStop?.Invoke();
 
-			OnPinchDelta?.Invoke(Input.mouseScrollDelta.y);
+			OnPinchDelta?.Invoke(Input.mouseScrollDelta.y * 45);
 
 			if (Input.GetMouseButtonDown(0))
 			{

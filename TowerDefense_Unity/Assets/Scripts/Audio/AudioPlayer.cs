@@ -63,7 +63,8 @@ namespace Game.Audio
 
 		public void Stop()
 		{
-			_AudioSource.Stop();
+			if (_AudioSource)
+				_AudioSource.Stop();
 		}
 	}
 }
