@@ -13,8 +13,8 @@ namespace Game.UI
 
 		[SerializeField] protected float _DecreaseDamageBarSpeed = .5f;
 
-		protected float _CurrentHealth;
-		protected float _MaxHealth;
+		[SerializeField] protected float _CurrentHealth;
+		[SerializeField] protected float _MaxHealth;
 
 		protected Entities.Interfaces.IDamageable _DamageInterface;
 
@@ -72,6 +72,9 @@ namespace Game.UI
 			//Settings the health bars to their default fill amount
 			_HealthBarHealthLayer.fillAmount = 1;
 			_HealthBarDamageLayer.fillAmount = 0;
+			//_HealthBarDamageLayer.transform.localPosition = new Vector2(0, .25f);
+
+			Debug.Log(_HealthBarDamageLayer.transform.localPosition);
 		}
 
 		protected void GetDamageFromEntity(in Entities.Interfaces.IDamageable sender, in Entities.EventContainers.EntityDamaged payload)
@@ -105,35 +108,7 @@ namespace Game.UI
 			_HealthBarHealthLayer.fillAmount = _CurrentHealth / _MaxHealth;
 
 			//Making sure its impossible to enter this when the health is (below) zero
-			if (_CurrentHealth < 0)
-				return;
-
-			//Start the animation of the damage health bar through a Coroutine if it isn't running already
-			if(_HealthBarRoutine == null)
-				_HealthBarRoutine = StartCoroutine(UpdateHealthBar());
-		}
-		public void SetDamage(float damage)
-		{
-			//Only here for debugging reasons, so it shouldn't run outside of the editor
-			if(!Application.isEditor)
-				return;
-
-			_CurrentHealth = _CurrentHealth - damage;
-
-			//Get the current position of the health bar and store it for later
-			Vector3 healthBarDamagePosition = _HealthBarDamageLayer.transform.localPosition;
-
-			//Set the new x position of the health bar where it will be moved to
-			healthBarDamagePosition.x = (_HealthBarHealthLayer.rectTransform.sizeDelta.x / _MaxHealth) * _CurrentHealth;
-			//Apply it onto the actual position of the damage health bar
-			_HealthBarDamageLayer.transform.localPosition = healthBarDamagePosition;
-			//Change the fill amount from the damage health bar so it can start it's *animation*
-			_HealthBarDamageLayer.fillAmount = _HealthBarHealthLayer.fillAmount - (_CurrentHealth / _MaxHealth);
-			//Change the Health Bars fill amount behind the damage health bar
-			_HealthBarHealthLayer.fillAmount = _CurrentHealth / _MaxHealth;
-
-			//Making sure its impossible to enter this when the health is (below) zero
-			if(_CurrentHealth < 0)
+			if (_CurrentHealth <= 0)
 				return;
 
 			//Start the animation of the damage health bar through a Coroutine if it isn't running already
