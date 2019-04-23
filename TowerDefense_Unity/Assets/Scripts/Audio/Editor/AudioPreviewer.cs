@@ -9,46 +9,36 @@ namespace Game.Audio.Editor
 	/// </summary>
 	public class AudioPreviewer
 	{
-		private AudioSource _AudioPreviewer;
+		private AudioSource _AudioSource;
 
 		public void Create()
 		{
-			if (_AudioPreviewer)
+			if (_AudioSource)
 				return;
 
 			GameObject gameObject = new GameObject {
 				hideFlags = HideFlags.HideAndDontSave
 			};
 
-			_AudioPreviewer = gameObject.AddComponent<AudioSource>();
+			_AudioSource = gameObject.AddComponent<AudioSource>();
 			AssemblyReloadEvents.beforeAssemblyReload += Remove;
 		}
 
 		public void Remove()
 		{
-			if (!_AudioPreviewer)
+			if (!_AudioSource)
 				return;
 
-			Object.DestroyImmediate(_AudioPreviewer.gameObject);
-			_AudioPreviewer = null;
+			Object.DestroyImmediate(_AudioSource.gameObject);
+			_AudioSource = null;
 
 			AssemblyReloadEvents.beforeAssemblyReload -= Remove;
 		}
-
+		
 		public void Play(AudioAsset audioAsset)
 		{
-			if (audioAsset.ClipCount == 0)
-				return;
-
-			AudioClip audioClip = audioAsset.GetClip();
-			if (audioClip == null)
-			{
-				Debug.LogWarning("Audio asset returned null. Make sure all audioclip fields are filled.");
-			}
-
-
-			_AudioPreviewer.clip = audioAsset.GetClip();
-			_AudioPreviewer.Play();
+			AudioSysUtil.ConfigureAudioSource(_AudioSource, audioAsset);
+			_AudioSource.Play();
 		}
 	}
 }

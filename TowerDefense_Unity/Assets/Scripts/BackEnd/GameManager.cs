@@ -10,7 +10,7 @@ using Game.Entities.EventContainers;
 
 namespace Game
 {
-	public sealed class GameManager : DDOLMonoBehaviourSingleton<GameManager>
+	public sealed class GameManager : MonoBehaviourSingleton<GameManager>
 	{
 		public event Action<GameOverEventArgs> GameOver;
 

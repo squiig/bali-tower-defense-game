@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2588a25b0087bc84caa0325c7f36f85c, type: 3}
+  m_Name: SFX_Minion_Hit
+  m_EditorClassIdentifier: 
+  _AudioMixerGroup: {fileID: 0}
+  _AudioClips:
+  - {fileID: 8300000, guid: 7e7ba79c2481603469935425df29e0dd, type: 3}
+  _Volume: 1
+  _Pan: 0
+  _Doppler: 0
+  _SpatialBlend: 1
+  _Looped: 0
+  _RandomStartPosition: 0
+  _MaxDistance: 500
+  _MinDistance: 3
+  _PitchMin: 0.6724566
+  _PitchMax: 1.1488831
+  _AvoidRepetition: 1

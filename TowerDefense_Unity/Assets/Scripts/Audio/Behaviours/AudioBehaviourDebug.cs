@@ -1,16 +1,29 @@
-﻿using System.Collections;
+using System.Collections;
 using UnityEngine;
-using Game.Audio;
 
-/// <summary>
-/// Used temporarily for debugging
-/// </summary>
-public class AudioBehaviourDebug : MonoBehaviour
+namespace Game.Audio.Debugging
 {
-    [SerializeField] private string identifier;
+	/// <summary>
+	/// Used for debugging the audio system during runtime and real life scenarios.
+	/// <para>NOTE: This behaviour should not be used in production!</para>
+	/// </summary>
+	public class AudioBehaviourDebug : MonoBehaviour
+	{
+		[SerializeField] private string _Identifier = "debug/debug";
 
-    void Start()
-    {
-        Audio.SendEvent(new AudioEvent(this, AudioCommands.PLAY, "debug")); // Plays sound with indentifier 
-    }
+		void Start()
+		{
+			StartCoroutine(Routine());
+		}
+
+		IEnumerator Routine()
+		{
+			while (true)
+			{
+				yield return new WaitForSeconds(1);
+				Audio.SendEvent(new AudioEvent(this, AudioCommands.PLAY, _Identifier, followTransform: transform));
+			}
+		}
+	}
 }
+

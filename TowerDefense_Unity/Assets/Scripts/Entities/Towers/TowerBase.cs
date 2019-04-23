@@ -145,6 +145,8 @@ namespace Game.Entities.Towers
 
 		private void RangedAttack()
 		{
+
+			Audio.Audio.SendEvent(new Audio.AudioEvent(this, Audio.AudioCommands.PLAY, "tower/fire", followTransform:transform));
 			ProjectilePool.Instance.ActivateObject(x => x != null)?.
 				InitializeAndActivate(new Vector3(transform.position.x, transform.position.y + _offset * 8, transform.position.z), TargetDamageable, Attack);
 		}
