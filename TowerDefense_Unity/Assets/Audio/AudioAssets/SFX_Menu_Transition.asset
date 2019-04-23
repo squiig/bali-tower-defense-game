@@ -15,7 +15,7 @@ MonoBehaviour:
   _AudioMixerGroup: {fileID: 0}
   _AudioClips:
   - {fileID: 8300000, guid: 84e0385bff8112447b286566e4a0bca8, type: 3}
-  _Volume: 1
+  _Volume: 0.4
   _Pan: 0
   _Doppler: 0
   _SpatialBlend: 0

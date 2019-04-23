@@ -13,11 +13,12 @@ MonoBehaviour:
   m_Name: BMG
   m_EditorClassIdentifier: 
   _AudioMixerGroup: {fileID: 0}
-  _AudioClips: []
-  _Volume: 1
+  _AudioClips:
+  - {fileID: 8300000, guid: 04c69678b200b524db9aaf2dbe400ae3, type: 3}
+  _Volume: 0.15
   _Pan: 0
   _Doppler: 0
-  _SpatialBlend: 1
+  _SpatialBlend: 0
   _Looped: 0
   _RandomStartPosition: 0
   _MaxDistance: 500
