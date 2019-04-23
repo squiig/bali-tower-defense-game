@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2588a25b0087bc84caa0325c7f36f85c, type: 3}
   m_Name: BMG
   m_EditorClassIdentifier: 
-  _AudioMixerGroup: {fileID: 0}
+  _AudioMixerGroup: {fileID: 24300002, guid: 47651c0ceac484e4dab88eaa6e49b7dd, type: 2}
   _AudioClips:
   - {fileID: 8300000, guid: 04c69678b200b524db9aaf2dbe400ae3, type: 3}
-  _Volume: 0.15
+  _Volume: 0.4
   _Pan: 0
   _Doppler: 0
   _SpatialBlend: 0

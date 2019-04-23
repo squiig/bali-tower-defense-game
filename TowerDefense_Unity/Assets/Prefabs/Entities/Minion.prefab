@@ -63,7 +63,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _MoveSpeed: 2.5
   _RotationSpeed: 5
-  _MaxHealth: 100
+  _MaxHealth: 20
   _MaxRange: 1
   _AttackPriority: 0
   _MinionAttack: {fileID: 11400000, guid: 6668c18366562244fa44d7b984d06576, type: 2}

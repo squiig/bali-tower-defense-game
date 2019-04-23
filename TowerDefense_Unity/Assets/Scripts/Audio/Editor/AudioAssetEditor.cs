@@ -29,6 +29,7 @@ namespace Game.Audio.Editor
 		private SerializedProperty _Looped;
 		private SerializedProperty _MaxDistance;
 		private SerializedProperty _MinDistance;
+		private SerializedProperty _RandomStartPosition;
 
 		private Vector3 _ScrollVector;
 
@@ -60,6 +61,7 @@ namespace Game.Audio.Editor
 			_AvoidRepetition = _SerializedTarget.FindProperty("_AvoidRepetition");
 			_Doppler = _SerializedTarget.FindProperty("_Doppler");
 			_SpatialBlend = _SerializedTarget.FindProperty("_SpatialBlend");
+			_RandomStartPosition = _SerializedTarget.FindProperty("_RandomStartPosition");
 			_SelectableList.ResetSelection();
 		}
 
@@ -140,6 +142,7 @@ namespace Game.Audio.Editor
 			EditorGUILayout.LabelField("MinDistance");
 			_MinDistance.floatValue = EditorGUILayout.FloatField(_MinDistance.floatValue);
 			_Looped.boolValue = EditorGUILayout.Toggle("Looped", _Looped.boolValue);
+			_RandomStartPosition.boolValue = EditorGUILayout.Toggle("Random Start Position", _RandomStartPosition.boolValue);
 			GUILayout.EndVertical();
 
 		}
