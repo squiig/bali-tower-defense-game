@@ -16,8 +16,10 @@ namespace Game.Entities.Towers
 		[SerializeField] protected float StartAttackRange, MaxAttackRange, AttackRange, TowerPrice;
 		[SerializeField] protected TowerAttack Attack;
 		[SerializeField] protected IDamageable TargetDamageable;
-
-		[SerializeField] private Allegiance _allegiance;
+		[Space]
+		[SerializeField] private float _offset = 18;
+		[Space]
+		private Allegiance _allegiance = Allegiance.FRIENDLY;
 		[SerializeField] private bool _isDebug = false;
 
 		public float GetRange() => AttackRange;
@@ -87,7 +89,6 @@ namespace Game.Entities.Towers
 
 		private void OnTargetDeath(in IDamageable sender, in EntityDamaged payload)
 		{
-			Debug.Log($"Tower [{GetHashCode()}]: Target has died.");
 			sender.OnDeath -= OnTargetDeath;
 			TargetDamageable = null;
 
@@ -113,8 +114,7 @@ namespace Game.Entities.Towers
 			}
 
 			TargetDamageable = possibleTargets.FirstOrDefault(x =>
-				x.GetAllegiance() != _allegiance && TargetDamageable == null ||
-				x.GetPriority() > TargetDamageable.GetPriority());
+				x.GetAllegiance() != _allegiance);
 		}
 
 		private bool ShouldAttack() => _attackCoolDown <= 0 && TargetDamageable != null && !IsTargetForsaken();
@@ -132,19 +132,23 @@ namespace Game.Entities.Towers
 
 			_attackCoolDown = ATTACK_COOL_DOWN_DURATION;
 
-
 			if(Attack.GetAttackType() == AttackType.SINGLE_TARGET)
 				RangedAttack();
 			else
 				AreaAttack();
 		}
 
-		private void AreaAttack() => Attack.ExecuteAttack(TargetDamageable, TargetDamageable.GetEntity().GetLocation());
+		private void AreaAttack()
+		{
+			Attack.ExecuteAttack(TargetDamageable, TargetDamageable.GetEntity().GetLocation());
+		}
 
 		private void RangedAttack()
 		{
-			TowerProjectile projectile = ProjectilePool.Instance.ActivateObject(x => x != null);
-			projectile?.InitializeAndActivate(transform.position, TargetDamageable, Attack);
+
+			Audio.Audio.SendEvent(new Audio.AudioEvent(this, Audio.AudioCommands.PLAY, "tower/fire", followTransform:transform));
+			ProjectilePool.Instance.ActivateObject(x => x != null)?.
+				InitializeAndActivate(new Vector3(transform.position.x, transform.position.y + _offset * 8, transform.position.z), TargetDamageable, Attack);
 		}
 
 		private bool IsTargetForsaken()
@@ -159,18 +163,22 @@ namespace Game.Entities.Towers
 
 		private void OnTriggerEnter(Collider other)
 		{
-			if(_isDebug)
-				Debug.Log($"Tower {GetHashCode()}: Found damageable [{other.gameObject.GetComponent<IDamageable>() != null}]");
+			if (other.gameObject.GetComponent<IDamageable>() == null)
+				return;
 
-			IDamageable damageable;
+			if (TargetDamageable == null)
+			{
+				FindNewTarget();
+				return;
+			}
 
-			if ((damageable = other.gameObject.GetComponent<IDamageable>()) != null &&
-			    TargetDamageable != null && damageable.GetPriority() > TargetDamageable.GetPriority())
+			IDamageable damageable = other.gameObject.GetComponent<IDamageable>();
+			if (damageable.GetPriority() <= TargetDamageable.GetPriority() || damageable.GetAllegiance() == _allegiance)
 				return;
 
 			TargetDamageable = damageable;
 
-			if (TargetDamageable == null || !_isDebug)
+			if (TargetDamageable == null)
 				return;
 
 			TargetDamageable.OnDeath += OnTargetDeath;

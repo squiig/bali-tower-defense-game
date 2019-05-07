@@ -1,7 +1,10 @@
+using System.Collections;
+using System.Collections.Generic;
 using System.Data;
 using Game;
 using Game.Entities;
 using Game.Entities.EventContainers;
+using Game.WaveSystem;
 using UnityEngine;
 
 
@@ -12,6 +15,8 @@ namespace Game
 		[SerializeField] private int _StartResource, _TickAmount;
 		[SerializeField] private float _TickInterval;
 		private float _TickTime;
+		private WaveManager _WaveManager;
+		private Coroutine _UpdateOfferingsRoutine;
 
 		public int ResourceCount { get; private set; }
 
@@ -25,28 +30,66 @@ namespace Game
 
 		protected override void Awake()
 		{
-			if (Instance.RunTransaction(_StartResource).HasTransactionFailed)
-				throw new DataException($"Failed to create start resource with count of {_StartResource}");
+			base.Awake();
 			_TickTime = _TickInterval;
 		}
 
-		private void Update()
+		private void Start()
 		{
-			UpdateOfferings();
+			if (Instance.RunTransaction(_StartResource).HasTransactionFailed)
+				throw new DataException($"Failed to create start resource with count of {_StartResource}");
+		}
+
+		protected override void OnEnable()
+		{
+			base.OnEnable();
+			_WaveManager = WaveManager.Instance;
+			_WaveManager.WaveStarted += _WaveManager_WaveStarted;
+			_WaveManager.WaveEnded += _WaveManager_WaveEnded;
+		}
+
+		private void _WaveManager_WaveStarted(in WaveManager sender, in WaveEventArgs payload)
+		{
+			if (_UpdateOfferingsRoutine == null)
+				_UpdateOfferingsRoutine = StartCoroutine(UpdateOfferingsRoutine());
+		}
+
+		private void _WaveManager_WaveEnded(in WaveManager sender, in WaveEventArgs payload)
+		{
+			if (_UpdateOfferingsRoutine != null)
+			{
+				StopCoroutine(_UpdateOfferingsRoutine);
+				_UpdateOfferingsRoutine = null;
+			}
+		}
+
+		protected override void OnDisable()
+		{
+			base.OnDisable();
+			if (_WaveManager != null)
+			{
+				_WaveManager.WaveStarted -= _WaveManager_WaveStarted;
+				_WaveManager.WaveEnded -= _WaveManager_WaveEnded;
+			}
 		}
 
 		/// <summary>
 		/// Call to update the offerings of the player each amount of seconds.
 		/// Handles the timer inside of the method.
 		/// </summary>
-		private void UpdateOfferings()
+		private IEnumerator UpdateOfferingsRoutine()
 		{
-			_TickTime -= Time.deltaTime;
-			if (_TickTime > 0)
-				return;
+			while (true)
+			{
+				while (_TickTime > 0)
+				{
+					_TickTime -= Time.deltaTime;
+					yield return null;
+				}
 
-			_TickTime = _TickInterval;
-			Instance.RunTransaction(_TickAmount);
+				_TickTime = _TickInterval;
+				Instance.RunTransaction(_TickAmount);
+			}
 		}
 
 		/// <summary>

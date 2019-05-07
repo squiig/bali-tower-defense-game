@@ -1,0 +1,520 @@
+fileFormatVersion: 2
+guid: c7bf6e18ef392494f9d290b1b842d590
+ModelImporter:
+  serializedVersion: 23
+  fileIDToRecycleName:
+    100000: Back
+    100002: Durga
+    100004: //RootNode
+    100006: Head
+    100008: Hip
+    100010: joint14
+    100012: joint14 1
+    100014: joint14 2
+    100016: joint14 3
+    100018: joint14 4
+    100020: joint14 5
+    100022: joint14 6
+    100024: joint14 7
+    100026: joint15
+    100028: joint15 1
+    100030: joint15 10
+    100032: joint15 11
+    100034: joint15 12
+    100036: joint15 13
+    100038: joint15 14
+    100040: joint15 15
+    100042: joint15 16
+    100044: joint15 17
+    100046: joint15 18
+    100048: joint15 19
+    100050: joint15 2
+    100052: joint15 20
+    100054: joint15 21
+    100056: joint15 22
+    100058: joint15 23
+    100060: joint15 24
+    100062: joint15 25
+    100064: joint15 26
+    100066: joint15 27
+    100068: joint15 28
+    100070: joint15 29
+    100072: joint15 3
+    100074: joint15 30
+    100076: joint15 31
+    100078: joint15 32
+    100080: joint15 33
+    100082: joint15 34
+    100084: joint15 35
+    100086: joint15 36
+    100088: joint15 37
+    100090: joint15 38
+    100092: joint15 39
+    100094: joint15 4
+    100096: joint15 5
+    100098: joint15 6
+    100100: joint15 7
+    100102: joint15 8
+    100104: joint15 9
+    100106: joint16
+    100108: joint16 1
+    100110: joint16 10
+    100112: joint16 11
+    100114: joint16 12
+    100116: joint16 13
+    100118: joint16 14
+    100120: joint16 15
+    100122: joint16 16
+    100124: joint16 17
+    100126: joint16 18
+    100128: joint16 19
+    100130: joint16 2
+    100132: joint16 20
+    100134: joint16 21
+    100136: joint16 22
+    100138: joint16 23
+    100140: joint16 24
+    100142: joint16 25
+    100144: joint16 26
+    100146: joint16 27
+    100148: joint16 28
+    100150: joint16 29
+    100152: joint16 3
+    100154: joint16 30
+    100156: joint16 31
+    100158: joint16 32
+    100160: joint16 33
+    100162: joint16 34
+    100164: joint16 35
+    100166: joint16 36
+    100168: joint16 37
+    100170: joint16 38
+    100172: joint16 39
+    100174: joint16 4
+    100176: joint16 5
+    100178: joint16 6
+    100180: joint16 7
+    100182: joint16 8
+    100184: joint16 9
+    100186: joint17
+    100188: joint17 1
+    100190: joint17 10
+    100192: joint17 11
+    100194: joint17 12
+    100196: joint17 13
+    100198: joint17 14
+    100200: joint17 15
+    100202: joint17 16
+    100204: joint17 17
+    100206: joint17 18
+    100208: joint17 19
+    100210: joint17 2
+    100212: joint17 20
+    100214: joint17 21
+    100216: joint17 22
+    100218: joint17 23
+    100220: joint17 24
+    100222: joint17 25
+    100224: joint17 26
+    100226: joint17 27
+    100228: joint17 28
+    100230: joint17 29
+    100232: joint17 3
+    100234: joint17 30
+    100236: joint17 31
+    100238: joint17 4
+    100240: joint17 5
+    100242: joint17 6
+    100244: joint17 7
+    100246: joint17 8
+    100248: joint17 9
+    100250: joint18
+    100252: joint18 1
+    100254: joint18 2
+    100256: joint18 3
+    100258: joint18 4
+    100260: joint18 5
+    100262: joint18 6
+    100264: joint18 7
+    100266: joint19
+    100268: joint19 1
+    100270: joint19 2
+    100272: joint19 3
+    100274: joint19 4
+    100276: joint19 5
+    100278: joint19 6
+    100280: joint19 7
+    100282: joint20
+    100284: joint20 1
+    100286: joint20 2
+    100288: joint20 3
+    100290: joint20 4
+    100292: joint20 5
+    100294: joint20 6
+    100296: joint20 7
+    100298: joint21
+    100300: joint21 1
+    100302: joint21 2
+    100304: joint21 3
+    100306: joint21 4
+    100308: joint21 5
+    100310: joint21 6
+    100312: joint21 7
+    100314: L_Ankle
+    100316: L_Eye
+    100318: L_Hip
+    100320: L_Knee
+    100322: L_Low_Arm
+    100324: L_Low_Elbow
+    100326: L_Low_Wrist
+    100328: L_Main_Arm
+    100330: L_Main_Elbow
+    100332: L_Main_Wrist
+    100334: L_Mid_Arm
+    100336: L_mid_Elbow
+    100338: L_Mid_Wrist
+    100340: L_Toe
+    100342: L_Upper_Arm
+    100344: L_Upper_Elbow
+    100346: L_Upper_Wrist
+    100348: Lower_Back
+    100350: Neck
+    100352: R_Ankle
+    100354: R_Eye
+    100356: R_Hip
+    100358: R_Knee
+    100360: R_Low_Arm
+    100362: R_Low_Elbow
+    100364: R_Low_Wrist
+    100366: R_Main_Arm
+    100368: R_Main_Elbow
+    100370: R_Main_Wrist
+    100372: R_Mid_Arm
+    100374: R_mid_Elbow
+    100376: R_Mid_Wrist
+    100378: R_Toe
+    100380: R_Upper_Arm
+    100382: R_Upper_Elbow
+    100384: R_Upper_Wrist
+    100386: Root
+    100388: Shoulder
+    100390: Bow
+    100392: Club
+    100394: Discus
+    100396: Lotus
+    100398: Shield
+    100400: Sword
+    100402: Trident
+    400000: Back
+    400002: Durga
+    400004: //RootNode
+    400006: Head
+    400008: Hip
+    400010: joint14
+    400012: joint14 1
+    400014: joint14 2
+    400016: joint14 3
+    400018: joint14 4
+    400020: joint14 5
+    400022: joint14 6
+    400024: joint14 7
+    400026: joint15
+    400028: joint15 1
+    400030: joint15 10
+    400032: joint15 11
+    400034: joint15 12
+    400036: joint15 13
+    400038: joint15 14
+    400040: joint15 15
+    400042: joint15 16
+    400044: joint15 17
+    400046: joint15 18
+    400048: joint15 19
+    400050: joint15 2
+    400052: joint15 20
+    400054: joint15 21
+    400056: joint15 22
+    400058: joint15 23
+    400060: joint15 24
+    400062: joint15 25
+    400064: joint15 26
+    400066: joint15 27
+    400068: joint15 28
+    400070: joint15 29
+    400072: joint15 3
+    400074: joint15 30
+    400076: joint15 31
+    400078: joint15 32
+    400080: joint15 33
+    400082: joint15 34
+    400084: joint15 35
+    400086: joint15 36
+    400088: joint15 37
+    400090: joint15 38
+    400092: joint15 39
+    400094: joint15 4
+    400096: joint15 5
+    400098: joint15 6
+    400100: joint15 7
+    400102: joint15 8
+    400104: joint15 9
+    400106: joint16
+    400108: joint16 1
+    400110: joint16 10
+    400112: joint16 11
+    400114: joint16 12
+    400116: joint16 13
+    400118: joint16 14
+    400120: joint16 15
+    400122: joint16 16
+    400124: joint16 17
+    400126: joint16 18
+    400128: joint16 19
+    400130: joint16 2
+    400132: joint16 20
+    400134: joint16 21
+    400136: joint16 22
+    400138: joint16 23
+    400140: joint16 24
+    400142: joint16 25
+    400144: joint16 26
+    400146: joint16 27
+    400148: joint16 28
+    400150: joint16 29
+    400152: joint16 3
+    400154: joint16 30
+    400156: joint16 31
+    400158: joint16 32
+    400160: joint16 33
+    400162: joint16 34
+    400164: joint16 35
+    400166: joint16 36
+    400168: joint16 37
+    400170: joint16 38
+    400172: joint16 39
+    400174: joint16 4
+    400176: joint16 5
+    400178: joint16 6
+    400180: joint16 7
+    400182: joint16 8
+    400184: joint16 9
+    400186: joint17
+    400188: joint17 1
+    400190: joint17 10
+    400192: joint17 11
+    400194: joint17 12
+    400196: joint17 13
+    400198: joint17 14
+    400200: joint17 15
+    400202: joint17 16
+    400204: joint17 17
+    400206: joint17 18
+    400208: joint17 19
+    400210: joint17 2
+    400212: joint17 20
+    400214: joint17 21
+    400216: joint17 22
+    400218: joint17 23
+    400220: joint17 24
+    400222: joint17 25
+    400224: joint17 26
+    400226: joint17 27
+    400228: joint17 28
+    400230: joint17 29
+    400232: joint17 3
+    400234: joint17 30
+    400236: joint17 31
+    400238: joint17 4
+    400240: joint17 5
+    400242: joint17 6
+    400244: joint17 7
+    400246: joint17 8
+    400248: joint17 9
+    400250: joint18
+    400252: joint18 1
+    400254: joint18 2
+    400256: joint18 3
+    400258: joint18 4
+    400260: joint18 5
+    400262: joint18 6
+    400264: joint18 7
+    400266: joint19
+    400268: joint19 1
+    400270: joint19 2
+    400272: joint19 3
+    400274: joint19 4
+    400276: joint19 5
+    400278: joint19 6
+    400280: joint19 7
+    400282: joint20
+    400284: joint20 1
+    400286: joint20 2
+    400288: joint20 3
+    400290: joint20 4
+    400292: joint20 5
+    400294: joint20 6
+    400296: joint20 7
+    400298: joint21
+    400300: joint21 1
+    400302: joint21 2
+    400304: joint21 3
+    400306: joint21 4
+    400308: joint21 5
+    400310: joint21 6
+    400312: joint21 7
+    400314: L_Ankle
+    400316: L_Eye
+    400318: L_Hip
+    400320: L_Knee
+    400322: L_Low_Arm
+    400324: L_Low_Elbow
+    400326: L_Low_Wrist
+    400328: L_Main_Arm
+    400330: L_Main_Elbow
+    400332: L_Main_Wrist
+    400334: L_Mid_Arm
+    400336: L_mid_Elbow
+    400338: L_Mid_Wrist
+    400340: L_Toe
+    400342: L_Upper_Arm
+    400344: L_Upper_Elbow
+    400346: L_Upper_Wrist
+    400348: Lower_Back
+    400350: Neck
+    400352: R_Ankle
+    400354: R_Eye
+    400356: R_Hip
+    400358: R_Knee
+    400360: R_Low_Arm
+    400362: R_Low_Elbow
+    400364: R_Low_Wrist
+    400366: R_Main_Arm
+    400368: R_Main_Elbow
+    400370: R_Main_Wrist
+    400372: R_Mid_Arm
+    400374: R_mid_Elbow
+    400376: R_Mid_Wrist
+    400378: R_Toe
+    400380: R_Upper_Arm
+    400382: R_Upper_Elbow
+    400384: R_Upper_Wrist
+    400386: Root
+    400388: Shoulder
+    400390: Bow
+    400392: Club
+    400394: Discus
+    400396: Lotus
+    400398: Shield
+    400400: Sword
+    400402: Trident
+    2100000: Durga_mat
+    2300000: Bow
+    2300002: Club
+    2300004: Discus
+    2300006: Lotus
+    2300008: Shield
+    2300010: Sword
+    2300012: Trident
+    3300000: Bow
+    3300002: Club
+    3300004: Discus
+    3300006: Lotus
+    3300008: Shield
+    3300010: Sword
+    3300012: Trident
+    4300000: Durga
+    4300002: Sword
+    4300004: Shield
+    4300006: Lotus
+    4300008: Bow
+    4300010: Trident
+    4300012: Discus
+    4300014: Club
+    9500000: //RootNode
+    13700000: Durga
+  externalObjects: {}
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1.25
+    meshCompression: 0
+    addColliders: 0
+    useSRGBMaterialColor: 1
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 0
+    previousCalculatedGlobalScale: 1.5
+    hasPreviousCalculatedGlobalScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -10,14 +10,18 @@ namespace Game.UI
 	/// </summary>
 	public class MainResourceUI : ResourceUI
 	{
+		private ResourceSystem _ResourceSystem;
+
 		private void OnEnable()
 		{
-			ResourceSystem.Instance.OnTransaction += ResourceSystem_OnTransaction;
+			_ResourceSystem = ResourceSystem.Instance;
+			_ResourceSystem.OnTransaction += ResourceSystem_OnTransaction;
 		}
 
 		private void OnDisable()
 		{
-			ResourceSystem.Instance.OnTransaction -= ResourceSystem_OnTransaction;
+			if (_ResourceSystem != null)
+				_ResourceSystem.OnTransaction -= ResourceSystem_OnTransaction;
 		}
 
 		private void ResourceSystem_OnTransaction(in ResourceSystem sender, in Entities.EventContainers.TransactionResult result)

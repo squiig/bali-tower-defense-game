@@ -25,8 +25,6 @@ namespace Game.Interaction
 		[SerializeField] private float _PinchThreshold = 2;
 		[SerializeField] private float _DragThreshold = 2;
 		private TouchInputState _CurrentState = TouchInputState.TAPPING;
-		private Camera _CurrentCamera;
-
 
 #if UNITY_EDITOR
 		[SerializeField] private bool _UseMouseInput = true;
@@ -34,10 +32,6 @@ namespace Game.Interaction
 
 		private Vector2 _PreviousMousePosition;
 #endif
-		public void Start()
-		{
-			_CurrentCamera = Camera.main;
-		}
 		 
 		private void Update()
 		{
@@ -147,7 +141,7 @@ namespace Game.Interaction
 		private bool ShootPhysicsRay(Vector2 screenPosition)
 		{
 			bool success = false;
-			Ray ray = _CurrentCamera.ScreenPointToRay(screenPosition);
+			Ray ray = Camera.main.ScreenPointToRay(screenPosition);
 			if (Physics.Raycast(ray, out RaycastHit hit))
 			{
 				ITappable[] tappables = hit.collider.GetComponentsInChildren<ITappable>();
@@ -221,14 +215,14 @@ namespace Game.Interaction
 			if (Input.GetMouseButton(1))
 			{
 				Vector2 mousePos = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
-				OnDragDelta?.Invoke(mousePos - _PreviousMousePosition);
+				OnDragDelta?.Invoke((mousePos - _PreviousMousePosition) * 2);
 				_PreviousMousePosition = Input.mousePosition;
 			}
 
 			if (Input.GetMouseButtonUp(1))
 				OnDragStop?.Invoke();
 
-			OnPinchDelta?.Invoke(Input.mouseScrollDelta.y);
+			OnPinchDelta?.Invoke(Input.mouseScrollDelta.y * 45);
 
 			if (Input.GetMouseButtonDown(0))
 			{

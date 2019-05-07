@@ -6,15 +6,15 @@ namespace Game.UI
 {
 	public class HealthBarBaseUI : MonoBehaviour
 	{
-		[Header("Required variables: ")]
+		[Header("Required variables")]
 		[SerializeField] protected Image _HealthBarMainLayer;
 		[SerializeField] protected Image _HealthBarHealthLayer;
 		[SerializeField] protected Image _HealthBarDamageLayer;
 
 		[SerializeField] protected float _DecreaseDamageBarSpeed = .5f;
 
-		protected float _CurrentHealth;
-		protected float _MaxHealth;
+		[SerializeField] protected float _CurrentHealth;
+		[SerializeField] protected float _MaxHealth;
 
 		protected Entities.Interfaces.IDamageable _DamageInterface;
 
@@ -37,6 +37,8 @@ namespace Game.UI
 		/// </summary>
 		protected virtual void OnEnable()
 		{
+			SetActive(true);
+
 			//Subscribe our event to its onHit event so we can update if the entity has been hit
 			_DamageInterface.OnHit += GetDamageFromEntity;
 
@@ -60,16 +62,17 @@ namespace Game.UI
 				if(_HealthBarHealthLayer == null)
 					Debug.LogError("Please select the Health Bar Layer in the inspector.", this.gameObject);
 
-				this.enabled = false;
+				SetActive(false);
 				return;
 			}
 
 			//Show the health bars
-			ActivateHealthBarUI(true);
+			SetActive(true);
 
 			//Settings the health bars to their default fill amount
 			_HealthBarHealthLayer.fillAmount = 1;
 			_HealthBarDamageLayer.fillAmount = 0;
+			//_HealthBarDamageLayer.transform.localPosition = new Vector2(0, .25f);
 		}
 
 		protected void GetDamageFromEntity(in Entities.Interfaces.IDamageable sender, in Entities.EventContainers.EntityDamaged payload)
@@ -90,57 +93,21 @@ namespace Game.UI
 		}
 		public void SetDamage()
 		{
+			//Get the current position of the health bar and store it for later
+			Vector3 healthBarDamagePosition = _HealthBarDamageLayer.transform.localPosition;
+
+			//Set the new x position of the health bar where it will be moved to
+			healthBarDamagePosition.x = (_HealthBarHealthLayer.rectTransform.sizeDelta.x / _MaxHealth) * _CurrentHealth;
+			//Apply it onto the actual position of the damage health bar
+			_HealthBarDamageLayer.transform.localPosition = healthBarDamagePosition;
+			//Change the fill amount from the damage health bar so it can start it's *animation*
+			_HealthBarDamageLayer.fillAmount = _HealthBarHealthLayer.fillAmount - (_CurrentHealth / _MaxHealth);
+			//Change the Health Bars fill amount behind the damage health bar
+			_HealthBarHealthLayer.fillAmount = _CurrentHealth / _MaxHealth;
+
 			//Making sure its impossible to enter this when the health is (below) zero
 			if (_CurrentHealth <= 0)
-			{
-				Debug.LogError("This should not happen.");
-				this.enabled = false;
 				return;
-			}
-
-			//Get the current position of the health bar and store it for later
-			Vector3 healthBarDamagePosition = _HealthBarDamageLayer.transform.localPosition;
-
-			//Set the new x position of the health bar where it will be moved to
-			healthBarDamagePosition.x = (_HealthBarHealthLayer.rectTransform.sizeDelta.x / _MaxHealth) * _CurrentHealth;
-			//Apply it onto the actual position of the damage health bar
-			_HealthBarDamageLayer.transform.localPosition = healthBarDamagePosition;
-			//Change the fill amount from the damage health bar so it can start it's *animation*
-			_HealthBarDamageLayer.fillAmount = _HealthBarHealthLayer.fillAmount - (_CurrentHealth / _MaxHealth);
-			//Change the Health Bars fill amount behind the damage health bar
-			_HealthBarHealthLayer.fillAmount = _CurrentHealth / _MaxHealth;
-
-			//Start the animation of the damage health bar through a Coroutine if it isn't running already
-			if(_HealthBarRoutine == null)
-				_HealthBarRoutine = StartCoroutine(UpdateHealthBar());
-		}
-		public void SetDamage(float damage)
-		{
-			//Only here for debugging reasons, so it shouldn't run outside of the editor
-			if(!Application.isEditor)
-				return;
-
-			//Making sure its impossible to enter this when the health is (below) zero
-			if(_CurrentHealth <= 0)
-			{
-				Debug.LogError("This should not happen.");
-				this.enabled = false;
-				return;
-			}
-
-			_CurrentHealth = _CurrentHealth - damage;
-
-			//Get the current position of the health bar and store it for later
-			Vector3 healthBarDamagePosition = _HealthBarDamageLayer.transform.localPosition;
-
-			//Set the new x position of the health bar where it will be moved to
-			healthBarDamagePosition.x = (_HealthBarHealthLayer.rectTransform.sizeDelta.x / _MaxHealth) * _CurrentHealth;
-			//Apply it onto the actual position of the damage health bar
-			_HealthBarDamageLayer.transform.localPosition = healthBarDamagePosition;
-			//Change the fill amount from the damage health bar so it can start it's *animation*
-			_HealthBarDamageLayer.fillAmount = _HealthBarHealthLayer.fillAmount - (_CurrentHealth / _MaxHealth);
-			//Change the Health Bars fill amount behind the damage health bar
-			_HealthBarHealthLayer.fillAmount = _CurrentHealth / _MaxHealth;
 
 			//Start the animation of the damage health bar through a Coroutine if it isn't running already
 			if(_HealthBarRoutine == null)
@@ -166,7 +133,7 @@ namespace Game.UI
 		/// Activate/De-active the health bar layers
 		/// </summary>
 		/// <param name="state">Health bar layers active state</param>
-		protected void ActivateHealthBarUI(bool state)
+		protected void SetActive(bool state)
 		{
 			_HealthBarMainLayer.enabled = state;
 			_HealthBarDamageLayer.enabled = state;

@@ -112,6 +112,12 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!320 &374103918 stripped
+PlayableDirector:
+  m_CorrespondingSourceObject: {fileID: 8541581070337733850, guid: 68ecd7304018c1b4c9173d7767130fd7,
+    type: 3}
+  m_PrefabInstance: {fileID: 8541581069844393942}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &668359810
 GameObject:
   m_ObjectHideFlags: 0
@@ -935,5 +941,15 @@ PrefabInstance:
       propertyPath: m_SceneBindings.Array.data[0].value
       value: 
       objectReference: {fileID: 1534644333}
+    - target: {fileID: 8541581070337733853, guid: 68ecd7304018c1b4c9173d7767130fd7,
+        type: 3}
+      propertyPath: _CutsceneText
+      value: 
+      objectReference: {fileID: 1534644334}
+    - target: {fileID: 8541581070337733853, guid: 68ecd7304018c1b4c9173d7767130fd7,
+        type: 3}
+      propertyPath: _TimeLine
+      value: 
+      objectReference: {fileID: 374103918}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 68ecd7304018c1b4c9173d7767130fd7, type: 3}

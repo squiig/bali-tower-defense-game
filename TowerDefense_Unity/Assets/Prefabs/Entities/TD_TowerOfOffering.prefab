@@ -201,12 +201,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8122b30273298e24d84298477d1f904f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  StartAttackRange: 50
-  MaxAttackRange: 50
-  AttackRange: 50
+  StartAttackRange: 20
+  MaxAttackRange: 20
+  AttackRange: 20
   TowerPrice: 50
   Attack: {fileID: 11400000, guid: 875f92684ab391848a55088e60429ac4, type: 2}
-  _allegiance: 1
+  _offset: 18
   _isDebug: 1
   _Upgrades: []
 --- !u!1 &4190014749486604865
