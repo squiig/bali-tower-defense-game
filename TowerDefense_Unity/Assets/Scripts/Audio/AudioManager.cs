@@ -11,7 +11,7 @@ namespace Game.Audio
         private AudioAssetLibrary[] _Libraries;
         private AudioChannelPool _AudioChannelPool;
 
-        public AudioManager()
+		public AudioManager()
         {
             _AudioChannelPool = new AudioChannelPool(AUDIO_CHANNEL_COUNT);
             _Libraries = FindAudioLibraries();
@@ -60,8 +60,10 @@ namespace Game.Audio
 				if (asset)
 					break;
 	        }
-
-			AudioLog.Assert(asset, $"{audioEvent.Identifier} could not be found in any audio library.");
+#if DEBUG
+			if (!asset)
+				AudioLog.Warning($"{audioEvent.Identifier} could not be found in any audio library.");
+#endif
 			return asset;
         }
 
