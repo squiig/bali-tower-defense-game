@@ -16,15 +16,15 @@ For this assigment a lot of research was done about the customs, architecture, m
 
 > **DEVELOPERS**
 > 
-> [Stan Graafmans](http://stangraafmans.com/)
-> [Boudewijn Witteveen](http://boudewijnwitteveen.com/)
-> [Lucas Van Gastel](http://lucasvangastel.com/)
-> [Tom Lemmers](http://www.tomlemmers.com/)
-> [Jaron Kuijper](http://jaronkuijper.nl/)
+> - [Stan Graafmans](http://stangraafmans.com/)
+> - [Boudewijn Witteveen](http://boudewijnwitteveen.com/)
+> - [Lucas Van Gastel](http://lucasvangastel.com/)
+> - [Tom Lemmers](http://www.tomlemmers.com/)
+> - [Jaron Kuijper](http://jaronkuijper.nl/)
 
 > **ARTISTS**
 > 
-> [Bryan van der Linden](https://www.artstation.com/nyghtskye)
-> [Nioma van der Steen](http://niomavandersteen.weebly.com/)
-> [Paul van der Maarel](http://paulvandermaarel.weebly.com/)
-> [Yvette Kooke](https://wolvcy.artstation.com/)
+> - [Bryan van der Linden](https://www.artstation.com/nyghtskye)
+> - [Nioma van der Steen](http://niomavandersteen.weebly.com/)
+> - [Paul van der Maarel](http://paulvandermaarel.weebly.com/)
+> - [Yvette Kooke](https://wolvcy.artstation.com/)
